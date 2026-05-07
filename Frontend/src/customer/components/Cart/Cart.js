@@ -29,7 +29,7 @@ const Cart = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center gap-3 mb-10"
                 >
-                    <ShoppingBag size={32} className="text-[var(--primary-burgundy)]" />
+                    <ShoppingBag size={32} className="text-[var(--primary-blue)]" />
                     <Typography variant="h3" sx={{ fontWeight: 800, color: 'var(--text-dark)' }}>
                         Luxurious Cart
                     </Typography>
@@ -50,7 +50,7 @@ const Cart = () => {
                                     onClick={() => navigate('/')}
                                     variant="text"
                                     sx={{
-                                        color: 'var(--primary-burgundy)',
+                                        color: 'var(--primary-blue)',
                                         fontWeight: 700,
                                         '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' }
                                     }}
@@ -75,7 +75,7 @@ const Cart = () => {
                                     boxShadow: '0 20px 50px rgba(0,0,0,0.05)',
                                     border: '1px solid #f1f5f9'
                                 }}>
-                                    <Typography variant="h5" sx={{ mb: 4, fontWeight: 800, color: 'var(--primary-burgundy)' }}>
+                                    <Typography variant="h5" sx={{ mb: 4, fontWeight: 800, color: 'var(--primary-blue)' }}>
                                         Order Summary
                                     </Typography>
 
@@ -99,7 +99,7 @@ const Cart = () => {
 
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                             <Typography variant="h6" fontWeight="800">Total Amount</Typography>
-                                            <Typography variant="h5" sx={{ fontWeight: 900, color: 'var(--primary-burgundy)' }}>
+                                            <Typography variant="h5" sx={{ fontWeight: 900, color: 'var(--primary-blue)' }}>
                                                 ₹{formatPriceINR(cart.cart.totalDiscountedPrice)}
                                             </Typography>
                                         </Box>
@@ -122,7 +122,7 @@ const Cart = () => {
                                                     fontWeight: 800,
                                                     fontSize: '1.1rem',
                                                     textTransform: 'none',
-                                                    '&:hover': { bgcolor: 'var(--primary-burgundy)' },
+                                                    '&:hover': { bgcolor: 'var(--primary-blue)' },
                                                     boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
                                                 }}
                                             >
@@ -133,10 +133,10 @@ const Cart = () => {
                                 </Box>
 
                                 <Box sx={{ mt: 4, p: 3, bgcolor: 'var(--bg-premium)', borderRadius: '20px', border: '1px solid var(--border-gold)', display: 'flex', alignItems: 'center', gap: 2 }}>
-                                    <Box sx={{ bgcolor: 'var(--primary-gold)', p: 1, borderRadius: '8px', color: 'var(--primary-burgundy)' }}>
+                                    <Box sx={{ bgcolor: 'var(--primary-gold)', p: 1, borderRadius: '8px', color: 'var(--primary-blue)' }}>
                                         <Typography variant="h6" fontWeight="900">✨</Typography>
                                     </Box>
-                                    <Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--primary-burgundy)' }}>
+                                    <Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--primary-blue)' }}>
                                         Secure your master pieces today. Fast & Insured delivery.
                                     </Typography>
                                 </Box>
@@ -181,7 +181,7 @@ const Cart = () => {
                                     bgcolor: 'black',
                                     fontWeight: 700,
                                     textTransform: 'none',
-                                    '&:hover': { bgcolor: 'var(--primary-burgundy)' }
+                                    '&:hover': { bgcolor: 'var(--primary-blue)' }
                                 }}
                             >
                                 Start Shopping
@@ -195,8 +195,8 @@ const Cart = () => {
                                         px: 6,
                                         py: 1.5,
                                         borderRadius: '12px',
-                                        color: 'var(--primary-burgundy)',
-                                        borderColor: 'var(--primary-burgundy)',
+                                        color: 'var(--primary-blue)',
+                                        borderColor: 'var(--primary-blue)',
                                         fontWeight: 700,
                                         textTransform: 'none'
                                     }}

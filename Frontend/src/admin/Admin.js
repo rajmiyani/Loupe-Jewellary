@@ -54,7 +54,7 @@ const Admin = () => {
         sx={{
           width: sidebarWidth,
           transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          bgcolor: 'var(--primary-burgundy)',
+          bgcolor: 'var(--primary-blue)',
           color: 'white',
           display: 'flex',
           flexDirection: 'column',
@@ -133,7 +133,7 @@ const Admin = () => {
                 width: 36,
                 height: 36,
                 bgcolor: 'var(--primary-gold)',
-                color: 'var(--primary-burgundy)',
+                color: 'var(--primary-blue)',
                 fontWeight: 'bold'
               }}
             >

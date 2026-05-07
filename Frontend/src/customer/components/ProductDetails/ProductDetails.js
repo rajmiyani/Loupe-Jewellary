@@ -37,13 +37,13 @@ const ratingsData = [
 ];
 
 const CssTextField = selectStyle(TextField)({
-  "& label.Mui-focused": { color: "var(--primary-burgundy)" },
-  "& .MuiInput-underline:after": { borderBottomColor: "var(--primary-burgundy)" },
+  "& label.Mui-focused": { color: "var(--primary-blue)" },
+  "& .MuiInput-underline:after": { borderBottomColor: "var(--primary-blue)" },
   "& .MuiOutlinedInput-root": {
     borderRadius: '12px',
     "& fieldset": { borderColor: "#e2e8f0" },
-    "&:hover fieldset": { borderColor: "var(--primary-burgundy)" },
-    "&.Mui-focused fieldset": { borderColor: "var(--primary-burgundy)" },
+    "&:hover fieldset": { borderColor: "var(--primary-blue)" },
+    "&.Mui-focused fieldset": { borderColor: "var(--primary-blue)" },
   },
 });
 
@@ -136,7 +136,7 @@ export default function ProductDetails() {
                     key={i}
                     whileHover={{ y: -4 }}
                     onClick={() => setActiveIndex(i)}
-                    className={`flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${activeIndex === i ? 'border-[var(--primary-burgundy)] shadow-lg' : 'border-transparent opacity-70 hover:opacity-100'
+                    className={`flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden cursor-pointer border-2 transition-all ${activeIndex === i ? 'border-[var(--primary-blue)] shadow-lg' : 'border-transparent opacity-70 hover:opacity-100'
                       }`}
                   >
                     <img src={item.imageUrl} className="w-full h-full object-cover" />
@@ -156,12 +156,12 @@ export default function ProductDetails() {
               <Typography variant="overline" sx={{ color: 'var(--primary-gold)', fontWeight: 800, letterSpacing: 2 }}>
                 {products.product.brand}
               </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 800, mb: 2, color: 'var(--primary-burgundy)', fontSize: { xs: '2rem', md: '2.5rem' } }}>
+              <Typography variant="h3" sx={{ fontWeight: 800, mb: 2, color: 'var(--primary-blue)', fontSize: { xs: '2rem', md: '2.5rem' } }}>
                 {products.product.title}
               </Typography>
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', bgcolor: 'var(--primary-burgundy)', color: 'white', px: 1.5, py: 0.5, borderRadius: '8px', gap: 0.5 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', bgcolor: 'var(--primary-blue)', color: 'white', px: 1.5, py: 0.5, borderRadius: '8px', gap: 0.5 }}>
                   <Typography variant="subtitle2" fontWeight="bold">4.2</Typography>
                   <Star size={14} fill="currentColor" />
                 </Box>
@@ -239,7 +239,7 @@ export default function ProductDetails() {
                       fontWeight: 800,
                       fontSize: '1.1rem',
                       textTransform: 'none',
-                      '&:hover': { bgcolor: 'var(--primary-burgundy)' },
+                      '&:hover': { bgcolor: 'var(--primary-blue)' },
                       boxShadow: '0 10px 20px rgba(0,0,0,0.1)'
                     }}
                   >
@@ -272,7 +272,7 @@ export default function ProductDetails() {
 
         {/* Reviews Section */}
         <Box sx={{ mt: 15, mb: 10 }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, mb: 6, color: 'var(--primary-burgundy)' }}>
+          <Typography variant="h4" sx={{ fontWeight: 800, mb: 6, color: 'var(--primary-blue)' }}>
             Customer Reflections
           </Typography>
           <Grid container spacing={8}>
@@ -291,7 +291,7 @@ export default function ProductDetails() {
                 <Button
                   onClick={() => { navigate(`/product/${param.productId}/ratrev`); modal.openModal(); }}
                   variant="outlined"
-                  sx={{ mt: 2, borderRadius: '12px', color: 'var(--primary-burgundy)', borderColor: 'var(--primary-burgundy)', height: 50 }}
+                  sx={{ mt: 2, borderRadius: '12px', color: 'var(--primary-blue)', borderColor: 'var(--primary-blue)', height: 50 }}
                 >
                   Share Your Story
                 </Button>
@@ -319,7 +319,7 @@ export default function ProductDetails() {
 
         {/* Similar Products */}
         <Box sx={{ mb: 10 }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, mb: 6, color: 'var(--primary-burgundy)' }}>
+          <Typography variant="h4" sx={{ fontWeight: 800, mb: 6, color: 'var(--primary-blue)' }}>
             Curated For You
           </Typography>
           <HomeSectionCarousel sectionLabel={"similar"} sectionCategory={products.product.category?.name} />

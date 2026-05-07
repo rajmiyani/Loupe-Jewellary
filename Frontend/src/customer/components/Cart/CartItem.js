@@ -51,7 +51,7 @@ const CartItem = ({ item }) => {
                     </Typography>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>
-                        <Typography variant="h6" sx={{ fontWeight: 800, color: 'var(--primary-burgundy)' }}>
+                        <Typography variant="h6" sx={{ fontWeight: 800, color: 'var(--primary-blue)' }}>
                             ₹{formatPriceINR(item.discountedPrice)}
                         </Typography>
                         <Typography variant="body2" sx={{ textDecoration: 'line-through', opacity: 0.5 }}>
@@ -68,7 +68,7 @@ const CartItem = ({ item }) => {
                                 size="small"
                                 disabled={item.quantity <= 1}
                                 onClick={() => handleUpdateCartItem(-1)}
-                                sx={{ color: 'var(--primary-burgundy)' }}
+                                sx={{ color: 'var(--primary-blue)' }}
                             >
                                 <Minus size={16} />
                             </IconButton>
@@ -78,7 +78,7 @@ const CartItem = ({ item }) => {
                             <IconButton
                                 size="small"
                                 onClick={() => handleUpdateCartItem(1)}
-                                sx={{ color: 'var(--primary-burgundy)' }}
+                                sx={{ color: 'var(--primary-blue)' }}
                             >
                                 <Plus size={16} />
                             </IconButton>

@@ -528,11 +528,11 @@ export default function Navigation() {
                             type="submit"
                             sx={{
                               fontSize: "0.75rem",
-                              color: "#832729",
-                              borderColor: "#832729",
+                              color: "#6a9eb5",
+                              borderColor: "#6a9eb5",
                               "&:hover": {
-                                boxShadow: "#f9a8d4 0px 5px 20px",
-                                borderColor: "#832729",
+                                boxShadow: "#6a9eb5 0px 5px 20px",
+                                borderColor: "#6a9eb5",
                               },
                             }}
                             className="flex items-center justify-center rounded-md border-none px-2 py-1"
@@ -545,8 +545,8 @@ export default function Navigation() {
                             type="submit"
                             sx={{
                               fontSize: "0.75rem",
-                              bgcolor: "#832729",
-                              "&:hover": { bgcolor: "#500724" },
+                              bgcolor: "#6a9eb5",
+                              "&:hover": { bgcolor: "#97c2d5" },
                             }}
                             className="flex uppercase items-center justify-center rounded-md border-none px-2 py-1 text-white focus:outline-none"
                           >
@@ -558,7 +558,7 @@ export default function Navigation() {
                     : isHovering && (
                       <div
                         className="p-3 absolute top-[10vh] z-50 w-[13rem] flex flex-col bg-white rounded-md shadow-lg space-y-2 transition-all duration-1000 uppercase"
-                        style={{ color: "#832729" }}
+                        style={{ color: "#6a9eb5" }}
                       >
                         <div className="px-2 pb-3 flex flex-col border-b-2 border-pink-950 space-y-1">
                           <h1 className="text-xl font-semibold">

@@ -127,7 +127,7 @@ const OrderHistory = () => {
                       onClick={() => navigate('/')}
                       variant="contained"
                       type="submit"
-                      sx={{ bgcolor: '#832729', "&:hover": { bgcolor: "#500724" }, }}
+                      sx={{ bgcolor: '#6a9eb5', "&:hover": { bgcolor: "#97c2d5" }, }}
                       className="flex w-full uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none "
                     >
                       Continue Shopping

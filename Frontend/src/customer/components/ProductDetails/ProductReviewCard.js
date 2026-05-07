@@ -8,7 +8,7 @@ const StyledRating = styled(Rating)({
     color: "#831843",
   },
   "& .MuiRating-iconHover": {
-    color: "#500724",
+    color: "#97c2d5",
   },
 });
 
@@ -22,7 +22,7 @@ const ProductReviewCard = ({ reviewData, ratingData }) => {
     <div className='my-3'>
       <Grid container gap={3}>
         <Box>
-          <Avatar className='text-white' sx={{ width: 50, height: 50, fontSize: '1.3rem', bgcolor: '#832729' }}>
+          <Avatar className='text-white' sx={{ width: 50, height: 50, fontSize: '1.3rem', bgcolor: '#6a9eb5' }}>
             {reviewData.user?.firstName.charAt(0).toUpperCase() ?? ''}
           </Avatar>
         </Box>

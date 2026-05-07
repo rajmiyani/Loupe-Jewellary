@@ -6,9 +6,9 @@
 
 :root {
   --primary-gold: #D4AF37;
-  --primary-burgundy: #500724;
-  --primary-burgundy-light: #832729;
-  --bg-premium: #fdfbf7;
+  --primary-blue: #97c2d5;
+  --primary-blue-dark: #6a9eb5;
+  --bg-premium: #f8fafc;
   --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(255, 255, 255, 0.3);
   --text-dark: #1a1a1a;
@@ -74,12 +74,12 @@ html.dark body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-burgundy-light);
+  background: var(--primary-blue-dark);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-burgundy);
+  background: var(--primary-blue);
 }
 
 /* Buttons and chips accents */

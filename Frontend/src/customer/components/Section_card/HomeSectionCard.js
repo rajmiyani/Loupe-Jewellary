@@ -33,9 +33,8 @@ const HomeSectionCard = ({ product, productLabel }) => {
       id={`product-card-${product._id}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative transition-transform duration-300 cursor-pointer flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-[22rem] w-[18rem] border ${
-        mouseHover ? "shadow-2xl -translate-y-2 z-50" : ""
-      }`}
+      className={`relative transition-transform duration-300 cursor-pointer flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-[22rem] w-[18rem] border ${mouseHover ? "shadow-2xl -translate-y-2 z-50" : ""
+        }`}
     >
       <div className="relative w-full h-[15rem] rounded-lg transition duration-1000">
         <Link
@@ -70,7 +69,7 @@ const HomeSectionCard = ({ product, productLabel }) => {
 
         {productLabel && (
           <div
-            style={{ backgroundColor: "#832729" }}
+            style={{ backgroundColor: "#6a9eb5" }}
             className="px-2 py-1 rounded-sm absolute bottom-2 left-2 z-10 text-white"
           >
             <p className="text-xs font-sans font-normal">{productLabel}</p>

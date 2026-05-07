@@ -38,7 +38,7 @@ const CustomersTable = () => {
       text: "This customer profile will be permanently removed!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "var(--primary-burgundy)",
+      confirmButtonColor: "var(--primary-blue)",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
       background: 'var(--bg-premium)',
@@ -87,7 +87,7 @@ const CustomersTable = () => {
                           height: 40,
                           mr: 2,
                           bgcolor: 'var(--primary-gold)',
-                          color: 'var(--primary-burgundy)',
+                          color: 'var(--primary-blue)',
                           fontWeight: 'bold',
                           fontSize: '0.9rem'
                         }}
@@ -106,7 +106,7 @@ const CustomersTable = () => {
                     </Box>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'var(--primary-burgundy-light)' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: 'var(--primary-blue-dark)' }}>
                       {user.role || 'CUSTOMER'}
                     </Typography>
                   </TableCell>

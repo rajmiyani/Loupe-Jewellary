@@ -14,7 +14,7 @@ const Achivement = () => {
                 sx={{
                     position: "relative",
                     overflow: 'hidden',
-                    background: 'linear-gradient(135deg, var(--primary-burgundy) 0%, var(--primary-burgundy-light) 100%)',
+                    background: 'linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%)',
                     color: 'white',
                     borderRadius: '20px',
                     boxShadow: '0 10px 30px rgba(80, 7, 36, 0.2)'
@@ -43,7 +43,7 @@ const Achivement = () => {
                         sx={{
                             borderRadius: '12px',
                             bgcolor: 'var(--primary-gold)',
-                            color: 'var(--primary-burgundy)',
+                            color: 'var(--primary-blue)',
                             fontWeight: 'bold',
                             textTransform: 'none',
                             px: 3,

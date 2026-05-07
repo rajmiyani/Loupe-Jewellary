@@ -210,7 +210,9 @@ const Footer = () => {
                                         style={{ width: 25, height: 25 }}
                                     />
                                     <p className='text-pink-950 dark:text-gray-200 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'>
-                                        <a href="tel:(+91)888888885555" target='_blank'>(+91) 8264767451</a>
+                                        <a href="tel:(+91)888888885555" target='_blank'>(+91) 99091 09074</a> <br />
+                                        <a href="tel:(+91)888888885555" target='_blank'>(+91) 99091 87074</a> <br />
+                                        <a href="tel:(+91)888888885555" target='_blank'>(+91) 99091 09974</a>
                                     </p>
                                 </li>
                                 <li className='flex justify-between gap-4 items-center'>
@@ -222,7 +224,7 @@ const Footer = () => {
                                     <p
                                         className='hover:text-pink-950 hover:underline hover:shadow-sm text-left transition duration-300 cursor-pointer'
                                     >
-                                        loupejewellery@gmail.com
+                                        loupejewelsllp@gmail.com
                                     </p>
                                 </li>
                             </ul>

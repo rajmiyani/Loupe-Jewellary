@@ -126,7 +126,7 @@ const OrdersTable = () => {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" sx={{ fontWeight: 700, color: 'var(--primary-burgundy)' }}>
+                      <Typography variant="body2" sx={{ fontWeight: 700, color: 'var(--primary-blue)' }}>
                         ₹{item.totalPrice}
                       </Typography>
                       <Typography variant="caption" sx={{ color: 'green', fontWeight: 600 }}>

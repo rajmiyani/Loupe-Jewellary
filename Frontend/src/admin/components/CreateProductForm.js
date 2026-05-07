@@ -5,20 +5,20 @@ import { Grid, TextField, Button, Typography, styled, FormControl, InputLabel, S
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
-    color: '#500724',
+    color: '#97c2d5',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: '#500724',
+    borderBottomColor: '#97c2d5',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: '#9ca3af',
     },
     '&:hover fieldset': {
-      borderColor: '#500724',
+      borderColor: '#97c2d5',
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#500724',
+      borderColor: '#97c2d5',
     },
   },
 });

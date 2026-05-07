@@ -31,9 +31,9 @@ const OrderSummary = () => {
       <div className='p-5 shadow-lg rounded-s-md h-screen overflow-y-scroll' id='order-summary'>
 
         {/* <AddressCard /> */}
-        <div className='flex flex-wrap items-center justify-between p-3 rounded-lg' style={{ border: '1px solid #500724' }}>
+        <div className='flex flex-wrap items-center justify-between p-3 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
           <div className='space-y-2'>
-            <h1 className='text-lg font-semibold'>{order.order?.shippingAddress.firstName+" "+order.order?.shippingAddress.lastName}</h1>
+            <h1 className='text-lg font-semibold'>{order.order?.shippingAddress.firstName + " " + order.order?.shippingAddress.lastName}</h1>
             <p className='text-sm text-gray-500 font-normal'>{order.order?.shippingAddress.streetAddress}, {order.order?.shippingAddress.city}, {order.order?.shippingAddress.zipCode}</p>
             <p className='text-sm text-gray-500 font-normal'>Phone : {order.order?.shippingAddress.mobile}</p>
           </div>
@@ -63,8 +63,8 @@ const OrderSummary = () => {
                     </div>
                     <div className='ml-5 space-y-1'>
                       <p className='font-semibold text-xl'>{item.product?.title}</p>
-                      <p className='text-sm py-1 text-gray-400 font-medium'>Weight : {item.weight} 
-                      {/* | Size : 16.40 MM */}
+                      <p className='text-sm py-1 text-gray-400 font-medium'>Weight : {item.weight}
+                        {/* | Size : 16.40 MM */}
                       </p>
                       <p className='text-sm  text-gray-400 font-medium'>Quantity: {item.quantity}</p>
 
@@ -72,7 +72,7 @@ const OrderSummary = () => {
                         <p className="font-semibold lg:text-xl">₹ {formatPriceINR(item.product?.discountedPrice)}</p>
                         <p className="opacity-50 line-through lg:text-base">₹ {formatPriceINR(item.product?.price)}</p>
                         <p className="font-semibold text-red-500 lg:text-sm">
-                        {item.product?.discountPercent}% off
+                          {item.product?.discountPercent}% off
                         </p>
                       </div>
                     </div>
@@ -86,7 +86,7 @@ const OrderSummary = () => {
               <div className='rounded-lg shadow-md p-5 pb-0'>
                 <h1
                   className='uppercase font-semibold text-lg pb-4'
-                  style={{ color: "#832729" }}
+                  style={{ color: "#6a9eb5" }}
                 >
                   Order Summary
                 </h1>
@@ -109,7 +109,7 @@ const OrderSummary = () => {
                   <hr />
                   <div
                     className='flex justify-between font-bold'
-                    style={{ color: "#832729" }}
+                    style={{ color: "#6a9eb5" }}
                   >
                     <span>TOTAL (Incl of all Taxes.)</span>
                     <span>₹ {formatPriceINR(order.order?.totalDiscountedPrice)}</span>
@@ -121,7 +121,7 @@ const OrderSummary = () => {
                   variant="contained"
                   type="submit"
                   disabled={disablePay}
-                  sx={{ my: '2rem', bgcolor: '#832729', "&:hover": { bgcolor: "#500724" }, }}
+                  sx={{ my: '2rem', bgcolor: '#6a9eb5', "&:hover": { bgcolor: "#97c2d5" }, }}
                   className="flex w-full uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none disabled:bg-gray-500"
                 >
                   Payment

@@ -13,13 +13,13 @@ import { formatPriceINR } from '../../../utils/price';
 const OrderDetails = () => {
     const { order } = useSelector(store => store);
     const dispatch = useDispatch();
-    const params = useParams(); 
+    const params = useParams();
     const index = parseInt(params.index);
     const navigate = useNavigate();
     const modal = useContext(RRContext);
     const [activeStep, setActiveStep] = useState(1);
 
-    useEffect(()=> {
+    useEffect(() => {
         const fetchOrder = () => {
             dispatch(getOrderById(params.orderId));
         };
@@ -31,18 +31,18 @@ const OrderDetails = () => {
         if (!order || !order.order?.orderStatus) return;
 
         let newActiveStep;
-        switch(order.order?.orderStatus) {
+        switch (order.order?.orderStatus) {
             case "CONFIRMED":
                 newActiveStep = 1;
-                break;  
+                break;
             case "SHIPPED":
-                newActiveStep = 2;   
+                newActiveStep = 2;
                 break;
             case "DELIVERED":
-                newActiveStep = 5;        
+                newActiveStep = 5;
                 break;
             default:
-                newActiveStep = 1;   
+                newActiveStep = 1;
         }
 
         setActiveStep(newActiveStep);
@@ -61,7 +61,7 @@ const OrderDetails = () => {
 
     return (
         <div className='p-5'>
-            <div className='p-3 bg-pink-50 text-pink-950 rounded-lg' style={{ border: '1px solid #500724' }}>
+            <div className='p-3 bg-blue-50 text-blue-950 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
                 <h1 className='font-bold text-xl py-3'>Delivery Address</h1>
                 <div className='space-y-2'>
                     <h1 className='text-lg font-semibold'>{firstName} {lastName}</h1>
@@ -79,7 +79,7 @@ const OrderDetails = () => {
 
             <div className="p-3 shadow-md hover:shadow-xl transition duration-300 hover:-translate-y-1 rounded-lg cursor-pointer">
                 <Grid
-                    onClick={()=>navigate(`/product/${order.order?.orderItems[index]?.product._id}`)}
+                    onClick={() => navigate(`/product/${order.order?.orderItems[index]?.product._id}`)}
                     container
                     spacing={2}
                     sx={{ justifyContent: "space-between", alignItems: "center", flexWrap: 'wrap' }}
@@ -90,8 +90,8 @@ const OrderDetails = () => {
                                 className="w-[7rem] h-[7rem] shadow-md rounded-md object-cover"
                                 src={
                                     Array.isArray(order.order?.orderItems[index]?.product?.imageUrls) && order.order?.orderItems[index]?.product?.imageUrls.length > 0
-                                    ? (order.order?.orderItems[index]?.product?.imageUrls[0]?.imageUrl || order.order?.orderItems[index]?.product?.imageUrls[0])
-                                    : "https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg"
+                                        ? (order.order?.orderItems[index]?.product?.imageUrls[0]?.imageUrl || order.order?.orderItems[index]?.product?.imageUrls[0])
+                                        : "https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg"
                                 }
                                 alt="product"
                             />
@@ -126,11 +126,11 @@ const OrderDetails = () => {
                                         sx={{ width: "20px", height: "20px" }}
                                         className="text-pink-950 mr-2 text-sm"
                                     />
-                                    <span className="font-semibold text-pink-950 lg:text-base" 
-                                    onClick={(e)=>{
-                                        e.preventDefault();
-                                        handleOpen();
-                                    }}
+                                    <span className="font-semibold text-pink-950 lg:text-base"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleOpen();
+                                        }}
                                     >
                                         Rate & Review Product
                                     </span>
@@ -153,7 +153,7 @@ const OrderDetails = () => {
                 </Grid>
             </div>
 
-            <RatingReviewForm open={modal.state} handleClose={handleClose}/>
+            <RatingReviewForm open={modal.state} handleClose={handleClose} />
         </div>
     )
 }

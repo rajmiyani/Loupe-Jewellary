@@ -8,20 +8,20 @@ import { store } from '../../../state/store';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
-    color: '#500724',
+    color: '#97c2d5',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: '#500724',
+    borderBottomColor: '#97c2d5',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: '#9ca3af',
     },
     '&:hover fieldset': {
-      borderColor: '#500724',
+      borderColor: '#97c2d5',
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#500724',
+      borderColor: '#97c2d5',
     },
   },
 });
@@ -60,7 +60,7 @@ const DeliveryAddressForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
-    
+
     const address = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -90,7 +90,7 @@ const DeliveryAddressForm = () => {
                 <hr />
                 <div>
                   {auth.user?.address.map((address) => (
-                    <div className='p-3 rounded-lg' style={{ border: '1px solid #500724' }}>
+                    <div className='p-3 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
                       <div className='space-y-2'>
                         <h1 className='text-lg font-semibold'>{address.firstName} {address.lastName}</h1>
                         <p className='text-sm text-gray-500 font-normal'>{address.streetAddress}, {address.city}, {address.state}, {address.zipCode}</p>
@@ -102,7 +102,7 @@ const DeliveryAddressForm = () => {
                           setData(address)
                           console.log(address)
                         }}
-                        sx={{ my: '1rem', fontSize: '0.75rem', color: '#832729', borderColor: '#832729', "&:hover": { bgcolor: "#832729", color: '#fff', borderColor: '#832729' }, }}
+                        sx={{ my: '1rem', fontSize: '0.75rem', color: '#6a9eb5', borderColor: '#6a9eb5', "&:hover": { bgcolor: "#6a9eb5", color: '#fff', borderColor: '#6a9eb5' }, }}
                         className="flex w-4/12 items-center justify-center rounded-md border-none px-3 py-1"
                       >
                         Use This Address
@@ -137,7 +137,7 @@ const DeliveryAddressForm = () => {
                     }}
                     error={Boolean(errors.firstName)}
                     helperText={errors.firstName}
-                    // defaultValue={data ? data.firstName : ''}
+                  // defaultValue={data ? data.firstName : ''}
                   />
                 </Grid>
 
@@ -155,7 +155,7 @@ const DeliveryAddressForm = () => {
                     }}
                     error={Boolean(errors.lastName)}
                     helperText={errors.lastName}
-                    // defaultValue={data ? data.lastName : ''}
+                  // defaultValue={data ? data.lastName : ''}
                   />
                 </Grid>
 
@@ -175,7 +175,7 @@ const DeliveryAddressForm = () => {
                     }}
                     error={Boolean(errors.streetAddress)}
                     helperText={errors.streetAddress}
-                    // defaultValue={data ? data.streetAddress : ''}
+                  // defaultValue={data ? data.streetAddress : ''}
                   />
                 </Grid>
 
@@ -193,7 +193,7 @@ const DeliveryAddressForm = () => {
                     }}
                     error={Boolean(errors.city)}
                     helperText={errors.city}
-                    // defaultValue={data ? data.city : ''}
+                  // defaultValue={data ? data.city : ''}
                   />
                 </Grid>
 
@@ -211,7 +211,7 @@ const DeliveryAddressForm = () => {
                     }}
                     error={Boolean(errors.state)}
                     helperText={errors.state}
-                    // defaultValue={data ? data.state : ''}
+                  // defaultValue={data ? data.state : ''}
                   />
                 </Grid>
 
@@ -229,7 +229,7 @@ const DeliveryAddressForm = () => {
                     }}
                     error={Boolean(errors.zipCode)}
                     helperText={errors.zipCode}
-                    // defaultValue={data ? data.zipCode : ''}
+                  // defaultValue={data ? data.zipCode : ''}
                   />
                 </Grid>
 
@@ -250,7 +250,7 @@ const DeliveryAddressForm = () => {
                     }}
                     error={Boolean(errors.mobile)}
                     helperText={errors.mobile}
-                    // defaultValue={data ? data.mobile : ''}
+                  // defaultValue={data ? data.mobile : ''}
                   />
                 </Grid>
 
@@ -258,7 +258,7 @@ const DeliveryAddressForm = () => {
                   // onClick={handleDelivery}
                   variant="contained"
                   type="submit"
-                  sx={{ mt: '2rem', ml: '1.5rem', bgcolor: '#832729', "&:hover": { bgcolor: "#500724" }, }}
+                  sx={{ mt: '2rem', ml: '1.5rem', bgcolor: '#6a9eb5', "&:hover": { bgcolor: "#97c2d5" }, }}
                   className="flex w-4/12 uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none "
                 >
                   Deliver Here

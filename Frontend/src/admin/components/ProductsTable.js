@@ -103,7 +103,7 @@ const ProductsTable = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2" sx={{ fontWeight: 700, color: 'var(--primary-burgundy)' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 700, color: 'var(--primary-blue)' }}>
                       ₹{item.discountedPrice}
                     </Typography>
                   </TableCell>

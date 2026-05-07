@@ -211,7 +211,7 @@ const RegisterForm = () => {
                     bgcolor: '#fff'
                 }}
             >
-                <Typography variant="h4" fontWeight="bold" mb={1} sx={{ color: '#500724' }}>
+                <Typography variant="h4" fontWeight="bold" mb={1} sx={{ color: '#97c2d5' }}>
                     Sign Up
                 </Typography>
                 <Typography variant="body2" color="text.secondary" mb={3}>
@@ -278,8 +278,8 @@ const RegisterForm = () => {
                                 fullWidth
                                 sx={{
                                     py: 1.5,
-                                    bgcolor: '#832729',
-                                    '&:hover': { bgcolor: '#500724' },
+                                    bgcolor: '#6a9eb5',
+                                    '&:hover': { bgcolor: '#97c2d5' },
                                     borderRadius: '8px',
                                     textTransform: 'none',
                                     fontSize: '1rem',
@@ -318,7 +318,7 @@ const RegisterForm = () => {
                             variant="body2"
                             onClick={() => navigate('/login')}
                             sx={{
-                                color: '#832729',
+                                color: '#6a9eb5',
                                 fontWeight: 'bold',
                                 cursor: 'pointer',
                                 '&:hover': { textDecoration: 'underline' }

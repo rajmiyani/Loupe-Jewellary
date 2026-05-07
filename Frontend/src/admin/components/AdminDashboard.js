@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 const AdminDashboard = () => {
   return (
     <Box sx={{ p: { xs: 2, md: 4 } }}>
-      <Typography variant="h4" sx={{ mb: 4, fontWeight: 800, color: 'var(--primary-burgundy)' }}>
+      <Typography variant="h4" sx={{ mb: 4, fontWeight: 800, color: 'var(--primary-blue)' }}>
         Dashboard Overview
       </Typography>
 
