@@ -10,10 +10,10 @@ import { GoogleLogin } from '@react-oauth/google';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
-        color: '#500724',
+        color: '#97c2d5',
     },
     '& .MuiInput-underline:after': {
-        borderBottomColor: '#500724',
+        borderBottomColor: '#97c2d5',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -23,7 +23,7 @@ const CssTextField = styled(TextField)({
             borderColor: '#500724',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#500724',
+            borderColor: '#97c2d5',
         },
     },
 });
@@ -52,9 +52,13 @@ const LoginForm = () => {
             };
 
             dispatch(login(userData))
-                .then(() => {
+                .then((user) => {
                     setSubmitBtnDisable(false);
-                    navigate("/")
+                    if (user?.role === "ADMIN") {
+                        navigate("/admin")
+                    } else {
+                        navigate("/")
+                    }
                     modal.closeModal();
                     window.location.reload()
                 })
@@ -76,8 +80,12 @@ const LoginForm = () => {
     const handleGoogleSuccess = (credentialResponse) => {
         console.log("Google Login Success:", credentialResponse);
         dispatch(googleLogin(credentialResponse.credential))
-            .then(() => {
-                navigate("/")
+            .then((user) => {
+                if (user?.role === "ADMIN") {
+                    navigate("/admin")
+                } else {
+                    navigate("/")
+                }
                 modal.closeModal();
                 window.location.reload()
             })

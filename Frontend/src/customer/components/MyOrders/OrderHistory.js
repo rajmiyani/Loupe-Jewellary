@@ -80,8 +80,8 @@ const OrderHistory = () => {
               key={orderStatus[0].id}
               className="border-b border-gray-200 py-6"
             >
-              <div className="px-3 py-2 bg-pink-200 border border-pink-950 rounded-md">
-                <h1 className="text-base font-semibold text-pink-950">
+              <div className="px-3 py-2 bg-blue-50 border border-[#97c2d5] rounded-md">
+                <h1 className="text-base font-semibold text-[#97c2d5]">
                   {orderStatus[0].name}
                 </h1>
               </div>
@@ -122,7 +122,7 @@ const OrderHistory = () => {
                     <img src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1711647931/no-order_fa6v9a.svg" alt="empty-wish" />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-2">
-                    <h1 className="text-2xl font-semibold text-pink-900">No orders found!</h1>
+                    <h1 className="text-2xl font-semibold text-[#6a9eb5]">No orders found!</h1>
                     <Button
                       onClick={() => navigate('/')}
                       variant="contained"
@@ -144,7 +144,7 @@ const OrderHistory = () => {
 
                   return (
                     <div className="space-y-5 mb-5">
-                      <h1 className="text-2xl my-3 font-semibold text-pink-950">
+                      <h1 className="text-2xl my-3 font-semibold text-[#97c2d5]">
                         {formatOrderDate}
                       </h1>
                       {order.orderItems?.map((item, index) => (

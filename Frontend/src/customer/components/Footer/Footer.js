@@ -4,278 +4,133 @@ import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (
-        <div className='w-screen'>
-            <Grid
-                container
-                className='text-center mt-12 sticky bottom-0 left-0 right-0 overflow-hidden w-full bg-[#EFE3E3] text-[#852B2D] dark:bg-gray-900 dark:text-gray-200 border-t border-gray-200 dark:border-gray-700 z-10'
-                sx={{ pt: 8, pb: 4, pr: 5 }}
-            >
-                <Grid item xs={6} sm={6} md={3}>
-
-                    <div className='mb-14'>
-                        <h3 className='text-2xl pb-3 font-semibold'>Information</h3>
-                        <div>
-                            <ul
-                                role="list"
-                                aria-labelledby={`Information-heading`}
-                                className="mt-6 text-black dark:text-gray-200 text-lg space-y-6 sm:mt-4 sm:space-y-4 flex flex-col justify-center items-center "
-                            >
-                                <li className='flex'>
-                                    <Link
-                                        to={"/user-details/?layout=0"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        My Account
-                                    </Link>
-                                </li>
-                                <li className='flex'>
-                                    <Link
-                                        to={"/"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        About us
-                                    </Link>
-                                </li>
-                                <li className='flex'>
-                                    <Link
-                                        to={"/"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Blog
-                                    </Link>
-                                </li>
-                                <li className='flex'>
-                                    <Link
-                                        to={"/user-details/?layout=3"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Contact
-                                    </Link>
-                                </li>
-                                <li className='flex'>
-                                    <Link
-                                        to={"/"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Portfolio
+        <footer className='w-full bg-[#97c2d5] text-white pt-10 pb-5 border-t border-white/10'>
+            <div className='max-w-[1400px] mx-auto px-6 md:px-12'>
+                <Grid container spacing={10}>
+                    {/* Column 1: Boutique Collections */}
+                    <Grid item xs={12} sm={6} md={3}>
+                        <div className='mb-14'>
+                            <h3 className='text-xs font-bold uppercase tracking-[0.3em] text-white mb-10'>
+                                Collections
+                            </h3>
+                            <ul className="space-y-6 text-[13px] font-medium text-white/90 tracking-wider">
+                                {['Rings', 'Earrings', 'Necklace', 'Bracelets'].map((item) => (
+                                    <li key={item}>
+                                        <Link
+                                            to={`/all-jewellery/category/${item.toLowerCase().replace('bracelets', 'bracelate')}`}
+                                            className='hover:text-[#0a0a0a] transition-all duration-300 transform inline-block hover:translate-x-1'
+                                        >
+                                            {item}
+                                        </Link>
+                                    </li>
+                                ))}
+                                <li>
+                                    <Link to="/customize" className='italic font-semibold transition-colors'>
+                                        Customize Your Piece
                                     </Link>
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </Grid>
 
-                </Grid>
-
-                <Grid item xs={6} sm={6} md={3}>
-
-                    <div className='mb-14'>
-                        <h3 className='text-2xl pb-3 font-semibold'>Services</h3>
-                        <div>
-                            <ul
-                                role="list"
-                                aria-labelledby={`Services-heading`}
-                                className="mt-6 text-black dark:text-gray-200 text-lg space-y-6 sm:mt-4 sm:space-y-4 flex flex-col justify-center items-center "
-                            >
-                                <li className='flex'>
-                                    <a
-                                        href={"/#best-of-loupe"}
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Best of Loupe
-                                    </a>
-                                </li>
-                                <li className='flex'>
-                                    <a
-                                        href={"#categories"}
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Categories
-                                    </a>
-                                </li>
-                                <li className='flex'>
-                                    <a
-                                        href={"#offers-contest"}
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Offers & Contest
-                                    </a>
-                                </li>
-                                <li className='flex'>
-                                    <a
-                                        href={"#new-arrivals"}
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        New Arrivals
-                                    </a>
-                                </li>
-                                <li className='flex'>
-                                    <a
-                                        href={"#reccomanded"}
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Reccomanded
-                                    </a>
-                                </li>
+                    {/* Column 2: Legal & Care */}
+                    <Grid item xs={12} sm={6} md={3}>
+                        <div className='mb-14'>
+                            <h3 className='text-xs font-bold uppercase tracking-[0.3em] text-white mb-10'>
+                                Customer Care
+                            </h3>
+                            <ul className="space-y-6 text-[13px] font-medium text-white/90 tracking-wider">
+                                {[
+                                    { name: 'Privacy Policy', path: '/privacy' },
+                                    { name: 'Refund Policy', path: '/refund' },
+                                    { name: 'Shipping Policy', path: '/shipping' },
+                                    { name: 'Terms of Service', path: '/terms' },
+                                    { name: 'Contact Information', path: '/contact-info' }
+                                ].map((policy) => (
+                                    <li key={policy.name}>
+                                        <Link
+                                            to={policy.path}
+                                            className='hover:text-[#0a0a0a] transition-all duration-300 transform inline-block hover:translate-x-1'
+                                        >
+                                            {policy.name}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
-                    </div>
+                    </Grid>
 
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={3}>
-
-                    <div className='mb-14'>
-                        <h3 className='text-2xl pb-3 font-semibold'>Quick Links</h3>
-                        <div>
-                            <ul
-                                role="list"
-                                aria-labelledby={`QuickLinks-heading`}
-                                className="mt-6 text-black dark:text-gray-200 text-lg space-y-6 sm:mt-4 sm:space-y-4 flex flex-col justify-center items-center "
-                            >
-                                <li className='flex'>
-                                    <Link
-                                        to={"/user-details/?layout=1"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Favourites
-                                    </Link>
-                                </li>
-                                <li className='flex'>
-                                    <Link
-                                        to={"/all-jewellery/category/jewellery"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Collection
-                                    </Link>
-                                </li>
-                                <li className='flex'>
-                                    <Link
-                                        to={"/cart"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Cart
-                                    </Link>
-                                </li>
-                                <li className='flex'>
-                                    <Link
-                                        to={"/user-details/?layout=2"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'
-                                    >
-                                        Orders
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={3}>
-
-                    <div className='mb-14'>
-                        {/* <h3 className='text-2xl pb-3 font-semibold'>About Gayatri</h3> */}
-                        <div>
-                            <ul
-                                role="list"
-                                aria-labelledby={`QuickLinks-heading`}
-                                className="mt-6 px-3 text-black dark:text-gray-200 text-lg space-y-8 sm:mt-4 sm:space-y-4 flex flex-col justify-center items-start "
-                            >
-                                <li className='flex justify-between gap-4 items-start'>
-                                    <img
-                                        src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1711911170/map_gzuopc.png"
-                                        alt="address"
-                                        style={{ width: 25, height: 25 }}
-                                    />
-                                    <Link
-                                        to={"https://maps.app.goo.gl/5gPT97dw1itGHXyDA"}
-                                        target="_blank" rel="noopener noreferrer"
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm text-left transition duration-300 cursor-pointer'
-                                    >
-                                        RR MALL,<br /> NEAR BHADIYADARA FARM,<br /> MOTA VARACHHA, <br /> SURAT, GUJRAT
-                                    </Link>
-                                </li>
-                                <li className='flex justify-between gap-4 items-start'>
-                                    <img
-                                        src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1711911170/call_ndbyg5.png"
-                                        alt="phone"
-                                        style={{ width: 25, height: 25 }}
-                                    />
-                                    <p className='text-pink-950 dark:text-gray-200 hover:underline hover:shadow-sm transition duration-300 cursor-pointer'>
-                                        <a href="tel:(+91)888888885555" target='_blank'>(+91) 99091 09074</a> <br />
-                                        <a href="tel:(+91)888888885555" target='_blank'>(+91) 99091 87074</a> <br />
-                                        <a href="tel:(+91)888888885555" target='_blank'>(+91) 99091 09974</a>
-                                    </p>
-                                </li>
-                                <li className='flex justify-between gap-4 items-center'>
-                                    <img
-                                        src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1711911169/gmail_dryfgp.png"
-                                        alt="gmail"
-                                        style={{ width: 25, height: 25 }}
-                                    />
-                                    <p
-                                        className='hover:text-pink-950 hover:underline hover:shadow-sm text-left transition duration-300 cursor-pointer'
-                                    >
-                                        loupejewelsllp@gmail.com
-                                    </p>
-                                </li>
-                            </ul>
-
-                            <div className='w-3/4 mt-5'>
-                                <ul className='flex justify-around items-center'>
-                                    <li className='text-2xl'>
-                                        <Link
-                                            to={"https://www.linkedin.com/in/kishan-dabhi-837a64257/"}
-                                            target="_blank" rel="noopener noreferrer"
-                                        >
-                                            <i className="fa-brands fa-linkedin"></i>
-                                        </Link>
-                                    </li>
-                                    <li className='text-2xl'>
-                                        <Link
-                                            to={"https://twitter.com/Kishan3805"}
-                                            target="_blank" rel="noopener noreferrer"
-                                        >
-                                            <i className="fa-brands fa-x-twitter"></i>
-                                        </Link>
-                                    </li>
-                                    <li className='text-2xl'>
-                                        <Link
-                                            to={"https://github.com/KD3805/MERN-ECOMMERCE"}
-                                            target="_blank" rel="noopener noreferrer"
-                                        >
-                                            <i className="fa-brands fa-github"></i>
-                                        </Link>
-                                    </li>
-                                    <li className='text-2xl'>
-                                        <Link
-                                            to={"https://www.instagram.com/loupe_jewellery/"}
-                                            target="_blank" rel="noopener noreferrer"
-                                        >
-                                            <i className="fa-brands fa-instagram"></i>
-                                        </Link>
-                                    </li>
-                                </ul>
+                    {/* Column 3: The Circle (Newsletter) */}
+                    <Grid item xs={12} sm={6} md={3}>
+                        <div className='mb-14 pr-4'>
+                            <h3 className='text-xs font-bold uppercase tracking-[0.3em] text-white mb-10'>
+                                The Circle
+                            </h3>
+                            <p className='text-[13px] text-white/80 leading-relaxed mb-10'>
+                                Join our exclusive list for early access to new collections and boutique events.
+                            </p>
+                            <div className='relative'>
+                                <input
+                                    type="email"
+                                    placeholder="your@email.com"
+                                    className='w-full bg-transparent border-b border-white/40 pb-4 text-sm focus:outline-none focus:border-[#0a0a0a] transition-colors placeholder:text-white/40 text-white'
+                                />
+                                <button className='absolute right-0 bottom-4 text-[10px] font-bold uppercase tracking-[0.2em] text-white hover:text-[#0a0a0a] transition-colors'>
+                                    Join
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </Grid>
 
+                    {/* Column 4: Contact Clusters */}
+                    <Grid item xs={12} sm={6} md={3}>
+                        <div className='mb-14 text-left'>
+                            <h3 className='text-xs font-bold uppercase tracking-[0.3em] text-white mb-10'>
+                                Contact
+                            </h3>
+                            <div className='space-y-8 text-[13px] text-white/90 leading-loose tracking-wide'>
+                                <p className='max-w-[200px]'>
+                                    RR MALL, MOTA VARACHHA, <br />
+                                    SURAT, GUJRAT, INDIA
+                                </p>
+                                <p>
+                                    <a href="mailto:loupejewelsllp@gmail.com" className='hover:text-[#0a0a0a] transition-colors'>
+                                        loupejewelsllp@gmail.com
+                                    </a>
+                                </p>
+                                <div className='flex gap-6 items-center pt-4'>
+                                    {[
+                                        { icon: 'fa-facebook', url: 'https://www.facebook.com/loupe_jewellery/' }, // Placeholder/Guess
+                                        { icon: 'fa-instagram', url: 'https://www.instagram.com/loupe_jewellery/' },
+                                        { icon: 'fa-whatsapp', url: 'https://wa.me/919909109074' }
+                                    ].map((social) => (
+                                        <Link
+                                            key={social.icon}
+                                            to={social.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className='text-lg hover:text-[#0a0a0a] transition-all hover:-translate-y-1'
+                                        >
+                                            <i className={`fa-brands ${social.icon}`}></i>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </Grid>
                 </Grid>
 
-                <div className='flex justify-center items-center w-full'>
-                    <p className='text-center text-lg font-semibold'>Copyright &copy; 2024 &nbsp; <a href="#" className='text-pink-950 hover:underline'>Loupe</a> &nbsp; All rights Reserved.</p>
+                {/* Bottom Row Credits */}
+                <div className='pt-5 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-6'>
+                    <p className='text-[10px] uppercase tracking-[0.4em] text-black/100'>
+                        &copy; 2025 Loupe Jewellery LLP . All rights reserved.
+                    </p>
+                    <p className='text-[10px] uppercase tracking-[0.4em] text-black/100'>
+                        Dev by <a href="#" className='hover:text-[#0a0a0a] transition-colors'>Codiq Solution</a>
+                    </p>
                 </div>
-            </Grid>
-
-        </div>
+            </div>
+        </footer>
     )
 }
 

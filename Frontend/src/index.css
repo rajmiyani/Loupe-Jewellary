@@ -83,12 +83,12 @@ html.dark body {
 }
 
 /* Buttons and chips accents */
-.dark .bg-rose-50,
+.dark .bg-blue-50,
 .dark .bg-fuchsia-50 {
   background-color: #1f2937 !important;
 }
 
-.dark .text-rose-500,
+.dark .text-blue-500,
 .dark .text-fuchsia-500 {
   color: var(--accent) !important;
 }

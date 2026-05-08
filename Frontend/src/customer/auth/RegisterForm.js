@@ -11,10 +11,10 @@ import { GoogleLogin } from '@react-oauth/google';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
-        color: '#500724',
+        color: '#97c2d5',
     },
     '& .MuiInput-underline:after': {
-        borderBottomColor: '#500724',
+        borderBottomColor: '#97c2d5',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -24,7 +24,7 @@ const CssTextField = styled(TextField)({
             borderColor: '#500724',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#500724',
+            borderColor: '#97c2d5',
         },
     },
 });

@@ -1,101 +1,124 @@
-import { Avatar, Box, Card, CardContent, CardHeader, Grid, IconButton, Typography } from '@mui/material'
+import { Avatar, Box, Card, CardContent, Grid, Typography, LinearProgress } from '@mui/material'
 import React from 'react'
 import { motion } from 'framer-motion'
-import { TrendingUp, Users, Package, Banknote, MoreVertical } from 'lucide-react'
+import { Users, Package, Banknote, ShoppingBag, ArrowUpRight, ArrowDownRight } from 'lucide-react'
 
 const salesData = [
     {
-        stats: '245k',
-        title: 'Sales',
-        color: '#f59e0b',
-        icon: <TrendingUp size={24} />
+        stats: 'AED 8.4M',
+        title: 'Total Revenue',
+        trend: '+12.5%',
+        isUp: true,
+        icon: <Banknote size={20} />,
+        color: '#97c2d5',
+        bg: '#f0f9ff'
     },
     {
-        stats: '12.5k',
-        title: 'Customers',
+        stats: '1,284',
+        title: 'Total Orders',
+        trend: '+8.2%',
+        isUp: true,
+        icon: <ShoppingBag size={20} />,
+        color: '#fbbf24',
+        bg: '#fffbeb'
+    },
+    {
+        stats: '5,630',
+        title: 'Total Customers',
+        trend: '-2.4%',
+        isUp: false,
+        icon: <Users size={20} />,
+        color: '#8b5cf6',
+        bg: '#f5f3ff'
+    },
+    {
+        stats: '842',
+        title: 'Delivered',
+        trend: '+4.3%',
+        isUp: true,
+        icon: <Package size={20} />,
         color: '#10b981',
-        icon: <Users size={24} />
-    },
-    {
-        stats: '1.54k',
-        title: 'Products',
-        color: '#ef4444',
-        icon: <Package size={24} />
-    },
-    {
-        stats: '88k',
-        title: 'Revenue',
-        color: '#3b82f6',
-        icon: <Banknote size={24} />
+        bg: '#f0fdf4'
     },
 ]
 
 const MonthlyOverview = () => {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-        >
-            <Card sx={{ borderRadius: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', height: '100%' }}>
-                <CardHeader
-                    title="Monthly Overview"
-                    action={
-                        <IconButton size='small'>
-                            <MoreVertical size={20} />
-                        </IconButton>
-                    }
-                    subheader={
-                        <Typography variant='body2' sx={{ mt: 0.5 }}>
-                            <Box component="span" sx={{ fontWeight: 600, color: '#10b981' }}>
-                                Total 48.5% growth
-                            </Box>
-                            {' '}this month 😎
-                        </Typography>
-                    }
-                    titleTypographyProps={{
-                        sx: {
-                            fontWeight: 700,
-                            fontSize: '1.25rem',
-                            letterSpacing: '0.5px',
-                        }
-                    }}
-                />
-
-                <CardContent sx={{ pt: 4 }}>
-                    <Grid container spacing={4}>
-                        {salesData.map((item, index) => (
-                            <Grid item xs={6} md={3} key={index}>
-                                <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Grid container spacing={3}>
+            {salesData.map((item, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                    >
+                        <Card
+                            sx={{
+                                borderRadius: '24px',
+                                boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+                                border: '1px solid #f1f5f9',
+                                overflow: 'visible',
+                                transition: 'all 0.3s',
+                                '&:hover': {
+                                    transform: 'translateY(-5px)',
+                                    boxShadow: '0 12px 30px rgba(0,0,0,0.04)',
+                                    borderColor: item.color
+                                }
+                            }}
+                        >
+                            <CardContent sx={{ p: 3 }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                                     <Avatar
                                         variant='rounded'
                                         sx={{
-                                            mr: 2,
                                             width: 48,
                                             height: 48,
-                                            bgcolor: `${item.color}15`,
+                                            bgcolor: item.bg,
                                             color: item.color,
-                                            borderRadius: '12px'
+                                            borderRadius: '14px'
                                         }}
                                     >
                                         {item.icon}
                                     </Avatar>
-
-                                    <Box>
-                                        <Typography variant='caption' sx={{ fontSize: '0.75rem', fontWeight: 600, opacity: 0.6 }}>
-                                            {item.title}
-                                        </Typography>
-                                        <Typography variant='h6' sx={{ fontWeight: 700 }}>
-                                            {item.stats}
-                                        </Typography>
+                                    <Box sx={{ textAlign: 'right' }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, justifyContent: 'flex-end' }}>
+                                            <Typography variant='caption' sx={{ color: item.isUp ? '#10b981' : '#f43f5e', fontWeight: 800 }}>
+                                                {item.trend}
+                                            </Typography>
+                                            {item.isUp ? <ArrowUpRight size={14} color="#10b981" /> : <ArrowDownRight size={14} color="#f43f5e" />}
+                                        </Box>
+                                        <Typography variant='caption' sx={{ color: '#94a3b8', fontWeight: 600 }}>vs last month</Typography>
                                     </Box>
                                 </Box>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </CardContent>
-            </Card>
-        </motion.div>
+
+                                <Typography variant='caption' sx={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                    {item.title}
+                                </Typography>
+                                <Typography variant='h4' sx={{ fontWeight: 900, color: '#1e293b', mt: 0.5, letterSpacing: '-1px' }}>
+                                    {item.stats}
+                                </Typography>
+
+                                <Box sx={{ mt: 2 }}>
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={70}
+                                        sx={{
+                                            height: 6,
+                                            borderRadius: 5,
+                                            bgcolor: '#f1f5f9',
+                                            '& .MuiLinearProgress-bar': {
+                                                bgcolor: item.color,
+                                                borderRadius: 5
+                                            }
+                                        }}
+                                    />
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
+                </Grid>
+            ))}
+        </Grid>
     )
 }
 

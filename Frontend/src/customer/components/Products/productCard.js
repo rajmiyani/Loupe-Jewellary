@@ -39,7 +39,7 @@ const ProductCard = ({ product, index }) => {
         setMouseHover(false);
       }}
       style={
-        isMouseHover ? { zIndex: zIndex.modal + 2, boxShadow: "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px" } : { zIndex: zIndex.appBar, boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px"}
+        isMouseHover ? { zIndex: zIndex.modal + 2, boxShadow: "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px" } : { zIndex: zIndex.appBar, boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px" }
       }
       onClick={() => navigate(`/product/${product?._id}`)}
       className="p-2 rounded-lg w-[17rem] md:w-[18rem] h-[26rem] overflow-visible hover:-translate-y-10 hover:h-[32rem] hover:bg-white m-3 transition-all duration-300 cursor-pointer"
@@ -62,15 +62,15 @@ const ProductCard = ({ product, index }) => {
 
       <div className="flex flex-col justify-center items-center text-center">
         <div className="mb-2">
-          <h1 
-            className="text-lg font-semibold text-gray-900 dark:text-white" 
-            style={{textOverflow: "ellipsis", overflow: "hidden", width: "13rem", whiteSpace: "nowrap"}}
+          <h1
+            className="text-lg font-semibold text-gray-900 dark:text-white"
+            style={{ textOverflow: "ellipsis", overflow: "hidden", width: "13rem", whiteSpace: "nowrap" }}
           >
             {product?.title || "Untitled Product"}
           </h1>
           <button
             style={{ textTransform: "capitalize" }}
-            className="text-sm font-bold text-rose-500 dark:text-amber-400 px-2"
+            className="text-sm font-bold text-[#6a9eb5] dark:text-amber-400 px-2"
           >
             {product?.category?.name || "Unknown Category"}
           </button>
@@ -83,8 +83,8 @@ const ProductCard = ({ product, index }) => {
               alt=""
               className="w-full h-6 py-0 object-cover scale-150 px-5 overflow-hidden"
             />
-              <div className="flex justify-evenly items-center w-full ">
-                <p className="text-xl font-semibold">₹ {formatPriceINR(productDiscountedPrice)}</p>
+            <div className="flex justify-evenly items-center w-full ">
+              <p className="text-xl font-semibold">₹ {formatPriceINR(productDiscountedPrice)}</p>
               <p className="text-xs font-bold text-red-500">{discount}% off</p>
             </div>
             <img
@@ -103,7 +103,7 @@ const ProductCard = ({ product, index }) => {
                 <p className="text-xs font-bold text-gray-500">Type</p>
                 <button
                   style={{ textTransform: "capitalize" }}
-                  className="text-sm font-bold text-rose-500 bg-rose-50 px-2"
+                  className="text-sm font-bold text-[#6a9eb5] bg-blue-50 px-2"
                 >
                   {product?.type || "Type"}
                 </button>

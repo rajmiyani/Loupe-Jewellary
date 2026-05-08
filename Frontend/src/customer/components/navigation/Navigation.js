@@ -400,8 +400,8 @@ export default function Navigation() {
                           className={({ selected }) =>
                             classNames(
                               selected
-                                ? "border-pink-950 text-pink-800"
-                                : "border-transparent text-pink-800",
+                                ? "border-[#97c2d5] text-[#6a9eb5]"
+                                : "border-transparent text-[#6a9eb5]",
                               "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
                             )
                           }
@@ -458,7 +458,7 @@ export default function Navigation() {
       </Transition.Root>
 
       <header className="relative">
-        <div className="bg-pink-100 text-pink-950 sm:px-6">
+        <div className="bg-[#f0f9ff] text-[#97c2d5] sm:px-6">
           <div className="my-header">
 
             <button
@@ -488,7 +488,7 @@ export default function Navigation() {
               <input
                 type="text"
                 placeholder="Search for Gold Jewellery, Diamond…"
-                className="bg-white header-searchbar text-pink-950"
+                className="bg-white header-searchbar text-[#97c2d5]"
               />
               <span className="search-icon">
                 <i className="fa-solid fa-magnifying-glass"></i>
@@ -502,7 +502,7 @@ export default function Navigation() {
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
               >
-                <div className="flex items-center flex-col cursor-pointer transition duration-1000 border-pink-950">
+                <div className="flex items-center flex-col cursor-pointer transition duration-1000 border-[#97c2d5]">
                   <PermIdentityOutlinedIcon
                     sx={{ width: "25px", height: "25px" }}
                     className="opacity-60"
@@ -513,7 +513,7 @@ export default function Navigation() {
 
                   {!auth.user?.firstName
                     ? isHovering && (
-                      <div className="p-3 absolute top-[10vh] z-50 w-[16rem] text-center bg-white rounded-md shadow-lg space-y-3 text-pink-950 transition-all duration-1000">
+                      <div className="p-3 absolute top-[10vh] z-50 w-[16rem] text-center bg-white rounded-md shadow-lg space-y-3 text-[#97c2d5] transition-all duration-1000">
                         <h1 className="text-2xl font-normal uppercase">
                           My Account
                         </h1>
@@ -560,7 +560,7 @@ export default function Navigation() {
                         className="p-3 absolute top-[10vh] z-50 w-[13rem] flex flex-col bg-white rounded-md shadow-lg space-y-2 transition-all duration-1000 uppercase"
                         style={{ color: "#6a9eb5" }}
                       >
-                        <div className="px-2 pb-3 flex flex-col border-b-2 border-pink-950 space-y-1">
+                        <div className="px-2 pb-3 flex flex-col border-b-2 border-[#97c2d5] space-y-1">
                           <h1 className="text-xl font-semibold">
                             Hi! {auth.user?.firstName},
                           </h1>
@@ -580,7 +580,7 @@ export default function Navigation() {
                                 navigate("/admin")
                               }}
                               key="admin-panel"
-                              className="text-md p-2 font-medium hover:text-pink-950 hover:font-bold hover:bg-pink-50"
+                              className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-[#f0f7f9]"
                             >
                               Admin Panel
                             </h1>
@@ -591,7 +591,7 @@ export default function Navigation() {
                               setIsHovering(false)
                               navigate("/user-details/?layout=0");
                             }}
-                            className="text-md p-2 font-medium hover:text-pink-950 hover:font-bold hover:bg-pink-50"
+                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-blue-50"
                           >
                             My Account
                           </h1>
@@ -601,7 +601,7 @@ export default function Navigation() {
                               navigate("/user-details/?layout=2");
                             }}
                             key="order-history"
-                            className="text-md p-2 font-medium hover:text-pink-950 hover:font-bold hover:bg-pink-50"
+                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-blue-50"
                           >
                             Order History
                           </h1>
@@ -611,13 +611,13 @@ export default function Navigation() {
                               setIsHovering(false)
                               navigate("/user-details/?layout=3");
                             }}
-                            className="text-md p-2 font-medium hover:text-pink-950 hover:font-bold hover:bg-pink-50"
+                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-blue-50"
                           >
                             Contact Us
                           </h1>
                           <h1
                             key="log-out"
-                            className="text-md p-2 font-medium hover:text-pink-950 hover:font-bold hover:bg-pink-50"
+                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-[#f0f7f9]"
                             onClick={() => handleLogout()}
                           >
                             Log out
@@ -634,7 +634,7 @@ export default function Navigation() {
                   onClick={() => {
                     navigate("/user-details/?layout=1");
                   }}
-                  className="flex items-center flex-col cursor-pointer border-pink-950 text-gray-700 dark:text-gray-200"
+                  className="flex items-center flex-col cursor-pointer border-[#97c2d5] text-gray-700 dark:text-gray-200"
                 >
                   <Badge
                     badgeContent={wishlist?.wishItems?.length}
@@ -661,7 +661,7 @@ export default function Navigation() {
                   }}
                   xs={4}
                   id="nav-cart-btn"
-                  className="flex items-center flex-col cursor-pointer border-pink-950"
+                  className="flex items-center flex-col cursor-pointer border-[#97c2d5]"
                 >
                   <Badge badgeContent={cart.cart?.totalItem} color="error">
                     <AddShoppingCartIcon
@@ -710,8 +710,8 @@ export default function Navigation() {
                             <Popover.Button
                               className={classNames(
                                 open
-                                  ? "border-pink-700 text-pink-950 border-b-2"
-                                  : " text-gray-700  hover:text-pink-950 unline-animation",
+                                  ? "border-[#6a9eb5] text-[#97c2d5] border-b-2"
+                                  : " text-gray-700  hover:text-[#97c2d5] unline-animation",
                                 "z-10 -mb-px flex items-center  px-2 pt-px text-base font-medium transition-colors duration-200 ease-out"
                               )}
                             >
@@ -744,7 +744,7 @@ export default function Navigation() {
                                         <div key={section.id}>
                                           <p
                                             id={`${section.name}-heading`}
-                                            className="font-semibold text-lg text-pink-950"
+                                            className="font-semibold text-lg text-[#97c2d5]"
                                           >
                                             {section.name}
                                           </p>

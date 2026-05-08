@@ -25,7 +25,7 @@ const Stat = ({ label, value, suffix = '' }) => {
   const ref = useCountUp(value);
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border p-6 bg-white dark:bg-gray-900 dark:border-gray-700">
-      <p className="text-3xl font-extrabold text-pink-950 dark:text-white">
+      <p className="text-3xl font-extrabold text-[#97c2d5] dark:text-white">
         <span ref={ref}>0</span>
         {suffix}
       </p>
@@ -38,10 +38,10 @@ const AnimatedStats = () => {
   return (
     <section className="px-2 md:px-0">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <Stat label="Happy Customers" value={12000} suffix="+" />
-        <Stat label="Designs" value={850} suffix="+" />
+        <Stat label="Happy Customers" value={1000} suffix="+" />
+        <Stat label="Designs" value={550} suffix="+" />
         <Stat label="Stores & Partners" value={35} suffix="+" />
-        <Stat label="Years Crafting" value={10} suffix="+" />
+        <Stat label="Years Crafting" value={3} suffix="+" />
       </div>
     </section>
   );

@@ -124,9 +124,9 @@ const OrderDetails = () => {
                                 <IconButton className="flex items-center">
                                     <StarIcon
                                         sx={{ width: "20px", height: "20px" }}
-                                        className="text-pink-950 mr-2 text-sm"
+                                        className="text-[#97c2d5] mr-2 text-sm"
                                     />
-                                    <span className="font-semibold text-pink-950 lg:text-base"
+                                    <span className="font-semibold text-[#97c2d5] lg:text-base"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleOpen();
@@ -142,9 +142,9 @@ const OrderDetails = () => {
                             <IconButton className="flex items-center justify-end mt-3 pr-5 font-semibold lg:text-lg">
                                 <CancelIcon
                                     sx={{ width: "20px", height: "20px" }}
-                                    className="text-pink-950 mr-2 text-sm"
+                                    className="text-[#97c2d5] mr-2 text-sm"
                                 />
-                                <span className="font-semibold text-pink-950 lg:text-base">
+                                <span className="font-semibold text-[#97c2d5] lg:text-base">
                                     Cancel Order
                                 </span>
                             </IconButton>

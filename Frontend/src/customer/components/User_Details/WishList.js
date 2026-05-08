@@ -48,7 +48,7 @@ const WishList = () => {
             <img src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1711647890/empty_wish_rp1zy3.webp" alt="empty-wish" />
           </div>
           <div className="flex flex-col justify-center items-center gap-2">
-            <h1 className="text-2xl font-semibold text-pink-900">Your WishList is Empty!</h1>
+            <h1 className="text-2xl font-semibold text-[#6a9eb5]">Your WishList is Empty!</h1>
             <Button
               onClick={() => navigate('/')}
               variant="contained"

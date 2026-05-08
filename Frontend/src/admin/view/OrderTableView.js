@@ -1,186 +1,128 @@
+import {
+  Avatar,
+  Box,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  IconButton,
+  Button
+} from "@mui/material";
 import React, { useEffect } from "react";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Avatar, AvatarGroup, Button, Card, CardHeader, Divider, Menu, MenuItem, alpha } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { store } from "../../state/store";
-import { getOrders } from '../../state/admin/order/Action';
-
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#1e293b",
-    color: theme.palette.common.white,
-    fontSize: 16,
-    fontWeight: 600,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  '& .MuiPaper-root': {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-    boxShadow: 'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px',
-    '& .MuiMenu-list': {
-      padding: '4px 0',
-    },
-    '& .MuiMenuItem-root': {
-      '& .MuiSvgIcon-root': {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-      },
-      '&:active': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity,
-        ),
-      },
-    },
-  },
-}));
-
-
+import { getOrders } from "../../state/admin/order/Action";
+import { Globe, ShoppingBag, Eye, Trash2, Calendar, Filter } from "lucide-react";
 
 const OrdersTableView = () => {
-  const [anchorEl, setAnchorEl] = React.useState([]);
-  const open = Boolean(anchorEl);
   const dispatch = useDispatch();
-  const { adminOrder } = useSelector(store => store);
-  const len = adminOrder.orders?.length;
-
-  const handleClick = (event, index) => {
-    const newAnchorElArray = [...anchorEl]
-    newAnchorElArray[index] = event.currentTarget
-    setAnchorEl(newAnchorElArray)
-  };
-
-  const handleClose = (index) => {
-    const newAnchorElArray = [...anchorEl]
-    newAnchorElArray[index] = null
-    setAnchorEl(newAnchorElArray)
-  };
+  const { adminOrder } = useSelector((store) => store);
 
   useEffect(() => {
     dispatch(getOrders());
-  }, [adminOrder.confirmed, adminOrder.shipped, adminOrder.delivered, adminOrder.deletedOrder])
+  }, [dispatch]);
+
+  const recentOrders = adminOrder?.orders?.slice(0, 5) || [];
+
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'confirmed': return { bg: '#fef3c7', text: '#d97706' }; // Confirmed
+      case 'shipped': return { bg: '#e0e7ff', text: '#4338ca' };   // Shipped
+      case 'delivered': return { bg: '#f0fdf4', text: '#10b981' }; // Delivered
+      case 'placed': return { bg: '#fffbeb', text: '#d4af37' };    // Placed
+      case 'cancelled': return { bg: '#fff1f2', text: '#f43f5e' }; // Cancelled
+      default: return { bg: '#f8fafc', text: '#64748b' };
+    }
+  };
 
   return (
-    <div className="p-2">
-      <Card className="mt-2">
-        <CardHeader title="Recent Orders" />
-        <Divider />
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell align="left">Image</StyledTableCell>
-                <StyledTableCell align="left">Order Items</StyledTableCell>
-                <StyledTableCell align="left">Quantity</StyledTableCell>
-                <StyledTableCell align="left">Total Price</StyledTableCell>
-                <StyledTableCell align="left">Discount</StyledTableCell>
-                <StyledTableCell align="left">Status</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {adminOrder.orders?.slice(len-5, len).map((item, index) => (
-                <StyledTableRow key={item._id}>
-                  <StyledTableCell align="left">
-                    <AvatarGroup max={3} sx={{ justifyContent: "start" }}>
-                      {item.orderItems?.map((orderItem, index) => (
-                        <Avatar
-                          key={index}
-                          src={orderItem.product?.imageUrls?.[0].imageUrl}
-                        />
-                      ))}
-                    </AvatarGroup>
-                  </StyledTableCell>
-                  <StyledTableCell
-                    sx={{ textTransform: "capitalize" }}
-                    align="left"
-                    component="th"
-                    scope="item"
-                  >
-                    {item.orderItems?.map((orderItem, i) => (
-                      <p key={i}> {i + 1}. {orderItem.product?.title} </p>
-                    ))}
-                  </StyledTableCell>
+    <Card sx={{ borderRadius: '24px', boxShadow: '0 4px 25px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9', bgcolor: '#ffffff' }}>
+      <Box sx={{ p: 3.5, borderBottom: '1px solid #f8fafc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5 }}>
+            <Typography variant="h6" sx={{ fontWeight: 900, color: '#1e293b', letterSpacing: '-0.5px' }}>Latest Orders</Typography>
+            <Box sx={{ px: 1.5, py: 0.4, borderRadius: '8px', bgcolor: '#f0f9ff', color: '#97c2d5', fontSize: '0.7rem', fontWeight: 800 }}>LIVE</Box>
+          </Box>
+          <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>Tracking the most recent transactions</Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 1.5 }}>
+          <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 700, '&:hover': { borderColor: '#97c2d5', bgcolor: 'transparent' } }}>Filters</Button>
+          <Button variant="contained" sx={{ borderRadius: '12px', textTransform: 'none', px: 2, bgcolor: '#111827', color: '#ffffff', fontWeight: 700, boxShadow: '0 10px 20px rgba(0,0,0,0.1)', '&:hover': { bgcolor: '#1f2937' } }}>View All</Button>
+        </Box>
+      </Box>
+      <TableContainer>
+        <Table sx={{ minWidth: 800 }}>
+          <TableHead>
+            <TableRow sx={{ bgcolor: '#fbfcfd' }}>
+              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>SOURCE SYSTEM</TableCell>
+              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>CUSTOMER PROFILE</TableCell>
+              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>REVENUE</TableCell>
+              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>STATUS</TableCell>
+              <TableCell align="right" sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>CONTROL</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {recentOrders.map((order) => {
+              const statusStyle = getStatusColor(order.orderStatus);
+              const isWebsite = Math.random() > 0.5; // Mocking source for design
+              return (
+                <TableRow key={order._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Avatar variant="rounded" sx={{ bgcolor: isWebsite ? '#f0fdf4' : '#f8fafc', color: isWebsite ? '#10b981' : '#1e1e1e', width: 32, height: 32 }}>
+                        {isWebsite ? <Globe size={16} /> : <ShoppingBag size={16} />}
+                      </Avatar>
+                      <Box>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#1e293b' }}>{isWebsite ? 'Website' : 'On Shop'}</Typography>
+                      </Box>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1e293b' }}>
+                        {order.user?.firstName} {order.user?.lastName}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>
+                        {order.user?.email}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1e293b' }}>
+                      AED {order.totalPrice?.toLocaleString()}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{
+                      display: 'inline-block',
+                      px: 1.5, py: 0.5,
+                      borderRadius: '6px',
+                      bgcolor: statusStyle.bg,
+                      color: statusStyle.text,
+                      fontWeight: 700,
+                      fontSize: '0.75rem',
+                      textTransform: 'capitalize'
+                    }}>
+                      {order.orderStatus}
+                    </Box>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
+                      <IconButton size="small" sx={{ color: '#94a3b8' }}><Eye size={18} /></IconButton>
+                      <IconButton size="small" sx={{ color: '#94a3b8' }}><Trash2 size={18} /></IconButton>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Card>
+  );
+};
 
-                  <StyledTableCell
-                    align="left"
-                  >
-                    {item.totalItem}
-                  </StyledTableCell>
-
-                  <StyledTableCell align="left">
-                    {item.totalPrice}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    align="left"
-                  >
-                    {item.discount}%
-                  </StyledTableCell>
-                  <StyledTableCell>
-                  <button
-                    className={`
-                      text-white text-xs font-semibold rounded-md p-2 flex items-center justify-center border-none focus:outline-none
-                      ${item.orderStatus === 'CONFIRMED' ? "bg-[#369236]" :
-                      item.orderStatus === 'SHIPPED' ? "bg-[#4141ff]" :
-                      item.orderStatus === 'PLACED' ? "bg-[#02B290]" :
-                      item.orderStatus === 'PENDING' ? "bg-[#a3a3a3]" :
-                      "bg-[#831843]" 
-                    }`}
-                  >
-                    {item.orderStatus}
-                  </button>
-                  </StyledTableCell>
-
-                  {/* <StyledTableCell align="left">{item.quantity}</StyledTableCell> */}
-                </StyledTableRow>
-              ))}
-            </TableBody>
-
-          </Table>
-        </TableContainer>
-      </Card>
-    </div>
-  )
-}
-
-export default OrdersTableView
+export default OrdersTableView;

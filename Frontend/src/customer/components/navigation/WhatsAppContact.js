@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
 import { Tooltip, IconButton } from '@mui/material';
 
 const WhatsAppContact = () => {
-    const phoneNumber = "919000000000"; // Placeholder - User can update
+    const phoneNumber = "919909109074"; // Verified contact number
     const message = encodeURIComponent("Hello Loupe Jewellery! I'm interested in your collections.");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
@@ -46,7 +46,7 @@ const WhatsAppContact = () => {
                         }
                     }}
                 >
-                    <MessageCircle size={32} />
+                    <i className="fa-brands fa-whatsapp" style={{ fontSize: '32px' }}></i>
                 </IconButton>
             </Tooltip>
         </motion.div>

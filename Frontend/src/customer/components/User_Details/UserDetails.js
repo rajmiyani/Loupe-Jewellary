@@ -16,7 +16,7 @@ const UserDetails = () => {
     setActiveTab(index);
   };
 
-  useEffect( ()=>{
+  useEffect(() => {
     setActiveTab(layout)
   }, [layout]);
 
@@ -46,38 +46,37 @@ const UserDetails = () => {
           <h1 className='text-3xl pb-3 font-semibold border-b text-end'>{menuBar?.[activeTab]?.name}</h1>
 
           <div className='flex'>
-          <div className='w-1/5 border-r border-b'>
-            {menuBar.map((item, index) => (
-              <div className='border-b p-1' key={index}>
-                <p 
-                  className={`px-3 py-2 text-base font-semibold cursor-pointer rounded-sm ${
-                    activeTab == index ? 'bg-pink-100 text-pink-900' : 'hover:bg-gray-100'
-                  }`} 
-                  onClick={() => {
-                    handleTabClick(index)
-                    navigate(item.nav)
-                  }}
-                >
-                  {item.name}
-                </p>
-              </div>
-            ))}
-          </div>
+            <div className='w-1/5 border-r border-b'>
+              {menuBar.map((item, index) => (
+                <div className='border-b p-1' key={index}>
+                  <p
+                    className={`px-3 py-2 text-base font-semibold cursor-pointer rounded-sm ${activeTab == index ? 'bg-blue-50 text-[#6a9eb5]' : 'hover:bg-gray-100'
+                      }`}
+                    onClick={() => {
+                      handleTabClick(index)
+                      navigate(item.nav)
+                    }}
+                  >
+                    {item.name}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-          <div className='w-4/5 h-[80vh] overflow-y-scroll border-b' id='user-details'>
-            {
-              layout == '0' && <MyAccount />
-            }
-            {
-              layout == '1' && <WishList />
-            }
-            {
-              layout == '2' && <OrderHistory />
-            }
-            {
-              layout == '3' && <ContactUs />
-            }
-          </div>
+            <div className='w-4/5 h-[80vh] overflow-y-scroll border-b' id='user-details'>
+              {
+                layout == '0' && <MyAccount />
+              }
+              {
+                layout == '1' && <WishList />
+              }
+              {
+                layout == '2' && <OrderHistory />
+              }
+              {
+                layout == '3' && <ContactUs />
+              }
+            </div>
           </div>
         </div>
       </div>

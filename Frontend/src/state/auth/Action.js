@@ -49,6 +49,7 @@ export const login = (userData) => async (dispatch) => {
 
         dispatch(loginSuccess(user.jwt));
         toastNotify({ type: 'success', title: 'Welcome back', description: 'Logged in successfully.' });
+        return user;
 
     } catch (error) {
         const message = error?.response?.data?.error || error?.response?.data?.message || error.message;
@@ -71,6 +72,7 @@ export const googleLogin = (idToken) => async (dispatch) => {
 
         dispatch(loginSuccess(user.jwt));
         toastNotify({ type: 'success', title: 'Welcome back', description: 'Logged in with Google successfully.' });
+        return user;
 
     } catch (error) {
         const message = error?.response?.data?.error || error?.response?.data?.message || error.message;

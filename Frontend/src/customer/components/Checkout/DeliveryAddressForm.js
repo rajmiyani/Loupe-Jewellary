@@ -86,7 +86,7 @@ const DeliveryAddressForm = () => {
           <div className='overflow-y-scroll h-[30.5rem] rounded-md shadow-md ' id='deli-add-form'>
             <Grid item>
               <div className="p-3 flex flex-col gap-4 cursor-pointer">
-                <h1 className='text-lg font-semibold text-pink-950 uppercase'>Deliver To</h1>
+                <h1 className='text-lg font-semibold text-[#97c2d5] uppercase'>Deliver To</h1>
                 <hr />
                 <div>
                   {auth.user?.address.map((address) => (

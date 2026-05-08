@@ -470,7 +470,7 @@ export default function Product() {
                           <div className="d-flex pt-2 pb-2 priceRange">
                             <span>
                               From:{" "}
-                              <strong className="text-pink-800">
+                              <strong className="text-[#6a9eb5]">
                                 Rs: {priceVal[0]}
                               </strong>
                             </span>
@@ -616,7 +616,7 @@ export default function Product() {
                       <div className='flex items-center justify-center h-[50vh]'>
                         <div className='flex flex-col space-y-5'>
                           <img src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg" alt="" />
-                          <h1 className='text-3xl font-semibold text-pink-950'>No products found</h1>
+                          <h1 className='text-3xl font-semibold text-[#97c2d5]'>No products found</h1>
                         </div>
                       </div>
                     ) : (
