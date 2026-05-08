@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import HomePage from "../pages/HomePage/HomePage";
 import Product from "../components/Products/product";
@@ -11,9 +11,10 @@ import Navigation from "../components/navigation/Navigation";
 import ModalState from "../../context/modal/modalState";
 import RRState from "../../context/rrBox/rrState";
 import PageNotFound from "../components/NotFound/PageNotFound";
-import { store } from "../../state/store";
+import { useDispatch, useSelector } from "react-redux";
 import UserDetails from "../components/User_Details/UserDetails";
 import Footer from "../components/Footer/Footer";
+import { getUser } from "../../state/auth/Action";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -61,12 +62,16 @@ const WithLayout = ({ children, showLayout }) => {
 };
 
 const CustomerRouters = () => {
-  const [authenticated, setAuthenticated] = useState(true); // You need to implement this
+  const dispatch = useDispatch();
+  const { jwt: reduxJwt } = useSelector((store) => store.auth);
+  const localJwt = localStorage.getItem("jwt");
+  const authenticated = !!(reduxJwt || localJwt);
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("jwt") !== null; // Example: Check if token exists in localStorage
-    setAuthenticated(isAuthenticated);
-  }, []);
+    if (localJwt) {
+      dispatch(getUser(localJwt));
+    }
+  }, [localJwt]);
 
 
   return (

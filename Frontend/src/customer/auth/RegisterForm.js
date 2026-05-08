@@ -105,13 +105,28 @@ const RegisterForm = () => {
     const handleGoogleSuccess = (credentialResponse) => {
         console.log("Google Signup Success:", credentialResponse);
         dispatch(googleLogin(credentialResponse.credential))
-            .then(() => {
-                navigate("/")
+            .then((user) => {
+                const jwt = localStorage.getItem("jwt");
+                if (jwt) dispatch(getUser(jwt));
                 modal.closeModal();
-                window.location.reload()
+                navigate("/");
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Signed in with Google!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             })
             .catch((err) => {
                 console.error("Google Signup Action Error:", err);
+                Swal.fire({
+                    icon: "error",
+                    title: "Google Signup Failed",
+                    text: "Something went wrong while signing in with Google.",
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
             });
     };
 

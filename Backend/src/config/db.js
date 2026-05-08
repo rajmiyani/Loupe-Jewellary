@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 async function connectWithFallback() {
-  const mongoURL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/gayatri";
+  const mongoURL = process.env.MONGO_URL || "mongodb+srv://vasuantala123:Vasu8283@cluster0.p1ilxej.mongodb.net/Loupe_jewels";
 
   try {
     await mongoose.connect(mongoURL, {
