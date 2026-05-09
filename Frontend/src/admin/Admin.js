@@ -15,9 +15,12 @@ import {
   Calendar,
   MessageCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Menu as MenuIcon
 } from "lucide-react";
 import {
+  useMediaQuery,
+  useTheme,
   Avatar,
   Box,
   CssBaseline,
@@ -28,7 +31,8 @@ import {
   Menu,
   MenuItem,
   ListItemText,
-  ListItemIcon
+  ListItemIcon,
+  Drawer
 } from "@mui/material";
 
 import ProductsTable from "./components/ProductsTable";
@@ -41,23 +45,17 @@ import { getOrders } from "../state/admin/order/Action";
 
 const menu = [
   { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
-  {
-    name: "Orders",
-    icon: ShoppingBag,
-    hasSub: true,
-    subItems: [
-      { name: "Order Booked", path: "/admin/orders?status=booked" },
-      { name: "Complete Order", path: "/admin/orders?status=completed" },
-      { name: "Cancel Order", path: "/admin/orders?status=cancelled" }
-    ]
-  },
+  { name: "Orders", path: "/admin/orders", icon: ShoppingBag },
   { name: "Products", path: "/admin/products", icon: Package },
   { name: "Customers", path: "/admin/customers", icon: Users },
   { name: "Add Product", path: "/admin/product/create", icon: PlusSquare },
 ];
 
 const Admin = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [collapsed, setCollapsed] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const [openSubMenus, setOpenSubMenus] = useState({});
   const [anchorElNotify, setAnchorElNotify] = useState(null);
   const navigate = useNavigate();
@@ -83,10 +81,13 @@ const Admin = () => {
       toggleSubMenu(item.name);
     } else {
       navigate(item.path);
+      if (isMobile) setCollapsed(true);
     }
   };
 
-  const sidebarWidth = collapsed ? 80 : 280;
+  const activeCollapsed = isMobile ? collapsed : (collapsed && !isHovered);
+  const drawerWidth = isMobile ? (collapsed ? 0 : 280) : (activeCollapsed ? 80 : 280);
+  const contentMargin = isMobile ? 0 : (collapsed ? 80 : 280);
   const recentOrders = adminOrder?.orders?.slice(0, 5) || [];
   const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -99,19 +100,24 @@ const Admin = () => {
       <CssBaseline />
 
       {/* Sidebar */}
-      <Box
+      <Drawer
+        variant={isMobile ? 'temporary' : 'permanent'}
+        open={isMobile ? !collapsed : true}
+        onClose={() => setCollapsed(true)}
+        onMouseEnter={() => !isMobile && setIsHovered(true)}
+        onMouseLeave={() => !isMobile && setIsHovered(false)}
+        ModalProps={{ keepMounted: true }}
         sx={{
-          width: sidebarWidth,
-          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          bgcolor: 'white',
-          color: '#1e293b',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'fixed',
-          height: '100vh',
-          zIndex: 1200,
-          borderRight: '1px solid rgba(0,0,0,0.05)',
-          boxShadow: '4px 0 20px rgba(0,0,0,0.02)'
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+            transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            overflowX: 'hidden',
+            bgcolor: 'white',
+            color: '#1e293b',
+            borderRight: '1px solid rgba(0,0,0,0.05)',
+            boxShadow: '4px 0 20px rgba(0,0,0,0.02)'
+          },
         }}
       >
         {/* Logo Section */}
@@ -120,28 +126,23 @@ const Admin = () => {
           height: '100px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: collapsed ? 'center' : 'space-between',
+          justifyContent: activeCollapsed ? 'center' : 'flex-start',
         }}>
-          {!collapsed && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Box sx={{
-                width: 40, height: 40, bgcolor: '#97c2d5', borderRadius: '10px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 4px 10px rgba(151, 194, 213, 0.3)'
-              }}>
-                <Typography variant="h6" fontWeight="900" sx={{ color: 'white' }}>L</Typography>
-              </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Box sx={{
+              width: 40, height: 40, bgcolor: '#97c2d5', borderRadius: '10px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 4px 10px rgba(151, 194, 213, 0.3)',
+              flexShrink: 0
+            }}>
+              <Typography variant="h6" fontWeight="900" sx={{ color: 'white' }}>L</Typography>
+            </Box>
+            {!activeCollapsed && (
               <Typography variant="h5" fontWeight="900" sx={{ letterSpacing: 1, color: '#111827', fontFamily: 'serif' }}>
                 Loupe
               </Typography>
-            </Box>
-          )}
-          <IconButton
-            onClick={() => setCollapsed(!collapsed)}
-            sx={{ color: '#94a3b8', '&:hover': { color: '#97c2d5' } }}
-          >
-            {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-          </IconButton>
+            )}
+          </Box>
         </Box>
 
         {/* Menu Items */}
@@ -153,7 +154,7 @@ const Admin = () => {
 
             return (
               <Box key={item.name} sx={{ mb: 1 }}>
-                <Tooltip title={collapsed ? item.name : ""} placement="right">
+                <Tooltip title={activeCollapsed ? item.name : ""} placement="right">
                   <Box
                     onClick={() => handleMenuClick(item)}
                     sx={{
@@ -173,7 +174,7 @@ const Admin = () => {
                     }}
                   >
                     <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                    {!collapsed && (
+                    {!activeCollapsed && (
                       <>
                         <Typography sx={{ ml: 2, fontWeight: isActive ? 700 : 500, fontSize: '0.9rem', flexGrow: 1 }}>
                           {item.name}
@@ -184,7 +185,7 @@ const Admin = () => {
                   </Box>
                 </Tooltip>
 
-                {!collapsed && item.hasSub && isSubOpen && (
+                {!activeCollapsed && item.hasSub && isSubOpen && (
                   <Box sx={{ mt: 1, ml: 4, borderLeft: '2px solid #f1f5f9' }}>
                     {item.subItems.map((sub) => (
                       <Box
@@ -212,44 +213,26 @@ const Admin = () => {
           })}
         </Box>
 
-        <Box sx={{ p: 2, borderTop: '1px solid #f1f5f9' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 1, bgcolor: '#f8fafc', borderRadius: '12px' }}>
-            <IconButton size="small"><LogOut size={18} /></IconButton>
-            <Box sx={{ width: 40, height: 20, bgcolor: '#e2e8f0', borderRadius: '10px', position: 'relative' }}>
-              <Box sx={{ position: 'absolute', left: 2, top: 2, width: 16, height: 16, bgcolor: 'white', borderRadius: '50%', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
-            </Box>
-          </Box>
-        </Box>
-      </Box>
+      </Drawer>
 
       {/* Main Content Area */}
-      <Box sx={{ flexGrow: 1, ml: `${sidebarWidth}px`, transition: 'margin 0.3s' }}>
+      <Box sx={{ flexGrow: 1, ml: { xs: 0, md: `${contentMargin}px` }, transition: 'margin 0.3s', minWidth: 0 }}>
         <Box sx={{
           height: '100px',
           bgcolor: 'white',
-          px: 6,
+          px: { xs: 2, md: 6 },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           borderBottom: '1px solid #f1f5f9'
         }}>
-          <Box sx={{ position: 'relative', width: 400 }}>
-            <Search size={20} style={{ position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-            <input
-              type="text"
-              placeholder="Search .."
-              style={{
-                width: '100%',
-                padding: '14px 14px 14px 55px',
-                borderRadius: '12px',
-                border: 'none',
-                background: '#f8fafc',
-                fontSize: '0.9rem',
-                outline: 'none',
-                color: '#1e293b'
-              }}
-            />
-          </Box>
+          {isMobile ? (
+            <IconButton onClick={() => setCollapsed(!collapsed)} sx={{ mr: 2, bgcolor: '#f1f5f9' }}>
+              <MenuIcon size={20} />
+            </IconButton>
+          ) : (
+            <Box sx={{ flexGrow: 1 }} />
+          )}
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#64748b' }}>
@@ -311,7 +294,7 @@ const Admin = () => {
           </Box>
         </Box>
 
-        <Box sx={{ p: 6 }}>
+        <Box sx={{ p: { xs: 2, md: 6 }, overflowX: 'hidden' }}>
           <Routes>
             <Route path="/" element={<AdminDashboard />} />
             <Route path="/products" element={<ProductsTable />} />

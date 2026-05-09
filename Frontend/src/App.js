@@ -2,8 +2,11 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import CustomerRouters from './customer/routers/CustomerRouters';
 import AdminRouters from './customer/routers/AdminRouters';
+import AdminGuard from './admin/components/AdminGuard';
 import IsAdmin from './config/isAdmin';
 import WhatsAppContact from './customer/components/navigation/WhatsAppContact';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // Initialize theme from localStorage once on mount
@@ -24,9 +27,10 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route path='/*' element={<CustomerRouters />}></Route>
-        {isAdmin && <Route path='/admin/*' element={<AdminRouters />} />}
+        <Route path='/admin/*' element={<AdminGuard><AdminRouters /></AdminGuard>} />
       </Routes>
       {!isAdminRoute && <WhatsAppContact />}
     </div>

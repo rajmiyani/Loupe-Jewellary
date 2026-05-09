@@ -54,13 +54,12 @@ const LoginForm = () => {
             dispatch(login(userData))
                 .then((user) => {
                     setSubmitBtnDisable(false);
-                    if (user?.role === "ADMIN") {
-                        navigate("/admin")
-                    } else {
-                        navigate("/")
-                    }
                     modal.closeModal();
-                    window.location.reload()
+                    if (user?.role === "ADMIN") {
+                        window.location.href = "/admin";
+                    } else {
+                        window.location.href = "/";
+                    }
                 })
                 .catch((err) => {
                     setSubmitBtnDisable(false);
@@ -85,9 +84,9 @@ const LoginForm = () => {
                 if (jwt) dispatch(getUser(jwt));
                 modal.closeModal();
                 if (user?.role === "ADMIN") {
-                    navigate("/admin");
+                    window.location.href = "/admin";
                 } else {
-                    navigate("/");
+                    window.location.href = "/";
                 }
             })
             .catch((err) => {

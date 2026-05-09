@@ -76,7 +76,7 @@ const ProductsTable = () => {
           titleTypographyProps={{ fontWeight: 800 }}
         />
         <Divider />
-        <TableContainer component={Box}>
+        <TableContainer component={Box} sx={{ overflowX: 'auto', width: '100%' }}>
           <Table sx={{ minWidth: 700 }}>
             <TableHead sx={{ bgcolor: 'var(--bg-premium)' }}>
               <TableRow>

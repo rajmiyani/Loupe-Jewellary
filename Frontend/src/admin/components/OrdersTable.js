@@ -19,8 +19,14 @@ import {
   Typography,
   Chip,
   IconButton,
-  Tooltip
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from "@mui/material";
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
 import {
   ChevronDown,
@@ -44,6 +50,7 @@ const statusConfig = {
 
 const OrdersTable = () => {
   const [anchorEl, setAnchorEl] = React.useState({});
+  const [orderToDelete, setOrderToDelete] = React.useState(null);
   const dispatch = useDispatch();
   const { adminOrder } = useSelector(store => store);
 
@@ -55,12 +62,23 @@ const OrdersTable = () => {
     setAnchorEl({ ...anchorEl, [id]: null });
   };
 
+  const handleDeleteOrder = () => {
+    if (orderToDelete) {
+      dispatch(deleteOrder(orderToDelete))
+        .then(() => toast.success("Order deleted successfully!"))
+        .catch(() => toast.error("Failed to delete order."));
+      setOrderToDelete(null);
+    }
+  };
+
   useEffect(() => {
     dispatch(getOrders());
   }, [adminOrder.confirmed, adminOrder.shipped, adminOrder.delivered, adminOrder.deletedOrder]);
 
   const handleStatusUpdate = (handler, orderId, id) => {
-    dispatch(handler(orderId));
+    dispatch(handler(orderId))
+      .then(() => toast.success("Order status updated!"))
+      .catch(() => toast.error("Status update failed."));
     handleClose(id);
   };
 
@@ -77,7 +95,7 @@ const OrdersTable = () => {
           titleTypographyProps={{ fontWeight: 800 }}
         />
         <Divider />
-        <TableContainer>
+        <TableContainer sx={{ overflowX: 'auto', width: '100%' }}>
           <Table sx={{ minWidth: 900 }}>
             <TableHead sx={{ bgcolor: 'var(--bg-premium)' }}>
               <TableRow>
@@ -165,20 +183,32 @@ const OrdersTable = () => {
                           }
                         }}
                       >
-                        <MenuItem onClick={() => handleStatusUpdate(confirmedOrder, item._id, item._id)} sx={{ gap: 1 }}>
-                          <ThumbsUp size={16} color="#10b981" /> Confirmed
+                        <MenuItem
+                          onClick={() => handleStatusUpdate(confirmedOrder, item._id, item._id)}
+                          sx={{ gap: 1 }}
+                          disabled={item.orderStatus === 'DELIVERED' || item.orderStatus === 'SHIPPED' || item.orderStatus === 'CONFIRMED'}
+                        >
+                          <ThumbsUp size={16} color={item.orderStatus === 'DELIVERED' || item.orderStatus === 'SHIPPED' || item.orderStatus === 'CONFIRMED' ? "#94a3b8" : "#10b981"} /> Confirmed
                         </MenuItem>
-                        <MenuItem onClick={() => handleStatusUpdate(shippedOrder, item._id, item._id)} sx={{ gap: 1 }}>
-                          <Truck size={16} color="#3b82f6" /> Shipped
+                        <MenuItem
+                          onClick={() => handleStatusUpdate(shippedOrder, item._id, item._id)}
+                          sx={{ gap: 1 }}
+                          disabled={item.orderStatus === 'DELIVERED' || item.orderStatus === 'SHIPPED'}
+                        >
+                          <Truck size={16} color={item.orderStatus === 'DELIVERED' || item.orderStatus === 'SHIPPED' ? "#94a3b8" : "#3b82f6"} /> Shipped
                         </MenuItem>
-                        <MenuItem onClick={() => handleStatusUpdate(deliveredOrder, item._id, item._id)} sx={{ gap: 1 }}>
-                          <CheckCircle2 size={16} color="#8b5cf6" /> Delivered
+                        <MenuItem
+                          onClick={() => handleStatusUpdate(deliveredOrder, item._id, item._id)}
+                          sx={{ gap: 1 }}
+                          disabled={item.orderStatus === 'DELIVERED'}
+                        >
+                          <CheckCircle2 size={16} color={item.orderStatus === 'DELIVERED' ? "#94a3b8" : "#8b5cf6"} /> Delivered
                         </MenuItem>
                       </Menu>
                     </TableCell>
                     <TableCell align="center">
                       <Tooltip title="Delete Order">
-                        <IconButton color="error" onClick={() => dispatch(deleteOrder(item._id))}>
+                        <IconButton color="error" onClick={() => setOrderToDelete(item._id)}>
                           <Trash2 size={18} />
                         </IconButton>
                       </Tooltip>
@@ -190,6 +220,23 @@ const OrdersTable = () => {
           </Table>
         </TableContainer>
       </Card>
+
+      <Dialog open={!!orderToDelete} onClose={() => setOrderToDelete(null)} PaperProps={{ sx: { borderRadius: '16px' } }}>
+        <DialogTitle sx={{ fontWeight: 800 }}>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ fontWeight: 600, color: '#475569', mt: 1 }}>
+            Are you sure you want to delete this order? This action cannot be undone and will remove all order records.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={() => setOrderToDelete(null)} sx={{ color: '#64748b', fontWeight: 700 }}>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteOrder} color="error" variant="contained" sx={{ fontWeight: 700, borderRadius: '8px' }}>
+            Delete Order
+          </Button>
+        </DialogActions>
+      </Dialog>
     </motion.div>
   );
 };
