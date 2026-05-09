@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
     reviews: [
         {
             type: mongoose.Schema.
-            Types.ObjectId,
+                Types.ObjectId,
             ref: "reviews"
         }
     ],
