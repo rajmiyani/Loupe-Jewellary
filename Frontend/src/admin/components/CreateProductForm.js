@@ -257,7 +257,7 @@ const CreateProductForm = () => {
 
             {/* Sizes Section */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}>
-              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
                 <CardContent sx={{ p: 4 }}>
                   <SectionHeader icon={<Layers size={20} />} title="Sizes & Stock" description="Define weight, size, and available stock" />
                   {productData.sizes.map((size, index) => (
