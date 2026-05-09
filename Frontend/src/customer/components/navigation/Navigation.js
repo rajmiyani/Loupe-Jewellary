@@ -28,10 +28,11 @@ const navigation = {
           name: "Shop by Style",
           items: [
             { name: "Engagement Rings", id: "engagement" },
-            { name: "Diamond Rings", id: "diamond-rings" },
-            { name: "Gold Rings", id: "gold-rings" },
-            { name: "Band Rings", id: "bands" },
-            { name: "Couple Rings", id: "couple" },
+            { name: "Wedding Bands", id: "wedding-bands" },
+            { name: "Eternity Rings", id: "eternity" },
+            { name: "Cocktail Rings", id: "cocktail" },
+            { name: "Stackable Rings", id: "stackable" },
+            { name: "Solitaire Rings", id: "solitaire" },
           ],
         },
         {
@@ -42,6 +43,17 @@ const navigation = {
             { name: "Rose Gold", id: "rose-gold" },
             { name: "White Gold", id: "white-gold" },
             { name: "Platinum", id: "platinum" },
+            { name: "Sterling Silver", id: "silver" },
+          ],
+        },
+        {
+          id: "collections",
+          name: "Collections",
+          items: [
+            { name: "Signature Loupe", id: "signature" },
+            { name: "Vintage Inspired", id: "vintage" },
+            { name: "Modern Minimalist", id: "modern" },
+            { name: "Art Deco", id: "art-deco" },
           ],
         },
       ],
@@ -52,22 +64,34 @@ const navigation = {
       sections: [
         {
           id: "type",
-          name: "Shop by type",
+          name: "Shop by Type",
           items: [
-            { name: "Studs", id: "studs" },
-            { name: "Drops", id: "drops" },
-            { name: "Hoops & Huggies", id: "hoops-huggies" },
-            { name: "Jhumkas", id: "jhumkas" },
-            { name: "Ear Cuffs", id: "ear-cuffs" },
+            { name: "Diamond Studs", id: "diamond-studs" },
+            { name: "Hoop & Huggies", id: "hoops-huggies" },
+            { name: "Dangle & Drops", id: "dangle-drops" },
+            { name: "Ear Climbers", id: "climbers" },
+            { name: "Ear Cuffs", id: "cuffs" },
+            { name: "Chandeliers", id: "chandeliers" },
           ],
         },
         {
-          id: "metal",
-          name: "Shop by Metal",
+          id: "stone",
+          name: "Shop by Stone",
           items: [
-            { name: "Gold Earrings", id: "gold-earrings" },
-            { name: "Diamond Earrings", id: "diamond-earrings" },
-            { name: "Gemstone Earrings", id: "gemstone-earrings" },
+            { name: "Diamond", id: "stone-diamond" },
+            { name: "Pearl", id: "stone-pearl" },
+            { name: "Ruby", id: "stone-ruby" },
+            { name: "Sapphire", id: "stone-sapphire" },
+            { name: "Emerald", id: "stone-emerald" },
+          ],
+        },
+        {
+          id: "occasion",
+          name: "Occasion",
+          items: [
+            { name: "Daily Wear", id: "daily-earrings" },
+            { name: "Bridal", id: "bridal-earrings" },
+            { name: "Party Wear", id: "party-earrings" },
           ],
         },
       ],
@@ -80,11 +104,21 @@ const navigation = {
           id: "style",
           name: "Shop by Style",
           items: [
-            { name: "Chain Bracelets", id: "chains" },
+            { name: "Tennis Bracelets", id: "tennis-bracelets" },
             { name: "Bangles", id: "bangles" },
+            { name: "Chain Bracelets", id: "chain-bracelets" },
             { name: "Cuffs", id: "cuffs" },
-            { name: "Tennis Bracelets", id: "tennis" },
             { name: "Charm Bracelets", id: "charms" },
+            { name: "Anklets", id: "anklets" },
+          ],
+        },
+        {
+          id: "metal",
+          name: "Shop by Metal",
+          items: [
+            { name: "18K Gold", id: "18k-gold" },
+            { name: "14K Gold", id: "14k-gold" },
+            { name: "Silver", id: "silver-bracelets" },
           ],
         },
       ],
@@ -97,11 +131,21 @@ const navigation = {
           id: "style",
           name: "Shop by Style",
           items: [
-            { name: "Pendants", id: "pendants" },
-            { name: "Chains", id: "necklace-chains" },
-            { name: "Lockets", id: "lockets" },
+            { name: "Solitaire Pendants", id: "solitaire-pendants" },
+            { name: "Gold Chains", id: "gold-chains" },
+            { name: "Statement Necklaces", id: "statement" },
             { name: "Chokers", id: "chokers" },
+            { name: "Lariats", id: "lariats" },
             { name: "Mangalsutra", id: "mangalsutra" },
+          ],
+        },
+        {
+          id: "collection",
+          name: "Collections",
+          items: [
+            { name: "Bridal Suite", id: "bridal-necklaces" },
+            { name: "Layered Looks", id: "layered" },
+            { name: "Initial & Charms", id: "initial-charms" },
           ],
         },
       ],
@@ -111,13 +155,23 @@ const navigation = {
       name: "Best Seller",
       sections: [
         {
-          id: "popular",
-          name: "Most Loved",
+          id: "trending",
+          name: "Trending Now",
           items: [
-            { name: "Best Selling Rings", id: "best-rings" },
-            { name: "Top Earrings", id: "best-earrings" },
-            { name: "Trending Bracelets", id: "best-bracelets" },
-            { name: "Gift Sets", id: "gift-sets" },
+            { name: "Top 10 Picks", id: "top-10" },
+            { name: "New Arrivals", id: "new-arrivals" },
+            { name: "Celebrity Choices", id: "celeb-choices" },
+            { name: "Instagram Favorites", id: "insta-favs" },
+          ],
+        },
+        {
+          id: "gifts",
+          name: "Gift Guide",
+          items: [
+            { name: "Gifts for Her", id: "gifts-her" },
+            { name: "Gifts for Him", id: "gifts-him" },
+            { name: "Gifts Under $500", id: "gifts-500" },
+            { name: "Anniversary Gifts", id: "anniversary" },
           ],
         },
       ],
@@ -137,6 +191,7 @@ export default function Navigation() {
   const [cartOpen, setCartOpen] = useState(false);
   const [countryAnchorEl, setCountryAnchorEl] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' });
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -260,13 +315,19 @@ export default function Navigation() {
               {!searchOpen ? (
                 <Popover.Group className="flex space-x-8">
                   {navigation.categories.map((category, index) => (
-                    <Popover key={`${category.name}-${index}`} className="flex">
-                      {({ open, close }) => (
+                    <Popover
+                      key={`${category.name}-${index}`}
+                      className="flex"
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      {({ close }) => (
                         <>
-                          <Popover.Button className={classNames(open ? "border-white font-bold" : "border-transparent", "z-10 flex items-center text-[0.8rem] tracking-widest uppercase text-white outline-none border-b-2 transition-all pb-1")}>
+                          <Popover.Button className={classNames(hoveredIndex === index ? "border-white font-bold" : "border-transparent", "z-10 flex items-center text-[0.8rem] tracking-widest uppercase text-white outline-none border-b-2 transition-all pb-1")}>
                             {category.name}
                           </Popover.Button>
                           <Transition
+                            show={hoveredIndex === index}
                             as={Fragment}
                             enter="transition ease-out duration-200"
                             enterFrom="opacity-0 -translate-y-2"
@@ -275,23 +336,29 @@ export default function Navigation() {
                             leaveFrom="opacity-100 translate-y-0"
                             leaveTo="opacity-0 -translate-y-2"
                           >
-                            <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-700 shadow-xl bg-white mt-[2px]">
-                              <div className="relative bg-white border-t border-gray-200 px-8 py-8 w-full">
-                                <div className="mx-auto max-w-[1400px]">
-                                  <div className="grid grid-cols-4 gap-x-8">
-                                    {category.sections.map((section) => (
-                                      <div key={section.id}>
-                                        <p className="font-semibold text-xs text-[#97c2d5] uppercase tracking-wider">{section.name}</p>
-                                        <ul className="mt-4 space-y-3">
-                                          {section.items.map((item) => (
-                                            <li key={item.id}>
-                                              <p onClick={() => handleCategoryClick(category, section, item, close)} className="text-gray-800 hover:text-[#97c2d5] cursor-pointer hover:font-bold transition-all">{item.name}</p>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      </div>
-                                    ))}
-                                  </div>
+                            <Popover.Panel static className="absolute left-1/2 -translate-x-1/2 top-full z-20 mt-1 w-max min-w-[600px] max-w-[90vw] text-sm text-gray-700 shadow-[0_20px_50px_rgba(0,0,0,0.15)] bg-white border border-gray-100 rounded-xl overflow-hidden">
+                              <div className="relative bg-white px-10 py-10">
+                                <div className={classNames(
+                                  (category.id === 'rings' || category.id === 'earrings') ? "grid-cols-3" : "grid-cols-2",
+                                  "grid gap-x-16 gap-y-10"
+                                )}>
+                                  {category.sections.map((section) => (
+                                    <div key={section.id} className="min-w-[180px]">
+                                      <p className="font-serif font-bold text-sm text-gray-900 uppercase tracking-widest pb-2 border-b border-[#97c2d5]/30 mb-5">{section.name}</p>
+                                      <ul className="space-y-3.5">
+                                        {section.items.map((item) => (
+                                          <li key={item.id}>
+                                            <p
+                                              onClick={() => handleCategoryClick(category, section, item, () => { close(); setHoveredIndex(null); })}
+                                              className="text-gray-500 hover:text-[#97c2d5] cursor-pointer hover:translate-x-1 transition-all duration-300 text-[0.85rem] font-medium"
+                                            >
+                                              {item.name}
+                                            </p>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  ))}
                                 </div>
                               </div>
                             </Popover.Panel>
