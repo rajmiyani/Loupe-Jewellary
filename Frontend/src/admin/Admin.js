@@ -99,50 +99,83 @@ const Admin = () => {
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f8fafc' }}>
       <CssBaseline />
 
-      {/* Sidebar */}
+      {/* Sidebar - Hover to Expand Rail */}
       <Drawer
-        variant={isMobile ? 'temporary' : 'permanent'}
-        open={isMobile ? !collapsed : true}
-        onClose={() => setCollapsed(true)}
-        onMouseEnter={() => !isMobile && setIsHovered(true)}
-        onMouseLeave={() => !isMobile && setIsHovered(false)}
-        ModalProps={{ keepMounted: true }}
+        variant="permanent"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         sx={{
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
-            width: drawerWidth,
-            transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            width: activeCollapsed ? 80 : 280,
+            transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
             overflowX: 'hidden',
             bgcolor: 'white',
             color: '#1e293b',
             borderRight: '1px solid rgba(0,0,0,0.05)',
-            boxShadow: '4px 0 20px rgba(0,0,0,0.02)'
+            boxShadow: '4px 0 20px rgba(0,0,0,0.02)',
+            display: 'flex',
+            flexDirection: 'column'
           },
         }}
       >
         {/* Logo Section */}
         <Box sx={{
-          p: 3,
+          p: 2,
           height: '100px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: activeCollapsed ? 'center' : 'flex-start',
+          px: activeCollapsed ? 0 : 3,
+          transition: 'all 0.3s',
+          position: 'relative'
         }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Box sx={{
-              width: 40, height: 40, bgcolor: '#97c2d5', borderRadius: '10px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 4px 10px rgba(151, 194, 213, 0.3)',
-              flexShrink: 0
-            }}>
-              <Typography variant="h6" fontWeight="900" sx={{ color: 'white' }}>L</Typography>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Box sx={{
+                width: 42, height: 42, bgcolor: '#97c2d5', borderRadius: '12px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 4px 15px rgba(151, 194, 213, 0.4)',
+                flexShrink: 0
+              }}>
+                <Typography variant="h6" fontWeight="900" sx={{ color: 'white' }}>L</Typography>
+              </Box>
+              {!activeCollapsed && (
+                <Typography variant="h5" fontWeight="900" sx={{ letterSpacing: 1.5, color: '#111827', fontFamily: 'serif', whiteSpace: 'nowrap' }}>
+                  Loupe
+                </Typography>
+              )}
             </Box>
-            {!activeCollapsed && (
-              <Typography variant="h5" fontWeight="900" sx={{ letterSpacing: 1, color: '#111827', fontFamily: 'serif' }}>
-                Loupe
-              </Typography>
-            )}
-          </Box>
+          </Link>
+
+          {/* Perfected Toggle Button - Re-added for Hybrid Control */}
+          {!isMobile && (
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                setCollapsed(!collapsed);
+              }}
+              sx={{
+                position: 'absolute',
+                right: 0,
+                bgcolor: '#97c2d5',
+                color: 'white',
+                width: 28,
+                height: 28,
+                boxShadow: '0 4px 10px rgba(151, 194, 213, 0.3)',
+                '&:hover': {
+                  bgcolor: '#7ea9bd',
+                  transform: 'scale(1.1)'
+                },
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                zIndex: 10,
+                border: '2px solid white',
+                display: activeCollapsed ? 'none' : 'flex'
+              }}
+            >
+              {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            </IconButton>
+          )}
         </Box>
 
         {/* Menu Items */}
@@ -164,7 +197,7 @@ const Admin = () => {
                       borderRadius: '12px',
                       cursor: 'pointer',
                       transition: 'all 0.3s',
-                      bgcolor: isActive ? '#e0f2f1' : 'transparent', // Using a light version of the brand blue
+                      bgcolor: isActive ? '#e0f2f1' : 'transparent',
                       color: isActive ? '#97c2d5' : '#64748b',
                       '&:hover': {
                         bgcolor: isActive ? '#e0f2f1' : '#f8f9fa',
@@ -212,11 +245,16 @@ const Admin = () => {
             );
           })}
         </Box>
-
       </Drawer>
 
       {/* Main Content Area */}
-      <Box sx={{ flexGrow: 1, ml: { xs: 0, md: `${contentMargin}px` }, transition: 'margin 0.3s', minWidth: 0 }}>
+      <Box sx={{
+        flexGrow: 1,
+        ml: { xs: '80px', md: `${contentMargin}px` },
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        minWidth: 0,
+        pt: '100px'
+      }}>
         <Box sx={{
           height: '100px',
           bgcolor: 'white',
@@ -224,15 +262,15 @@ const Admin = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid #f1f5f9'
+          borderBottom: '1px solid #f1f5f9',
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          left: { xs: '80px', md: `${contentMargin}px` },
+          zIndex: 1100,
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
         }}>
-          {isMobile ? (
-            <IconButton onClick={() => setCollapsed(!collapsed)} sx={{ mr: 2, bgcolor: '#f1f5f9' }}>
-              <MenuIcon size={20} />
-            </IconButton>
-          ) : (
-            <Box sx={{ flexGrow: 1 }} />
-          )}
+          <Box />
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#64748b' }}>

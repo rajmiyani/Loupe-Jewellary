@@ -21,7 +21,7 @@ const MainCarousel = () => {
     const items = mainCarouselData.map((item, index) => {
         return (
             <div key={index} className="slider_area">
-                <img src={item.image} className='w-full h-full relative object-cover z-10 cursor-pointer' role='representation' alt="" />
+                <img src={item.image} className='w-full h-auto block z-10 cursor-pointer' role='representation' alt="" />
             </div>
         );
     });

@@ -42,7 +42,7 @@ const WithLayout = ({ children, showLayout }) => {
         exit="exit"
         variants={pageVariants}
         transition={pageTransition}
-        className="flex-grow"
+        className="flex-grow pt-[110px]"
       >
         {children}
       </motion.main>
