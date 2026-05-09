@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../state/product/Action';
 import {
   Box, Grid, TextField, Button, Typography, FormControl,
@@ -49,8 +49,8 @@ const CreateProductForm = () => {
   const [productData, setProductData] = useState({
     imageUrls: [],
     title: '',
-    brand: '',
-    color: '',
+    brand: 'Loupe Jeweler',
+    color: [],
     discountedPrice: 0,
     price: 0,
     discountPercent: 0.0,
@@ -80,6 +80,7 @@ const CreateProductForm = () => {
   });
 
   const dispatch = useDispatch();
+  const { products } = useSelector((store) => store);
 
   const handleChange = async (e, index, type) => {
     const { name, value, files } = e.target;
@@ -131,7 +132,7 @@ const CreateProductForm = () => {
     e.preventDefault();
     dispatch(createProduct(productData));
     setProductData({
-      imageUrls: [], title: '', brand: '', color: '',
+      imageUrls: [], title: '', brand: 'Loupe Jeweler', color: [],
       discountedPrice: 0, price: 0, discountPercent: 0.0,
       description: '', details: '', occasion: '', quantity: 1,
       collectionName: '', type: '', sizes: initialSizes,
@@ -141,6 +142,18 @@ const CreateProductForm = () => {
       ringSize: '', chainLength: '', pendantSize: '', dimensions: '', totalWeight: '',
     });
   };
+
+  const isFormValid = productData.title !== '' && productData.price > 0 && productData.quantity > 0 && productData.description !== '' && productData.topLevelCategory !== '';
+
+  const prodType = productData.secondLevelCategory;
+  const specStyle = productData.thirdLevelCategory;
+  const hasCategorySelected = prodType !== '' || specStyle !== '' || productData.topLevelCategory !== '';
+
+  const isRing = prodType === 'rings' || prodType === 'wedding' || ['ring', 'engagement-ring', 'pearl-ring', 'bridal-ring', 'couple-ring'].includes(specStyle);
+  const isNecklace = prodType === 'nacklaces' || ['chain', 'mangal-sutra', 'necklace', 'pendant', 'locket'].includes(specStyle);
+
+  const showRingSize = isRing || (prodType === 'other' || prodType === 'best-sellers') && !isNecklace;
+  const showNecklaceFields = isNecklace || (prodType === 'other' || prodType === 'best-sellers') && !isRing;
 
   return (
     <Box sx={{ p: { xs: 2, md: 0 }, bgcolor: '#f8fafc', minHeight: '100vh' }}>
@@ -226,12 +239,25 @@ const CreateProductForm = () => {
                       <StyledTextField label="Product Title" name="title" value={productData.title} onChange={handleChange} fullWidth required />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                      <StyledTextField label="Brand" name="brand" value={productData.brand} onChange={handleChange} fullWidth required />
+                      <StyledTextField label="Brand Name" name="brand" value={productData.brand} disabled fullWidth required sx={{ '& .MuiInputBase-input.Mui-disabled': { WebkitTextFillColor: '#1e293b', fontWeight: 700 } }} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel sx={{ fontWeight: 600 }}>Color</InputLabel>
-                        <StyledSelect label="Color" name="color" value={productData.color} onChange={handleChange}>
+                        <StyledSelect
+                          multiple
+                          label="Color"
+                          name="color"
+                          value={productData.color}
+                          onChange={handleChange}
+                          renderValue={(selected) => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} size="small" />
+                              ))}
+                            </Box>
+                          )}
+                        >
                           <MenuItem value="rose">Rose</MenuItem>
                           <MenuItem value="rose-white">Rose & White</MenuItem>
                           <MenuItem value="white">White</MenuItem>
@@ -256,236 +282,94 @@ const CreateProductForm = () => {
             </motion.div>
 
             {/* Sizes Section */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}>
-              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
-                <CardContent sx={{ p: 4 }}>
-                  <SectionHeader icon={<Layers size={20} />} title="Sizes & Stock" description="Define weight, size, and available stock" />
-                  {productData.sizes.map((size, index) => (
-                    <Box key={index} sx={{ mb: 2 }}>
-                      <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} sm={4}>
-                          <StyledTextField label={`Weight ${index + 1}`} name="weight" value={size.weight} onChange={(e) => handleChange(e, index, 'sizes')} fullWidth required />
+            {hasCategorySelected && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}>
+                <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
+                  <CardContent sx={{ p: 4 }}>
+                    <SectionHeader icon={<Layers size={20} />} title="Sizes & Stock" description="Define weight, size, and available stock" />
+                    {productData.sizes.map((size, index) => (
+                      <Box key={index} sx={{ mb: 2 }}>
+                        <Grid container spacing={2} alignItems="center">
+                          <Grid item xs={12} sm={4}>
+                            <StyledTextField label={`Weight ${index + 1}`} name="weight" value={size.weight} onChange={(e) => handleChange(e, index, 'sizes')} fullWidth required />
+                          </Grid>
+                          <Grid item xs={12} sm={4}>
+                            <StyledTextField label={`Size ${index + 1}`} name="size" value={size.size} onChange={(e) => handleChange(e, index, 'sizes')} fullWidth />
+                          </Grid>
+                          <Grid item xs={9} sm={3}>
+                            <StyledTextField label={`Stock ${index + 1}`} name="stock" type="number" value={size.stock} onChange={(e) => handleChange(e, index, 'sizes')} fullWidth />
+                          </Grid>
+                          <Grid item xs={3} sm={1}>
+                            <IconButton onClick={() => handleRemoveSize(index)} disabled={productData.sizes.length === 1} sx={{ color: '#f43f5e', '&:hover': { bgcolor: '#fff1f2' } }}>
+                              <Trash2 size={18} />
+                            </IconButton>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
-                          <StyledTextField label={`Size ${index + 1}`} name="size" value={size.size} onChange={(e) => handleChange(e, index, 'sizes')} fullWidth />
-                        </Grid>
-                        <Grid item xs={9} sm={3}>
-                          <StyledTextField label={`Stock ${index + 1}`} name="stock" type="number" value={size.stock} onChange={(e) => handleChange(e, index, 'sizes')} fullWidth />
-                        </Grid>
-                        <Grid item xs={3} sm={1}>
-                          <IconButton onClick={() => handleRemoveSize(index)} disabled={productData.sizes.length === 1} sx={{ color: '#f43f5e', '&:hover': { bgcolor: '#fff1f2' } }}>
-                            <Trash2 size={18} />
-                          </IconButton>
-                        </Grid>
-                      </Grid>
-                      {index < productData.sizes.length - 1 && <Divider sx={{ mt: 2, borderColor: '#f8fafc' }} />}
-                    </Box>
-                  ))}
-                  <Button
-                    onClick={handleAddSize}
-                    startIcon={<Plus size={18} />}
-                    variant="outlined"
-                    sx={{
-                      mt: 1, borderRadius: '12px', textTransform: 'none', fontWeight: 800,
-                      borderColor: BRAND, color: BRAND, px: 3,
-                      '&:hover': { bgcolor: BRAND_LIGHT, borderColor: BRAND_DARK }
-                    }}
-                  >
-                    Add Size Variant
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-
+                        {index < productData.sizes.length - 1 && <Divider sx={{ mt: 2, borderColor: '#f8fafc' }} />}
+                      </Box>
+                    ))}
+                    <Button
+                      onClick={handleAddSize}
+                      startIcon={<Plus size={18} />}
+                      variant="outlined"
+                      sx={{
+                        mt: 1, borderRadius: '12px', textTransform: 'none', fontWeight: 800,
+                        borderColor: BRAND, color: BRAND, px: 3,
+                        '&:hover': { bgcolor: BRAND_LIGHT, borderColor: BRAND_DARK }
+                      }}
+                    >
+                      Add Size Variant
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
 
             {/* Dimensions Section */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.6 }}>
-              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
-                <CardContent sx={{ p: 4 }}>
-                  <SectionHeader icon={<Ruler size={20} />} title="Dimensions" description="Product measurements" />
-                  <Grid container spacing={2.5}>
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Ring Size</InputLabel>
-                        <StyledSelect label="Ring Size" name="ringSize" value={productData.ringSize} onChange={handleChange}>
-                          {[...Array(17).keys()].map(i => (
-                            <MenuItem key={i} value={(i + 6).toString()}>{(i + 6).toString()}</MenuItem>
-                          ))}
-                        </StyledSelect>
-                      </FormControl>
+            {hasCategorySelected && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.6 }}>
+                <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
+                  <CardContent sx={{ p: 4 }}>
+                    <SectionHeader icon={<Ruler size={20} />} title="Dimensions" description="Product measurements" />
+                    <Grid container spacing={2.5}>
+                      {showRingSize && (
+                        <Grid item xs={12} sm={6}>
+                          <FormControl fullWidth>
+                            <InputLabel sx={{ fontWeight: 600 }}>Ring Size</InputLabel>
+                            <StyledSelect label="Ring Size" name="ringSize" value={productData.ringSize} onChange={handleChange}>
+                              <MenuItem value="Select All">Select All</MenuItem>
+                              {[...Array(17).keys()].map(i => (
+                                <MenuItem key={i} value={(i + 6).toString()}>{(i + 6).toString()}</MenuItem>
+                              ))}
+                            </StyledSelect>
+                          </FormControl>
+                        </Grid>
+                      )}
+                      <Grid item xs={12} sm={showRingSize ? 6 : 12}>
+                        <StyledTextField label="Total Weight (g)" name="totalWeight" type="number" value={productData.totalWeight} onChange={handleChange} fullWidth />
+                      </Grid>
+                      {showNecklaceFields && (
+                        <>
+                          <Grid item xs={12} sm={showRingSize ? 4 : 6}>
+                            <StyledTextField label="Chain Length" name="chainLength" value={productData.chainLength} onChange={handleChange} fullWidth />
+                          </Grid>
+                          <Grid item xs={12} sm={showRingSize ? 4 : 6}>
+                            <StyledTextField label="Pendant Size" name="pendantSize" value={productData.pendantSize} onChange={handleChange} fullWidth />
+                          </Grid>
+                        </>
+                      )}
+                      <Grid item xs={12} sm={showNecklaceFields && showRingSize ? 4 : 12}>
+                        <StyledTextField label="Dimensions (W/H/T)" name="dimensions" value={productData.dimensions} onChange={handleChange} fullWidth />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <StyledTextField label="Total Weight (g)" name="totalWeight" type="number" value={productData.totalWeight} onChange={handleChange} fullWidth />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <StyledTextField label="Chain Length" name="chainLength" value={productData.chainLength} onChange={handleChange} fullWidth />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <StyledTextField label="Pendant Size" name="pendantSize" value={productData.pendantSize} onChange={handleChange} fullWidth />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <StyledTextField label="Dimensions (W/H/T)" name="dimensions" value={productData.dimensions} onChange={handleChange} fullWidth />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
           </Grid>
 
           {/* RIGHT COLUMN */}
           <Grid item xs={12} lg={5}>
-
-            {/* Pricing Section */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}>
-              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
-                <CardContent sx={{ p: 4 }}>
-                  <SectionHeader icon={<DollarSign size={20} />} title="Pricing" description="Set price and discount details" />
-                  <Grid container spacing={2.5}>
-                    <Grid item xs={12}>
-                      <StyledTextField label="Original Price (AED)" name="price" type="number" value={productData.price} onChange={handleChange} fullWidth required />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <StyledTextField label="Discounted Price (AED)" name="discountedPrice" type="number" value={productData.discountedPrice} onChange={handleChange} fullWidth required />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <StyledTextField label="Discount Percentage (%)" name="discountPercent" type="number" value={productData.discountPercent} onChange={handleChange} fullWidth required />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Metal Details Section */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}>
-              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
-                <CardContent sx={{ p: 4 }}>
-                  <SectionHeader icon={<Award size={20} />} title="Metal Details" description="Define metal properties" />
-                  <Grid container spacing={2.5}>
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Metal Type</InputLabel>
-                        <StyledSelect label="Metal Type" name="metalType" value={productData.metalType} onChange={handleChange}>
-                          <MenuItem value="Gold">Gold</MenuItem>
-                          <MenuItem value="Silver">Silver</MenuItem>
-                          <MenuItem value="Platinum">Platinum</MenuItem>
-                          <MenuItem value="Rose Gold">Rose Gold</MenuItem>
-                          <MenuItem value="White Gold">White Gold</MenuItem>
-                        </StyledSelect>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <StyledTextField label="Metal Purity (e.g. 18K, 22K)" name="metalPurity" value={productData.metalPurity} onChange={handleChange} fullWidth />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <StyledTextField label="Metal Weight (g)" name="metalWeight" type="number" value={productData.metalWeight} onChange={handleChange} fullWidth />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Metal Color</InputLabel>
-                        <StyledSelect label="Metal Color" name="metalColor" value={productData.metalColor} onChange={handleChange}>
-                          <MenuItem value="Yellow Gold">Yellow Gold</MenuItem>
-                          <MenuItem value="Rose Gold">Rose Gold</MenuItem>
-                          <MenuItem value="White Gold">White</MenuItem>
-                        </StyledSelect>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <StyledTextField label="Hallmark / Certification" name="hallmarkCertification" value={productData.hallmarkCertification} onChange={handleChange} fullWidth />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Gemstone Details Section */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.5 }}>
-              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
-                <CardContent sx={{ p: 4 }}>
-                  <SectionHeader icon={<Gem size={20} />} title="Gemstone Details" description="Information about primary stones" />
-                  <Grid container spacing={2.5}>
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Stone Type</InputLabel>
-                        <StyledSelect label="Stone Type" name="primaryStoneType" value={productData.primaryStoneType} onChange={handleChange}>
-                          <MenuItem value="Diamond">Diamond</MenuItem>
-                          <MenuItem value="Ruby">Ruby</MenuItem>
-                          <MenuItem value="Emerald">Emerald</MenuItem>
-                          <MenuItem value="Moissanite">Moissanite</MenuItem>
-                          <MenuItem value="Sapphire">Sapphire</MenuItem>
-                          <MenuItem value="None">None</MenuItem>
-                        </StyledSelect>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Stone Shape</InputLabel>
-                        <StyledSelect label="Stone Shape" name="stoneShape" value={productData.stoneShape} onChange={handleChange}>
-                          <MenuItem value="Round">Round</MenuItem>
-                          <MenuItem value="Princess">Princess</MenuItem>
-                          <MenuItem value="Oval">Oval</MenuItem>
-                          <MenuItem value="Pear">Pear</MenuItem>
-                          <MenuItem value="Cushion">Cushion</MenuItem>
-                          <MenuItem value="None">None</MenuItem>
-                        </StyledSelect>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <StyledTextField label="Stone Wt (Carat)" name="stoneWeight" type="number" value={productData.stoneWeight} onChange={handleChange} fullWidth />
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Classification Section */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}>
-              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
-                <CardContent sx={{ p: 4 }}>
-                  <SectionHeader icon={<Tag size={20} />} title="Classification" description="Occasion, collection and metal type" />
-                  <Grid container spacing={2.5}>
-                    <Grid item xs={12}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Occasion</InputLabel>
-                        <StyledSelect label="Occasion" name="occasion" value={productData.occasion} onChange={handleChange}>
-                          <MenuItem value="bridal">Bridal Wear</MenuItem>
-                          <MenuItem value="casual">Casual Wear</MenuItem>
-                          <MenuItem value="engagement">Engagement</MenuItem>
-                          <MenuItem value="modern">Modern Wear</MenuItem>
-                          <MenuItem value="office">Office Wear</MenuItem>
-                          <MenuItem value="traditional-ethenic">Traditional & Ethnic Wear</MenuItem>
-                        </StyledSelect>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Collection</InputLabel>
-                        <StyledSelect label="Collection" name="collectionName" value={productData.collectionName} onChange={handleChange}>
-                          <MenuItem value="best-sellers">Best Sellers</MenuItem>
-                          <MenuItem value="reccomanded">Recommended</MenuItem>
-                          <MenuItem value="new-arrival">New Arrivals</MenuItem>
-                          <MenuItem value="dharohar">Dharohar</MenuItem>
-                          <MenuItem value="aksharam">Aksharam</MenuItem>
-                          <MenuItem value="loupe">Loupe</MenuItem>
-                        </StyledSelect>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Metal Type</InputLabel>
-                        <StyledSelect label="Metal Type" name="type" value={productData.type} onChange={handleChange}>
-                          <MenuItem value="gold">Gold</MenuItem>
-                          <MenuItem value="silver">Silver</MenuItem>
-                          <MenuItem value="diamond">Diamond</MenuItem>
-                          <MenuItem value="platinum">Platinum</MenuItem>
-                          <MenuItem value="gemstone">Gemstone</MenuItem>
-                        </StyledSelect>
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </motion.div>
 
             {/* Category Section */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}>
@@ -547,6 +431,140 @@ const CreateProductForm = () => {
               </Card>
             </motion.div>
 
+            {/* Metal Details Section */}
+            {hasCategorySelected && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}>
+                <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
+                  <CardContent sx={{ p: 4 }}>
+                    <SectionHeader icon={<Award size={20} />} title="Metal Details" description="Define metal properties" />
+                    <Grid container spacing={2.5}>
+                      <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                          <InputLabel sx={{ fontWeight: 600 }}>Metal Type</InputLabel>
+                          <StyledSelect label="Metal Type" name="metalType" value={productData.metalType} onChange={handleChange}>
+                            <MenuItem value="Gold">Gold</MenuItem>
+                            <MenuItem value="Silver">Silver</MenuItem>
+                            <MenuItem value="Platinum">Platinum</MenuItem>
+                            <MenuItem value="Rose Gold">Rose Gold</MenuItem>
+                            <MenuItem value="White Gold">White Gold</MenuItem>
+                          </StyledSelect>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <StyledTextField label="Metal Purity (e.g. 18K, 22K)" name="metalPurity" value={productData.metalPurity} onChange={handleChange} fullWidth />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <StyledTextField label="Metal Weight (g)" name="metalWeight" type="number" value={productData.metalWeight} onChange={handleChange} fullWidth />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <StyledTextField label="Hallmark / Certification" name="hallmarkCertification" value={productData.hallmarkCertification} onChange={handleChange} fullWidth />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+
+            {/* Gemstone Details Section */}
+            {hasCategorySelected && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.5 }}>
+                <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
+                  <CardContent sx={{ p: 4 }}>
+                    <SectionHeader icon={<Gem size={20} />} title="Gemstone Details" description="Information about primary stones" />
+                    <Grid container spacing={2.5}>
+                      <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                          <InputLabel sx={{ fontWeight: 600 }}>Stone Type</InputLabel>
+                          <StyledSelect label="Stone Type" name="primaryStoneType" value={productData.primaryStoneType} onChange={handleChange}>
+                            <MenuItem value="Diamond">Diamond</MenuItem>
+                            <MenuItem value="Ruby">Ruby</MenuItem>
+                            <MenuItem value="Emerald">Emerald</MenuItem>
+                            <MenuItem value="Moissanite">Moissanite</MenuItem>
+                            <MenuItem value="Sapphire">Sapphire</MenuItem>
+                            <MenuItem value="None">None</MenuItem>
+                          </StyledSelect>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                          <InputLabel sx={{ fontWeight: 600 }}>Stone Shape</InputLabel>
+                          <StyledSelect label="Stone Shape" name="stoneShape" value={productData.stoneShape} onChange={handleChange}>
+                            <MenuItem value="Round">Round</MenuItem>
+                            <MenuItem value="Princess">Princess</MenuItem>
+                            <MenuItem value="Oval">Oval</MenuItem>
+                            <MenuItem value="Pear">Pear</MenuItem>
+                            <MenuItem value="Cushion">Cushion</MenuItem>
+                            <MenuItem value="None">None</MenuItem>
+                          </StyledSelect>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <StyledTextField label="Stone Wt (Carat)" name="stoneWeight" type="number" value={productData.stoneWeight} onChange={handleChange} fullWidth />
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+
+            {/* Classification Section */}
+            {hasCategorySelected && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}>
+                <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
+                  <CardContent sx={{ p: 4 }}>
+                    <SectionHeader icon={<Tag size={20} />} title="Classification" description="Occasion, collection and metal type" />
+                    <Grid container spacing={2.5}>
+                      <Grid item xs={12}>
+                        <FormControl fullWidth>
+                          <InputLabel sx={{ fontWeight: 600 }}>Occasion</InputLabel>
+                          <StyledSelect label="Occasion" name="occasion" value={productData.occasion} onChange={handleChange}>
+                            <MenuItem value="bridal">Bridal Wear</MenuItem>
+                            <MenuItem value="casual">Casual Wear</MenuItem>
+                            <MenuItem value="engagement">Engagement</MenuItem>
+                            <MenuItem value="modern">Modern Wear</MenuItem>
+                            <MenuItem value="office">Office Wear</MenuItem>
+                            <MenuItem value="traditional-ethenic">Traditional & Ethnic Wear</MenuItem>
+                          </StyledSelect>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <FormControl fullWidth>
+                          <InputLabel sx={{ fontWeight: 600 }}>Collection</InputLabel>
+                          <StyledSelect label="Collection" name="collectionName" value={productData.collectionName} onChange={handleChange}>
+                            <MenuItem value="best-sellers">Best Sellers</MenuItem>
+                            <MenuItem value="reccomanded">Recommended</MenuItem>
+                            <MenuItem value="new-arrival">New Arrivals</MenuItem>
+                            <MenuItem value="dharohar">Dharohar</MenuItem>
+                            <MenuItem value="aksharam">Aksharam</MenuItem>
+                            <MenuItem value="loupe">Loupe</MenuItem>
+                          </StyledSelect>
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+
+            {/* Pricing Section */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}>
+              <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
+                <CardContent sx={{ p: 4 }}>
+                  <SectionHeader icon={<DollarSign size={20} />} title="Pricing" description="Set price and discount details" />
+                  <Grid container spacing={2.5}>
+                    <Grid item xs={12}>
+                      <StyledTextField label="Original Price (AED)" name="price" type="number" value={productData.price} onChange={handleChange} fullWidth required />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <StyledTextField label="Discounted Price (AED)" name="discountedPrice" type="number" value={productData.discountedPrice} onChange={handleChange} fullWidth required />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <StyledTextField label="Discount Percentage (%)" name="discountPercent" type="number" value={productData.discountPercent} onChange={handleChange} fullWidth required />
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </motion.div>
 
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
@@ -556,6 +574,7 @@ const CreateProductForm = () => {
                 type="submit"
                 variant="contained"
                 size="medium"
+                disabled={!isFormValid || products?.loading}
                 sx={{
                   borderRadius: '12px',
                   textTransform: 'none',
@@ -572,9 +591,10 @@ const CreateProductForm = () => {
                     transform: 'translateY(-2px)',
                   },
                   transition: 'all 0.25s ease',
+                  opacity: products?.loading ? 0.7 : 1,
                 }}
               >
-                Publish Product to Store
+                {products?.loading ? "Publishing Product..." : "Publish Product to Store"}
               </Button>
               <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', mt: 1.5, color: '#94a3b8', fontWeight: 600 }}>
                 All required fields must be filled before submitting.
@@ -583,7 +603,7 @@ const CreateProductForm = () => {
           </Grid>
         </Grid>
       </form>
-    </Box>
+    </Box >
   );
 };
 
