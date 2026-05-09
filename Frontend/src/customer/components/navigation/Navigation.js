@@ -2,267 +2,128 @@ import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-// Removed Buy Now icon by request
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import { Badge, Button, Typography } from "@mui/material";
+import { Badge, Button, Drawer, Typography, IconButton, Menu, MenuItem, InputBase, Backdrop, Divider, ListItemIcon, ListItemText } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import AuthModel from "../../auth/AuthModel";
 import { getUser, logout } from "../../../state/auth/Action";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalContext } from "../../../context/modal/modalContext";
-import { toastNotify } from "../../../state/shared/toast";
 
 const navigation = {
   categories: [
     {
-      id: "all-jewellery",
-      name: "All Jewellery",
+      id: "rings",
+      name: "Rings",
       sections: [
         {
-          id: "category",
-          name: "Category",
+          id: "style",
+          name: "Shop by Style",
           items: [
-            { name: "All Jewellery", id: "jewellery" },
-            { name: "Bangles", id: "bangle" },
-            { name: "Bracelets", id: "bracelet" },
-            { name: "Earrings", id: "earring" },
-            { name: "Pendants", id: "pendant" },
-            { name: "Mangal sutra", id: "mangal-sutra" },
-            { name: "Chains", id: "chain" },
-            { name: "Necklaces", id: "necklace" },
-            { name: "Rings", id: "ring" },
+            { name: "Engagement Rings", id: "engagement" },
+            { name: "Diamond Rings", id: "diamond-rings" },
+            { name: "Gold Rings", id: "gold-rings" },
+            { name: "Band Rings", id: "bands" },
+            { name: "Couple Rings", id: "couple" },
           ],
         },
+        {
+          id: "metal",
+          name: "Shop by Metal",
+          items: [
+            { name: "Yellow Gold", id: "yellow-gold" },
+            { name: "Rose Gold", id: "rose-gold" },
+            { name: "White Gold", id: "white-gold" },
+            { name: "Platinum", id: "platinum" },
+          ],
+        },
+      ],
+    },
+    {
+      id: "earrings",
+      name: "Earrings",
+      sections: [
         {
           id: "type",
-          name: "Jewellery Types",
+          name: "Shop by type",
           items: [
-            { name: "Gold", id: "gold" },
-            { name: "Diamond", id: "diamond" },
-            { name: "Silver", id: "silver" },
-            { name: "Platinum", id: "platinum" },
-            { name: "Gemstones", id: "gemstone" },
+            { name: "Studs", id: "studs" },
+            { name: "Drops", id: "drops" },
+            { name: "Hoops & Huggies", id: "hoops-huggies" },
+            { name: "Jhumkas", id: "jhumkas" },
+            { name: "Ear Cuffs", id: "ear-cuffs" },
           ],
         },
-        // {
-        //   id: 'gender',
-        //   name: 'Gender',
-        //   items: [
-        //     { name: 'Women', id: 'women' },
-        //     { name: 'Men', id: 'men' },
-        //   ],
-        // },
         {
-          id: "occasion",
-          name: "Occasion",
+          id: "metal",
+          name: "Shop by Metal",
           items: [
-            { name: "Bridal wear", id: "bridal" },
-            { name: "Casual wear", id: "casual" },
-            { name: "Engagement", id: "engagement" },
-            { name: "Modern wear", id: "modern" },
-            { name: "Office wear", id: "office" },
-            { name: "Traditional & ethenic wear", id: "traditional-ethenic" },
+            { name: "Gold Earrings", id: "gold-earrings" },
+            { name: "Diamond Earrings", id: "diamond-earrings" },
+            { name: "Gemstone Earrings", id: "gemstone-earrings" },
           ],
         },
       ],
     },
     {
-      id: "gold",
-      name: "Gold",
+      id: "bracelets",
+      name: "Bracelets",
       sections: [
         {
-          id: "category",
-          name: "Category",
+          id: "style",
+          name: "Shop by Style",
           items: [
-            { name: "Bangles", id: "bangle" },
-            { name: "Bracelets", id: "bracelet" },
-            { name: "Earrings", id: "earring" },
-            { name: "Necklaces", id: "necklace" },
-            { name: "Rings", id: "ring" },
-          ],
-        },
-        {
-          id: "earrings",
-          name: "Earrings",
-          items: [
-            { name: "Drop Earrings", id: "drop" },
-            { name: "Hoop Earrings", id: "hoop" },
-            { name: "Jhumkas", id: "jhumka" },
-            { name: "Stud Earrings", id: "stud" },
-          ],
-        },
-        {
-          id: "rings",
-          name: "Rings",
-          items: [
-            { name: "Eangagement Rings", id: "eangagement-ring" },
-            { name: "Pearl Rings", id: "pearl-ring" },
-            { name: "Bridal Rings", id: "bridal-ring" },
-            { name: "Couple Rings", id: "couple-ring" },
-          ],
-        },
-        {
-          id: "necklaces",
-          name: "Necklaces",
-          items: [
-            { name: "Pendants", id: "pendant" },
-            { name: "Mangal Sutra", id: "mangal-sutra" },
-            { name: "Chains", id: "chain" },
-            { name: "Locket", id: "locket" },
+            { name: "Chain Bracelets", id: "chains" },
+            { name: "Bangles", id: "bangles" },
+            { name: "Cuffs", id: "cuffs" },
+            { name: "Tennis Bracelets", id: "tennis" },
+            { name: "Charm Bracelets", id: "charms" },
           ],
         },
       ],
     },
     {
-      id: "diamond",
-      name: "Diamond",
+      id: "necklaces",
+      name: "Necklaces",
       sections: [
         {
-          id: "category",
-          name: "Category",
+          id: "style",
+          name: "Shop by Style",
           items: [
-            { name: "Bangles", id: "bangle" },
-            { name: "Bracelets", id: "bracelet" },
-            { name: "Earrings", id: "earring" },
-            { name: "Necklaces", id: "necklace" },
-            { name: "Rings", id: "ring" },
-          ],
-        },
-        {
-          id: "earrings",
-          name: "Earrings",
-          items: [
-            { name: "Drop Earrings", id: "drop" },
-            { name: "Hoop Earrings", id: "hoop" },
-            { name: "Jhumkas", id: "jhumka" },
-            { name: "Stud Earrings", id: "stud" },
-          ],
-        },
-        {
-          id: "rings",
-          name: "Rings",
-          items: [
-            { name: "Eangagement Rings", id: "eangagement-ring" },
-            { name: "Pearl Rings", id: "pearl-ring" },
-            { name: "Bridal Rings", id: "bridal-ring" },
-            { name: "Couple Rings", id: "couple-ring" },
-          ],
-        },
-        {
-          id: "necklaces",
-          name: "Necklaces",
-          items: [
-            { name: "Pendants", id: "pendant" },
-            { name: "Mangal Sutra", id: "mangal-sutra" },
-            { name: "Chains", id: "chain" },
-            { name: "Locket", id: "locket" },
+            { name: "Pendants", id: "pendants" },
+            { name: "Chains", id: "necklace-chains" },
+            { name: "Lockets", id: "lockets" },
+            { name: "Chokers", id: "chokers" },
+            { name: "Mangalsutra", id: "mangalsutra" },
           ],
         },
       ],
     },
     {
-      id: "best-sellers",
-      name: "Best Sellers",
+      id: "best-seller",
+      name: "Best Seller",
       sections: [
         {
-          id: "category",
-          name: "Category",
+          id: "popular",
+          name: "Most Loved",
           items: [
-            { name: "Bangles", id: "bangle" },
-            { name: "Bracelets", id: "bracelet" },
-            { name: "Earrings", id: "earring" },
-            { name: "Necklaces", id: "necklace" },
-            { name: "Rings", id: "ring" },
-          ],
-        },
-        {
-          id: "earrings",
-          name: "Earrings",
-          items: [
-            { name: "Drop Earrings", id: "drop" },
-            { name: "Hoop Earrings", id: "hoop" },
-            { name: "Jhumkas", id: "jhumka" },
-            { name: "Stud Earrings", id: "stud" },
-          ],
-        },
-        {
-          id: "rings",
-          name: "Rings",
-          items: [
-            { name: "Eangagement Rings", id: "eangagement-ring" },
-            { name: "Pearl Rings", id: "pearl-ring" },
-            { name: "Bridal Rings", id: "bridal-ring" },
-            { name: "Couple Rings", id: "couple-ring" },
-          ],
-        },
-        {
-          id: "necklaces",
-          name: "Necklaces",
-          items: [
-            { name: "Pendants", id: "pendant" },
-            { name: "Mangal Sutra", id: "mangal-sutra" },
-            { name: "Chains", id: "chain" },
-            { name: "Locket", id: "locket" },
-          ],
-        },
-      ],
-    },
-    {
-      id: "wedding",
-      name: "Wedding",
-      sections: [
-        {
-          id: "category",
-          name: "Category",
-          items: [
-            { name: "Bangles", id: "bangle" },
-            { name: "Bracelets", id: "bracelet" },
-            { name: "Earrings", id: "earring" },
-            { name: "Necklaces", id: "necklace" },
-            { name: "Rings", id: "ring" },
-          ],
-        },
-        {
-          id: "earrings",
-          name: "Earrings",
-          items: [
-            { name: "Drop Earrings", id: "drop" },
-            { name: "Hoop Earrings", id: "hoop" },
-            { name: "Jhumkas", id: "jhumka" },
-            { name: "Stud Earrings", id: "stud" },
-          ],
-        },
-        {
-          id: "rings",
-          name: "Rings",
-          items: [
-            { name: "Eangagement Rings", id: "eangagement-ring" },
-            { name: "Pearl Rings", id: "pearl-ring" },
-            { name: "Bridal Rings", id: "bridal-ring" },
-            { name: "Couple Rings", id: "couple-ring" },
-          ],
-        },
-        {
-          id: "necklaces",
-          name: "Necklaces",
-          items: [
-            { name: "Pendants", id: "pendant" },
-            { name: "Mangal Sutra", id: "mangal-sutra" },
-            { name: "Chains", id: "chain" },
-            { name: "Locket", id: "locket" },
+            { name: "Best Selling Rings", id: "best-rings" },
+            { name: "Top Earrings", id: "best-earrings" },
+            { name: "Trending Bracelets", id: "best-bracelets" },
+            { name: "Gift Sets", id: "gift-sets" },
           ],
         },
       ],
     },
   ],
-  pages: [
-    { name: "Company", id: "company" },
-    { name: "Stores", id: "store" },
-  ],
+  pages: [],
 };
 
 function classNames(...classes) {
@@ -271,24 +132,17 @@ function classNames(...classes) {
 
 export default function Navigation() {
   const [open, setOpen] = useState(false);
-  const [openAuthModel, setOpenAuthModel] = useState(false);
   const modal = useContext(ModalContext);
   const [anchorEl, setAnchorEl] = useState(null);
-  const openUserMenu = Boolean(anchorEl);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isDark, setIsDark] = useState(() => {
-    try {
-      const saved = localStorage.getItem('theme');
-      return saved ? saved === 'dark' : false;
-    } catch {
-      return false;
-    }
-  });
+  const [cartOpen, setCartOpen] = useState(false);
+  const [countryAnchorEl, setCountryAnchorEl] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' });
+  const [searchOpen, setSearchOpen] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
   const jwt = localStorage.getItem("jwt");
-  const { auth, cart, wishlist } = useSelector((store) => store);
+  const { auth, cart } = useSelector((store) => store);
 
   useEffect(() => {
     if (jwt) {
@@ -296,33 +150,22 @@ export default function Navigation() {
     }
   }, [jwt, auth.jwt]);
 
-  useEffect(() => {
-    if (auth.user) {
-      handleClose();
-    }
-  }, []);
+  const handleProfileClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleCategoryClick = (category, section, item, close) => {
-    navigate(
-      `/${category.id.replace(/\s/g, "-").toLowerCase()}/${section.id
-        .replace(/\s/g, "-")
-        .toLowerCase()}/${item.id.replace(/\s/g, "-").toLowerCase()}`
-    );
+    navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   };
 
-  const handleSideMenuClick = (category, section, item) => {
-    navigate(
-      `/${category.id.replace(/\s/g, "-").toLowerCase()}/${section.id
-        .replace(/\s/g, "-")
-        .toLowerCase()}/${item.id.replace(/\s/g, "-").toLowerCase()}`
-    );
-    setOpen(false);
-  };
-
-  const handleOpen = (e, auth) => {
+  const handleOpen = (e, authMode) => {
     e.preventDefault();
-    navigate(`/${auth}`);
+    navigate(`/${authMode}`);
     modal.openModal();
   };
 
@@ -337,17 +180,11 @@ export default function Navigation() {
     window.location.reload();
   };
 
-  const toggleTheme = () => {
-    const root = document.documentElement;
-    const next = !isDark;
-    setIsDark(next);
-    if (next) {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+  const handleCountryOpen = (event) => setCountryAnchorEl(event.currentTarget);
+  const handleCountryClose = () => setCountryAnchorEl(null);
+  const handleCountrySelect = (country) => {
+    setSelectedCountry(country);
+    handleCountryClose();
   };
 
   return (
@@ -379,404 +216,81 @@ export default function Navigation() {
             >
               <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
                 <div className="flex px-4 pb-2 pt-5">
-                  <button
-                    type="button"
-                    className="relative -m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-                    onClick={() => setOpen(false)}
-                  >
-                    <span className="absolute -inset-0.5" />
-                    <span className="sr-only">Close menu</span>
+                  <button type="button" className="relative -m-2 p-2 text-gray-400" onClick={() => setOpen(false)}>
                     <CloseIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
-
-                {/* Links */}
                 <Tab.Group as="div" className="mt-2">
                   <div className="border-b border-gray-200">
                     <Tab.List className="-mb-px flex space-x-8 px-4">
                       {navigation.categories.map((category) => (
-                        <Tab
-                          key={category.id}
-                          className={({ selected }) =>
-                            classNames(
-                              selected
-                                ? "border-[#97c2d5] text-[#6a9eb5]"
-                                : "border-transparent text-[#6a9eb5]",
-                              "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
-                            )
-                          }
-                        >
+                        <Tab key={category.id} className={({ selected }) => classNames(selected ? "border-[#97c2d5] text-[#97c2d5]" : "border-transparent text-gray-900", "flex-1 border-b-2 px-1 py-4 text-base font-medium")}>
                           {category.name}
                         </Tab>
                       ))}
                     </Tab.List>
                   </div>
-                  <Tab.Panels as={Fragment}>
-                    {navigation.categories.map((category) => (
-                      <Tab.Panel
-                        key={category.id}
-                        className="space-y-10 px-4 pb-8 pt-10"
-                      >
-
-                        {category.sections.map((section) => (
-                          <div key={section.id}>
-                            <p
-                              id={`${category.id}-${section.id}-heading-mobile`}
-                              className="font-medium text-gray-900"
-                            >
-                              {section.name}
-                            </p>
-                            <ul
-                              role="list"
-                              aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-                              className="mt-6 flex flex-col space-y-6"
-                            >
-                              {section.items.map((item) => (
-                                <li key={item.id} className="flow-root">
-                                  <a
-                                    onClick={() => {
-                                      handleSideMenuClick(category, section, item)
-                                    }}
-                                    className="-m-2 block p-2 text-gray-500"
-                                  >
-                                    {item.name}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </Tab.Panel>
-                    ))}
-                  </Tab.Panels>
                 </Tab.Group>
-
               </Dialog.Panel>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition.Root>
 
-      <header className="relative">
-        <div className="bg-[#f0f9ff] text-[#97c2d5] sm:px-6">
-          <div className="my-header">
+      <header className="fixed top-0 left-0 right-0 z-50 w-full shadow-md" style={{ backgroundColor: '#97c2d5', color: 'white' }}>
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="flex h-18 items-center justify-between">
 
-            <button
-              type="button"
-              className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
-              onClick={() => setOpen(true)}
-            >
-              <span className="absolute -inset-0.5" />
-              <span className="sr-only">Open menu</span>
-              <MenuIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-
-            {/* Logo */}
-            <div className="h-full flex justify-start items-center logo-div">
-              <Link to="/" className="cursor-pointer">
-                <span className="sr-only">Loupe Jeweler</span>
-                <Typography variant="h5" sx={{ fontFamily: 'serif', fontWeight: 700, color: '#97c2d5', textTransform: 'uppercase', mt: 1, letterSpacing: '2px' }}>
-                  Loupe Jeweler
-                </Typography>
+            {/* Left: Logo */}
+            <div className="flex items-center">
+              <button type="button" className="lg:hidden p-2 text-white" onClick={() => setOpen(true)}>
+                <MenuIcon className="h-6 w-6" />
+              </button>
+              <Link to="/" className="flex items-center ml-4 lg:ml-0">
+                <img
+                  src="/Loupe_Jeweler-logo.png"
+                  alt="Loupe Jeweler"
+                  className="h-20 w-auto object-contain"
+                />
               </Link>
             </div>
 
-            {/* Search bar */}
-            <div className="w-[40%] relative searchbar-div">
-              <input
-                type="text"
-                placeholder="Search for Gold Jewellery, Diamond…"
-                className="bg-white header-searchbar text-[#97c2d5]"
-              />
-              <span className="search-icon">
-                <i className="fa-solid fa-magnifying-glass"></i>
-              </span>
-            </div>
-
-            {/* customer's action buttons */}
-            <div className="flex items-center justify-end space-x-8 user-btns">
-              <div
-                className="h-[10vh] flex items-center justify-center relative unline-navigation"
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-              >
-                <div className="flex items-center flex-col cursor-pointer transition duration-1000 border-[#97c2d5]">
-                  <PermIdentityOutlinedIcon
-                    sx={{ width: "25px", height: "25px" }}
-                    className="opacity-60"
-                  />
-                  <span className="font-semibold uppercase text-sm">
-                    {auth.user?.firstName ? auth.user?.firstName : "Account"}
-                  </span>
-
-                  {!auth.user?.firstName
-                    ? isHovering && (
-                      <div className="p-3 absolute top-[10vh] z-50 w-[16rem] text-center bg-white rounded-md shadow-lg space-y-3 text-[#97c2d5] transition-all duration-1000">
-                        <h1 className="text-2xl font-normal uppercase">
-                          My Account
-                        </h1>
-                        <p className="text-xs font-normal">
-                          LOGIN TO ACCESS YOUR ACCOUNT
-                        </p>
-
-                        <div className="py-2 flex items-center justify-around">
-                          <Button
-                            onClick={(e) => handleOpen(e, "login")}
-                            variant="outlined"
-                            type="submit"
-                            sx={{
-                              fontSize: "0.75rem",
-                              color: "#6a9eb5",
-                              borderColor: "#6a9eb5",
-                              "&:hover": {
-                                boxShadow: "#6a9eb5 0px 5px 20px",
-                                borderColor: "#6a9eb5",
-                              },
-                            }}
-                            className="flex items-center justify-center rounded-md border-none px-2 py-1"
-                          >
-                            log in
-                          </Button>
-                          <Button
-                            onClick={(e) => handleOpen(e, "register")}
-                            variant="contained"
-                            type="submit"
-                            sx={{
-                              fontSize: "0.75rem",
-                              bgcolor: "#6a9eb5",
-                              "&:hover": { bgcolor: "#97c2d5" },
-                            }}
-                            className="flex uppercase items-center justify-center rounded-md border-none px-2 py-1 text-white focus:outline-none"
-                          >
-                            sign up
-                          </Button>
-                        </div>
-                      </div>
-                    )
-                    : isHovering && (
-                      <div
-                        className="p-3 absolute top-[10vh] z-50 w-[13rem] flex flex-col bg-white rounded-md shadow-lg space-y-2 transition-all duration-1000 uppercase"
-                        style={{ color: "#6a9eb5" }}
-                      >
-                        <div className="px-2 pb-3 flex flex-col border-b-2 border-[#97c2d5] space-y-1">
-                          <h1 className="text-xl font-semibold">
-                            Hi! {auth.user?.firstName},
-                          </h1>
-                          <h1 className="text-xs font-normal lowercase text-ellipsis overflow-hidden whitespace-nowrap w-full">
-                            {auth.user?.email}
-                          </h1>
-                        </div>
-
-                        <div
-                          key="acount-details"
-                          className="py-2 flex flex-col space-y-3"
-                        >
-                          {auth.user?.role === "ADMIN" && (
-                            <h1
-                              onClick={() => {
-                                setIsHovering(false)
-                                navigate("/admin")
-                              }}
-                              key="admin-panel"
-                              className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-[#f0f7f9]"
-                            >
-                              Admin Panel
-                            </h1>
-                          )}
-                          <h1
-                            key="my-acount"
-                            onClick={() => {
-                              setIsHovering(false)
-                              navigate("/user-details/?layout=0");
-                            }}
-                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-blue-50"
-                          >
-                            My Account
-                          </h1>
-                          <h1
-                            onClick={() => {
-                              setIsHovering(false)
-                              navigate("/user-details/?layout=2");
-                            }}
-                            key="order-history"
-                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-blue-50"
-                          >
-                            Order History
-                          </h1>
-                          <h1
-                            key="contact-us"
-                            onClick={() => {
-                              setIsHovering(false)
-                              navigate("/user-details/?layout=3");
-                            }}
-                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-blue-50"
-                          >
-                            Contact Us
-                          </h1>
-                          <h1
-                            key="log-out"
-                            className="text-md p-2 font-medium hover:text-[#97c2d5] hover:font-bold hover:bg-[#f0f7f9]"
-                            onClick={() => handleLogout()}
-                          >
-                            Log out
-                          </h1>
-                        </div>
-                      </div>
-                    )}
-                </div>
-              </div>
-
-              <div className="h-[10vh] flex items-center justify-center unline-navigation relative">
-                {/* Favourite */}
-                <div
-                  onClick={() => {
-                    navigate("/user-details/?layout=1");
-                  }}
-                  className="flex items-center flex-col cursor-pointer border-[#97c2d5] text-gray-700 dark:text-gray-200"
-                >
-                  <Badge
-                    badgeContent={wishlist?.wishItems?.length}
-                    color="error"
-                  >
-                    <FavoriteBorderIcon
-                      sx={{ width: "25px", height: "25px" }}
-                      className="opacity-60"
-                    />
-                  </Badge>
-                  <span className="font-semibold uppercase text-sm">
-                    Wishlist
-                  </span>
-                </div>
-
-                {/* Buy Now removed */}
-              </div>
-
-              {/* Cart */}
-              <div className="h-[10vh] flex items-center justify-center unline-navigation relative">
-                <div
-                  onClick={() => {
-                    navigate("/cart");
-                  }}
-                  xs={4}
-                  id="nav-cart-btn"
-                  className="flex items-center flex-col cursor-pointer border-[#97c2d5]"
-                >
-                  <Badge badgeContent={cart.cart?.totalItem} color="error">
-                    <AddShoppingCartIcon
-                      sx={{ width: "25px", height: "25px" }}
-                      className="opacity-60"
-                    />
-                  </Badge>
-                  <span className="font-semibold uppercase text-sm">Cart</span>
-                </div>
-              </div>
-
-              {/* Theme toggle */}
-              <div className="h-[10vh] flex items-center justify-center unline-navigation relative">
-                <button
-                  onClick={toggleTheme}
-                  className="flex items-center justify-center rounded-full p-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700"
-                  aria-label="Toggle theme"
-                  title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                >
-                  {isDark ? (
-                    <LightModeIcon sx={{ width: "22px", height: "22px" }} />
-                  ) : (
-                    <DarkModeIcon sx={{ width: "22px", height: "22px" }} />
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <nav
-          aria-label="Top"
-          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        >
-          <div className="border-b border-gray-200">
-            <div className="flex h-16 items-center">
-
-              {/* Flyout menus */}
-              <Popover.Group className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-                <div className="flex h-full space-x-8">
+            {/* Center: Nav or Search */}
+            <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center px-10">
+              {!searchOpen ? (
+                <Popover.Group className="flex space-x-8">
                   {navigation.categories.map((category, index) => (
                     <Popover key={`${category.name}-${index}`} className="flex">
                       {({ open, close }) => (
                         <>
-                          <div className="relative flex">
-                            <Popover.Button
-                              className={classNames(
-                                open
-                                  ? "border-[#6a9eb5] text-[#97c2d5] border-b-2"
-                                  : " text-gray-700  hover:text-[#97c2d5] unline-animation",
-                                "z-10 -mb-px flex items-center  px-2 pt-px text-base font-medium transition-colors duration-200 ease-out"
-                              )}
-                            >
-                              {category.name}
-                            </Popover.Button>
-                          </div>
-
+                          <Popover.Button className={classNames(open ? "border-white font-bold" : "border-transparent", "z-10 flex items-center text-[0.8rem] tracking-widest uppercase text-white outline-none border-b-2 transition-all pb-1")}>
+                            {category.name}
+                          </Popover.Button>
                           <Transition
                             as={Fragment}
                             enter="transition ease-out duration-200"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100"
+                            enterFrom="opacity-0 -translate-y-2"
+                            enterTo="opacity-100 translate-y-0"
                             leave="transition ease-in duration-150"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 -translate-y-2"
                           >
-                            <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-700">
-                              {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                              <div
-                                className="absolute inset-0 top-1/2 bg-white shadow"
-                                aria-hidden="true"
-                              />
-
-                              <div className="relative bg-white">
-                                <div className="mx-auto max-w-7xl px-8">
-                                  <div className="grid grid-cols-1 gap-x-8 gap-y-10 py-10">
-
-                                    <div className="row-start-1 grid grid-cols-4 gap-x-8 gap-y-10 text-sm">
-                                      {category.sections.map((section) => (
-                                        <div key={section.id}>
-                                          <p
-                                            id={`${section.name}-heading`}
-                                            className="font-semibold text-lg text-[#97c2d5]"
-                                          >
-                                            {section.name}
-                                          </p>
-                                          <ul
-                                            role="list"
-                                            aria-labelledby={`${section.name}-heading`}
-                                            className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                          >
-                                            {section.items.map(
-                                              (item) => (
-                                                <li
-                                                  key={item.id}
-                                                  className="flex"
-                                                >
-                                                  <p
-                                                    onClick={() => {
-                                                      handleCategoryClick(
-                                                        category,
-                                                        section,
-                                                        item,
-                                                        close
-                                                      );
-                                                    }}
-                                                    className="hover:text-gray-900 hover:underline hover:shadow-sm transition duration-300 cursor-pointer"
-                                                  >
-                                                    {item.name}
-                                                  </p>
-                                                </li>
-                                              )
-                                            )}
-                                          </ul>
-                                        </div>
-                                      ))}
-                                    </div>
+                            <Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-700 shadow-xl bg-white mt-[2px]">
+                              <div className="relative bg-white border-t border-gray-200 px-8 py-8 w-full">
+                                <div className="mx-auto max-w-[1400px]">
+                                  <div className="grid grid-cols-4 gap-x-8">
+                                    {category.sections.map((section) => (
+                                      <div key={section.id}>
+                                        <p className="font-semibold text-xs text-[#97c2d5] uppercase tracking-wider">{section.name}</p>
+                                        <ul className="mt-4 space-y-3">
+                                          {section.items.map((item) => (
+                                            <li key={item.id}>
+                                              <p onClick={() => handleCategoryClick(category, section, item, close)} className="text-gray-800 hover:text-[#97c2d5] cursor-pointer hover:font-bold transition-all">{item.name}</p>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ))}
                                   </div>
                                 </div>
                               </div>
@@ -786,17 +300,196 @@ export default function Navigation() {
                       )}
                     </Popover>
                   ))}
-
+                </Popover.Group>
+              ) : (
+                <div className="w-full max-w-xl animate-in fade-in slide-in-from-top-4 duration-300">
+                  <div className="relative flex items-center border-b-2 border-white/70 py-1 group focus-within:border-white transition-all">
+                    <InputBase
+                      autoFocus
+                      placeholder="Search for products..."
+                      fullWidth
+                      sx={{
+                        color: 'white',
+                        fontSize: '1.1rem',
+                        fontFamily: 'serif',
+                        '& input::placeholder': { color: 'white', opacity: 0.7 }
+                      }}
+                    />
+                    <IconButton onClick={() => setSearchOpen(false)} sx={{ color: 'white', p: 0.5 }}>
+                      <CloseIcon sx={{ fontSize: 20 }} />
+                    </IconButton>
+                  </div>
                 </div>
-              </Popover.Group>
+              )}
+            </div>
 
-              {/*  */}
+            {/* Right: Tools */}
+            <div className="flex items-center space-x-6">
+
+              {/* Country */}
+              <div
+                className="hidden xl:flex items-center text-white text-[0.75rem] font-semibold cursor-pointer py-1.5 px-3 rounded-full hover:bg-white/10 transition-all border border-white/20"
+                onClick={handleCountryOpen}
+              >
+                <span className="mr-2 text-base">{selectedCountry.flag}</span>
+                <span className="uppercase tracking-[0.1em]">{selectedCountry.name} ({selectedCountry.currency.split(' ')[0]})</span>
+                <KeyboardArrowDownIcon sx={{ fontSize: 16, ml: 0.5, opacity: 0.8 }} />
+              </div>
+              <Menu
+                anchorEl={countryAnchorEl}
+                open={Boolean(countryAnchorEl)}
+                onClose={handleCountryClose}
+                PaperProps={{
+                  sx: {
+                    mt: 1,
+                    boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+                    borderRadius: '12px',
+                    minWidth: '180px',
+                    border: '1px solid #f0f0f0'
+                  }
+                }}
+              >
+                <MenuItem onClick={() => handleCountrySelect({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' })} sx={{ py: 1.5, '&:hover': { bgcolor: '#f0f9ff' } }}>
+                  <span style={{ fontSize: '1.2rem', marginRight: '12px' }}>🇮🇳</span>
+                  <ListItemText primary="INDIA" secondary="INR ₹" primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }} secondaryTypographyProps={{ fontSize: '0.75rem' }} />
+                </MenuItem>
+                <Divider sx={{ my: '0 !important' }} />
+                <MenuItem onClick={() => handleCountrySelect({ name: 'USA', code: 'US', currency: 'USD $', flag: '🇺🇸' })} sx={{ py: 1.5, '&:hover': { bgcolor: '#f0f9ff' } }}>
+                  <span style={{ fontSize: '1.2rem', marginRight: '12px' }}>🇺🇸</span>
+                  <ListItemText primary="USA" secondary="USD $" primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }} secondaryTypographyProps={{ fontSize: '0.75rem' }} />
+                </MenuItem>
+              </Menu>
+
+              {/* Profile */}
+              <div className="relative cursor-pointer">
+                <div
+                  onClick={handleProfileClick}
+                  className={`p-1.5 rounded-full transition-all hover:bg-white/20 ${Boolean(anchorEl) ? 'bg-white/20' : ''}`}
+                >
+                  <PermIdentityOutlinedIcon sx={{ width: "24px", height: "24px" }} />
+                </div>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleProfileClose}
+                  PaperProps={{
+                    sx: {
+                      mt: 1.5,
+                      minWidth: 220,
+                      borderRadius: '12px',
+                      overflow: 'visible',
+                      filter: 'drop-shadow(0px 10px 25px rgba(0,0,0,0.1))',
+                      '&:before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                      },
+                    },
+                  }}
+                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                  {!auth.user ? (
+                    <div className="p-4 px-5">
+                      <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5, color: '#333' }}>Account</Typography>
+                      <Typography variant="caption" sx={{ color: '#666', display: 'block', mb: 2 }}>Access your account or orders</Typography>
+                      <div className="flex flex-col gap-2">
+                        <Button
+                          onClick={(e) => { handleOpen(e, "login"); handleProfileClose(); }}
+                          variant="contained"
+                          fullWidth
+                          sx={{ bgcolor: '#97c2d5', '&:hover': { bgcolor: '#7eb1c9' }, textTransform: 'none', fontWeight: 600, py: 1 }}
+                        >
+                          Log In
+                        </Button>
+                        <Button
+                          onClick={(e) => { handleOpen(e, "register"); handleProfileClose(); }}
+                          variant="text"
+                          fullWidth
+                          sx={{ color: '#97c2d5', textTransform: 'none', fontWeight: 600 }}
+                        >
+                          Sign Up
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-[#97c2d5] flex items-center justify-center text-white font-bold text-sm">
+                          {auth.user.firstName?.[0]}
+                        </div>
+                        <div className="flex flex-col">
+                          <Typography variant="body2" sx={{ fontWeight: 700, color: '#333' }}>{auth.user.firstName} {auth.user.lastName}</Typography>
+                          <Typography variant="caption" sx={{ color: '#666' }}>{auth.user.email}</Typography>
+                        </div>
+                      </div>
+
+                      <div className="py-1">
+                        {auth.user.role === "ADMIN" && (
+                          <MenuItem onClick={() => { navigate("/admin"); handleProfileClose(); }} sx={{ py: 1.2 }}>
+                            <ListItemIcon><DashboardOutlinedIcon fontSize="small" /></ListItemIcon>
+                            <ListItemText primary="Admin Dashboard" primaryTypographyProps={{ fontSize: '0.85rem' }} />
+                          </MenuItem>
+                        )}
+                        <MenuItem onClick={() => { navigate("/user-details/?layout=0"); handleProfileClose(); }} sx={{ py: 1.2 }}>
+                          <ListItemIcon><AccountCircleOutlinedIcon fontSize="small" /></ListItemIcon>
+                          <ListItemText primary="My Account" primaryTypographyProps={{ fontSize: '0.85rem' }} />
+                        </MenuItem>
+                        <MenuItem onClick={() => { navigate("/user-details/?layout=2"); handleProfileClose(); }} sx={{ py: 1.2 }}>
+                          <ListItemIcon><ShoppingBagOutlinedIcon fontSize="small" /></ListItemIcon>
+                          <ListItemText primary="My Orders" primaryTypographyProps={{ fontSize: '0.85rem' }} />
+                        </MenuItem>
+                        <Divider sx={{ my: 1, opacity: 0.6 }} />
+                        <MenuItem onClick={() => { handleLogout(); handleProfileClose(); }} sx={{ py: 1.2, color: '#ef4444' }}>
+                          <ListItemIcon><LogoutOutlinedIcon fontSize="small" sx={{ color: '#ef4444' }} /></ListItemIcon>
+                          <ListItemText primary="Logout" primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }} />
+                        </MenuItem>
+                      </div>
+                    </>
+                  )}
+                </Menu>
+              </div>
+
+              {/* Search Toggle */}
+              <div className="cursor-pointer" onClick={() => setSearchOpen(!searchOpen)}>
+                <SearchIcon sx={{ width: "24px", height: "24px" }} />
+              </div>
+
+              {/* Cart */}
+              <div className="cursor-pointer" onClick={() => setCartOpen(true)}>
+                <Badge badgeContent={cart.cart?.totalItem} sx={{ '& .MuiBadge-badge': { backgroundColor: 'white', color: '#97c2d5', fontWeight: 'bold' } }}>
+                  <AddShoppingCartIcon sx={{ width: "23px", height: "23px" }} />
+                </Badge>
+              </div>
+
             </div>
           </div>
-        </nav>
+        </div>
       </header>
+      <div className="h-18" aria-hidden="true" />
 
-      <AuthModel handleClose={handleClose} open={modal.state} />
+      {/* Cart Drawer */}
+      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)} PaperProps={{ sx: { width: { xs: '100%', sm: 400 }, p: 4 } }}>
+        <div className="flex justify-between items-center mb-6 border-b pb-4">
+          <Typography variant="h6" sx={{ fontWeight: 'bold', fontFamily: 'serif' }}>Shopping Cart</Typography>
+          <IconButton onClick={() => setCartOpen(false)}><CloseIcon /></IconButton>
+        </div>
+        <div className="flex flex-col items-center justify-center flex-grow text-gray-400">
+          <AddShoppingCartIcon sx={{ fontSize: 64, mb: 2, opacity: 0.3 }} />
+          <Typography>Your cart is empty.</Typography>
+          <Button variant="contained" fullWidth onClick={() => { setCartOpen(false); navigate('/cart'); }} sx={{ bgcolor: '#97c2d5', mt: 'auto', py: 1.5 }}>Checkout</Button>
+        </div>
+      </Drawer>
+
+      <AuthModel handleClose={() => modal.closeModal()} open={modal.state} />
     </div>
   );
 }
