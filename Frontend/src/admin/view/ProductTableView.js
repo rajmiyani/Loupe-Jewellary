@@ -15,11 +15,13 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { findProducts } from "../../state/product/Action";
-import { Eye, Trash2, Calendar, Filter } from "lucide-react";
+import { Eye, Trash2, Filter } from "lucide-react";
+import { useDashboard } from "../components/AdminDashboard";
 
 const ProductsTableView = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store);
+  const { searchQuery } = useDashboard();
 
   useEffect(() => {
     const data = {
@@ -31,14 +33,21 @@ const ProductsTableView = () => {
       maxDiscount: 100,
       sort: "high_to_low",
       pageNumber: 1,
-      pageSize: 5,
+      pageSize: 20,
       occasion: [],
       type: [],
     };
     dispatch(findProducts(data));
   }, [dispatch]);
 
-  const recentProducts = products.products?.content?.slice(0, 5) || [];
+  const allProducts = products.products?.content || [];
+  const recentProducts = allProducts.filter((item) => {
+    if (!searchQuery) return true;
+    return (
+      item.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.category?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }).slice(0, 5);
 
   return (
     <Card sx={{ borderRadius: '24px', boxShadow: '0 4px 25px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9', bgcolor: '#ffffff' }}>
@@ -52,7 +61,7 @@ const ProductsTableView = () => {
         </Box>
         <Box sx={{ display: 'flex', gap: 1.5 }}>
           <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 700, '&:hover': { borderColor: '#97c2d5', bgcolor: 'transparent' } }}>Filters</Button>
-          <Button variant="contained" sx={{ borderRadius: '12px', textTransform: 'none', px: 2, bgcolor: '#111827', color: '#ffffff', fontWeight: 700, boxShadow: '0 10px 20px rgba(0,0,0,0.1)', '&:hover': { bgcolor: '#1f2937' } }}>Inventory</Button>
+          {/* <Button variant="contained" sx={{ borderRadius: '12px', textTransform: 'none', px: 2, bgcolor: '#111827', color: '#ffffff', fontWeight: 700, boxShadow: '0 10px 20px rgba(0,0,0,0.1)', '&:hover': { bgcolor: '#1f2937' } }}>Inventory</Button> */}
         </Box>
       </Box>
       <TableContainer>

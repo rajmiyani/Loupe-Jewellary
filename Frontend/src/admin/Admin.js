@@ -54,7 +54,6 @@ const menu = [
   { name: "Products", path: "/admin/products", icon: Package },
   { name: "Customers", path: "/admin/customers", icon: Users },
   { name: "Add Product", path: "/admin/product/create", icon: PlusSquare },
-  { name: "Chatbots", path: "/admin/chatbots", icon: MessageCircle },
 ];
 
 const Admin = () => {

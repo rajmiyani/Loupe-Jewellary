@@ -15,17 +15,32 @@ import {
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../../state/admin/order/Action";
-import { Globe, ShoppingBag, Eye, Trash2, Calendar, Filter } from "lucide-react";
+import { Globe, ShoppingBag, Eye, Trash2, Filter } from "lucide-react";
+import { useDashboard } from "../components/AdminDashboard";
 
 const OrdersTableView = () => {
   const dispatch = useDispatch();
   const { adminOrder } = useSelector((store) => store);
+  const { searchQuery, statusFilter, selectedMonth, selectedYear } = useDashboard();
 
   useEffect(() => {
     dispatch(getOrders());
   }, [dispatch]);
 
-  const recentOrders = adminOrder?.orders?.slice(0, 5) || [];
+  // Apply filters
+  const filteredOrders = (adminOrder?.orders || []).filter((order) => {
+    const matchesStatus = statusFilter === 'all' || order.orderStatus?.toLowerCase() === statusFilter;
+    const matchesSearch = !searchQuery ||
+      `${order.user?.firstName} ${order.user?.lastName}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.user?.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order._id?.toLowerCase().includes(searchQuery.toLowerCase());
+    const orderDate = order.createdAt ? new Date(order.createdAt) : null;
+    const matchesMonth = selectedMonth === '' || (orderDate && orderDate.getMonth() === parseInt(selectedMonth));
+    const matchesYear = !orderDate || orderDate.getFullYear() === parseInt(selectedYear);
+    return matchesStatus && matchesSearch && matchesMonth && matchesYear;
+  }).slice(0, 5);
+
+  const recentOrders = filteredOrders;
 
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
@@ -40,28 +55,25 @@ const OrdersTableView = () => {
 
   return (
     <Card sx={{ borderRadius: '24px', boxShadow: '0 4px 25px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9', bgcolor: '#ffffff' }}>
-      <Box sx={{ p: 3.5, borderBottom: '1px solid #f8fafc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5 }}>
-            <Typography variant="h6" sx={{ fontWeight: 900, color: '#1e293b', letterSpacing: '-0.5px' }}>Latest Orders</Typography>
-            <Box sx={{ px: 1.5, py: 0.4, borderRadius: '8px', bgcolor: '#f0f9ff', color: '#97c2d5', fontSize: '0.7rem', fontWeight: 800 }}>LIVE</Box>
-          </Box>
-          <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>Tracking the most recent transactions</Typography>
+      <Box sx={{ p: 4, borderBottom: '1px solid #f8fafc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 900, color: '#111827', letterSpacing: '-0.5px' }}>Latest Orders</Typography>
+          <Box sx={{ px: 1.5, py: 0.5, borderRadius: '8px', bgcolor: '#f0f9ff', color: '#97c2d5', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.5px' }}>LIVE</Box>
         </Box>
         <Box sx={{ display: 'flex', gap: 1.5 }}>
-          <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 700, '&:hover': { borderColor: '#97c2d5', bgcolor: 'transparent' } }}>Filters</Button>
-          <Button variant="contained" sx={{ borderRadius: '12px', textTransform: 'none', px: 2, bgcolor: '#111827', color: '#ffffff', fontWeight: 700, boxShadow: '0 10px 20px rgba(0,0,0,0.1)', '&:hover': { bgcolor: '#1f2937' } }}>View All</Button>
+          <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2.5, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 800, '&:hover': { borderColor: '#97c2d5', bgcolor: 'transparent' } }}>Filters</Button>
+          {/* <Button variant="contained" sx={{ borderRadius: '12px', textTransform: 'none', px: 2.5, bgcolor: '#111827', color: '#ffffff', fontWeight: 800, boxShadow: '0 10px 20px rgba(0,0,0,0.1)', '&:hover': { bgcolor: '#1f2937' } }}></Button> */}
         </Box>
       </Box>
       <TableContainer>
         <Table sx={{ minWidth: 800 }}>
           <TableHead>
             <TableRow sx={{ bgcolor: '#fbfcfd' }}>
-              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>SOURCE SYSTEM</TableCell>
-              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>CUSTOMER PROFILE</TableCell>
-              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>REVENUE</TableCell>
-              <TableCell sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>STATUS</TableCell>
-              <TableCell align="right" sx={{ color: '#64748b', fontWeight: 900, fontSize: '0.7rem', py: 2.5, px: 3.5, letterSpacing: '1px' }}>CONTROL</TableCell>
+              <TableCell sx={{ color: '#94a3b8', fontWeight: 900, fontSize: '0.65rem', py: 2.5, px: 4, letterSpacing: '1.2px', textTransform: 'uppercase' }}>Source Details</TableCell>
+              <TableCell sx={{ color: '#94a3b8', fontWeight: 900, fontSize: '0.65rem', py: 2.5, px: 3.5, letterSpacing: '1.2px', textTransform: 'uppercase' }}>Customer Analytics</TableCell>
+              <TableCell sx={{ color: '#94a3b8', fontWeight: 900, fontSize: '0.65rem', py: 2.5, px: 3.5, letterSpacing: '1.2px', textTransform: 'uppercase' }}>Net Revenue</TableCell>
+              <TableCell sx={{ color: '#94a3b8', fontWeight: 900, fontSize: '0.65rem', py: 2.5, px: 3.5, letterSpacing: '1.2px', textTransform: 'uppercase' }}>Order Status</TableCell>
+              <TableCell align="right" sx={{ color: '#94a3b8', fontWeight: 900, fontSize: '0.65rem', py: 2.5, px: 4, letterSpacing: '1.2px', textTransform: 'uppercase' }}>Management</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

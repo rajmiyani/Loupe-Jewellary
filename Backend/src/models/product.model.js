@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ProductSchema = new  mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -45,16 +45,29 @@ const ProductSchema = new  mongoose.Schema({
         type: String,
         // required: true,
     },
+    metalType: { type: String },
+    metalPurity: { type: String },
+    metalWeight: { type: Number },
+    hallmarkCertification: { type: String },
+    metalColor: { type: String },
+    primaryStoneType: { type: String },
+    stoneShape: { type: String },
+    stoneWeight: { type: Number },
+    ringSize: { type: String },
+    chainLength: { type: String },
+    pendantSize: { type: String },
+    dimensions: { type: String },
+    totalWeight: { type: Number },
     sizes: [
         {
-            weight: {type:String, required: true},
-            size:{type:String, required: false},
-            stock:{type:Number},
+            weight: { type: String, required: true },
+            size: { type: String, required: false },
+            stock: { type: Number },
         }
     ],
     imageUrls: [
         {
-            imageUrl: {type:String}
+            imageUrl: { type: String }
         }
     ],
     ratings: [

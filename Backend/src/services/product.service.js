@@ -61,6 +61,19 @@ async function createProduct(reqData) {
         brand: reqData.brand,
         quantity: reqData.quantity,
         category: thirdLevel._id,
+        metalType: reqData.metalType,
+        metalPurity: reqData.metalPurity,
+        metalWeight: reqData.metalWeight,
+        hallmarkCertification: reqData.hallmarkCertification,
+        metalColor: reqData.metalColor,
+        primaryStoneType: reqData.primaryStoneType,
+        stoneShape: reqData.stoneShape,
+        stoneWeight: reqData.stoneWeight,
+        ringSize: reqData.ringSize,
+        chainLength: reqData.chainLength,
+        pendantSize: reqData.pendantSize,
+        dimensions: reqData.dimensions,
+        totalWeight: reqData.totalWeight,
     })
 
     const savedProduct = await product.save();

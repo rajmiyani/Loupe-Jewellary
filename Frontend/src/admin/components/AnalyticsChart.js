@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card, CardContent, Typography, Box, Button, ButtonGroup } from '@mui/material'
+import React, { useState } from 'react'
+import { Card, CardContent, Typography, Box, Button, ButtonGroup, FormControl, Select, MenuItem } from '@mui/material'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 import { motion } from 'framer-motion'
 import { Calendar, ChevronDown } from 'lucide-react'
@@ -15,6 +15,9 @@ const data = [
 ]
 
 const AnalyticsChart = () => {
+    const [selectedMonth, setSelectedMonth] = useState('');
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -31,19 +34,29 @@ const AnalyticsChart = () => {
                         <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>Visualizing revenue and sales trajectories</Typography>
                     </Box>
                     <Box sx={{ display: 'flex', gap: 2 }}>
-                        <ButtonGroup variant="outlined" sx={{ borderRadius: '12px', overflow: 'hidden', '& .MuiButton-root': { borderColor: '#f1f5f9', textTransform: 'none', color: '#64748b', fontWeight: 700, px: 2 } }}>
-                            <Button>Day</Button>
-                            <Button sx={{ bgcolor: '#f0f9ff', color: '#97c2d5 !important', borderColor: '#e0f2f1 !important' }}>Week</Button>
-                            <Button>Month</Button>
-                        </ButtonGroup>
-                        <Button
-                            variant="outlined"
-                            startIcon={<Calendar size={16} />}
-                            endIcon={<ChevronDown size={16} />}
-                            sx={{ borderRadius: '12px', textTransform: 'none', borderColor: '#f1f5f9', color: '#64748b', fontWeight: 700, px: 2, '&:hover': { borderColor: '#97c2d5', bgcolor: 'transparent' } }}
-                        >
-                            Oct 2024
-                        </Button>
+                        <FormControl size="small" sx={{ minWidth: 120 }}>
+                            <Select
+                                value={selectedMonth}
+                                onChange={(e) => setSelectedMonth(e.target.value)}
+                                displayEmpty
+                                sx={{ borderRadius: '12px', fontWeight: 700, fontSize: '0.85rem', bgcolor: '#f8fafc', color: '#64748b', '& .MuiOutlinedInput-notchedOutline': { borderColor: '#f1f5f9' }, '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#97c2d5' }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#97c2d5' } }}
+                            >
+                                {[{ value: '', label: 'All Months' }, { value: '0', label: 'Jan' }, { value: '1', label: 'Feb' }, { value: '2', label: 'Mar' }, { value: '3', label: 'Apr' }, { value: '4', label: 'May' }, { value: '5', label: 'Jun' }, { value: '6', label: 'Jul' }, { value: '7', label: 'Aug' }, { value: '8', label: 'Sep' }, { value: '9', label: 'Oct' }, { value: '10', label: 'Nov' }, { value: '11', label: 'Dec' }].map(m => (
+                                    <MenuItem key={m.value} value={m.value} sx={{ fontWeight: 700 }}>{m.label}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl size="small" sx={{ minWidth: 100 }}>
+                            <Select
+                                value={selectedYear}
+                                onChange={(e) => setSelectedYear(e.target.value)}
+                                sx={{ borderRadius: '12px', fontWeight: 700, fontSize: '0.85rem', bgcolor: '#f8fafc', color: '#64748b', '& .MuiOutlinedInput-notchedOutline': { borderColor: '#f1f5f9' }, '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#97c2d5' }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#97c2d5' } }}
+                            >
+                                {[2024, 2025, 2026].map(y => (
+                                    <MenuItem key={y} value={y} sx={{ fontWeight: 700 }}>{y}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Box>
                 </Box>
                 <CardContent sx={{ p: 4, pt: 2 }}>
