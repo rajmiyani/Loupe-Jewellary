@@ -18,7 +18,7 @@ root.render(
             <meta name='description' content='Discover a dazzling online jewelry shopping experience with Loupe 💎✨' />
             <meta name="keywords" content="Exquisite Jewelry, Online Store, Luxury Accessories, Secure Transactions, Immersive Design" />
         </Helmet>
-        <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+        <GoogleOAuthProvider clientId="697454810183-ob2h3lgvbd3knup1thqssb9hj99eg11n.apps.googleusercontent.com">
             <Provider store={store}>
                 <ToastProvider>
                     <ToastEventBridge />

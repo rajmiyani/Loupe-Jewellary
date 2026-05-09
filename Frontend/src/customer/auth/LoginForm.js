@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Button, Grid, TextField, styled, Box, Typography, Divider } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login, googleLogin } from '../../state/auth/Action';
+import { login, googleLogin, getUser } from '../../state/auth/Action';
 import { ModalContext } from '../../context/modal/modalContext';
 import Swal from "sweetalert2";
 import { GoogleLogin } from '@react-oauth/google';
@@ -81,16 +81,24 @@ const LoginForm = () => {
         console.log("Google Login Success:", credentialResponse);
         dispatch(googleLogin(credentialResponse.credential))
             .then((user) => {
-                if (user?.role === "ADMIN") {
-                    navigate("/admin")
-                } else {
-                    navigate("/")
-                }
+                const jwt = localStorage.getItem("jwt");
+                if (jwt) dispatch(getUser(jwt));
                 modal.closeModal();
-                window.location.reload()
+                if (user?.role === "ADMIN") {
+                    navigate("/admin");
+                } else {
+                    navigate("/");
+                }
             })
             .catch((err) => {
                 console.error("Google Login Action Error:", err);
+                Swal.fire({
+                    icon: "error",
+                    title: "Google Login Failed",
+                    text: "Something went wrong. Please try again.",
+                    showConfirmButton: false,
+                    timer: 3000,
+                });
             });
     };
 
