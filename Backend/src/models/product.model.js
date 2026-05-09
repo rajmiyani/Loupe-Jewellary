@@ -41,10 +41,9 @@ const ProductSchema = new mongoose.Schema({
     type: {
         type: String,
     },
-    color: {
+    color: [{
         type: String,
-        // required: true,
-    },
+    }],
     metalType: { type: String },
     metalPurity: { type: String },
     metalWeight: { type: Number },

@@ -9,7 +9,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import { Badge, Button } from "@mui/material";
+import { Badge, Button, Typography } from "@mui/material";
 import AuthModel from "../../auth/AuthModel";
 import { getUser, logout } from "../../../state/auth/Action";
 import { useDispatch, useSelector } from "react-redux";
@@ -474,12 +474,10 @@ export default function Navigation() {
             {/* Logo */}
             <div className="h-full flex justify-start items-center logo-div">
               <Link to="/" className="cursor-pointer">
-                <span className="sr-only">Loupe</span>
-                <img
-                  className="object-cover w-40 mt-4"
-                  src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1707743755/gayatri_logo_yylmuj.png"
-                  alt="Loupe Logo"
-                />
+                <span className="sr-only">Loupe Jeweler</span>
+                <Typography variant="h5" sx={{ fontFamily: 'serif', fontWeight: 700, color: '#97c2d5', textTransform: 'uppercase', mt: 1, letterSpacing: '2px' }}>
+                  Loupe Jeweler
+                </Typography>
               </Link>
             </div>
 
