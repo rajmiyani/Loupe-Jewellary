@@ -8,7 +8,7 @@ const CraftsmanshipSection = () => {
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[10s] group-hover:scale-110"
                 style={{
-                    backgroundImage: 'url("https://res.cloudinary.com/deq0hxr3t/image/upload/v1711732551/craftmanship_bg.jpg")', // Placeholder, will update if needed
+                    backgroundImage: 'url("https://images.unsplash.com/photo-1576188973526-0e5d7047b0ea?q=80&w=1000&auto=format&fit=crop")',
                     opacity: 0.6
                 }}
             />

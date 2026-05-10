@@ -115,16 +115,27 @@ const HomeSectionCarousel = ({
         ],
     };
 
-    const items = localProducts?.content
-        ? localProducts.content?.map((item, index) => (
-            <HomeSectionCard
-                product={item}
-                index={index}
-                key={item._id}
-                productLabel={sectionLabel}
-            />
-        ))
-        : loading ? [1, 2, 3, 4].map(n => <div key={n} className="p-4 h-[20rem] animate-pulse bg-gray-200 rounded-lg"></div>) : null;
+    // High-quality Dummy Products precisely matching the screenshot's data
+    const dummyProducts = [
+        { _id: 'd1', title: 'Celestial Star Necklace', discountedPrice: 99, price: 120, discountPercent: 18, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1000&auto=format&fit=crop' }] },
+        { _id: 'd2', title: 'Radiant Hoop Earrings', discountedPrice: 85, price: 110, discountPercent: 23, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop' }] },
+        { _id: 'd3', title: 'Infinity Ring', discountedPrice: 75, price: 95, discountPercent: 21, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1605100804763-247f67b3f41e?q=80&w=1000&auto=format&fit=crop' }] },
+        { _id: 'd4', title: 'Charm Bracelet', discountedPrice: 90, price: 125, discountPercent: 28, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1611085510590-09c063b46903?q=80&w=1000&auto=format&fit=crop' }] },
+        { _id: 'd5', title: 'Eternal Gold Band', discountedPrice: 150, price: 200, discountPercent: 25, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000&auto=format&fit=crop' }] },
+        { _id: 'd6', title: 'Diamond Studs', discountedPrice: 1200, price: 1500, discountPercent: 20, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1000&auto=format&fit=crop' }] }
+    ];
+
+    const displayProducts = localProducts?.content?.length > 0 ? localProducts.content : dummyProducts;
+
+    const items = displayProducts?.map((item, index) => (
+        <HomeSectionCard
+            product={item}
+            index={index}
+            key={item._id}
+            productLabel={sectionLabel}
+        />
+    ))
+        || loading ? [1, 2, 3, 4].map(n => <div key={n} className="p-4 h-[20rem] animate-pulse bg-gray-200 rounded-lg"></div>) : null;
 
     return (
         <div className="my-5" id={_id}>

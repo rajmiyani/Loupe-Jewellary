@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { store } from "../../../state/store";
 import { addWishItem, removeWishItem } from "../../../state/wishlist/Action";
 import { formatPriceINR } from "../../../utils/price";
+import { motion } from "framer-motion";
 
 const HomeSectionCard = ({ product, productLabel }) => {
   const [mouseHover, setMouseHover] = useState(false);
@@ -16,86 +17,62 @@ const HomeSectionCard = ({ product, productLabel }) => {
 
   const handleFavouriteChange = (event) => {
     setFavChecked(event.target.checked);
-
     if (event.target.checked === true) {
       dispatch(addWishItem({ productId: product._id }));
-    }
-    else {
-      dispatch(removeWishItem(product._id))
+    } else {
+      dispatch(removeWishItem(product._id));
     }
   };
 
-  const handleMouseEnter = () => setMouseHover(true);
-  const handleMouseLeave = () => setMouseHover(false);
-
   return (
-    <div
-      id={`product-card-${product._id}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={`relative transition-transform duration-300 cursor-pointer flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-[22rem] w-[18rem] border ${mouseHover ? "shadow-2xl -translate-y-2 z-50" : ""
-        }`}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      onMouseEnter={() => setMouseHover(true)}
+      onMouseLeave={() => setMouseHover(false)}
+      className="group relative bg-white rounded-[24px] overflow-hidden transition-all duration-500 cursor-pointer h-[380px] w-full border border-gray-100/50 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-2"
     >
-      <div className="relative w-full h-[15rem] rounded-lg transition duration-1000">
-        <Link
-          to={`/product/${product._id}`}
-          target="_blank" rel="noopener noreferrer"
-        >
+      <div className="relative aspect-[1/1.1] overflow-hidden rounded-[20px] m-2">
+        <Link to={`/product/${product._id}`}>
           <img
             src={product.imageUrls?.[0]?.imageUrl}
-            style={
-              mouseHover
-                ? {
-                  transform: "scale(1.1)",
-                  transition: "transform 0.3s",
-                }
-                : {}
-            }
-            alt=""
-            className="object-cover object-left-top w-full h-full transition duration-1000 rounded-lg"
+            alt={product.title}
+            className={`w-full h-full object-cover transition-transform duration-1000 ease-out ${mouseHover ? 'scale-110' : 'scale-100'}`}
           />
         </Link>
 
-        <div className="fav-icon bg-white rounded-full h-7 w-7 shadow-sm absolute top-3 right-3 flex items-center justify-center">
-          <Checkbox
-            checked={favChecked}
-            onChange={handleFavouriteChange}
-            inputProps={{ "aria-label": "Favourites" }}
-            icon={<FavoriteBorderIcon />}
-            checkedIcon={<FavoriteIcon />}
-            color="error"
-          ></Checkbox>
+        {/* Favorite Icon */}
+        <div className="absolute top-3 right-3 z-10">
+          <div className="bg-white/80 backdrop-blur-md rounded-full p-1 shadow-sm hover:scale-110 transition-transform">
+            <Checkbox
+              checked={favChecked}
+              onChange={handleFavouriteChange}
+              icon={<FavoriteBorderIcon sx={{ fontSize: 20, color: '#94a3b8' }} />}
+              checkedIcon={<FavoriteIcon sx={{ fontSize: 20, color: '#ef4444' }} />}
+            />
+          </div>
         </div>
 
+        {/* Product Label */}
         {productLabel && (
-          <div
-            style={{ backgroundColor: "#6a9eb5" }}
-            className="px-2 py-1 rounded-sm absolute bottom-2 left-2 z-10 text-white"
-          >
-            <p className="text-xs font-sans font-normal">{productLabel}</p>
+          <div className="absolute bottom-3 left-3 z-10 px-3 py-1 bg-[#97c2d5] text-white text-[10px] font-bold rounded-full tracking-widest shadow-lg">
+            {productLabel}
           </div>
         )}
       </div>
 
-      <Link to={`/product/${product._id}`} target="_blank" rel="noopener noreferrer" >
-        <div className="p-4">
-          <h3 className="text-base font-sans font-semibold inline-block w-full whitespace-nowrap overflow-hidden text-ellipsis">{product.title}</h3>
-          <div className="flex items-center justify-between mt-1">
-            <div className="flex gap-3 items-center justify-center">
-              <p className="text-lg font-sans text-gray-800 font-semibold">
-                ₹ {formatPriceINR(product.discountedPrice)}
-              </p>
-              <p className="text-base font-sans text-gray-400 line-through font-semibold">
-                ₹ {formatPriceINR(product.price)}
-              </p>
-            </div>
-            <p className="text-sm font-sans text-red-500 font-bold">
-              {product.discountPercent}% off
-            </p>
-          </div>
+      <div className="p-4 text-center">
+        <h3 className="text-gray-900 font-medium text-sm mb-2 truncate px-2 group-hover:text-[#97c2d5] transition-colors">
+          {product.title}
+        </h3>
+        <div className="flex items-center justify-center gap-3">
+          <p className="text-[#1e293b] font-bold text-base">₹ {formatPriceINR(product.discountedPrice)}</p>
+          <p className="text-gray-400 line-through text-xs italic">₹ {formatPriceINR(product.price)}</p>
         </div>
-      </Link>
-    </div>
+      </div>
+    </motion.div>
   );
 };
 

@@ -6,21 +6,21 @@ const collections = [
     {
         title: "The Bridal Suite",
         subtitle: "Eternal Elegance",
-        image: "https://res.cloudinary.com/deq0hxr3t/image/upload/v1711732551/bridal_collection.jpg",
+        image: "https://images.unsplash.com/photo-1544441893-675973e31d85?q=80&w=1000&auto=format&fit=crop",
         link: "/all-jewellery/category/necklace?collection=bridal",
         size: "large"
     },
     {
         title: "Everyday Chic",
         subtitle: "Modern Staples",
-        image: "https://res.cloudinary.com/deq0hxr3t/image/upload/v1711732551/everyday_chic.jpg",
+        image: "https://images.unsplash.com/photo-1573408302185-91275f923b17?q=80&w=1000&auto=format&fit=crop",
         link: "/all-jewellery/category/rings?collection=everyday",
         size: "small"
     },
     {
         title: "Office Sophistication",
         subtitle: "Refined Luxury",
-        image: "https://res.cloudinary.com/deq0hxr3t/image/upload/v1711732551/office_wear.jpg",
+        image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1000&auto=format&fit=crop",
         link: "/all-jewellery/category/earrings?collection=office",
         size: "small"
     }

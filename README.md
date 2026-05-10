@@ -1,6 +1,6 @@
 # Loupe Jeweler - E-Commerce Platform
 
-This is the central repository for the **Loupe Jeweler** (formerly Gayatri) application, encompassing both the customer-facing e-commerce storefront and the executive-tier admin dashboard.
+This is the central repository for the **Loupe Jeweler** application, encompassing both the customer-facing e-commerce storefront and the executive-tier admin dashboard.
 
 ## 📂 Project Structure
 

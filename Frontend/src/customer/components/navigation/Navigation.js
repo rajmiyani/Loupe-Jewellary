@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import { Badge, Button, Drawer, Typography, IconButton, Menu, MenuItem, InputBase, Backdrop, Divider, ListItemIcon, ListItemText } from "@mui/material";
+import { Badge, Box, Button, Drawer, Typography, IconButton, Menu, MenuItem, InputBase, Backdrop, Divider, ListItemIcon, ListItemText } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -269,23 +269,89 @@ export default function Navigation() {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
-                <div className="flex px-4 pb-2 pt-5">
-                  <button type="button" className="relative -m-2 p-2 text-gray-400" onClick={() => setOpen(false)}>
-                    <CloseIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-                <Tab.Group as="div" className="mt-2">
-                  <div className="border-b border-gray-200">
-                    <Tab.List className="-mb-px flex space-x-8 px-4">
-                      {navigation.categories.map((category) => (
-                        <Tab key={category.id} className={({ selected }) => classNames(selected ? "border-[#97c2d5] text-[#97c2d5]" : "border-transparent text-gray-900", "flex-1 border-b-2 px-1 py-4 text-base font-medium")}>
-                          {category.name}
-                        </Tab>
-                      ))}
-                    </Tab.List>
+              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl border-r border-[#97c2d5]/10">
+                <div className="flex items-center justify-between px-6 pb-4 pt-6 border-b border-gray-100 bg-gray-50/50">
+                  <div className="flex items-center">
+                    <img
+                      src="/Loupe_Jeweler-logo.png"
+                      alt="Loupe Jeweler"
+                      className="h-12 w-auto object-contain brightness-90 grayscale-[0.3]"
+                    />
                   </div>
-                </Tab.Group>
+                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#94a3b8' }}>
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+
+                {/* Mobile Navigation List */}
+                <Box sx={{ py: 2 }}>
+                  {navigation.categories.map((category) => (
+                    <Box key={category.id} sx={{ mb: 1 }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          px: 3,
+                          py: 1.5,
+                          fontSize: '0.9rem',
+                          fontWeight: 800,
+                          color: '#1e293b',
+                          letterSpacing: 1.5,
+                          textTransform: 'uppercase',
+                          bgcolor: '#f8fafc'
+                        }}
+                      >
+                        {category.name}
+                      </Typography>
+                      <Box sx={{ px: 3, py: 1 }}>
+                        {category.sections.map((section) => (
+                          <Box key={section.id} sx={{ mb: 3 }}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                fontWeight: 700,
+                                color: '#97c2d5',
+                                mb: 1,
+                                fontSize: '0.75rem',
+                                letterSpacing: 1
+                              }}
+                            >
+                              {section.name}
+                            </Typography>
+                            <ul className="space-y-2.5">
+                              {section.items.map((item) => (
+                                <li key={item.id}>
+                                  <p
+                                    onClick={() => {
+                                      navigate(`/${category.id}/${section.id}/${item.id}`);
+                                      setOpen(false);
+                                    }}
+                                    className="text-[0.9rem] text-gray-500 hover:text-[#97c2d5] cursor-pointer active:scale-95 transition-all font-medium py-1"
+                                  >
+                                    {item.name}
+                                  </p>
+                                </li>
+                              ))}
+                            </ul>
+                          </Box>
+                        ))}
+                      </Box>
+                      <Divider sx={{ mx: 3, my: 1, opacity: 0.5 }} />
+                    </Box>
+                  ))}
+                </Box>
+
+                {/* Mobile Bottom Section */}
+                <Box sx={{ mt: 'auto', p: 3, bgcolor: '#f1f5f9' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                    <span className="text-xl">{selectedCountry.flag}</span>
+                    <Typography variant="body2" sx={{ fontWeight: 600, color: '#475569' }}>
+                      {selectedCountry.name} ({selectedCountry.currency.split(' ')[0]})
+                    </Typography>
+                  </Box>
+                  <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                    © 2024 Loupe Jeweler. All Rights Reserved.
+                  </Typography>
+                </Box>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -296,16 +362,24 @@ export default function Navigation() {
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <div className="flex h-18 items-center justify-between">
 
-            {/* Left: Logo */}
+            {/* Left: Logo & Toggle */}
             <div className="flex items-center">
-              <button type="button" className="lg:hidden p-2 text-white" onClick={() => setOpen(true)}>
-                <MenuIcon className="h-6 w-6" />
-              </button>
-              <Link to="/" className="flex items-center ml-4 lg:ml-0">
+              <IconButton
+                onClick={() => setOpen(true)}
+                className="lg:hidden"
+                sx={{
+                  color: 'white',
+                  ml: -1,
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
+                }}
+              >
+                <MenuIcon sx={{ fontSize: 28 }} />
+              </IconButton>
+              <Link to="/" className="flex items-center ml-1 lg:ml-0">
                 <img
                   src="/Loupe_Jeweler-logo.png"
                   alt="Loupe Jeweler"
-                  className="h-20 w-auto object-contain"
+                  className="h-14 sm:h-16 lg:h-20 w-auto object-contain transition-all duration-300"
                 />
               </Link>
             </div>
@@ -391,7 +465,7 @@ export default function Navigation() {
             </div>
 
             {/* Right: Tools */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-3 sm:space-x-6">
 
               {/* Country */}
               <div
@@ -429,12 +503,17 @@ export default function Navigation() {
 
               {/* Profile */}
               <div className="relative cursor-pointer">
-                <div
+                <IconButton
                   onClick={handleProfileClick}
-                  className={`p-1.5 rounded-full transition-all hover:bg-white/20 ${Boolean(anchorEl) ? 'bg-white/20' : ''}`}
+                  sx={{
+                    color: 'white',
+                    p: 1,
+                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' },
+                    bgcolor: Boolean(anchorEl) ? 'rgba(255,255,255,0.2)' : 'transparent'
+                  }}
                 >
                   <PermIdentityOutlinedIcon sx={{ width: "24px", height: "24px" }} />
-                </div>
+                </IconButton>
 
                 <Menu
                   anchorEl={anchorEl}
@@ -526,16 +605,16 @@ export default function Navigation() {
               </div>
 
               {/* Search Toggle */}
-              <div className="cursor-pointer" onClick={() => setSearchOpen(!searchOpen)}>
+              <IconButton onClick={() => setSearchOpen(!searchOpen)} sx={{ color: 'white', p: 1 }}>
                 <SearchIcon sx={{ width: "24px", height: "24px" }} />
-              </div>
+              </IconButton>
 
               {/* Cart */}
-              <div className="cursor-pointer" onClick={() => setCartOpen(true)}>
+              <IconButton onClick={() => setCartOpen(true)} sx={{ color: 'white', p: 1 }}>
                 <Badge badgeContent={cart.cart?.totalItem} sx={{ '& .MuiBadge-badge': { backgroundColor: 'white', color: '#97c2d5', fontWeight: 'bold' } }}>
                   <AddShoppingCartIcon sx={{ width: "23px", height: "23px" }} />
                 </Badge>
-              </div>
+              </IconButton>
 
             </div>
           </div>
