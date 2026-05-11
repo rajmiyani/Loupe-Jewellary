@@ -32,95 +32,71 @@ const ProductCard = ({ product, index }) => {
 
   return (
     <div
-      onMouseEnter={() => {
-        setMouseHover(true);
-      }}
-      onMouseLeave={() => {
-        setMouseHover(false);
-      }}
-      style={
-        isMouseHover ? { zIndex: zIndex.modal + 2, boxShadow: "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px" } : { zIndex: zIndex.appBar, boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px" }
-      }
+      onMouseEnter={() => setMouseHover(true)}
+      onMouseLeave={() => setMouseHover(false)}
       onClick={() => navigate(`/product/${product?._id}`)}
-      className="p-2 rounded-lg w-[17rem] md:w-[18rem] h-[26rem] overflow-visible hover:-translate-y-10 hover:h-[32rem] hover:bg-white m-3 transition-all duration-300 cursor-pointer"
+      className="group relative flex flex-col items-center p-3 mb-10 transition-all duration-500 cursor-pointer w-[17rem] md:w-[19rem]"
     >
-      <div className="h-[18rem] md:h-[20rem] mb-3 overflow-hidden rounded-md">
+      {/* Product Image Container */}
+      <div className="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-[#f8fafc] mb-5 shadow-sm group-hover:shadow-xl transition-shadow duration-500">
         <img
-          style={
-            isMouseHover
-              ? {
-                transform: "scale(1.1)",
-                transition: "transform 0.2s",
-              }
-              : {}
-          }
           src={!isMouseHover ? primaryImageUrl : hoverImageUrl}
-          alt="jewellery"
-          className="h-full w-full object-cover border transition duration-300"
+          alt={product?.title}
+          className={`h-full w-full object-cover transition-transform duration-700 ${isMouseHover ? 'scale-110' : 'scale-100'}`}
         />
-      </div>
 
-      <div className="flex flex-col justify-center items-center text-center">
-        <div className="mb-2">
-          <h1
-            className="text-lg font-semibold text-gray-900 dark:text-white"
-            style={{ textOverflow: "ellipsis", overflow: "hidden", width: "13rem", whiteSpace: "nowrap" }}
-          >
-            {product?.title || "Untitled Product"}
-          </h1>
-          <button
-            style={{ textTransform: "capitalize" }}
-            className="text-sm font-bold text-[#6a9eb5] dark:text-amber-400 px-2"
-          >
-            {product?.category?.name || "Unknown Category"}
-          </button>
-        </div>
-
-        {isMouseHover && (
-          <div>
-            <img
-              src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwd9a3b5d2/Line-Design.svg"
-              alt=""
-              className="w-full h-6 py-0 object-cover scale-150 px-5 overflow-hidden"
-            />
-            <div className="flex justify-evenly items-center w-full ">
-              <p className="text-xl font-semibold">₹ {formatPriceINR(productDiscountedPrice)}</p>
-              <p className="text-xs font-bold text-red-500">{discount}% off</p>
-            </div>
-            <img
-              src="https://www.tanishq.co.in/on/demandware.static/-/Library-Sites-TanishqSharedLibrary/default/dwd9a3b5d2/Line-Design.svg"
-              alt=""
-              className="w-full h-6 py-0 object-cover scale-150 px-5 overflow-hidden"
-            />
-            <div className="flex px-2 justify-around items-center w-full my-2">
-              <div className="flex-col items-center justify-center w-6/12 space-y-2">
-                <p className="text-xs font-bold text-gray-500">Brand</p>
-                <button className="text-sm font-bold text-fuchsia-500 bg-fuchsia-50 px-2">
-                  {product?.brand || "Brand"}
-                </button>
-              </div>
-              <div className="flex-col items-center justify-center w-6/12 space-y-2">
-                <p className="text-xs font-bold text-gray-500">Type</p>
-                <button
-                  style={{ textTransform: "capitalize" }}
-                  className="text-sm font-bold text-[#6a9eb5] bg-blue-50 px-2"
-                >
-                  {product?.type || "Type"}
-                </button>
-              </div>
-            </div>
+        {/* Discount Badge */}
+        {discount > 0 && (
+          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full shadow-sm">
+            <p className="text-[0.65rem] font-black text-[#97c2d5] uppercase tracking-wider">{discount}% OFF</p>
           </div>
         )}
 
-        {
-          !isMouseHover &&
-          (
-            <div className="my-2 flex w-full gap-2 items-center justify-center hover:text-red-500 transition duration-500">
-              <p className="text-sm font-medium opacity-50 dark:text-gray-300">Hover Details</p>
-              <span>&rarr;</span>
-            </div>
-          )
-        }
+        {/* New Arrival Badge (If applicable) */}
+        {index < 3 && (
+          <div className="absolute top-4 right-4 bg-[#1e293b] px-2.5 py-1 rounded-full shadow-sm">
+            <p className="text-[0.6rem] font-bold text-white uppercase tracking-widest">New</p>
+          </div>
+        )}
+      </div>
+
+      {/* Product Information */}
+      <div className="w-full text-center space-y-1.5 transition-all duration-300">
+        <p className="text-[0.65rem] font-black text-[#94a3b8] uppercase tracking-[0.2em] mb-1">
+          {product?.type || "Fine Jewellery"}
+        </p>
+
+        <h3 className="text-[1.1rem] font-semibold text-[#1e293b] font-serif leading-tight px-2 line-clamp-1">
+          {product?.title || "Untitled Masterpiece"}
+        </h3>
+
+        {/* Dynamic Divider */}
+        <div className="flex items-center justify-center gap-2 py-1">
+          <div className={`h-[1px] bg-slate-100 transition-all duration-500 ${isMouseHover ? 'w-12' : 'w-4'}`} />
+          <div className="w-1 h-1 rounded-full bg-[#97c2d5]" />
+          <div className={`h-[1px] bg-slate-100 transition-all duration-500 ${isMouseHover ? 'w-12' : 'w-4'}`} />
+        </div>
+
+        {/* Pricing */}
+        <div className="flex flex-col items-center transition-all duration-300 transform">
+          <div className="flex items-baseline gap-2">
+            <span className="text-lg font-black text-[#1e293b]">
+              ₹{formatPriceINR(productDiscountedPrice)}
+            </span>
+            {discount > 0 && (
+              <span className="text-[0.8rem] text-[#94a3b8] line-through decoration-slate-300">
+                ₹{formatPriceINR(productPrice)}
+              </span>
+            )}
+          </div>
+
+          {/* Collection Name on Hover */}
+          <div className={`overflow-hidden transition-all duration-500 ${isMouseHover ? 'h-6 opacity-100 mt-2' : 'h-0 opacity-0'}`}>
+            <p className="text-[0.7rem] font-bold text-[#97c2d5] uppercase tracking-widest">
+              {product?.brand || "Loupe Collection"}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
