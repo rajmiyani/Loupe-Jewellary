@@ -193,6 +193,7 @@ export default function Navigation() {
   const [selectedCountry, setSelectedCountry] = useState({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' });
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -240,6 +241,14 @@ export default function Navigation() {
   const handleCountrySelect = (country) => {
     setSelectedCountry(country);
     handleCountryClose();
+  };
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' && searchQuery.trim()) {
+      navigate(`/all-jewellery/all/jewellery?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
   };
 
   return (
@@ -498,6 +507,9 @@ export default function Navigation() {
                       autoFocus
                       placeholder="Search for products..."
                       fullWidth
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={handleSearch}
                       sx={{
                         color: 'white',
                         fontSize: '1.1rem',

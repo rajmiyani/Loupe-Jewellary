@@ -104,6 +104,7 @@ export default function Product() {
   const pageNumberValue = searchParams.get("page");
   const typeValue = searchParams.get("type");
   const occasionValue = searchParams.get("occasion");
+  const searchValue = searchParams.get("search");
 
   useEffect(() => {
     const [minPrice, maxPrice] = priceValue === null ? [100, 1000000] : priceValue.split(",").map(Number);
@@ -116,23 +117,20 @@ export default function Product() {
       const jewelryType = ['gold', 'diamond', 'silver', 'gemstone', 'platinum'];
       const occasionTypes = ['bridal', 'casual', 'engagement', 'modern', 'office', 'traditional-ethenic'];
 
-      // Resolve type: use URL query param first, then infer from route segments
       let resolvedType = typeValue || "";
       if (!resolvedType) {
         if (jewelryType.includes(param.levelThree)) {
-          resolvedType = param.levelThree; // e.g. /all-jewellery/gold/jewellery
+          resolvedType = param.levelThree;
         } else if (jewelryType.includes(param.levelOne)) {
-          resolvedType = param.levelOne; // e.g. /gold/category/bangle
+          resolvedType = param.levelOne;
         }
       }
 
-      // Resolve occasion: use URL query param first, then infer from route segments
       let resolvedOccasion = occasionValue || "";
       if (!resolvedOccasion && occasionTypes.includes(param.levelThree)) {
         resolvedOccasion = param.levelThree;
       }
 
-      // Resolve category: levelThree — but treat type/occasion values as "jewellery"
       let resolvedCategory = param.levelThree || "jewellery";
       if (jewelryType.includes(resolvedCategory) || occasionTypes.includes(resolvedCategory)) {
         resolvedCategory = "jewellery";
@@ -151,6 +149,7 @@ export default function Product() {
         occasion: resolvedOccasion || [],
         type: resolvedType || [],
         collectionName: collectionParam || "",
+        search: searchValue || "",
       }
       dispatch(findProducts(data));
 
@@ -166,7 +165,8 @@ export default function Product() {
     sortValue,
     pageNumberValue,
     occasionValue,
-    typeValue
+    typeValue,
+    searchValue,
   ])
 
   // Handle multiple filters on cards

@@ -317,16 +317,8 @@ export default function ProductDetails() {
           </Grid>
         </Box>
 
-        {/* Similar Products */}
-        <Box sx={{ mb: 10 }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, mb: 6, color: 'var(--primary-blue)' }}>
-            Curated For You
-          </Typography>
-          <HomeSectionCarousel sectionLabel={"similar"} sectionCategory={products.product.category?.name} />
-        </Box>
+        <RatingReviewForm open={modal.state} handleClose={() => modal.closeModal()} />
       </div>
-
-      <RatingReviewForm open={modal.state} handleClose={() => modal.closeModal()} />
     </div>
   );
 }

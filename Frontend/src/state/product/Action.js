@@ -36,11 +36,13 @@ export const findProducts = (reqData) => async (dispatch) => {
     // stock,
     pageNumber,
     pageSize, // total products in 1 page
+    search,
   } = reqData;
+  console.log('reqData for findProducts', reqData);
 
   try {
     const { data } = await api.get(
-      `${API_BASE_URL}/api/products?color=${color}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${minDiscount}&maxDiscount=${maxDiscount}&type=${type}&category=${category}&occasion=${occasion}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}&collectionName=${collectionName}`
+      `${API_BASE_URL}/api/products?color=${color}&minPrice=${minPrice}&maxPrice=${maxPrice}&minDiscount=${minDiscount}&maxDiscount=${maxDiscount}&type=${type}&category=${category}&occasion=${occasion}&sort=${sort}&pageNumber=${pageNumber}&pageSize=${pageSize}&collectionName=${collectionName}&search=${search || ''}`
     );
 
     dispatch({ type: FIND_PRODUCTS_SUCCESS, payload: data });
@@ -63,11 +65,11 @@ export const findProductById = (reqData) => async (dispatch) => {
   }
 };
 
-export const createProduct = (product) => async(dispatch) => {
+export const createProduct = (product) => async (dispatch) => {
   try {
-    dispatch({type: CREATE_PRODUCT_REQUEST})
+    dispatch({ type: CREATE_PRODUCT_REQUEST })
 
-    const {data} = await api.post(`${API_BASE_URL}/api/admin/products`, product);
+    const { data } = await api.post(`${API_BASE_URL}/api/admin/products`, product);
     console.log('created product:', data)
 
     dispatch({
@@ -92,17 +94,17 @@ export const createProduct = (product) => async(dispatch) => {
         type: [],
       };
       await dispatch(findProducts(refreshPayload));
-    } catch {}
+    } catch { }
   } catch (error) {
     dispatch({ type: CREATE_PRODUCT_FAILURE, payload: error.message });
   }
 }
 
-export const deleteProduct = (productId) => async(dispatch) => {
+export const deleteProduct = (productId) => async (dispatch) => {
   try {
-    dispatch({type: DELETE_PRODUCT_REQUEST})
+    dispatch({ type: DELETE_PRODUCT_REQUEST })
 
-    const {data} = await api.delete(`${API_BASE_URL}/api/admin/products/${productId}`)
+    const { data } = await api.delete(`${API_BASE_URL}/api/admin/products/${productId}`)
     console.log("deleted product:", data)
 
     dispatch({
@@ -127,7 +129,7 @@ export const deleteProduct = (productId) => async(dispatch) => {
         type: [],
       };
       await dispatch(findProducts(refreshPayload));
-    } catch {}
+    } catch { }
   } catch (error) {
     dispatch({ type: DELETE_PRODUCT_FAILURE, payload: error.message });
   }
@@ -156,7 +158,7 @@ export const updateProduct = ({ productId, updates }) => async (dispatch) => {
         type: [],
       };
       await dispatch(findProducts(refreshPayload));
-    } catch {}
+    } catch { }
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_FAILURE, payload: error.message });
   }

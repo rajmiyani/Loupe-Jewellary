@@ -129,6 +129,7 @@ async function getAllProducts(reqQuery) {
         occasion,
         sort,
         collectionName,
+        search,
         // stock,
         pageNumber,
         pageSize, // total products in 1 page
@@ -203,6 +204,11 @@ async function getAllProducts(reqQuery) {
 
     if (minDiscount && maxDiscount) {
         query = query.where('discountPercent').gte(minDiscount).lte(maxDiscount)
+    }
+
+    if (search && search !== '' && search !== 'undefined') {
+        const searchRegex = new RegExp(search, "i");
+        query = query.where("title").regex(searchRegex);
     }
 
     // if (stock) {
