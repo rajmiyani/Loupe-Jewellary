@@ -262,94 +262,143 @@ export default function Navigation() {
           <div className="fixed inset-0 z-40 flex">
             <Transition.Child
               as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
+              enter="transition ease-in-out duration-500 transform"
               enterFrom="-translate-x-full"
               enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
+              leave="transition ease-in-out duration-400 transform"
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl border-r border-[#97c2d5]/10">
-                <div className="flex items-center justify-between px-6 pb-4 pt-6 border-b border-gray-100 bg-gray-50/50">
+              <Dialog.Panel className="relative flex w-full max-w-[85vw] flex-col overflow-y-auto bg-white pb-12 shadow-2xl">
+                {/* 1. Editorial Header Bar */}
+                <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5 bg-white/90 backdrop-blur-xl border-b border-gray-100">
                   <div className="flex items-center">
                     <img
                       src="/Loupe_Jeweler-logo.png"
                       alt="Loupe Jeweler"
-                      className="h-12 w-auto object-contain brightness-90 grayscale-[0.3]"
+                      className="h-10 w-auto object-contain"
                     />
                   </div>
-                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#94a3b8' }}>
-                    <CloseIcon />
+                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#1e293b', bgcolor: '#f8fafc', '&:hover': { bgcolor: '#f1f5f9' } }}>
+                    <CloseIcon sx={{ fontSize: 20 }} />
                   </IconButton>
                 </div>
 
-                {/* Mobile Navigation List */}
+                {/* 2. Premium User Profile Section */}
+                <Box sx={{ p: 4, bgcolor: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
+                  {!auth.user ? (
+                    <Box>
+                      <Typography sx={{ fontSize: '1.2rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#1e293b', mb: 1 }}>
+                        Welcome to Loupe
+                      </Typography>
+                      <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 3, letterSpacing: 0.5 }}>
+                        Join us for an exclusive boutique experience.
+                      </Typography>
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={(e) => { handleOpen(e, "login"); setOpen(false); }}
+                          fullWidth
+                          variant="contained"
+                          sx={{ bgcolor: '#1e293b', color: 'white', py: 1, fontSize: '0.7rem', fontWeight: 900, borderRadius: '4px' }}
+                        >
+                          Login
+                        </Button>
+                        <Button
+                          onClick={(e) => { handleOpen(e, "register"); setOpen(false); }}
+                          fullWidth
+                          variant="outlined"
+                          sx={{ borderColor: '#1e293b', color: '#1e293b', py: 1, fontSize: '0.7rem', fontWeight: 900, borderRadius: '4px' }}
+                        >
+                          Join Now
+                        </Button>
+                      </div>
+                    </Box>
+                  ) : (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
+                      <div className="w-14 h-14 rounded-full bg-[#97c2d5] flex items-center justify-center text-white text-xl font-serif">
+                        {auth.user.firstName?.[0]}
+                      </div>
+                      <Box>
+                        <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#1e293b' }}>
+                          {auth.user.firstName}
+                        </Typography>
+                        <Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>
+                          Exclusive Member
+                        </Typography>
+                        <Typography
+                          onClick={() => { navigate("/user-details/?layout=0"); setOpen(false); }}
+                          sx={{ fontSize: '0.7rem', color: '#97c2d5', mt: 0.5, cursor: 'pointer', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}
+                        >
+                          View Account
+                        </Typography>
+                      </Box>
+                    </Box>
+                  )}
+                </Box>
+
+                {/* 3. Boutique Category Accordion */}
                 <Box sx={{ py: 2 }}>
                   {navigation.categories.map((category) => (
-                    <Box key={category.id} sx={{ mb: 1 }}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          px: 3,
-                          py: 1.5,
-                          fontSize: '0.9rem',
-                          fontWeight: 800,
-                          color: '#1e293b',
-                          letterSpacing: 1.5,
-                          textTransform: 'uppercase',
-                          bgcolor: '#f8fafc'
-                        }}
-                      >
-                        {category.name}
-                      </Typography>
-                      <Box sx={{ px: 3, py: 1 }}>
-                        {category.sections.map((section) => (
-                          <Box key={section.id} sx={{ mb: 3 }}>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{
-                                fontWeight: 700,
-                                color: '#97c2d5',
-                                mb: 1,
-                                fontSize: '0.75rem',
-                                letterSpacing: 1
-                              }}
-                            >
-                              {section.name}
-                            </Typography>
-                            <ul className="space-y-2.5">
-                              {section.items.map((item) => (
-                                <li key={item.id}>
-                                  <p
-                                    onClick={() => {
-                                      navigate(`/${category.id}/${section.id}/${item.id}`);
-                                      setOpen(false);
-                                    }}
-                                    className="text-[0.9rem] text-gray-500 hover:text-[#97c2d5] cursor-pointer active:scale-95 transition-all font-medium py-1"
-                                  >
-                                    {item.name}
-                                  </p>
-                                </li>
-                              ))}
-                            </ul>
-                          </Box>
+                    <div key={category.id} className="border-b border-gray-50 last:border-none">
+                      <div className="group flex items-center justify-between px-6 py-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                        onClick={() => { /* Toggle logic if needed, or direct navigate */ }}>
+                        <Typography
+                          sx={{
+                            fontSize: '0.85rem',
+                            fontWeight: 800,
+                            color: '#1e293b',
+                            letterSpacing: 2,
+                            textTransform: 'uppercase'
+                          }}
+                        >
+                          {category.name}
+                        </Typography>
+                        <KeyboardArrowDownIcon sx={{ fontSize: 20, color: '#94a3b8', transform: 'rotate(-90deg)' }} />
+                      </div>
+
+                      {/* Sub-items Grid */}
+                      <div className="px-8 pb-6 grid grid-cols-2 gap-4">
+                        {category.sections[0].items.slice(0, 4).map((item) => (
+                          <p
+                            key={item.id}
+                            onClick={() => {
+                              navigate(`/${category.id}/${category.sections[0].id}/${item.id}`);
+                              setOpen(false);
+                            }}
+                            className="text-[0.75rem] text-gray-500 hover:text-[#97c2d5] font-medium tracking-wide"
+                          >
+                            {item.name}
+                          </p>
                         ))}
-                      </Box>
-                      <Divider sx={{ mx: 3, my: 1, opacity: 0.5 }} />
-                    </Box>
+                        <p
+                          onClick={() => { navigate(`/${category.id}`); setOpen(false); }}
+                          className="text-[0.75rem] text-[#97c2d5] font-black underline uppercase"
+                        >
+                          View All
+                        </p>
+                      </div>
+                    </div>
                   ))}
                 </Box>
 
-                {/* Mobile Bottom Section */}
-                <Box sx={{ mt: 'auto', p: 3, bgcolor: '#f1f5f9' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                    <span className="text-xl">{selectedCountry.flag}</span>
-                    <Typography variant="body2" sx={{ fontWeight: 600, color: '#475569' }}>
-                      {selectedCountry.name} ({selectedCountry.currency.split(' ')[0]})
-                    </Typography>
+                {/* 4. Luxury Utility Bar */}
+                <Box sx={{ mt: 'auto', p: 4, bgcolor: '#1e293b', color: 'white' }}>
+                  <Box sx={{ display: 'flex', itemsCenter: 'center', justifyContent: 'space-between', mb: 3 }}>
+                    <div className="flex items-center gap-2" onClick={handleCountryOpen}>
+                      <span className="text-lg">{selectedCountry.flag}</span>
+                      <Typography sx={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: 1 }}>{selectedCountry.name} (INR)</Typography>
+                    </div>
+                    {auth.user && (
+                      <Typography
+                        onClick={handleLogout}
+                        sx={{ fontSize: '0.7rem', fontWeight: 800, color: '#ef4444', letterSpacing: 1, textTransform: 'uppercase' }}
+                      >
+                        Logout
+                      </Typography>
+                    )}
                   </Box>
-                  <Typography variant="caption" sx={{ color: '#94a3b8' }}>
-                    © 2024 Loupe Jeweler. All Rights Reserved.
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: 1 }}>
+                    © 2024 LOUPE JEWELER • PREMIUM BOUTIQUE
                   </Typography>
                 </Box>
               </Dialog.Panel>

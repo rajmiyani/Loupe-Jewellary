@@ -6,12 +6,15 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
-import { useLocation } from 'react-router-dom';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import LogoutIcon from '@mui/icons-material/Logout';
-import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
-import VerifiedIcon from '@mui/icons-material/Verified';
+import {
+    ShoppingCart,
+    CheckCircle2,
+    Package,
+    Truck,
+    Home,
+    Zap
+} from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -19,47 +22,47 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     },
     [`&.${stepConnectorClasses.active}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            background: '#ED213A',
-            background: '-webkit-linear-gradient(to right, #93291E, #ED213A)',
-            background: 'linear-gradient(to right, #93291E, #ED213A)',
+            background: '#1e293b',
+            background: 'linear-gradient(to right, #1e293b, #97c2d5)',
         },
     },
     [`&.${stepConnectorClasses.completed}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            background: '#ED213A',
-            background: '-webkit-linear-gradient(to right, #93291E, #ED213A)',
-            background: 'linear-gradient(to right, #93291E, #ED213A)',
+            background: '#1e293b',
+            background: 'linear-gradient(to right, #1e293b, #97c2d5)',
         },
     },
     [`& .${stepConnectorClasses.line}`]: {
-        height: 3,
+        height: 2,
         border: 0,
-        backgroundColor:
-            theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+        backgroundColor: '#f1f5f9',
         borderRadius: 1,
     },
 }));
 
 const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
+    backgroundColor: '#f8fafc',
     zIndex: 1,
-    color: '#fff',
-    width: 40,
-    height: 40,
+    color: '#94a3b8',
+    width: 50,
+    height: 50,
     display: 'flex',
-    borderRadius: '50%',
+    borderRadius: '16px',
     justifyContent: 'center',
     alignItems: 'center',
+    border: '1px solid #f1f5f9',
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
     ...(ownerState.active && {
-        background: '#ED213A',
-        background: '-webkit-linear-gradient(to right, #93291E, #ED213A)',
-        background: 'linear-gradient(to right, #93291E, #ED213A)',
-        boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+        background: '#1e293b',
+        color: '#97c2d5',
+        boxShadow: '0 10px 25px rgba(30, 41, 59, 0.15)',
+        borderColor: '#1e293b',
+        transform: 'scale(1.1)',
     }),
     ...(ownerState.completed && {
-        background: '#ED213A',
-        background: '-webkit-linear-gradient(to right, #93291E, #ED213A)',
-        background: 'linear-gradient(to right, #93291E, #ED213A)',
+        background: '#f1f5f9',
+        color: '#1e293b',
+        borderColor: '#e2e8f0',
     }),
 }));
 
@@ -67,53 +70,58 @@ function ColorlibStepIcon(props) {
     const { active, completed, className } = props;
 
     const icons = {
-        1: <ShoppingCartIcon />,
-        2: <ThumbUpAltIcon />,
-        3: <LogoutIcon />,
-        4: <DeliveryDiningIcon />,
-        5: <VerifiedIcon />,
+        1: <ShoppingCart size={20} />,
+        2: <CheckCircle2 size={20} />,
+        3: <Package size={20} />,
+        4: <Truck size={20} />,
+        5: <Home size={20} />,
     };
 
     return (
-        <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
-            {icons[String(props.icon)]}
-        </ColorlibStepIconRoot>
+        <motion.div
+            initial={false}
+            animate={active ? { scale: [1, 1.05, 1], transition: { repeat: Infinity, duration: 2 } } : { scale: 1 }}
+        >
+            <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
+                {icons[String(props.icon)]}
+            </ColorlibStepIconRoot>
+        </motion.div>
     );
 }
 
 ColorlibStepIcon.propTypes = {
-    /**
-     * Whether this step is active.
-     * @default false
-     */
     active: PropTypes.bool,
     className: PropTypes.string,
-    /**
-     * Mark the step as completed. Is passed to child components.
-     * @default false
-     */
     completed: PropTypes.bool,
-    /**
-     * The label displayed in the step icon.
-     */
     icon: PropTypes.node,
 };
 
-const steps = ['Placed', 'Order Confirmed', 'Shipped', 'Out For Delivery', 'Dilivered'];
+const steps = ['Registry Placed', 'Order Confirmed', 'Boutique Prep', 'In Transit', 'Hand-Delivered'];
 
-export default function OrderTracker({activeStep}) {
-    const location = useLocation();
-    const querySearch = new URLSearchParams(location.search);
-    // const [activeStep, setActiveStep] = React.useState(querySearch.get("step") || 0);
-
-
+export default function OrderTracker({ activeStep }) {
     return (
-        <div className='p-10 lg:px-20 lg:py-10'>
+        <div className='p-8 lg:px-12 lg:py-16 bg-white/50 backdrop-blur-sm rounded-[32px] border border-white/50'>
             <Stack sx={{ width: '100%' }}>
                 <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                     {steps.map((label) => (
                         <Step key={label}>
-                            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                            <StepLabel
+                                StepIconComponent={ColorlibStepIcon}
+                                sx={{
+                                    '& .MuiStepLabel-label': {
+                                        fontSize: '0.7rem',
+                                        fontWeight: 900,
+                                        textTransform: 'uppercase',
+                                        letterSpacing: 1.5,
+                                        mt: 2,
+                                        color: '#94a3b8',
+                                        '&.Mui-active': { color: '#1e293b' },
+                                        '&.Mui-completed': { color: '#1e293b', opacity: 0.7 }
+                                    }
+                                }}
+                            >
+                                {label}
+                            </StepLabel>
                         </Step>
                     ))}
                 </Stepper>

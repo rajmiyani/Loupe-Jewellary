@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getWish, addWishItem, removeWishItem } from '../../../state/wishlist/Action';
 import { useNavigate } from 'react-router-dom';
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Button, Checkbox } from "@mui/material";
+import { Box, Typography, Button, IconButton, Grid, Paper } from "@mui/material";
+import { Heart, ShoppingBag, Trash2, ArrowRight } from "lucide-react";
 import { formatPriceINR } from "../../../utils/price";
+import { motion, AnimatePresence } from "framer-motion";
 
 const WishList = () => {
   const dispatch = useDispatch();
@@ -14,108 +14,178 @@ const WishList = () => {
 
   useEffect(() => {
     dispatch(getWish());
-    console.log("wishlist.wishItems", wishlist.wishItems)
-
   }, [wishlist.deleteWishItem]);
 
-  // Initialize state to keep track of checked status for each product
-  const [checkedProducts, setCheckedProducts] = useState({});
-
-  const handleFavouriteChange = (event, productId) => {
-    const isChecked = event.target.checked;
-
-    // Update the checked status for the product
-    setCheckedProducts(prevState => ({
-      ...prevState,
-      [productId]: isChecked
-    }));
-
-    // Dispatch addWishItem or removeWishItem based on isChecked status
-    if (isChecked) {
-      dispatch(addWishItem({ productId }));
-    } else {
-      dispatch(removeWishItem(productId));
-    }
+  const handleRemoveFromWishlist = (productId) => {
+    dispatch(removeWishItem(productId));
   };
 
-
   return (
-
-    wishlist?.wishItems?.length === 0 ?
-      (
-        <div className="p-4 h-full flex justify-center flex-col gap-4 items-center flex-wrap flex-grow">
-          <div>
-            <img src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1711647890/empty_wish_rp1zy3.webp" alt="empty-wish" />
-          </div>
-          <div className="flex flex-col justify-center items-center gap-2">
-            <h1 className="text-2xl font-semibold text-[#6a9eb5]">Your WishList is Empty!</h1>
+    <Box sx={{ py: 2 }}>
+      <AnimatePresence mode="wait">
+        {wishlist?.wishItems?.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center justify-center py-24 text-center rounded-[32px] bg-white border border-dashed border-gray-200"
+          >
+            <Box sx={{ p: 4, borderRadius: '50%', bgcolor: 'rgba(151, 194, 213, 0.05)', mb: 4 }}>
+              <Heart size={64} className="text-[#97c2d5] opacity-40" strokeWidth={1} />
+            </Box>
+            <Typography sx={{ fontSize: '2rem', fontFamily: "'Playfair Display', serif", color: '#1e293b', mb: 1.5, letterSpacing: -0.5 }}>
+              Your Curated Treasures
+            </Typography>
+            <Typography sx={{ fontSize: '0.95rem', color: '#64748b', mb: 5, maxWidth: 450, lineHeight: 1.6 }}>
+              Experience the art of curation. Start adding exclusive Loupe pieces that speak to your individual elegance.
+            </Typography>
             <Button
               onClick={() => navigate('/')}
               variant="contained"
-              type="submit"
-              sx={{ bgcolor: '#6a9eb5', "&:hover": { bgcolor: "#97c2d5" }, }}
-              className="flex w-full uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none "
+              sx={{
+                bgcolor: '#1e293b',
+                color: 'white',
+                px: 8,
+                py: 2.2,
+                borderRadius: '16px',
+                fontSize: '0.8rem',
+                fontWeight: 900,
+                letterSpacing: 3,
+                textTransform: 'uppercase',
+                '&:hover': { bgcolor: '#97c2d5', transform: 'translateY(-2px)' },
+                transition: 'all 0.3s'
+              }}
             >
-              Continue Shopping
+              Explore Collections
             </Button>
-          </div>
-        </div>
-      )
-      :
-      (<div className='relative p-4 flex gap-3 flex-wrap flex-grow'>
-        {
-          wishlist && wishlist.wishItems && wishlist.wishItems.map((item) => {
-            const product = item?.product; // Modified to use optional chaining
-            if (!product || !product._id) return null; // Check for product existence and _id property
+          </motion.div>
+        ) : (
+          <Grid container spacing={4}>
+            {wishlist.wishItems.map((item, index) => {
+              const product = item?.product;
+              if (!product || !product._id) return null;
 
-            return (
-              <div
-                key={item._id}
-                className=
-                "transition duration-300 cursor-pointer flex flex-col bg-white rounded-lg shadow-md overflow-hidden h-[22rem] w-[16rem] border"
-              >
-                <div className="relative w-full h-[15rem] rounded-lg transition duration-1000">
-                  <img
-                    src={product?.imageUrls?.[0]?.imageUrl}
-                    onClick={() => navigate(`/product/${product?._id}`)}
-                    alt=""
-                    className="object-cover object-top w-full h-full transition duration-1000 rounded-lg"
-                  />
+              return (
+                <Grid item xs={12} sm={6} md={4} key={item._id}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.6 }}
+                  >
+                    <Paper
+                      elevation={0}
+                      sx={{
+                        borderRadius: '32px',
+                        overflow: 'hidden',
+                        bgcolor: 'white',
+                        border: '1px solid #f1f5f9',
+                        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                        position: 'relative',
+                        '&:hover': {
+                          boxShadow: '0 30px 60px rgba(15, 23, 42, 0.08)',
+                          transform: 'translateY(-8px)',
+                          '& .action-overlay': { opacity: 1 },
+                          '& .product-img': { transform: 'scale(1.08)' }
+                        }
+                      }}
+                    >
+                      {/* Portrait Image Frame */}
+                      <Box sx={{ position: 'relative', aspectRatio: '3/4', overflow: 'hidden' }}>
+                        <img
+                          src={product?.imageUrls?.[0]?.imageUrl}
+                          alt={product?.title}
+                          className="product-img w-full h-full object-cover transition-transform duration-[1.5s] ease-out"
+                        />
 
-                  <div className="fav-icon bg-white rounded-full h-7 w-7 shadow-sm absolute top-3 right-3 flex items-center justify-center">
-                    <Checkbox
-                      checked={checkedProducts[product?._id] ?? true} // Default to true if checked state is not defined
-                      onChange={(e) => handleFavouriteChange(e, product?._id)}
-                      inputProps={{ "aria-label": "Favourites" }}
-                      icon={<FavoriteBorderIcon />}
-                      checkedIcon={<FavoriteIcon />}
-                      color="error"
-                    />
-                  </div>
-                </div>
+                        {/* Action Overlay */}
+                        <div className="action-overlay absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-500 flex items-center justify-center gap-4 backdrop-blur-[2px]">
+                          <IconButton
+                            onClick={() => handleRemoveFromWishlist(product._id)}
+                            sx={{ bgcolor: 'white', color: '#ef4444', p: 2, '&:hover': { bgcolor: '#ef4444', color: 'white' } }}
+                          >
+                            <Trash2 size={24} />
+                          </IconButton>
+                        </div>
 
-                <div className="p-4" onClick={() => navigate(`/product/${product?._id}`)}>
-                  <h3 className="text-base font-sans font-semibold">{product?.title}</h3>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="flex gap-3 items-center justify-center">
-                      <p className="text-lg font-sans text-gray-800 font-semibold">
-                        ₹ {formatPriceINR(product?.discountedPrice)}
-                      </p>
-                      <p className="text-base font-sans text-gray-400 line-through font-semibold">
-                        ₹ {formatPriceINR(product?.price)}
-                      </p>
-                    </div>
-                    <p className="text-sm font-sans text-red-500 font-bold">
-                      {product?.discountPercent}% off
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        }
-      </div>)
-  )
-}
+                        {/* Status Pin */}
+                        <div className="absolute top-6 right-6">
+                          <Box sx={{
+                            bgcolor: 'rgba(255, 255, 255, 0.9)',
+                            backdropFilter: 'blur(10px)',
+                            p: 1.5,
+                            borderRadius: '50%',
+                            boxShadow: '0 10px 20px rgba(0,0,0,0.1)'
+                          }}>
+                            <Heart size={20} fill="#ef4444" color="#ef4444" />
+                          </Box>
+                        </div>
+                      </Box>
+
+                      {/* Details Section */}
+                      <Box sx={{ p: 4 }}>
+                        <Typography
+                          onClick={() => navigate(`/product/${product?._id}`)}
+                          sx={{
+                            fontSize: '1.2rem',
+                            fontWeight: 300,
+                            fontFamily: "'Playfair Display', serif",
+                            color: '#1e293b',
+                            mb: 1.5,
+                            cursor: 'pointer',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 1,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
+                          }}
+                        >
+                          {product?.title}
+                        </Typography>
+
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
+                          <Box className="flex items-baseline gap-2">
+                            <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#1e293b', fontFamily: "'Outfit', sans-serif" }}>
+                              ₹{formatPriceINR(product?.discountedPrice)}
+                            </Typography>
+                            <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', textDecoration: 'line-through' }}>
+                              ₹{formatPriceINR(product?.price)}
+                            </Typography>
+                          </Box>
+                          <div className="px-3 py-1 bg-[#97c2d5]/10 rounded-full">
+                            <Typography sx={{ fontSize: '0.65rem', color: '#97c2d5', fontWeight: 900, letterSpacing: 1 }}>
+                              {product?.discountPercent}% OFF
+                            </Typography>
+                          </div>
+                        </Box>
+
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          startIcon={<ShoppingBag size={18} />}
+                          onClick={() => navigate(`/product/${product?._id}`)}
+                          sx={{
+                            bgcolor: '#1e293b',
+                            color: 'white',
+                            py: 2,
+                            borderRadius: '16px',
+                            fontSize: '0.8rem',
+                            fontWeight: 900,
+                            letterSpacing: 2,
+                            textTransform: 'uppercase',
+                            '&:hover': { bgcolor: '#97c2d5' }
+                          }}
+                        >
+                          Discover Piece
+                        </Button>
+                      </Box>
+                    </Paper>
+                  </motion.div>
+                </Grid>
+              );
+            })}
+          </Grid>
+        )}
+      </AnimatePresence>
+    </Box>
+  );
+};
 
 export default WishList;

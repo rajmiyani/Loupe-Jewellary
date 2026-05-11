@@ -1,14 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
 import OrderTracker from './OrderTracker';
-import { Grid, IconButton } from "@mui/material";
-import StarIcon from '@mui/icons-material/Star';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Box, Typography, Paper, Grid, IconButton, Button, Divider } from "@mui/material";
+import {
+    Star,
+    MapPin,
+    Phone,
+    Truck,
+    ChevronLeft,
+    Info,
+    ShoppingBag,
+    ShieldCheck
+} from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderById } from '../../../state/order/Action';
 import { useNavigate, useParams } from 'react-router-dom';
 import RatingReviewForm from './RatingReviewForm';
 import { RRContext } from '../../../context/rrBox/rrContext';
 import { formatPriceINR } from '../../../utils/price';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const OrderDetails = () => {
     const { order } = useSelector(store => store);
@@ -20,11 +29,7 @@ const OrderDetails = () => {
     const [activeStep, setActiveStep] = useState(1);
 
     useEffect(() => {
-        const fetchOrder = () => {
-            dispatch(getOrderById(params.orderId));
-        };
-
-        fetchOrder();
+        dispatch(getOrderById(params.orderId));
     }, [dispatch, params.orderId]);
 
     useEffect(() => {
@@ -32,19 +37,11 @@ const OrderDetails = () => {
 
         let newActiveStep;
         switch (order.order?.orderStatus) {
-            case "CONFIRMED":
-                newActiveStep = 1;
-                break;
-            case "SHIPPED":
-                newActiveStep = 2;
-                break;
-            case "DELIVERED":
-                newActiveStep = 5;
-                break;
-            default:
-                newActiveStep = 1;
+            case "CONFIRMED": newActiveStep = 1; break;
+            case "SHIPPED": newActiveStep = 2; break;
+            case "DELIVERED": newActiveStep = 5; break;
+            default: newActiveStep = 1;
         }
-
         setActiveStep(newActiveStep);
     }, [order?.order?.orderStatus]);
 
@@ -60,102 +57,217 @@ const OrderDetails = () => {
     const { firstName, lastName, streetAddress, city, zipCode, mobile, state } = order.order?.shippingAddress || {};
 
     return (
-        <div className='p-5'>
-            <div className='p-3 bg-blue-50 text-blue-950 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
-                <h1 className='font-bold text-xl py-3'>Delivery Address</h1>
-                <div className='space-y-2'>
-                    <h1 className='text-lg font-semibold'>{firstName} {lastName}</h1>
-                    <p className='text-sm font-normal'>{streetAddress}, {city}, {zipCode}</p>
-                    <div>
-                        <p className='text-sm font-semibold'>Phone Number : </p>
-                        <p className='text-sm font-normal'>{mobile}</p>
-                    </div>
-                </div>
-            </div>
+        <Box sx={{ p: { xs: 2, md: 4, lg: 6 }, bgcolor: '#f1f5f9', minHeight: '100vh' }}>
+            <div className="max-w-6xl mx-auto space-y-8">
 
-            <div className='my-3'>
-                <OrderTracker activeStep={activeStep} />
-            </div>
+                {/* 1. Header Navigation & Breadcrumb */}
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                    <Button
+                        onClick={() => navigate('/user-details/?layout=2')}
+                        startIcon={<ChevronLeft size={18} />}
+                        sx={{ color: '#64748b', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, fontSize: '0.7rem' }}
+                    >
+                        Back to Registry
+                    </Button>
+                    <Box className="flex items-center gap-2">
+                        <Info size={14} className="text-[#97c2d5]" />
+                        <Typography sx={{ fontSize: '0.65rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>
+                            Order ID: {params.orderId?.slice(-8).toUpperCase()}
+                        </Typography>
+                    </Box>
+                </Box>
 
-            <div className="p-3 shadow-md hover:shadow-xl transition duration-300 hover:-translate-y-1 rounded-lg cursor-pointer">
-                <Grid
-                    onClick={() => navigate(`/product/${order.order?.orderItems[index]?.product._id}`)}
-                    container
-                    spacing={2}
-                    sx={{ justifyContent: "space-between", alignItems: "center", flexWrap: 'wrap' }}
-                >
-                    <Grid item>
-                        <div className="flex items-center">
-                            <img
-                                className="w-[7rem] h-[7rem] shadow-md rounded-md object-cover"
-                                src={
-                                    Array.isArray(order.order?.orderItems[index]?.product?.imageUrls) && order.order?.orderItems[index]?.product?.imageUrls.length > 0
-                                        ? (order.order?.orderItems[index]?.product?.imageUrls[0]?.imageUrl || order.order?.orderItems[index]?.product?.imageUrls[0])
-                                        : "https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg"
-                                }
-                                alt="product"
-                            />
+                {/* 2. Glassmorphic Tracking Core */}
+                <Box>
+                    <Typography sx={{ fontSize: '2.5rem', fontFamily: "'Playfair Display', serif", color: '#1e293b', mb: 4, fontWeight: 300 }}>
+                        Journey of your <span className="italic">Treasures</span>
+                    </Typography>
+                    <OrderTracker activeStep={activeStep} />
+                </Box>
 
-                            <div className="ml-5 space-y-2">
-                                <p className="font-semibold text-xl">
-                                    {order.order?.orderItems[index]?.product.title}
-                                </p>
-                                <p className="text-sm py-1 text-gray-400 font-medium">
-                                    Weight : {order.order?.orderItems[index]?.weight} | Size : {order.order?.orderItems[index]?.size} MM
-                                </p>
-                                <p className="text-sm  text-gray-400 font-medium">
-                                    Seller: {order.order?.orderItems[index]?.product.brand}
-                                </p>
+                <Grid container spacing={4}>
+                    {/* 3. High-Fidelity Order Item Card */}
+                    <Grid item xs={12} md={8}>
+                        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    p: 4,
+                                    borderRadius: '32px',
+                                    border: '1px solid #f1f5f9',
+                                    bgcolor: 'white',
+                                    overflow: 'hidden',
+                                    position: 'relative'
+                                }}
+                            >
+                                <div className="flex flex-col sm:flex-row gap-8 items-start">
+                                    {/* Portrait Item Frame */}
+                                    <Box sx={{
+                                        width: { xs: '100%', sm: 160 },
+                                        aspectRatio: '3/4',
+                                        borderRadius: '24px',
+                                        overflow: 'hidden',
+                                        boxShadow: '0 20px 40px rgba(0,0,0,0.05)'
+                                    }}>
+                                        <img
+                                            className="w-full h-full object-cover"
+                                            src={
+                                                Array.isArray(order.order?.orderItems[index]?.product?.imageUrls) && order.order?.orderItems[index]?.product?.imageUrls.length > 0
+                                                    ? (order.order?.orderItems[index]?.product?.imageUrls[0]?.imageUrl || order.order?.orderItems[index]?.product?.imageUrls[0])
+                                                    : "https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg"
+                                            }
+                                            alt="product"
+                                        />
+                                    </Box>
 
-                                <div className="flex space-x-5 items-center text-lg lg:text-xl text-gray-900 mt-3">
-                                    <p className="font-semibold lg:text-lg">₹ {formatPriceINR(order.order?.orderItems[index]?.product.discountedPrice)}</p>
-                                    <p className="font-semibold text-red-500 lg:text-sm">
-                                        {order.order?.orderItems[index]?.product.discountPercent}% off
-                                    </p>
+                                    {/* Item Narrative */}
+                                    <Box sx={{ flexGrow: 1, py: 1 }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                                            <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#1e293b' }}>
+                                                {order.order?.orderItems[index]?.product.title}
+                                            </Typography>
+                                            <div className="px-3 py-1 bg-[#97c2d5]/10 rounded-full">
+                                                <Typography sx={{ fontSize: '0.6rem', color: '#97c2d5', fontWeight: 900, letterSpacing: 1.5 }}>
+                                                    {order.order?.orderStatus}
+                                                </Typography>
+                                            </div>
+                                        </Box>
+
+                                        <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', mb: 4, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                                            <span className="font-bold text-[#1e293b]">Weight:</span> {order.order?.orderItems[index]?.weight} G |
+                                            <span className="font-bold text-[#1e293b]">Size:</span> {order.order?.orderItems[index]?.size} MM |
+                                            <span className="font-bold text-[#1e293b]">Boutique:</span> {order.order?.orderItems[index]?.product.brand}
+                                        </Typography>
+
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                                            <Box>
+                                                <Typography sx={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1, mb: 0.5 }}>
+                                                    Investment
+                                                </Typography>
+                                                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#1e293b', fontFamily: "'Outfit', sans-serif" }}>
+                                                    ₹{formatPriceINR(order.order?.orderItems[index]?.product.discountedPrice)}
+                                                </Typography>
+                                            </Box>
+                                            <Box sx={{ h: 30, w: '1px', bgcolor: '#f1f5f9' }} />
+                                            <Box>
+                                                <Typography sx={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1, mb: 0.5 }}>
+                                                    Member Benefit
+                                                </Typography>
+                                                <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#97c2d5' }}>
+                                                    Saved ₹{formatPriceINR(order.order?.orderItems[index]?.product.price - order.order?.orderItems[index]?.product.discountedPrice)}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Box>
                                 </div>
-                            </div>
 
-                        </div>
-                    </Grid>
+                                <Divider sx={{ my: 4, opacity: 0.5 }} />
 
-                    <Grid item>
-                        {true && (
-                            <div className="flex items-end justify-center flex-col mt-3 pr-5">
-                                <IconButton className="flex items-center">
-                                    <StarIcon
-                                        sx={{ width: "20px", height: "20px" }}
-                                        className="text-[#97c2d5] mr-2 text-sm"
-                                    />
-                                    <span className="font-semibold text-[#97c2d5] lg:text-base"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleOpen();
+                                <Box sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
+                                    <Button
+                                        onClick={handleOpen}
+                                        variant="outlined"
+                                        startIcon={<Star size={16} />}
+                                        sx={{
+                                            borderRadius: '16px',
+                                            borderColor: '#f1f5f9',
+                                            color: '#1e293b',
+                                            px: 4,
+                                            py: 1.5,
+                                            fontSize: '0.75rem',
+                                            fontWeight: 900,
+                                            letterSpacing: 2,
+                                            textTransform: 'uppercase',
+                                            '&:hover': { bgcolor: '#f8fafc', borderColor: '#1e293b' }
                                         }}
                                     >
-                                        Rate & Review Product
-                                    </span>
-                                </IconButton>
-                            </div>
-                        )}
+                                        Share Experience
+                                    </Button>
+                                </Box>
+                            </Paper>
+                        </motion.div>
+                    </Grid>
 
-                        {false && (
-                            <IconButton className="flex items-center justify-end mt-3 pr-5 font-semibold lg:text-lg">
-                                <CancelIcon
-                                    sx={{ width: "20px", height: "20px" }}
-                                    className="text-[#97c2d5] mr-2 text-sm"
-                                />
-                                <span className="font-semibold text-[#97c2d5] lg:text-base">
-                                    Cancel Order
-                                </span>
-                            </IconButton>
-                        )}
+                    {/* 4. Elite Delivery Registry Bento */}
+                    <Grid item xs={12} md={4}>
+                        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    p: 4,
+                                    borderRadius: '32px',
+                                    bgcolor: '#1e293b',
+                                    color: 'white',
+                                    position: 'relative',
+                                    overflow: 'hidden'
+                                }}
+                            >
+                                <Box sx={{ position: 'absolute', top: -50, right: -50, w: 150, h: 150, bgcolor: 'rgba(151,194,213,0.1)', borderRadius: '50%' }} />
+
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+                                    <Box sx={{ p: 1, borderRadius: '10px', bgcolor: '#97c2d5' }}>
+                                        <MapPin size={20} className="text-[#1e293b]" />
+                                    </Box>
+                                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 2 }}>
+                                        Delivery Registry
+                                    </Typography>
+                                </Box>
+
+                                <Box className="space-y-6">
+                                    <Box>
+                                        <Typography sx={{ fontSize: '1.2rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", mb: 1 }}>
+                                            {firstName} {lastName}
+                                        </Typography>
+                                        <Typography sx={{ fontSize: '0.85rem', opacity: 0.7, lineHeight: 1.6 }}>
+                                            {streetAddress} <br />
+                                            {city}, {state} <br />
+                                            {zipCode}
+                                        </Typography>
+                                    </Box>
+
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                        <Phone size={14} className="text-[#97c2d5]" />
+                                        <Typography sx={{ fontSize: '0.85rem', fontWeight: 700 }}>{mobile}</Typography>
+                                    </Box>
+
+                                    <Box
+                                        sx={{
+                                            p: 2,
+                                            borderRadius: '16px',
+                                            bgcolor: 'rgba(255,255,255,0.05)',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 2
+                                        }}
+                                    >
+                                        <ShieldCheck size={20} className="text-[#97c2d5]" />
+                                        <Box>
+                                            <Typography sx={{ fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1 }}>
+                                                Secured Delivery
+                                            </Typography>
+                                            <Typography sx={{ fontSize: '0.6rem', opacity: 0.6 }}>
+                                                Handled by our premium boutique logistics partners.
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Paper>
+                        </motion.div>
                     </Grid>
                 </Grid>
+
+                {/* 5. Support CTA */}
+                <Box sx={{ py: 4, textAlign: 'center' }}>
+                    <Typography sx={{ fontSize: '0.8rem', color: '#94a3b8', fontStyle: 'italic' }}>
+                        Need further assistance with this movement? <span className="text-[#1e293b] font-bold underline cursor-pointer" onClick={() => navigate('/user-details/?layout=3')}>Speak with Concierge</span>
+                    </Typography>
+                </Box>
             </div>
 
             <RatingReviewForm open={modal.state} handleClose={handleClose} />
-        </div>
-    )
-}
+        </Box>
+    );
+};
 
 export default OrderDetails;
