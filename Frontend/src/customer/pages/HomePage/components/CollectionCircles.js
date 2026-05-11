@@ -26,9 +26,9 @@ const CollectionCircles = () => {
         slidesToShow: 6,
         slidesToScroll: 1,
         autoplay: true,
-        speed: 800,
-        autoplaySpeed: 2500,
-        cssEase: "ease-in-out",
+        speed: 3000,
+        autoplaySpeed: 0,
+        cssEase: "linear",
         arrows: false,
         pauseOnHover: false,
         responsive: [

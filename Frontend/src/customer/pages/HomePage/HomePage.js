@@ -8,8 +8,10 @@ import HeroSection from "./components/HeroSection";
 import CollectionCircles from "./components/CollectionCircles";
 import BestSellerSection from "./components/BestSellerSection";
 import StyleStory from "./components/StyleStory";
+import LifestyleSplit from "./components/LifestyleSplit";
 import TrustBanner from "./components/TrustBanner";
 import SocialFeed from "./components/SocialFeed";
+import PerfectSparkleSection from "./components/PerfectSparkleSection";
 
 const HomePage = () => {
   const location = useLocation();
@@ -52,6 +54,11 @@ const HomePage = () => {
         <CollectionCircles />
       </section>
 
+      {/* 2.5 Find Your Perfect Sparkle */}
+      <section className="reveal">
+        <PerfectSparkleSection />
+      </section>
+
       {/* 3. Best Seller Slider */}
       <section className="reveal">
         <BestSellerSection />
@@ -60,6 +67,11 @@ const HomePage = () => {
       {/* Style Stories - Lifestyle Grid */}
       <section className="reveal">
         <StyleStory />
+      </section>
+
+      {/* Crafted for Every Moment */}
+      <section className="reveal">
+        <LifestyleSplit />
       </section>
 
       {/* 4. Brand Trust Features */}

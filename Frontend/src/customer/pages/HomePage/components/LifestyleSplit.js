@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const LifestyleSplit = () => {
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"]
+    });
+
+    const y1 = useTransform(scrollYProgress, [0, 1], [80, -80]);
+    const y2 = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+    const y3 = useTransform(scrollYProgress, [0, 1], [120, -120]);
+
     return (
-        <Box sx={{ py: { xs: 10, md: 16 }, px: { xs: 3, md: 12 }, bgcolor: '#ffffff' }}>
-            <div className="mx-auto max-w-[1400px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+        <Box ref={containerRef} sx={{ py: { xs: 10, md: 16 }, px: { xs: 3, md: 12 }, bgcolor: '#f8fafc', overflow: 'hidden' }}>
+            <div className="mx-auto max-w-[1400px] grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-12 lg:gap-24 items-center">
 
                 {/* Text Content */}
                 <motion.div
@@ -68,47 +78,77 @@ const LifestyleSplit = () => {
                 </motion.div>
 
                 {/* Images Grid - Mosaic Style */}
-                <div className="grid grid-cols-2 gap-4 md:gap-6">
+                <div className="grid grid-cols-3 gap-3 md:gap-5 items-center">
+                    {/* First Image - Space on Top */}
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="mt-12"
+                        style={{ y: y1 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="mt-20"
                     >
                         <Box
                             sx={{
                                 borderRadius: '40px',
                                 overflow: 'hidden',
-                                aspectRatio: '1/1.3',
+                                aspectRatio: '1/1.5',
                                 boxShadow: '0 20px 50px rgba(0,0,0,0.08)'
                             }}
                         >
                             <img
-                                src="/jewelry_reels_lifestyle_1778401192100.png"
+                                src="./imagess.jpeg"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
                                 alt="Lifestyle 1"
                             />
                         </Box>
                     </motion.div>
+
+                    {/* Second Image - Complete/Center */}
                     <motion.div
-                        initial={{ opacity: 0, y: -40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
+                        style={{ y: y2 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
                     >
                         <Box
                             sx={{
                                 borderRadius: '40px',
                                 overflow: 'hidden',
-                                aspectRatio: '1/1.3',
+                                aspectRatio: '1/1.5',
                                 boxShadow: '0 20px 50px rgba(0,0,0,0.08)'
                             }}
                         >
                             <img
-                                src="https://images.unsplash.com/photo-1544441893-675973e31d85?q=80&w=1000&auto=format&fit=crop"
+                                src="./images.jpeg"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
                                 alt="Lifestyle 2"
+                            />
+                        </Box>
+                    </motion.div>
+
+                    {/* Third Image - Space on Bottom (Shifted Up) */}
+                    <motion.div
+                        style={{ y: y3 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="-mt-20"
+                    >
+                        <Box
+                            sx={{
+                                borderRadius: '40px',
+                                overflow: 'hidden',
+                                aspectRatio: '1/1.5',
+                                boxShadow: '0 20px 50px rgba(0,0,0,0.08)'
+                            }}
+                        >
+                            <img
+                                src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1000&auto=format&fit=crop"
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
+                                alt="Lifestyle 3"
                             />
                         </Box>
                     </motion.div>
