@@ -16,6 +16,10 @@ import AuthModel from "../../auth/AuthModel";
 import { getUser, logout } from "../../../state/auth/Action";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalContext } from "../../../context/modal/modalContext";
+import { getCart, removeCartItem } from "../../../state/cart/Action";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { formatPriceINR } from "../../../utils/price";
 
 const navigation = {
   categories: [
@@ -203,8 +207,19 @@ export default function Navigation() {
   useEffect(() => {
     if (jwt) {
       dispatch(getUser(jwt));
+      dispatch(getCart());
     }
   }, [jwt, auth.jwt]);
+
+  const handleRemoveCartItem = (cartItemId) => {
+    dispatch(removeCartItem(cartItemId));
+  };
+
+  useEffect(() => {
+    if (cartOpen && jwt) {
+      dispatch(getCart());
+    }
+  }, [cartOpen, jwt]);
 
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -255,7 +270,7 @@ export default function Navigation() {
     <div className="bg-white">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
+        <Dialog as="div" className="relative z-[60] lg:hidden" onClose={setOpen}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -265,7 +280,7 @@ export default function Navigation() {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
           </Transition.Child>
 
           <div className="fixed inset-0 z-40 flex">
@@ -280,134 +295,111 @@ export default function Navigation() {
             >
               <Dialog.Panel className="relative flex w-full max-w-[85vw] flex-col overflow-y-auto bg-white pb-12 shadow-2xl">
                 {/* 1. Editorial Header Bar */}
-                <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5 bg-white/90 backdrop-blur-xl border-b border-gray-100">
-                  <div className="flex items-center">
+                <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5 bg-white border-b border-gray-100">
+                  <Link to="/" onClick={() => setOpen(false)}>
                     <img
                       src="/Loupe_Jeweler-logo.png"
                       alt="Loupe Jeweler"
                       className="h-10 w-auto object-contain"
                     />
-                  </div>
-                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#1e293b', bgcolor: '#f8fafc', '&:hover': { bgcolor: '#f1f5f9' } }}>
-                    <CloseIcon sx={{ fontSize: 20 }} />
+                  </Link>
+                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#1e293b' }}>
+                    <CloseIcon sx={{ fontSize: 22 }} />
                   </IconButton>
                 </div>
 
                 {/* 2. Premium User Profile Section */}
-                <Box sx={{ p: 4, bgcolor: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
+                <Box sx={{ p: 4, bgcolor: '#fafafa' }}>
                   {!auth.user ? (
                     <Box>
-                      <Typography sx={{ fontSize: '1.2rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#1e293b', mb: 1 }}>
-                        Welcome to Loupe
+                      <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#1e293b', mb: 1 }}>
+                        The Boutique
                       </Typography>
-                      <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 3, letterSpacing: 0.5 }}>
-                        Join us for an exclusive boutique experience.
+                      <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 3, letterSpacing: 0.5, lineHeight: 1.6 }}>
+                        Log in to access your exclusive jewelry collections and saved designs.
                       </Typography>
-                      <div className="flex gap-2">
-                        <Button
-                          onClick={(e) => { handleOpen(e, "login"); setOpen(false); }}
-                          fullWidth
-                          variant="contained"
-                          sx={{ bgcolor: '#1e293b', color: 'white', py: 1, fontSize: '0.7rem', fontWeight: 900, borderRadius: '4px' }}
-                        >
-                          Login
-                        </Button>
-                        <Button
-                          onClick={(e) => { handleOpen(e, "register"); setOpen(false); }}
-                          fullWidth
-                          variant="outlined"
-                          sx={{ borderColor: '#1e293b', color: '#1e293b', py: 1, fontSize: '0.7rem', fontWeight: 900, borderRadius: '4px' }}
-                        >
-                          Join Now
-                        </Button>
-                      </div>
+                      <Button
+                        onClick={(e) => { handleOpen(e, "login"); setOpen(false); }}
+                        fullWidth
+                        variant="contained"
+                        sx={{ bgcolor: '#1e293b', color: 'white', py: 1.5, fontSize: '0.8rem', fontWeight: 800, borderRadius: '8px', textTransform: 'uppercase', letterSpacing: 1 }}
+                      >
+                        Sign In
+                      </Button>
                     </Box>
                   ) : (
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-                      <div className="w-14 h-14 rounded-full bg-[#97c2d5] flex items-center justify-center text-white text-xl font-serif">
+                      <div className="w-16 h-16 rounded-full bg-[#1e293b] flex items-center justify-center text-white text-2xl font-serif">
                         {auth.user.firstName?.[0]}
                       </div>
                       <Box>
-                        <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#1e293b' }}>
-                          {auth.user.firstName}
+                        <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Playfair Display', serif" }}>
+                          Hello, {auth.user.firstName}
                         </Typography>
-                        <Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>
-                          Exclusive Member
+                        <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 0.8 }}>
+                          Loupe Circle Member
                         </Typography>
                         <Typography
                           onClick={() => { navigate("/user-details/?layout=0"); setOpen(false); }}
-                          sx={{ fontSize: '0.7rem', color: '#97c2d5', mt: 0.5, cursor: 'pointer', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}
+                          sx={{ fontSize: '0.7rem', color: '#97c2d5', cursor: 'pointer', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5 }}
                         >
-                          View Account
+                          My Dashboard
                         </Typography>
                       </Box>
                     </Box>
                   )}
                 </Box>
 
-                {/* 3. Boutique Category Accordion */}
-                <Box sx={{ py: 2 }}>
+                {/* 3. Boutique Category List */}
+                <Box sx={{ py: 4 }}>
+                  <Typography sx={{ px: 4, mb: 2, fontSize: '0.65rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>
+                    Collections
+                  </Typography>
                   {navigation.categories.map((category) => (
-                    <div key={category.id} className="border-b border-gray-50 last:border-none">
-                      <div className="group flex items-center justify-between px-6 py-5 cursor-pointer hover:bg-gray-50 transition-colors"
-                        onClick={() => { /* Toggle logic if needed, or direct navigate */ }}>
+                    <div key={category.id} className="group">
+                      <div className="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all"
+                        onClick={() => { navigate(`/${category.id}`); setOpen(false); }}>
                         <Typography
                           sx={{
-                            fontSize: '0.85rem',
-                            fontWeight: 800,
+                            fontSize: '0.95rem',
+                            fontWeight: 400,
+                            fontFamily: "'Playfair Display', serif",
                             color: '#1e293b',
-                            letterSpacing: 2,
-                            textTransform: 'uppercase'
+                            letterSpacing: 0.5
                           }}
                         >
                           {category.name}
                         </Typography>
-                        <KeyboardArrowDownIcon sx={{ fontSize: 20, color: '#94a3b8', transform: 'rotate(-90deg)' }} />
-                      </div>
-
-                      {/* Sub-items Grid */}
-                      <div className="px-8 pb-6 grid grid-cols-2 gap-4">
-                        {category.sections[0].items.slice(0, 4).map((item) => (
-                          <p
-                            key={item.id}
-                            onClick={() => {
-                              navigate(`/${category.id}/${category.sections[0].id}/${item.id}`);
-                              setOpen(false);
-                            }}
-                            className="text-[0.75rem] text-gray-500 hover:text-[#97c2d5] font-medium tracking-wide"
-                          >
-                            {item.name}
-                          </p>
-                        ))}
-                        <p
-                          onClick={() => { navigate(`/${category.id}`); setOpen(false); }}
-                          className="text-[0.75rem] text-[#97c2d5] font-black underline uppercase"
-                        >
-                          View All
-                        </p>
+                        <KeyboardArrowDownIcon sx={{ fontSize: 18, color: '#94a3b8', transform: 'rotate(-90deg)' }} />
                       </div>
                     </div>
                   ))}
+
+                  <div className="mt-8 px-6 py-4 mx-4 bg-[#f1f5f9] rounded-xl">
+                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: '#1e293b', mb: 1 }}>Concierge Service</Typography>
+                    <Typography sx={{ fontSize: '0.7rem', color: '#64748b', mb: 2 }}>Need help finding the perfect gift?</Typography>
+                    <p className="text-[0.75rem] font-black text-[#97c2d5] uppercase tracking-widest cursor-pointer">Chat With Us</p>
+                  </div>
                 </Box>
 
                 {/* 4. Luxury Utility Bar */}
-                <Box sx={{ mt: 'auto', p: 4, bgcolor: '#1e293b', color: 'white' }}>
-                  <Box sx={{ display: 'flex', itemsCenter: 'center', justifyContent: 'space-between', mb: 3 }}>
+                <Box sx={{ mt: 'auto', p: 4, bgcolor: '#fff', borderTop: '1px solid #eee' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                     <div className="flex items-center gap-2" onClick={handleCountryOpen}>
-                      <span className="text-lg">{selectedCountry.flag}</span>
-                      <Typography sx={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: 1 }}>{selectedCountry.name} (INR)</Typography>
+                      <span className="text-xl">{selectedCountry.flag}</span>
+                      <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e293b' }}>{selectedCountry.name} (INR)</Typography>
                     </div>
                     {auth.user && (
                       <Typography
                         onClick={handleLogout}
-                        sx={{ fontSize: '0.7rem', fontWeight: 800, color: '#ef4444', letterSpacing: 1, textTransform: 'uppercase' }}
+                        sx={{ fontSize: '0.7rem', fontWeight: 900, color: '#ef4444', textTransform: 'uppercase', letterSpacing: 1 }}
                       >
                         Logout
                       </Typography>
                     )}
                   </Box>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.65rem', letterSpacing: 1 }}>
-                    © 2024 LOUPE JEWELER • PREMIUM BOUTIQUE
+                  <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: '0.6rem', letterSpacing: 1 }}>
+                    © 2024 LOUPE JEWELER • FLAGSHIP STORE
                   </Typography>
                 </Box>
               </Dialog.Panel>
@@ -461,36 +453,76 @@ export default function Navigation() {
                           <Transition
                             show={hoveredIndex === index}
                             as={Fragment}
-                            enter="transition ease-out duration-200"
-                            enterFrom="opacity-0 -translate-y-2"
-                            enterTo="opacity-100 translate-y-0"
-                            leave="transition ease-in duration-150"
-                            leaveFrom="opacity-100 translate-y-0"
-                            leaveTo="opacity-0 -translate-y-2"
+                            enter="transition ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 scale-95"
+                            enterTo="opacity-100 translate-y-0 scale-100"
+                            leave="transition ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 scale-100"
+                            leaveTo="opacity-0 translate-y-4 scale-95"
                           >
-                            <Popover.Panel static className="absolute left-1/2 -translate-x-1/2 top-full z-20 mt-1 w-max min-w-[600px] max-w-[90vw] text-sm text-gray-700 shadow-[0_20px_50px_rgba(0,0,0,0.15)] bg-white border border-gray-100 rounded-xl overflow-hidden">
-                              <div className="relative bg-white px-10 py-10">
-                                <div className={classNames(
-                                  (category.id === 'rings' || category.id === 'earrings') ? "grid-cols-3" : "grid-cols-2",
-                                  "grid gap-x-16 gap-y-10"
-                                )}>
-                                  {category.sections.map((section) => (
-                                    <div key={section.id} className="min-w-[180px]">
-                                      <p className="font-serif font-bold text-sm text-gray-900 uppercase tracking-widest pb-2 border-b border-[#97c2d5]/30 mb-5">{section.name}</p>
-                                      <ul className="space-y-3.5">
-                                        {section.items.map((item) => (
-                                          <li key={item.id}>
-                                            <p
-                                              onClick={() => handleCategoryClick(category, section, item, () => { close(); setHoveredIndex(null); })}
-                                              className="text-gray-500 hover:text-[#97c2d5] cursor-pointer hover:translate-x-1 transition-all duration-300 text-[0.85rem] font-medium"
-                                            >
-                                              {item.name}
-                                            </p>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  ))}
+                            <Popover.Panel static className="absolute left-1/2 -translate-x-1/2 top-full z-20 mt-0 w-max min-w-[900px] max-w-[95vw] text-sm text-gray-700 shadow-[0_40px_80px_rgba(0,0,0,0.12)] bg-white border border-gray-100 rounded-b-2xl overflow-hidden">
+                              <div className="flex">
+                                {/* Left Content: Navigation Grid */}
+                                <div className="flex-1 bg-white px-12 py-12 border-r border-gray-50">
+                                  <div className="grid grid-cols-3 gap-x-14 gap-y-10">
+                                    {category.sections.map((section) => (
+                                      <div key={section.id} className="min-w-[150px]">
+                                        <Typography sx={{
+                                          fontFamily: "'Playfair Display', serif",
+                                          fontWeight: 700,
+                                          fontSize: '0.9rem',
+                                          color: '#1e293b',
+                                          mb: 3,
+                                          pb: 1,
+                                          borderBottom: '1px solid #f1f5f9'
+                                        }}>
+                                          {section.name}
+                                        </Typography>
+                                        <ul className="space-y-3">
+                                          {section.items.map((item) => (
+                                            <li key={item.id}>
+                                              <p
+                                                onClick={() => handleCategoryClick(category, section, item, () => { close(); setHoveredIndex(null); })}
+                                                className="text-gray-500 hover:text-[#97c2d5] cursor-pointer hover:translate-x-1 transition-all duration-300 text-[0.8rem] font-medium tracking-wide"
+                                              >
+                                                {item.name}
+                                              </p>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* Right Content: Featured Boutique Spot */}
+                                <div className="w-[320px] bg-[#fafafa] p-8 flex flex-col items-center justify-center text-center">
+                                  <div className="w-full aspect-[4/5] rounded-xl overflow-hidden shadow-lg mb-6 group/img">
+                                    <img
+                                      src={index === 0 ? "https://images.pexels.com/photos/10983783/pexels-photo-10983783.jpeg?auto=compress&cs=tinysrgb&w=600" :
+                                        index === 1 ? "https://images.pexels.com/photos/9428281/pexels-photo-9428281.jpeg?auto=compress&cs=tinysrgb&w=600" :
+                                          "https://images.pexels.com/photos/11745093/pexels-photo-11745093.jpeg?auto=compress&cs=tinysrgb&w=600"}
+                                      alt="Featured"
+                                      className="w-full h-full object-cover transition-transform duration-1000 group-hover/img:scale-110"
+                                    />
+                                  </div>
+                                  <Typography sx={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1rem', color: '#1e293b', mb: 1 }}>
+                                    The {category.name} Collection
+                                  </Typography>
+                                  <Typography sx={{ fontSize: '0.7rem', color: '#64748b', mb: 3, letterSpacing: 0.5, lineHeight: 1.5 }}>
+                                    Curated masterpieces handcrafted with precision for the modern connoisseur.
+                                  </Typography>
+                                  <Button
+                                    onClick={() => navigate(`/${category.id}`)}
+                                    variant="outlined"
+                                    sx={{
+                                      borderColor: '#1e293b', color: '#1e293b', borderRadius: '4px',
+                                      px: 3, py: 0.8, fontSize: '0.65rem', fontWeight: 900, letterSpacing: 1.5,
+                                      '&:hover': { bgcolor: '#1e293b', color: 'white' }
+                                    }}
+                                  >
+                                    Discover All
+                                  </Button>
                                 </div>
                               </div>
                             </Popover.Panel>
@@ -684,16 +716,117 @@ export default function Navigation() {
       <div className="h-18" aria-hidden="true" />
 
       {/* Cart Drawer */}
-      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)} PaperProps={{ sx: { width: { xs: '100%', sm: 400 }, p: 4 } }}>
-        <div className="flex justify-between items-center mb-6 border-b pb-4">
-          <Typography variant="h6" sx={{ fontWeight: 'bold', fontFamily: 'serif' }}>Shopping Cart</Typography>
-          <IconButton onClick={() => setCartOpen(false)}><CloseIcon /></IconButton>
-        </div>
-        <div className="flex flex-col items-center justify-center flex-grow text-gray-400">
-          <AddShoppingCartIcon sx={{ fontSize: 64, mb: 2, opacity: 0.3 }} />
-          <Typography>Your cart is empty.</Typography>
-          <Button variant="contained" fullWidth onClick={() => { setCartOpen(false); navigate('/cart'); }} sx={{ bgcolor: '#97c2d5', mt: 'auto', py: 1.5 }}>Checkout</Button>
-        </div>
+      <Drawer
+        anchor="right"
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        PaperProps={{
+          sx: {
+            width: { xs: '100%', sm: 400 },
+            p: 0,
+            display: 'flex',
+            flexDirection: 'column'
+          }
+        }}
+      >
+        <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #eee' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <ShoppingBagOutlinedIcon sx={{ color: '#1e293b' }} />
+            <Typography variant="h6" sx={{ fontWeight: 800, color: '#1e293b', fontFamily: 'serif' }}>Your Bag</Typography>
+          </Box>
+          <IconButton onClick={() => setCartOpen(false)} sx={{ ml: 'auto' }}><CloseIcon /></IconButton>
+        </Box>
+
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 3 }}>
+          {cart.cart?.cartItems?.length > 0 ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {cart.cart.cartItems.map((item) => (
+                <Box key={item._id} sx={{ display: 'flex', gap: 2 }}>
+                  <Box sx={{ width: 80, height: 100, borderRadius: '8px', overflow: 'hidden', flexShrink: 0, bgcolor: '#f4f4f4' }}>
+                    <img
+                      src={item.product?.imageUrls?.[0]?.imageUrl}
+                      alt={item.product?.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </Box>
+                  <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                    <Typography sx={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b', mb: 0.5, lineHeight: 1.3 }}>
+                      {item.product?.title}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: '#64748b', mb: 1 }}>
+                      Qty: {item.quantity} {item.weight ? `| ${item.weight}` : ''}
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 'auto' }}>
+                      <Typography sx={{ fontWeight: 800, color: '#1e293b', fontSize: '0.9rem' }}>
+                        ₹{formatPriceINR(item.discountedPrice)}
+                      </Typography>
+                      <IconButton
+                        size="small"
+                        onClick={() => handleRemoveCartItem(item._id)}
+                        sx={{ color: '#94a3b8', '&:hover': { color: '#ef4444' } }}
+                      >
+                        <DeleteOutlineIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-gray-400 py-20">
+              <AddShoppingCartIcon sx={{ fontSize: 64, mb: 2, opacity: 0.2 }} />
+              <Typography sx={{ fontWeight: 600, color: '#94a3b8' }}>Your bag is empty</Typography>
+              <Button
+                variant="outlined"
+                onClick={() => setCartOpen(false)}
+                sx={{
+                  mt: 3, px: 4, borderRadius: '8px', textTransform: 'none',
+                  borderColor: '#97c2d5', color: '#97c2d5',
+                  '&:hover': { borderColor: '#7eb1c9', bgcolor: '#f0f9ff' }
+                }}
+              >
+                Start Shopping
+              </Button>
+            </div>
+          )}
+        </Box>
+
+        {cart.cart?.cartItems?.length > 0 && (
+          <Box sx={{ p: 3, borderTop: '1px solid #eee', bgcolor: '#fafafa' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2.5 }}>
+              <Typography sx={{ color: '#64748b', fontWeight: 600 }}>Subtotal</Typography>
+              <Typography sx={{ color: '#1e293b', fontWeight: 800, fontSize: '1.1rem' }}>
+                ₹{formatPriceINR(cart.cart?.totalDiscountedPrice)}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => { setCartOpen(false); navigate('/cart'); }}
+                sx={{
+                  py: 1.5, borderRadius: '10px', textTransform: 'none', fontWeight: 700,
+                  borderColor: '#1e293b', color: '#1e293b',
+                  '&:hover': { borderColor: '#1e293b', bgcolor: '#f1f5f9' }
+                }}
+              >
+                View Bag
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={() => { setCartOpen(false); navigate('/checkout'); }}
+                sx={{
+                  py: 1.5, borderRadius: '10px', textTransform: 'none', fontWeight: 700,
+                  bgcolor: '#1e293b', color: 'white',
+                  '&:hover': { bgcolor: '#97c2d5' }, boxShadow: 'none'
+                }}
+              >
+                Checkout
+              </Button>
+            </Box>
+          </Box>
+        )}
       </Drawer>
 
       <AuthModel handleClose={() => modal.closeModal()} open={modal.state} />

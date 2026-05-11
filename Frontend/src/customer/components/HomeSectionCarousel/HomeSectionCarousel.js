@@ -21,14 +21,16 @@ const HomeSectionCarousel = ({
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                // Using a similar structure to the Redux action but fetching locally
-                // to avoid state collision between multiple carousels
                 const collection = _id === 'best-of-loupe' ? 'best-sellers' :
                     _id === 'new-arrivals' ? 'new-arrival' :
                         _id === 'reccomanded' ? 'reccomanded' : null;
 
+                // For "similar" carousels use broad jewellery fetch so real product
+                // IDs are returned and card navigation works correctly
+                const category = sectionLabel === 'similar' ? 'jewellery' : (sectionCategory || 'jewellery');
+
                 const params = new URLSearchParams({
-                    category: sectionCategory || "jewellery",
+                    category,
                     color: "",
                     minPrice: "10",
                     maxPrice: "1000000",
@@ -36,7 +38,7 @@ const HomeSectionCarousel = ({
                     maxDiscount: "100",
                     sort: "low_to_high",
                     pageNumber: "1",
-                    pageSize: "12",
+                    pageSize: "8",
                     occasion: "",
                     type: "",
                     collectionName: collection || ""
@@ -53,7 +55,7 @@ const HomeSectionCarousel = ({
         };
 
         fetchProducts();
-    }, [sectionCategory, _id]);
+    }, [sectionCategory, sectionLabel, _id]);
 
     const settings = {
         dots: true,
@@ -117,25 +119,28 @@ const HomeSectionCarousel = ({
 
     // High-quality Dummy Products precisely matching the screenshot's data
     const dummyProducts = [
-        { _id: 'd1', title: 'Celestial Star Necklace', discountedPrice: 99, price: 120, discountPercent: 18, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1000&auto=format&fit=crop' }] },
-        { _id: 'd2', title: 'Radiant Hoop Earrings', discountedPrice: 85, price: 110, discountPercent: 23, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop' }] },
-        { _id: 'd3', title: 'Infinity Ring', discountedPrice: 75, price: 95, discountPercent: 21, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1605100804763-247f67b3f41e?q=80&w=1000&auto=format&fit=crop' }] },
-        { _id: 'd4', title: 'Charm Bracelet', discountedPrice: 90, price: 125, discountPercent: 28, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1611085510590-09c063b46903?q=80&w=1000&auto=format&fit=crop' }] },
-        { _id: 'd5', title: 'Eternal Gold Band', discountedPrice: 150, price: 200, discountPercent: 25, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000&auto=format&fit=crop' }] },
-        { _id: 'd6', title: 'Diamond Studs', discountedPrice: 1200, price: 1500, discountPercent: 20, imageUrls: [{ imageUrl: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1000&auto=format&fit=crop' }] }
+        { _id: 'd1', title: '0.30 Pointer Diamond Ring', discountedPrice: 31150, price: 36000, discountPercent: 13, imageUrls: [{ imageUrl: 'https://images.pexels.com/photos/10983783/pexels-photo-10983783.jpeg?auto=compress&cs=tinysrgb&w=600' }] },
+        { _id: 'd2', title: 'Labgrown Diamond Round Ring', discountedPrice: 35901, price: 41000, discountPercent: 12, imageUrls: [{ imageUrl: 'https://images.pexels.com/photos/5370706/pexels-photo-5370706.jpeg?auto=compress&cs=tinysrgb&w=600' }] },
+        { _id: 'd3', title: 'Diamond Engagement Ring', discountedPrice: 49888, price: 58000, discountPercent: 14, imageUrls: [{ imageUrl: 'https://images.pexels.com/photos/5370692/pexels-photo-5370692.jpeg?auto=compress&cs=tinysrgb&w=600' }] },
+        { _id: 'd4', title: 'Classic Lab Grown Diamond Gift', discountedPrice: 34011, price: 39500, discountPercent: 14, imageUrls: [{ imageUrl: 'https://images.pexels.com/photos/11745093/pexels-photo-11745093.jpeg?auto=compress&cs=tinysrgb&w=600' }] },
+        { _id: 'd5', title: 'Gold Bangles Set', discountedPrice: 28500, price: 33000, discountPercent: 14, imageUrls: [{ imageUrl: 'https://images.pexels.com/photos/10918478/pexels-photo-10918478.jpeg?auto=compress&cs=tinysrgb&w=600' }] },
+        { _id: 'd6', title: 'Diamond Necklace Pendant', discountedPrice: 52000, price: 61000, discountPercent: 15, imageUrls: [{ imageUrl: 'https://images.pexels.com/photos/9428281/pexels-photo-9428281.jpeg?auto=compress&cs=tinysrgb&w=600' }] },
     ];
 
-    const displayProducts = localProducts?.content?.length > 0 ? localProducts.content : dummyProducts;
+    const displayProducts = (localProducts?.content?.length > 0)
+        ? localProducts.content
+        : dummyProducts;
 
-    const items = displayProducts?.map((item, index) => (
-        <HomeSectionCard
-            product={item}
-            index={index}
-            key={item._id}
-            productLabel={sectionLabel}
-        />
-    ))
-        || loading ? [1, 2, 3, 4].map(n => <div key={n} className="p-4 h-[20rem] animate-pulse bg-gray-200 rounded-lg"></div>) : null;
+    const items = loading
+        ? [1, 2, 3, 4].map(n => <div key={n} className="p-4 h-[20rem] animate-pulse bg-gray-200 rounded-lg"></div>)
+        : displayProducts.map((item, index) => (
+            <HomeSectionCard
+                product={item}
+                index={index}
+                key={item._id}
+                productLabel={sectionLabel}
+            />
+        ));
 
     return (
         <div className="my-5" id={_id}>

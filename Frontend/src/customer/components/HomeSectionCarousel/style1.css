@@ -6,22 +6,23 @@
 
 .slick-arrow {
     position: absolute;
-    top: 47%;
-    width: 30px !important;
-    height: 30px !important;
+    top: 40%;
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 50% !important;
-    background: #F2F3F4 !important;
+    background: white !important;
     z-index: 10 !important;
     transition: all 0.2s ease-in-out;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e2e8f0 !important;
 }
 
 .slick-arrow.slick-next {
-    right: 2% !important;
+    right: -18px !important;
 }
 
 .slick-arrow.slick-prev {
-    left: 2% !important;
+    left: -18px !important;
 }
 
 .slick-prev:before {
@@ -44,6 +45,14 @@
 
 .slick-arrow:hover::before {
     color: #fff !important;
+}
+
+.slick-slide {
+    padding: 0 10px;
+}
+
+.slick-list {
+    margin: 0 -10px;
 }
 
 .slick-dots {
