@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema({
     },
     details: {
         type: String,
+        required: true,
     },
     occasion: {
         type: String,
@@ -28,7 +29,7 @@ const ProductSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
-        // required: true,
+        required: true,
     },
     brand: {
         type: String,
