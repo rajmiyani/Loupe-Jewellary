@@ -4,6 +4,7 @@ const userController = require('../controller/user.controller.js');
 const { route } = require('..');
 
 router.get('/profile', userController.getUserProfile);
+router.put('/profile/:id', userController.updateUserProfile);
 router.delete('/profile/:id', userController.deleteUserProfile);
 router.get('/', userController.getAllUsers);
 

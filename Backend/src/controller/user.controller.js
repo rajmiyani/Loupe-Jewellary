@@ -1,28 +1,37 @@
 const User = require('../models/user.model');
 const userService = require('../services/user.service.js');
 
-const getUserProfile = async(req, res) => {
+const getUserProfile = async (req, res) => {
     try {
         const jwt = req.headers.authorization?.split(" ")[1];
 
-        if(!jwt) {
-            return res.status(404).send({error: "token not found"});
+        if (!jwt) {
+            return res.status(404).send({ error: "token not found" });
         }
         const user = await userService.getUserProfileByToken(jwt);
 
         return res.status(200).send(user);
 
     } catch (error) {
-        return res.status(500).send({error: error.message, statusCode: 500});
+        return res.status(500).send({ error: error.message, statusCode: 500 });
     }
 }
 
-const getAllUsers = async(req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await userService.getAllUsers();
         return res.status(200).send(users);
     } catch (error) {
-        return res.status(500).send({error: error.message});
+        return res.status(500).send({ error: error.message });
+    }
+}
+
+const updateUserProfile = async (req, res) => {
+    try {
+        const updatedUser = await userService.updateUserProfile(req.params.id, req.body);
+        return res.status(200).send(updatedUser);
+    } catch (error) {
+        return res.status(500).send({ error: error.message, statusCode: 500 });
     }
 }
 
@@ -42,4 +51,4 @@ const deleteUserProfile = async (req, res) => {
 
 
 
-module.exports = { getAllUsers, getUserProfile, deleteUserProfile }
+module.exports = { getAllUsers, getUserProfile, deleteUserProfile, updateUserProfile }
