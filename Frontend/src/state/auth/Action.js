@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_BASE_URL, api } from '../../config/apiConfig';
 import { toastNotify } from '../shared/toast';
-import { DELETE_USER_FAILURE, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_ALL_USERS_FAILURE, GET_ALL_USERS_REQUEST, GET_ALL_USERS_SUCCESS, GET_USER_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGESTER_FAILURE, REGESTER_REQUEST, REGESTER_SUCCESS } from './ActionType';
+import { DELETE_USER_FAILURE, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_ALL_USERS_FAILURE, GET_ALL_USERS_REQUEST, GET_ALL_USERS_SUCCESS, GET_USER_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGESTER_FAILURE, REGESTER_REQUEST, REGESTER_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS } from './ActionType';
 
 
 const registerRequest = () => ({ type: REGESTER_REQUEST });
@@ -160,6 +160,21 @@ export const deleteUserProfile = (userId) => async (dispatch) => {
     }
 };
 
+
+export const updateUserProfile = (userId, userData) => async (dispatch) => {
+    dispatch({ type: UPDATE_USER_REQUEST });
+    try {
+        const response = await api.put(`${API_BASE_URL}/api/users/profile/${userId}`, userData);
+        const user = response.data;
+        dispatch({ type: UPDATE_USER_SUCCESS, payload: user });
+        toastNotify({ type: 'success', title: 'Profile Updated', description: 'Your profile has been updated successfully.' });
+        dispatch(getUser(localStorage.getItem('jwt')));
+    } catch (error) {
+        const message = error?.response?.data?.error || error?.response?.data?.message || error.message;
+        dispatch({ type: UPDATE_USER_FAILURE, payload: message });
+        toastNotify({ type: 'error', title: 'Update Failed', description: message });
+    }
+};
 
 export const logout = () => (dispatch) => {
     // localStorage.removeItem("jwt"); 

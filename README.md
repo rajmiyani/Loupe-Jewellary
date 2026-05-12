@@ -1,67 +1,89 @@
-# Loupe Jeweler - E-Commerce Platform
+# Loupe Diamond & Jewellery 💎
 
-This is the central repository for the **Loupe Jeweler** application, encompassing both the customer-facing e-commerce storefront and the executive-tier admin dashboard.
+A premium, editorial-style e-commerce platform for high-end jewellery, featuring a minimal aesthetic, fluid animations, and a seamless shopping experience.
 
-## 📂 Project Structure
+---
 
-```text
-E:\Loupe_Jewellery
-├── Backend/                 # Back-end API Server (Node.js/Express)
-│   ├── .env                 # Environment variables for backend
-│   ├── src/                 
-│   │   ├── config/          # Database configuration and connection handling
-│   │   ├── controllers/     # API route controllers
-│   │   ├── models/          # Mongoose database models (Products, Orders, Users, etc.)
-│   │   ├── routes/          # Express route definitions
-│   │   ├── scripts/         # Backup and seeder scripts
-│   │   └── server.js        # Main Express application entry point
-│   ├── delete_old_products.js # Database cleanup utility script
-│   └── package.json         # Backend dependencies
-│
-├── Frontend/                # Front-end React Application
-│   ├── public/              # Static assets (favicons, manifest.json)
-│   ├── src/
-│   │   ├── admin/           # Executive Admin Dashboard
-│   │   │   ├── components/  # Admin-specific components (OrdersTable, ProductsTable, etc.)
-│   │   │   ├── tables/      # Material UI DataGrid tables
-│   │   │   └── view/        # Top-level Admin views and layouts
-│   │   ├── customer/        # Customer-Facing Storefront
-│   │   │   ├── auth/        # Login/Registration Modals
-│   │   │   ├── components/  # User interfaces (Navigation, Footer, Forms)
-│   │   │   └── pages/       # Public routing pages (Home, Cart, Product View)
-│   │   ├── context/         # React Context Providers (e.g. ModalContext)
-│   │   ├── state/           # Redux state management (actions/reducers)
-│   │   └── App.js           # Core React router routing logic
-│   └── package.json         # Frontend dependencies and scripts
-│
-├── package-lock.json        # Unified Dependency lock file
-└── .gitignore               # Ignored files for version control
-```
+## ✨ Features
 
-## 🛠 Features
+### 🔐 Secure Authentication
+- **Dual-Mode Auth:** Standard Email/Password registration and login.
+- **Google OAuth 2.0:** Secure, one-click login with synchronized profile data.
+- **Robust Security:** Cross-Origin-Opener-Policy (COOP) and audience-validated token verification.
 
-### Customer Front-end
-- Categorized browsing for multiple luxury jewelry types (Gold, Diamond, Platinum, Silver, etc.).
-- Wishlist, Shopping Cart, and integrated Checkout.
-- Theme switching functionality built with modern aesthetics.
+### 🛍️ Editorial Shopping Experience
+- **Premium Catalogue:** High-end boutique layout with sophisticated typography (Playfair Display).
+- **Advanced Filters:** Intuitive MUI Accordions and color swatches for effortless discovery.
+- **Live Search:** Fast, responsive product search with overlay UI.
 
-### Executive Admin Dashboard
-- **Product Inventory Management:** Complete CRUD capabilities, rich image uploading via Cloudinary, dynamically adjusting forms for different product properties.
-- **Order Processing:** State-managed validation for updating order statuses (`PLACED` -> `SHIPPED` -> `DELIVERED`). Protection against reverting dispatched orders.
-- **Customer Management:** Comprehensive administrative tools tailored specifically for maintaining the Loupe Jeweler platform interface.
+### 🛒 Synchronized Checkout
+- **Smart Navigation:** Perfectly aligned step-by-step checkout flow (Delivery → Summary → Payment).
+- **Address Deduplication:** Intelligent backend matching prevents duplicate address saving, keeping user profiles clean.
+- **Data Guards:** Robust loading states and error handling prevent "undefined" crashes during data fetching.
+
+### 📦 Order Management
+- **Visual Tracking:** Professional Order Tracker with status transitions.
+- **History Grouping:** Clean, date-based grouping of previous orders for a historical record.
+- **Rating & Reviews:** Integrated feedback system for products.
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend:**
+- React.js with Redux Toolkit (State Management)
+- Material UI (Components & Theming)
+- Lucide React (Icons)
+- Framer Motion (Animations)
+- Axios (API Communication)
+
+**Backend:**
+- Node.js & Express.js
+- MongoDB & Mongoose (Database)
+- Google Auth Library (Token Validation)
+- Razorpay Integration (Payment Processing)
+
+---
 
 ## 🚀 Getting Started
 
-To run the application locally:
+### Prerequisites
+- Node.js (v16+)
+- MongoDB Atlas or Local Instance
+- Google Cloud Console Project (for OAuth)
 
-1. **Backend Initialization**
-   - Navigate to `/Backend` and run `npm install`.
-   - Ensure an active `.env` configuration file exists.
-   - Boot up via `npm start` or `node src/server.js`.
+### Installation
 
-2. **Frontend Initialization**
-   - Navigate to `/Frontend` and run `npm install`.
-   - Boot up via `npm start` to run the development server.
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/rajmiyani/Loupe-Jewellary.git
+   cd Loupe-Jewellary
+   ```
+
+2. **Backend Setup:**
+   ```bash
+   cd Backend
+   npm install
+   # Create a .env file with your MONGO_URL and GOOGLE_CLIENT_ID
+   npm start
+   ```
+
+3. **Frontend Setup:**
+   ```bash
+   cd ../Frontend
+   npm install
+   npm start
+   ```
 
 ---
-*Maintained and documented for Loupe Jeweler.*
+
+## 🎨 Design Philosophy
+
+Loupe Diamond & Jewellery is designed with a **"High-End editorial"** approach. We prioritize whitespace, high-fidelity imagery, and subtle micro-animations to create a sense of luxury and trust.
+
+- **Typography:** Playfair Display for headings, Inter for body text.
+- **Color Palette:** Deep Slate (#1e293b), Soft Blue (#97c2d5), and Clean White.
+
+---
+
+*Handcrafted by Loupe Team*

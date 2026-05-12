@@ -107,5 +107,17 @@ const deleteUserById = async (userId) => {
     }
 };
 
+const updateUserProfile = async (userId, reqData) => {
+    try {
+        const user = await User.findByIdAndUpdate(userId, reqData, { new: true });
+        if (!user) {
+            throw new Error("User not found with id: " + userId);
+        }
+        return user;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
 
-module.exports = ({ createUser, getUserByEmail, findUserById, getUserProfileByToken, getAllUsers, deleteUserById });
+
+module.exports = ({ createUser, getUserByEmail, findUserById, getUserProfileByToken, getAllUsers, deleteUserById, updateUserProfile });
