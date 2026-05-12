@@ -4,7 +4,7 @@ const Product = require("../models/product.model");
 
 async function createCart(user) {
     try {
-        const cart = new Cart({user});
+        const cart = new Cart({ user });
         const createdCart = await cart.save();
         return createdCart;
     } catch (error) {
@@ -33,14 +33,14 @@ async function calculateTotals(cart) {
 
 async function findUserCart(userId) {
     try {
-        let cart = await Cart.findOne({user: userId});
+        let cart = await Cart.findOne({ user: userId });
 
         if (!cart) {
             cart = await createCart(userId);
         }
-        
-        let cartItems = await CartItem.find({cart: cart._id}).populate("product");
-        
+
+        let cartItems = await CartItem.find({ cart: cart._id }).populate("product");
+
         cart.cartItems = cartItems;
 
         const totals = await calculateTotals(cart);
@@ -55,7 +55,7 @@ async function findUserCart(userId) {
 
 async function addCartItem(userId, req) {
     try {
-        let cart = await Cart.findOne({user: userId});
+        let cart = await Cart.findOne({ user: userId });
 
         if (!cart) {
             cart = await createCart(userId);
@@ -67,10 +67,10 @@ async function addCartItem(userId, req) {
             throw new Error("Product not found with id: " + req.productId);
         }
 
-        const isPresent = await CartItem.findOne({cart: cart._id, product: product._id, userId});
+        const isPresent = await CartItem.findOne({ cart: cart._id, product: product._id, userId });
         console.log("isPresent in cart.service", isPresent)
 
-        if(!isPresent) {
+        if (!isPresent) {
             const cartItem = new CartItem({
                 product: product._id,
                 cart: cart._id,
@@ -85,7 +85,7 @@ async function addCartItem(userId, req) {
             const createdCartItem = await cartItem.save();
             cart.cartItems.push(createdCartItem);
             await cart.save();
-            
+
             return createdCartItem;
         } else {
             return isPresent;
@@ -97,21 +97,24 @@ async function addCartItem(userId, req) {
 
 async function removeAllCartItems(userId) {
     try {
-        let cart = await Cart.findOne({user: userId});
-        
-        cart.cartItems.length = 0;
-        console.log("removeAllCartItems called :: and cart.cartItems ::", cart.cartItems)
+        let cart = await Cart.findOne({ user: userId });
+        if (!cart) return null;
 
+        // Delete all cart items from the database
+        await CartItem.deleteMany({ cart: cart._id });
+
+        // Reset cart totals
         const totals = {
             totalPrice: 0,
             totalItem: 0,
             totalDiscountedPrice: 0,
-            discount: Math.floor(((totalPrice - totalDiscountedPrice) / totalPrice) * 100),
+            discount: 0,
         };
         Object.assign(cart, totals);
+        cart.cartItems = [];
         await cart.save();
-        console.log("removeAllCartItems called :: and cart.save() ::", cart)
 
+        console.log("removeAllCartItems: Cart cleared for user", userId);
         return cart;
 
     } catch (error) {
@@ -119,4 +122,4 @@ async function removeAllCartItems(userId) {
     }
 }
 
-module.exports = {createCart, addCartItem, findUserCart, removeAllCartItems};
+module.exports = { createCart, addCartItem, findUserCart, removeAllCartItems };

@@ -99,36 +99,25 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 };
 
-const steps = ['Login', 'Dilivery Address', 'Order Summary', 'Payment'];
+const steps = ['Login', 'Delivery Address', 'Order Summary', 'Payment'];
 
 export default function Checkout() {
     const location = useLocation();
     const querySearch = new URLSearchParams(location.search);
-    const [activeStep, setActiveStep] = React.useState(querySearch.get("step"));
+    const stepFromQuery = querySearch.get("step");
+    const activeStep = stepFromQuery ? parseInt(stepFromQuery, 10) : 0;
     const navigate = useNavigate();
-
-    const step = querySearch.get('step');
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
 
 
     return (
         <div className='p-10 lg:px-20 lg:py-10' onLoad={() => {
-            // const isAuthenticated = ;
-
-            if(!(localStorage.getItem('jwt') !== null)) {
+            if (!(localStorage.getItem('jwt') !== null)) {
                 navigate('/login')
                 return;
             }
         }}>
             <Stack sx={{ width: '100%' }}>
-                <Stepper alternativeLabel activeStep={querySearch.get("step")} connector={<ColorlibConnector />}>
+                <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                     {steps.map((label) => (
                         <Step key={label}>
                             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
@@ -138,7 +127,7 @@ export default function Checkout() {
             </Stack>
 
             {
-                step == 2 ? <DeliveryAddressForm /> : <OrderSummary />
+                activeStep === 2 ? <DeliveryAddressForm /> : <OrderSummary />
             }
         </div>
     );

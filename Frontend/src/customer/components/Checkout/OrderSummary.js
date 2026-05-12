@@ -16,8 +16,10 @@ const OrderSummary = () => {
   const [disablePay, setDisablePay] = useState(false);
 
   useEffect(() => {
-    dispatch(getOrderById(orderId));
-  }, [orderId])
+    if (orderId) {
+      dispatch(getOrderById(orderId));
+    }
+  }, [orderId, dispatch])
 
   const handlePayment = () => {
     setDisablePay(true)

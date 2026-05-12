@@ -2,7 +2,7 @@ const Address = require('../models/address.model.js');
 const Order = require('../models/order.model.js');
 const OrderItem = require('../models/orderItems.model.js');
 const cartService = require('../services/cart.service.js');
- 
+
 async function createOrder(user, shippAddress) {
     let address;
 
@@ -15,7 +15,7 @@ async function createOrder(user, shippAddress) {
         address.user = user;
 
         await address.save();
-        
+
         user.address.push(address);
         await user.save();
     }
@@ -59,7 +59,7 @@ async function placeOrder(orderId) {
     const order = await findOrderById(orderId);
 
     order.orderStatus = "PLACED";
-    order.user.paymentDeatils.status = "COMPLETED";
+    order.paymentDetails.paymentStatus = "COMPLETED";
 
     return await order.save();
 }
@@ -98,17 +98,17 @@ async function cancelledOrder(orderId) {
 
 async function findOrderById(orderId) {
     const order = Order.findById(orderId)
-    .populate("user")
-    .populate({path: "orderItems", populate: {path: "product"}})
-    .populate("shippingAddress")
+        .populate("user")
+        .populate({ path: "orderItems", populate: { path: "product" } })
+        .populate("shippingAddress")
 
     return order;
 }
 
 async function usersOrderHistory(userId) {
     try {
-        const orders = await Order.find({user: userId})
-        .populate({path: "orderItems", populate: {path: "product"}}).lean();
+        const orders = await Order.find({ user: userId, orderStatus: { $ne: "PENDING" } })
+            .populate({ path: "orderItems", populate: { path: "product" } }).sort({ createdAt: -1 }).lean();
 
         return orders;
     } catch (error) {
@@ -118,10 +118,11 @@ async function usersOrderHistory(userId) {
 
 async function getAllOrders() {
     try {
-        return await Order.find()
-        .populate({path: "orderItems", populate: {path: "product"}})
-        .populate('user')
-        .lean();
+        return await Order.find({ orderStatus: { $ne: "PENDING" } })
+            .populate({ path: "orderItems", populate: { path: "product" } })
+            .populate('user')
+            .sort({ createdAt: -1 })
+            .lean();
     } catch (error) {
         throw new Error(error);
     }

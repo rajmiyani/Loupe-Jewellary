@@ -13,6 +13,13 @@ const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
                 return { label: 'Delivered', color: '#10b981', bg: '#ecfdf5', icon: <CheckCircle2 size={14} /> };
             case 'SHIPPED':
                 return { label: 'Shipped', color: '#3b82f6', bg: '#eff6ff', icon: <Truck size={14} /> };
+            case 'CONFIRMED':
+                return { label: 'Confirmed', color: '#1e293b', bg: '#f1f5f9', icon: <Package size={14} /> };
+            case 'PLACED':
+                return { label: 'Placed', color: '#64748b', bg: '#f8fafc', icon: <Package size={14} /> };
+            case 'CANCELED':
+            case 'CANCELLED':
+                return { label: 'Cancelled', color: '#ef4444', bg: '#fef2f2', icon: <Clock size={14} /> }; // Or XCircle if available
             default:
                 return { label: 'Processing', color: '#f59e0b', bg: '#fffbeb', icon: <Clock size={14} /> };
         }

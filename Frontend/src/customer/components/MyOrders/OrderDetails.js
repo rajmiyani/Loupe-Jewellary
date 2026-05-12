@@ -30,6 +30,13 @@ const OrderDetails = () => {
 
     useEffect(() => {
         dispatch(getOrderById(params.orderId));
+
+        // Set up polling for real-time updates every 30 seconds
+        const interval = setInterval(() => {
+            dispatch(getOrderById(params.orderId));
+        }, 30000);
+
+        return () => clearInterval(interval);
     }, [dispatch, params.orderId]);
 
     useEffect(() => {
@@ -37,9 +44,12 @@ const OrderDetails = () => {
 
         let newActiveStep;
         switch (order.order?.orderStatus) {
-            case "CONFIRMED": newActiveStep = 1; break;
-            case "SHIPPED": newActiveStep = 2; break;
+            case "PLACED": newActiveStep = 1; break;
+            case "CONFIRMED": newActiveStep = 2; break;
+            case "SHIPPED": newActiveStep = 4; break;
             case "DELIVERED": newActiveStep = 5; break;
+            case "CANCELED":
+            case "CANCELLED": newActiveStep = 0; break;
             default: newActiveStep = 1;
         }
         setActiveStep(newActiveStep);

@@ -2,13 +2,13 @@ const razorpay = require("../config/razorpayClient.js");
 const orderService = require("../services/order.service.js");
 const { removeAllCartItems } = require("./cart.service.js");
 
-const createPaymentLink = async(orderId) => {
+const createPaymentLink = async (orderId) => {
 
     try {
         const order = await orderService.findOrderById(orderId);
 
         const paymentLinkRequest = {
-            amount: order.totalPrice*100,
+            amount: order.totalDiscountedPrice * 100,
             currency: "INR",
             customer: {
                 name: order.user.firstName + "  " + order.user.lastName,
@@ -23,11 +23,21 @@ const createPaymentLink = async(orderId) => {
             // callback_url: `http://localhost:3000/payment/${orderId}`,
             callback_url: `http://localhost:3000/user-details/?layout=2`,
             callback_method: 'get',
-
+            description: `Payment for Loupe Jeweler - Order #${orderId}`,
+            options: {
+                checkout: {
+                    name: "Loupe Jeweler",
+                    theme: {
+                        color: "#6a9eb5"
+                    }
+                }
+            }
         };
 
-        const paymentLink = await razorpay.paymentLink.create(paymentLinkRequest);  
-        
+        console.log("Creating Payment Link with Request:", JSON.stringify(paymentLinkRequest, null, 2));
+
+        const paymentLink = await razorpay.paymentLink.create(paymentLinkRequest);
+
         const paymentLinkId = paymentLink.id;
         const payment_link_url = paymentLink.short_url;
 
@@ -43,7 +53,7 @@ const createPaymentLink = async(orderId) => {
     }
 }
 
-const updatePaymentInformation = async(reqData) => {
+const updatePaymentInformation = async (reqData) => {
 
     const paymentId = reqData.payment_id;
     const orderId = reqData.order_id;
@@ -52,7 +62,7 @@ const updatePaymentInformation = async(reqData) => {
         const order = await orderService.findOrderById(orderId);
         const payment = await razorpay.payments.fetch(paymentId);
 
-        if(payment.status == "captured") {
+        if (payment.status == "captured") {
             order.paymentDetails.paymentId = paymentId;
             order.paymentDetails.paymentStatus = "COMPLETED";
             order.orderStatus = "PLACED";
@@ -62,7 +72,7 @@ const updatePaymentInformation = async(reqData) => {
             await order.save();
         }
 
-        const resData = {message: "Your order is placed", success: true};
+        const resData = { message: "Your order is placed", success: true };
 
         return resData;
 

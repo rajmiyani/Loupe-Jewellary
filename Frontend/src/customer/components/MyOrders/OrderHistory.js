@@ -39,7 +39,14 @@ const OrderHistory = () => {
       const data = { orderId: param.orderId, paymentId };
       dispatch(updatePayment(data));
     }
-  }, [param.orderId, paymentId]);
+
+    // Set up polling for real-time updates every 30 seconds
+    const interval = setInterval(() => {
+      dispatch(getOrderHistory(auth));
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [param.orderId, paymentId, auth, dispatch]);
 
   // Handle multiple filters on cards
   const handleFilters = (value, sectionId) => {
