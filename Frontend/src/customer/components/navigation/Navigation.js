@@ -273,7 +273,7 @@ export default function Navigation() {
   };
 
   return (
-    <div className="bg-white">
+    <div>
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-[60] lg:hidden" onClose={setOpen}>
@@ -720,7 +720,7 @@ export default function Navigation() {
         </div>
       </header>
       <div className="h-20" aria-hidden="true" />
-      <div className="h-4" aria-hidden="true" />
+      {/* <div className="h-4" aria-hidden="true" /> */}
 
       {/* Cart Drawer */}
       <Drawer
