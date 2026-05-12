@@ -275,7 +275,7 @@ export default function ProductDetails() {
                   select size="small" fullWidth
                   value={selectedWeight}
                   onChange={(e) => setSelectedWeight(e.target.value)}
-                  displayEmpty
+                  SelectProps={{ displayEmpty: true }}
                 >
                   <MenuItem value="" disabled>Select weight</MenuItem>
                   {product.sizes.map((wt) => (

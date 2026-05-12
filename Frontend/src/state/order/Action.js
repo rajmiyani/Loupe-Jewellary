@@ -68,8 +68,7 @@ export const getOrderHistory = (reqData) => async (dispatch) => {
 
     try {
         const { data } = await api.get(
-            `${API_BASE_URL}/api/orders/user`,
-            reqData
+            `/api/orders/user`
         )
         console.log("order history ------ ", data)
 

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Address = require('../models/address.model.js');
 const Order = require('../models/order.model.js');
 const OrderItem = require('../models/orderItems.model.js');
@@ -67,7 +68,7 @@ async function createOrder(user, shippAddress) {
     }
 
     const createdOrder = new Order({
-        user,
+        user: user._id,
         orderItems,
         totalPrice: cart.totalPrice,
         totalDiscountedPrice: cart.totalDiscountedPrice,
@@ -135,7 +136,7 @@ async function findOrderById(orderId) {
 
 async function usersOrderHistory(userId) {
     try {
-        const orders = await Order.find({ user: userId, orderStatus: { $ne: "PENDING" } })
+        const orders = await Order.find({ user: new mongoose.Types.ObjectId(userId) })
             .populate({ path: "orderItems", populate: { path: "product" } }).sort({ createdAt: -1 }).lean();
 
         return orders;
@@ -146,7 +147,7 @@ async function usersOrderHistory(userId) {
 
 async function getAllOrders() {
     try {
-        return await Order.find({ orderStatus: { $ne: "PENDING" } })
+        return await Order.find()
             .populate({ path: "orderItems", populate: { path: "product" } })
             .populate('user')
             .sort({ createdAt: -1 })
