@@ -54,12 +54,18 @@ const login = async (req, res) => {
 const googleLogin = async (req, res) => {
     const { idToken } = req.body;
 
+    if (!idToken) {
+        return res.status(400).send({ message: "Google ID Token is required", statusCode: 400 });
+    }
+
     try {
+        console.log("Verifying ID Token with CID:", process.env.GOOGLE_CLIENT_ID);
         const ticket = await client.verifyIdToken({
             idToken,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
         const payload = ticket.getPayload();
+        console.log("Token payload:", payload);
         const { email, given_name, family_name } = payload;
 
         let user = await userService.getUserByEmail(email);

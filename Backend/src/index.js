@@ -12,6 +12,11 @@ app.use((err, req, res, next) => {
     next()
 });
 
+app.use((req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    next();
+});
+
 
 app.get('/', (req, res) => {
     return res.status(200).send({ message: 'welcome to backend', status: true })

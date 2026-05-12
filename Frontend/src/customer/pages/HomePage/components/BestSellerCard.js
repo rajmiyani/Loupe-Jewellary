@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Checkbox, Tooltip, IconButton } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatPriceINR } from "../../../../utils/price";
 import { MessageCircle, ShoppingBag, Sparkles } from 'lucide-react';
@@ -9,6 +10,7 @@ import { MessageCircle, ShoppingBag, Sparkles } from 'lucide-react';
 const BestSellerCard = ({ product }) => {
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
     const [wishlisted, setWishlisted] = useState(false);
+    const navigate = useNavigate();
 
     const colorOptions = product.colors || [
         { colorName: 'Yellow Gold', colorCode: '#eab308', image: product.image },
@@ -28,7 +30,7 @@ const BestSellerCard = ({ product }) => {
             {/* 1. Luxury Image Frame */}
             <Box
                 className="relative aspect-square w-full mb-8 overflow-hidden rounded-[32px] bg-gradient-to-br from-[#fcfcfc] to-[#f3f4f6]/30 border border-gray-100/50 transition-all duration-700 group-hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] group-hover:-translate-y-2 flex items-center justify-center cursor-pointer"
-                onClick={() => window.location.href = `/product/${product.id || ''}`}
+                onClick={() => navigate(`/product/${product.id || ''}`)}
             >
                 {/* Floating "New Tier" Badge */}
                 <div className="absolute top-5 left-5 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-90 group-hover:scale-100">
@@ -106,7 +108,8 @@ const BestSellerCard = ({ product }) => {
                 </Typography>
 
                 <Typography
-                    className="text-[#1e293b] font-medium leading-relaxed mb-4 group-hover:text-[#97c2d5] transition-colors duration-300"
+                    onClick={() => navigate(`/product/${product.id || ''}`)}
+                    className="text-[#1e293b] font-medium leading-relaxed mb-4 group-hover:text-[#97c2d5] transition-colors duration-300 cursor-pointer"
                     sx={{
                         fontSize: '0.9rem',
                         fontFamily: "'Outfit', sans-serif",

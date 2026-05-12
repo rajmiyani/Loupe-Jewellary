@@ -260,7 +260,9 @@ export default function Product() {
               textTransform: 'capitalize'
             }}
           >
-            {searchValue ? `Search: ${searchValue}` : param.levelThree || param.levelOne || "All Jewellery"}
+            {searchValue ? `Search: ${searchValue}` :
+              location.pathname === '/product-catalogue' ? "Product Catalogue" :
+                param.levelThree || param.levelOne || "All Jewellery"}
           </Typography>
           <Typography
             sx={{
@@ -271,7 +273,7 @@ export default function Product() {
               textTransform: 'uppercase'
             }}
           >
-            {products.products?.totalElements ? `${products.products.totalElements} Masterpieces Found` : "Curated for Elegance"}
+            {products.products?.totalElements ? `${products.products.totalElements} Masterpieces Found` : "Timeless Designs, Exceptional Craftsmanship"}
           </Typography>
         </div>
 

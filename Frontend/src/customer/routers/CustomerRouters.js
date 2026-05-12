@@ -42,7 +42,7 @@ const WithLayout = ({ children, showLayout }) => {
         exit="exit"
         variants={pageVariants}
         transition={pageTransition}
-        className="flex-grow pt-[110px]"
+        className="flex-grow"
       >
         {children}
       </motion.main>
@@ -135,6 +135,14 @@ const CustomerRouters = () => {
           }
         />
 
+        <Route
+          path="/product-catalogue"
+          element={
+            <WithLayout showLayout={true}>
+              <Product />
+            </WithLayout>
+          }
+        />
         <Route
           path="/cart"
           element={

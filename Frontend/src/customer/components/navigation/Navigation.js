@@ -221,6 +221,12 @@ export default function Navigation() {
     }
   }, [cartOpen, jwt]);
 
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getCart());
+    }
+  }, [cart.deleteCartItem]);
+
   const handleProfileClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -410,7 +416,7 @@ export default function Navigation() {
 
       <header className="fixed top-0 left-0 right-0 z-50 w-full shadow-md" style={{ backgroundColor: '#97c2d5', color: 'white' }}>
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-          <div className="flex h-18 items-center justify-between">
+          <div className="flex h-20 items-center justify-between">
 
             {/* Left: Logo & Toggle */}
             <div className="flex items-center">
@@ -713,7 +719,8 @@ export default function Navigation() {
           </div>
         </div>
       </header>
-      <div className="h-18" aria-hidden="true" />
+      <div className="h-20" aria-hidden="true" />
+      <div className="h-4" aria-hidden="true" />
 
       {/* Cart Drawer */}
       <Drawer

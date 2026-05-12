@@ -1,6 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { Box, Typography, IconButton, Button } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import BestSellerCard from './BestSellerCard';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import "slick-carousel/slick/slick.css";
@@ -107,6 +108,8 @@ const PrevArrow = ({ onClick }) => (
 );
 
 const BestSellerSection = () => {
+    const navigate = useNavigate();
+
     const settings = {
         dots: false,
         infinite: true,
@@ -165,7 +168,7 @@ const BestSellerSection = () => {
                     variant="contained"
                     onClick={() => {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
-                        window.location.href = '/product-catalogue'; // Example working link
+                        navigate('/product-catalogue');
                     }}
                     sx={{
                         bgcolor: '#1e293b', // Primary Slate

@@ -144,30 +144,35 @@ const OrderHistory = () => {
               )
               :
               (<div>
-                {order.orders?.map((order) => {
-                  // Check if orderDate is a valid date object
-                  const orderDate = order.orderDate instanceof Date ? order.orderDate : new Date(order.orderDate);
-                  const formatOrderDate = orderDate instanceof Date ? format(orderDate, "MMMM, dd") : '';
+                {(() => {
+                  let lastDate = null;
+                  return order.orders?.map((order) => {
+                    const orderDate = order.createdAt instanceof Date ? order.createdAt : new Date(order.createdAt);
+                    const formatOrderDate = orderDate instanceof Date ? format(orderDate, "MMMM, dd") : '';
+                    const showDate = formatOrderDate !== lastDate;
+                    lastDate = formatOrderDate;
 
-                  return (
-                    <div className="space-y-5 mb-5">
-                      <h1 className="text-2xl my-3 font-semibold text-[#97c2d5]">
-                        {formatOrderDate}
-                      </h1>
-                      {order.orderItems?.map((item, index) => (
-                        <OrderCard
-                          key={index} // Adding a unique key for each OrderCard
-                          item={item}
-                          orderDate={formatOrderDate}
-                          orderId={order._id}
-                          index={index}
-                          orderStatus={order.orderStatus}
-                        />
-                      ))}
-                    </div>
-                  );
-                })}
-
+                    return (
+                      <div className="space-y-5 mb-10" key={order._id}>
+                        {showDate && (
+                          <h1 className="text-2xl my-3 mt-10 font-semibold text-[#97c2d5]">
+                            {formatOrderDate}
+                          </h1>
+                        )}
+                        {order.orderItems?.map((item, index) => (
+                          <OrderCard
+                            key={`${order._id}-${index}`}
+                            item={item}
+                            orderDate={formatOrderDate}
+                            orderId={order._id}
+                            index={index}
+                            orderStatus={order.orderStatus}
+                          />
+                        ))}
+                      </div>
+                    );
+                  });
+                })()}
               </div>)
             }
           </Grid>

@@ -59,6 +59,10 @@ export const login = (userData) => async (dispatch) => {
 };
 
 export const googleLogin = (idToken) => async (dispatch) => {
+    if (!idToken) {
+        console.error("No Google ID Token found");
+        return;
+    }
     dispatch(loginRequest());
 
     try {
