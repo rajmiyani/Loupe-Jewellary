@@ -58,4 +58,7 @@ app.use("/api/ratings", ratingRouter);
 const paymentRouter = require('./routes/payment.routes.js');
 app.use("/api/payment", paymentRouter);
 
+const adminDashboardRouter = require('./routes/admindashboard.route.js');
+app.use("/api/admin/dashboard", adminDashboardRouter);
+
 module.exports = app;

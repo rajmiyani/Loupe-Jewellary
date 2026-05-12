@@ -1,6 +1,7 @@
 import { Card, CardContent, Typography, Box } from '@mui/material'
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
 
 const productSalesData = [
@@ -13,6 +14,9 @@ const productSalesData = [
 const COLORS = ['#97c2d5', '#3b82f6', '#fbbf24', '#10b981']
 
 const Achivement = () => {
+    const { adminDashboard } = useSelector(store => store);
+    const stats = adminDashboard?.stats;
+
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -58,8 +62,10 @@ const Achivement = () => {
                             </PieChart>
                         </ResponsiveContainer>
                         <Box sx={{ position: 'absolute', top: '44%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
-                            <Typography variant="h4" sx={{ fontWeight: 900, color: '#1e293b', letterSpacing: '-1px' }}>1,200</Typography>
-                            <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>Items Solved</Typography>
+                            <Typography variant="h4" sx={{ fontWeight: 900, color: '#1e293b', letterSpacing: '-1px' }}>
+                                {(stats?.totalOrders || 0).toLocaleString()}
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>Orders Placed</Typography>
                         </Box>
                     </Box>
                 </CardContent>

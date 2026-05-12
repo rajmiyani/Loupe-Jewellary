@@ -2,19 +2,13 @@ import React, { useState } from 'react'
 import { Card, CardContent, Typography, Box, Button, ButtonGroup, FormControl, Select, MenuItem } from '@mui/material'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 import { Calendar, ChevronDown } from 'lucide-react'
 
-const data = [
-    { name: 'Mon', Revenue: 4000, Sales: 2400, Cancel: 240 },
-    { name: 'Tue', Revenue: 3000, Sales: 1398, Cancel: 139 },
-    { name: 'Wed', Revenue: 2000, Sales: 9800, Cancel: 980 },
-    { name: 'Thu', Revenue: 2780, Sales: 3908, Cancel: 390 },
-    { name: 'Fri', Revenue: 1890, Sales: 4800, Cancel: 480 },
-    { name: 'Sat', Revenue: 2390, Sales: 3800, Cancel: 380 },
-    { name: 'Sun', Revenue: 3490, Sales: 4300, Cancel: 430 },
-]
-
 const AnalyticsChart = () => {
+    const { adminDashboard } = useSelector(store => store);
+    const weeklyStats = adminDashboard?.weeklyStats || [];
+    
     const [selectedMonth, setSelectedMonth] = useState('');
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
@@ -63,7 +57,7 @@ const AnalyticsChart = () => {
 
                     <Box sx={{ height: 350, width: '100%' }}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={data}>
+                            <AreaChart data={weeklyStats.length > 0 ? weeklyStats : []}>
                                 <defs>
                                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#97c2d5" stopOpacity={0.1} />

@@ -1,6 +1,6 @@
 import { Grid, Box, Typography, InputBase, Button, ButtonGroup, Select, MenuItem, FormControl, Chip } from '@mui/material'
 import React, { useState, createContext, useContext } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Achivement from './Achivement'
 import MonthlyOverview from './MonthlyOverview'
 import AnalyticsChart from './AnalyticsChart'
@@ -8,6 +8,8 @@ import OrdersTableView from '../view/OrderTableView'
 import ProductsTableView from '../view/ProductTableView'
 import { motion } from 'framer-motion'
 import { Search, X, Filter } from 'lucide-react'
+import { useEffect } from 'react'
+import { getDashboardStats, getLatestOrders, getWeeklyStats, getAllProducts } from '../../state/admin/dashboard/Action'
 
 export const DashboardContext = createContext({
   searchQuery: '',
@@ -39,13 +41,21 @@ const STATUS_COLORS = {
 };
 
 const AdminDashboard = () => {
-  const { auth } = useSelector(store => store);
+  const dispatch = useDispatch();
+  const { auth, adminDashboard } = useSelector(store => store);
   const firstName = auth.user?.firstName || "Admin";
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [selectedYear, setSelectedYear] = useState(CURRENT_YEAR);
+
+  useEffect(() => {
+    dispatch(getDashboardStats());
+    dispatch(getLatestOrders());
+    dispatch(getWeeklyStats());
+    dispatch(getAllProducts());
+  }, [dispatch]);
 
   const clearFilters = () => {
     setSearchQuery('');
