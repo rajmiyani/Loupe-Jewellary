@@ -7,6 +7,8 @@ import { store } from '../../../state/store'
 import { createPayment } from '../../../state/payment/Action'
 import { formatPriceINR } from '../../../utils/price'
 
+import Loading from '../../../Loading';
+
 const OrderSummary = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -26,7 +28,10 @@ const OrderSummary = () => {
     dispatch(createPayment(orderId)).then(() => setDisablePay(false))
   }
 
-  // const {firstName, lastName, streetAddress, city, state, zipCode, mobile} = order.order?.shippingAddress;
+  // Guard for missing data
+  if (!order.order || !order.order.shippingAddress) {
+    return <Loading />;
+  }
 
   return (
     <div className='my-10'>
@@ -35,9 +40,9 @@ const OrderSummary = () => {
         {/* <AddressCard /> */}
         <div className='flex flex-wrap items-center justify-between p-3 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
           <div className='space-y-2'>
-            <h1 className='text-lg font-semibold'>{order.order?.shippingAddress.firstName + " " + order.order?.shippingAddress.lastName}</h1>
-            <p className='text-sm text-gray-500 font-normal'>{order.order?.shippingAddress.streetAddress}, {order.order?.shippingAddress.city}, {order.order?.shippingAddress.zipCode}</p>
-            <p className='text-sm text-gray-500 font-normal'>Phone : {order.order?.shippingAddress.mobile}</p>
+            <h1 className='text-lg font-semibold'>{order.order?.shippingAddress?.firstName + " " + order.order?.shippingAddress?.lastName}</h1>
+            <p className='text-sm text-gray-500 font-normal'>{order.order?.shippingAddress?.streetAddress}, {order.order?.shippingAddress?.city}, {order.order?.shippingAddress?.zipCode}</p>
+            <p className='text-sm text-gray-500 font-normal'>Phone : {order.order?.shippingAddress?.mobile}</p>
           </div>
 
         </div>
@@ -49,8 +54,8 @@ const OrderSummary = () => {
           <div className='lg:grid grid-cols-3 relative'>
 
             <div className='col-span-2'>
-              {order.order?.orderItems.map((item) => (
-                <div className='p-2 my-12 shadow-md rounded-md'>
+              {order.order?.orderItems?.map((item, index) => (
+                <div key={index} className='p-2 my-12 shadow-md rounded-md'>
                   <div className='flex items-center'>
                     <div className='w-[10rem] h-[10rem] shadow-sm rounded-lg'>
                       <img

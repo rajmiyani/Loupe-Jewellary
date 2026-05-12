@@ -11,13 +11,41 @@ async function createOrder(user, shippAddress) {
         address = existAddress;
     }
     else {
-        address = new Address(shippAddress);
-        address.user = user;
+        // Deduplication logic: Check if an identical address already exists for this user in memory
+        console.log("Checking for existing address among user's saved addresses. Count:", user.address?.length);
 
-        await address.save();
+        const shippAddr = {
+            firstName: shippAddress.firstName?.trim(),
+            lastName: shippAddress.lastName?.trim(),
+            streetAddress: shippAddress.streetAddress?.trim(),
+            city: shippAddress.city?.trim(),
+            state: shippAddress.state?.trim(),
+            zipCode: String(shippAddress.zipCode || '').trim(),
+            mobile: String(shippAddress.mobile || '').trim()
+        };
 
-        user.address.push(address);
-        await user.save();
+        let existingAddress = user.address.find(addr =>
+            addr.firstName?.trim() === shippAddr.firstName &&
+            addr.lastName?.trim() === shippAddr.lastName &&
+            addr.streetAddress?.trim() === shippAddr.streetAddress &&
+            addr.city?.trim() === shippAddr.city &&
+            addr.state?.trim() === shippAddr.state &&
+            String(addr.zipCode || '').trim() === shippAddr.zipCode &&
+            String(addr.mobile || '').trim() === shippAddr.mobile
+        );
+
+        if (existingAddress) {
+            console.log("Found existing address in memory:", existingAddress._id);
+            address = existingAddress;
+        } else {
+            console.log("No existing address found in memory. Creating new one.");
+            address = new Address(shippAddress);
+            address.user = user;
+            await address.save();
+
+            user.address.push(address);
+            await user.save();
+        }
     }
 
     const cart = await cartService.findUserCart(user._id);

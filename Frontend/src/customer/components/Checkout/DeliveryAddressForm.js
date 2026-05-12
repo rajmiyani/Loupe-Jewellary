@@ -90,7 +90,7 @@ const DeliveryAddressForm = () => {
                 <hr />
                 <div>
                   {auth.user?.address.map((address) => (
-                    <div className='p-3 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
+                    <div key={address._id} className='p-3 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
                       <div className='space-y-2'>
                         <h1 className='text-lg font-semibold'>{address.firstName} {address.lastName}</h1>
                         <p className='text-sm text-gray-500 font-normal'>{address.streetAddress}, {address.city}, {address.state}, {address.zipCode}</p>

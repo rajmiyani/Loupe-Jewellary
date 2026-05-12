@@ -109,14 +109,26 @@ export default function Checkout() {
     const navigate = useNavigate();
 
 
+    React.useEffect(() => {
+        if (!localStorage.getItem('jwt')) {
+            navigate('/login');
+        }
+    }, [navigate]);
+
+    const renderStepContent = (step) => {
+        switch (step) {
+            case 1:
+                return <DeliveryAddressForm />;
+            case 2:
+                return <OrderSummary />;
+            default:
+                return <DeliveryAddressForm />;
+        }
+    };
+
     return (
-        <div className='p-10 lg:px-20 lg:py-10' onLoad={() => {
-            if (!(localStorage.getItem('jwt') !== null)) {
-                navigate('/login')
-                return;
-            }
-        }}>
-            <Stack sx={{ width: '100%' }}>
+        <div className='p-10 lg:px-20 lg:py-10'>
+            <Stack sx={{ width: '100%', mb: 5 }}>
                 <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                     {steps.map((label) => (
                         <Step key={label}>
@@ -126,9 +138,7 @@ export default function Checkout() {
                 </Stepper>
             </Stack>
 
-            {
-                activeStep === 2 ? <DeliveryAddressForm /> : <OrderSummary />
-            }
+            {renderStepContent(activeStep)}
         </div>
     );
 }

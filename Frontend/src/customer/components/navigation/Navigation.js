@@ -822,7 +822,7 @@ export default function Navigation() {
               <Button
                 fullWidth
                 variant="contained"
-                onClick={() => { setCartOpen(false); navigate('/checkout'); }}
+                onClick={() => { setCartOpen(false); navigate('/checkout?step=1'); }}
                 sx={{
                   py: 1.5, borderRadius: '10px', textTransform: 'none', fontWeight: 700,
                   bgcolor: '#1e293b', color: 'white',

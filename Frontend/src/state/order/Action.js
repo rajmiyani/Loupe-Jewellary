@@ -12,7 +12,7 @@ export const createOrder = (reqData) => async (dispatch) => {
             reqData.address,
         )
         if (data._id) {
-            reqData.navigate({ search: `step=3&order_id=${data._id}` });
+            reqData.navigate({ search: `step=2&order_id=${data._id}` });
         }
         // console.log("created order - ", data)
 
