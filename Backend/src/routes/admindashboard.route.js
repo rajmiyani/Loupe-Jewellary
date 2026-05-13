@@ -10,5 +10,6 @@ router.get("/totalCancelledOrders", adminDashboardController.getTotalCancelledOr
 router.get("/latestOrders", adminDashboardController.getLatestOrders);
 router.get("/weeklyStats", adminDashboardController.getWeeklyStats);
 router.get("/allProducts", adminDashboardController.getAllProducts);
+router.get("/categoryDistribution", adminDashboardController.getCategoryDistribution);
 
 module.exports = router;

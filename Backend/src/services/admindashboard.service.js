@@ -111,6 +111,46 @@ const getAllProducts = async () => {
     }
 }
 
+const getCategoryDistribution = async () => {
+    try {
+        const orders = await Order.find({ orderStatus: "DELIVERED" })
+            .populate({
+                path: 'orderItems',
+                populate: {
+                    path: 'product',
+                    populate: {
+                        path: 'category'
+                    }
+                }
+            });
+
+        const categorySales = {};
+
+        orders.forEach(order => {
+            order.orderItems.forEach(item => {
+                if (item.product && item.product.category) {
+                    const categoryName = item.product.category.name;
+                    if (!categorySales[categoryName]) {
+                        categorySales[categoryName] = 0;
+                    }
+                    // Use discountedPrice if available, otherwise price
+                    const price = item.discountedPrice || item.price || 0;
+                    categorySales[categoryName] += price * item.quantity;
+                }
+            });
+        });
+
+        const result = Object.entries(categorySales).map(([name, sales]) => ({
+            name,
+            sales: Math.round(sales * 100) / 100
+        }));
+
+        return result;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 module.exports = {
     getTotalSales,
     getTotalOrders,
@@ -119,5 +159,6 @@ module.exports = {
     getTotalCancelledOrders,
     getLatestOrders,
     getWeeklyStats,
-    getAllProducts
+    getAllProducts,
+    getCategoryDistribution
 }

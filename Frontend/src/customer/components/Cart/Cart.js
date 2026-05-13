@@ -18,7 +18,7 @@ const Cart = () => {
     }, [cart.updateCartItem, cart.deleteCartItem, cart.cartItems])
 
     const handleCheckout = () => {
-        navigate('/checkout/?step=2');
+        navigate('/checkout');
     }
 
     return (

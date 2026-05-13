@@ -22,6 +22,7 @@ export const register = (userData) => async (dispatch) => {
 
         dispatch(registerSuccess(user.jwt));
         toastNotify({ type: 'success', title: 'Registered', description: 'Account created successfully.' });
+        return user;
 
     } catch (error) {
         const message = error?.response?.data?.error || error?.response?.data?.message || error.message;

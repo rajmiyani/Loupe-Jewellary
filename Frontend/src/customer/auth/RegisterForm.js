@@ -30,7 +30,7 @@ const CssTextField = styled(TextField)({
 });
 
 
-const RegisterForm = () => {
+const RegisterForm = ({ onRegisterSuccess }) => {
     const [data, setData] = useState({
         firstName: "",
         lastName: "",
@@ -74,10 +74,14 @@ const RegisterForm = () => {
             }
 
             dispatch(register(userData))
-                .then(() => {
+                .then((user) => {
                     setSubmitBtnDisable(false);
-                    navigate("/")
-                    modal.closeModal();
+                    if (onRegisterSuccess) {
+                        onRegisterSuccess(user);
+                    } else {
+                        navigate("/")
+                        modal.closeModal();
+                    }
 
                     Swal.fire({
                         position: 'top-center',
@@ -108,8 +112,12 @@ const RegisterForm = () => {
             .then((user) => {
                 const jwt = localStorage.getItem("jwt");
                 if (jwt) dispatch(getUser(jwt));
-                modal.closeModal();
-                navigate("/");
+                if (onRegisterSuccess) {
+                    onRegisterSuccess(user);
+                } else {
+                    modal.closeModal();
+                    navigate("/");
+                }
                 Swal.fire({
                     position: 'top-center',
                     icon: 'success',

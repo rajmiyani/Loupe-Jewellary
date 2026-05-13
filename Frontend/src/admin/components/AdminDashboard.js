@@ -1,15 +1,15 @@
 import { Grid, Box, Typography, InputBase, Button, ButtonGroup, Select, MenuItem, FormControl, Chip } from '@mui/material'
 import React, { useState, createContext, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Achivement from './Achivement'
 import MonthlyOverview from './MonthlyOverview'
-import AnalyticsChart from './AnalyticsChart'
+import Achivement from './Achivement'
 import OrdersTableView from '../view/OrderTableView'
 import ProductsTableView from '../view/ProductTableView'
 import { motion } from 'framer-motion'
 import { Search, X, Filter } from 'lucide-react'
 import { useEffect } from 'react'
-import { getDashboardStats, getLatestOrders, getWeeklyStats, getAllProducts } from '../../state/admin/dashboard/Action'
+import { getDashboardStats, getLatestOrders, getWeeklyStats, getAllProducts, getCategoryDistribution } from '../../state/admin/dashboard/Action'
+import SalesCategoryDistribution from './SalesCategoryDistribution'
 
 export const DashboardContext = createContext({
   searchQuery: '',
@@ -55,6 +55,7 @@ const AdminDashboard = () => {
     dispatch(getLatestOrders());
     dispatch(getWeeklyStats());
     dispatch(getAllProducts());
+    dispatch(getCategoryDistribution());
   }, [dispatch]);
 
   const clearFilters = () => {
@@ -87,16 +88,10 @@ const AdminDashboard = () => {
         </Box>
 
         <Grid container spacing={4}>
-          {/* Row 2: Performance Analysis & Product Sales */}
-          <Grid item xs={12} lg={8.5}>
-            <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.1 }}>
-              <AnalyticsChart selectedMonth={selectedMonth} selectedYear={selectedYear} />
-            </motion.div>
-          </Grid>
-
-          <Grid item xs={12} lg={3.5}>
-            <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <Achivement />
+          {/* Row 2: Combined Sales Trend & Category Distribution */}
+          <Grid item xs={12} lg={12}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+              <SalesCategoryDistribution />
             </motion.div>
           </Grid>
 

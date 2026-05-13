@@ -11,7 +11,10 @@ import {
     GET_WEEKLY_STATS_FAILURE,
     GET_ALL_PRODUCTS_REQUEST,
     GET_ALL_PRODUCTS_SUCCESS,
-    GET_ALL_PRODUCTS_FAILURE
+    GET_ALL_PRODUCTS_FAILURE,
+    GET_CATEGORY_DISTRIBUTION_REQUEST,
+    GET_CATEGORY_DISTRIBUTION_SUCCESS,
+    GET_CATEGORY_DISTRIBUTION_FAILURE
 } from "./ActionType";
 
 export const getDashboardStats = () => async (dispatch) => {
@@ -66,5 +69,15 @@ export const getAllProducts = () => async (dispatch) => {
         dispatch({ type: GET_ALL_PRODUCTS_SUCCESS, payload: response.data });
     } catch (error) {
         dispatch({ type: GET_ALL_PRODUCTS_FAILURE, payload: error.message });
+    }
+};
+
+export const getCategoryDistribution = () => async (dispatch) => {
+    dispatch({ type: GET_CATEGORY_DISTRIBUTION_REQUEST });
+    try {
+        const response = await api.get("/api/admin/dashboard/categoryDistribution");
+        dispatch({ type: GET_CATEGORY_DISTRIBUTION_SUCCESS, payload: response.data });
+    } catch (error) {
+        dispatch({ type: GET_CATEGORY_DISTRIBUTION_FAILURE, payload: error.message });
     }
 };

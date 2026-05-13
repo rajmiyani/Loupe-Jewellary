@@ -168,13 +168,9 @@ const CustomerRouters = () => {
         <Route
           path="/checkout"
           element={
-            authenticated ? (
-              <WithLayout showLayout={true}>
-                <Checkout />
-              </WithLayout>
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <WithLayout showLayout={true}>
+              <Checkout />
+            </WithLayout>
           }
         />
         <Route

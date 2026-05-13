@@ -29,7 +29,7 @@ const CssTextField = styled(TextField)({
 });
 
 
-const LoginForm = () => {
+const LoginForm = ({ onLoginSuccess }) => {
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -55,7 +55,9 @@ const LoginForm = () => {
                 .then((user) => {
                     setSubmitBtnDisable(false);
                     modal.closeModal();
-                    if (user?.role === "ADMIN") {
+                    if (onLoginSuccess) {
+                        onLoginSuccess(user);
+                    } else if (user?.role === "ADMIN") {
                         window.location.href = "/admin";
                     } else {
                         window.location.href = "/";
@@ -83,7 +85,9 @@ const LoginForm = () => {
                 const jwt = localStorage.getItem("jwt");
                 if (jwt) dispatch(getUser(jwt));
                 modal.closeModal();
-                if (user?.role === "ADMIN") {
+                if (onLoginSuccess) {
+                    onLoginSuccess(user);
+                } else if (user?.role === "ADMIN") {
                     window.location.href = "/admin";
                 } else {
                     window.location.href = "/";

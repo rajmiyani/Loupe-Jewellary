@@ -72,6 +72,15 @@ const getAllProducts = async (req, res) => {
     }
 }
 
+const getCategoryDistribution = async (req, res) => {
+    try {
+        const stats = await dashboardService.getCategoryDistribution();
+        return res.status(200).send(stats);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
 module.exports = {
     getTotalSales,
     getTotalOrders,
@@ -80,5 +89,6 @@ module.exports = {
     getTotalCancelledOrders,
     getLatestOrders,
     getWeeklyStats,
-    getAllProducts
+    getAllProducts,
+    getCategoryDistribution
 }
