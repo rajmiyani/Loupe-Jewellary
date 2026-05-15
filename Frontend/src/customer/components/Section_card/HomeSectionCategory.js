@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Slider from "react-slick"
@@ -103,7 +103,7 @@ const HomeSectionCategory = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className='text-[#97c2d5] font-bold tracking-[0.25em] uppercase text-[10px] mb-3'
+            className='text-[#755970] font-bold tracking-[0.25em] uppercase text-[10px] mb-3'
           >
             Collections
           </motion.span>
@@ -115,7 +115,7 @@ const HomeSectionCategory = () => {
             transition={{ delay: 0.2 }}
             className="text-2xl md:text-3xl font-light text-gray-800 tracking-wide uppercase"
           >
-            Shop By <span className='font-bold text-[#97c2d5]'>Category</span>
+            Shop By <span className='font-bold text-[#755970]'>Category</span>
           </motion.h2>
         </div>
 
@@ -131,7 +131,7 @@ const HomeSectionCategory = () => {
                   {/* The Portrait Container with Halo Effect */}
                   <div className='relative mb-6'>
                     {/* Halo Background Ring - Pure brand color */}
-                    <div className='absolute inset-[-8px] rounded-full border border-[#97c2d5]/10 scale-95 group-hover:scale-100 group-hover:border-[#97c2d5]/30 group-hover:bg-[#97c2d5]/5 transition-all duration-700 ease-[0.23, 1, 0.32, 1]' />
+                    <div className='absolute inset-[-8px] rounded-full border border-[#755970]/10 scale-95 group-hover:scale-100 group-hover:border-[#755970]/30 group-hover:bg-[#755970]/5 transition-all duration-700 ease-[0.23, 1, 0.32, 1]' />
 
                     {/* Circular Image Wrap */}
                     <div className='relative w-28 h-28 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-sm transition-all duration-700 group-hover:shadow-[0_15px_40px_rgba(151,194,213,0.25)]'>
@@ -145,14 +145,14 @@ const HomeSectionCategory = () => {
                     {/* Minimalist View Label */}
                     <div className='absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500'>
                       <div className='bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm'>
-                        <span className='text-[8px] font-bold tracking-tighter text-[#6a9eb5] uppercase'>Discover</span>
+                        <span className='text-[8px] font-bold tracking-tighter text-[#2c1e2f] uppercase'>Discover</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Minimalist Typography */}
                   <div className='text-center'>
-                    <h3 className='text-[11px] md:text-xs font-bold text-gray-700 tracking-[0.2em] uppercase group-hover:text-[#97c2d5] transition-colors duration-500'>
+                    <h3 className='text-[11px] md:text-xs font-bold text-gray-700 tracking-[0.2em] uppercase group-hover:text-[#755970] transition-colors duration-500'>
                       {item.name}
                     </h3>
                   </div>

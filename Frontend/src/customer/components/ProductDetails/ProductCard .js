@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import './productStyle.css'; // Import CSS file
 import $ from 'jquery';
 const ProductCard = () => {

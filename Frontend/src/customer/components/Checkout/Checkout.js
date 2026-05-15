@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
@@ -131,7 +131,7 @@ export default function Checkout() {
                                         sx={{
                                             textTransform: 'none',
                                             fontWeight: 800,
-                                            color: '#97c2d5',
+                                            color: '#755970',
                                             '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' }
                                         }}
                                     >

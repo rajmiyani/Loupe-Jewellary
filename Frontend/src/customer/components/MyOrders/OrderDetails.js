@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+﻿import React, { useContext, useEffect, useState } from 'react';
 import OrderTracker from './OrderTracker';
 import { Box, Typography, Paper, Grid, IconButton, Button, Divider } from "@mui/material";
 import {
@@ -80,7 +80,7 @@ const OrderDetails = () => {
                         Back to Registry
                     </Button>
                     <Box className="flex items-center gap-2">
-                        <Info size={14} className="text-[#97c2d5]" />
+                        <Info size={14} className="text-[#755970]" />
                         <Typography sx={{ fontSize: '0.65rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>
                             Order ID: {params.orderId?.slice(-8).toUpperCase()}
                         </Typography>
@@ -89,7 +89,7 @@ const OrderDetails = () => {
 
                 {/* 2. Glassmorphic Tracking Core */}
                 <Box>
-                    <Typography sx={{ fontSize: '2.5rem', fontFamily: "'Playfair Display', serif", color: '#1e293b', mb: 4, fontWeight: 300 }}>
+                    <Typography sx={{ fontSize: '2.5rem', fontFamily: "'Playfair Display', serif", color: '#755970', mb: 4, fontWeight: 300 }}>
                         Journey of your <span className="italic">Treasures</span>
                     </Typography>
                     <OrderTracker activeStep={activeStep} />
@@ -133,20 +133,20 @@ const OrderDetails = () => {
                                     {/* Item Narrative */}
                                     <Box sx={{ flexGrow: 1, py: 1 }}>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                                            <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#1e293b' }}>
+                                            <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#755970' }}>
                                                 {order.order?.orderItems[index]?.product.title}
                                             </Typography>
-                                            <div className="px-3 py-1 bg-[#97c2d5]/10 rounded-full">
-                                                <Typography sx={{ fontSize: '0.6rem', color: '#97c2d5', fontWeight: 900, letterSpacing: 1.5 }}>
+                                            <div className="px-3 py-1 bg-[#755970]/10 rounded-full">
+                                                <Typography sx={{ fontSize: '0.6rem', color: '#755970', fontWeight: 900, letterSpacing: 1.5 }}>
                                                     {order.order?.orderStatus}
                                                 </Typography>
                                             </div>
                                         </Box>
 
                                         <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', mb: 4, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                                            <span className="font-bold text-[#1e293b]">Weight:</span> {order.order?.orderItems[index]?.weight} G |
-                                            <span className="font-bold text-[#1e293b]">Size:</span> {order.order?.orderItems[index]?.size} MM |
-                                            <span className="font-bold text-[#1e293b]">Boutique:</span> {order.order?.orderItems[index]?.product.brand}
+                                            <span className="font-bold text-[#755970]">Weight:</span> {order.order?.orderItems[index]?.weight} G |
+                                            <span className="font-bold text-[#755970]">Size:</span> {order.order?.orderItems[index]?.size} MM |
+                                            <span className="font-bold text-[#755970]">Boutique:</span> {order.order?.orderItems[index]?.product.brand}
                                         </Typography>
 
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -154,7 +154,7 @@ const OrderDetails = () => {
                                                 <Typography sx={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1, mb: 0.5 }}>
                                                     Investment
                                                 </Typography>
-                                                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#1e293b', fontFamily: "'Outfit', sans-serif" }}>
+                                                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#755970', fontFamily: "'Outfit', sans-serif" }}>
                                                     ₹{formatPriceINR(order.order?.orderItems[index]?.product.discountedPrice)}
                                                 </Typography>
                                             </Box>
@@ -163,7 +163,7 @@ const OrderDetails = () => {
                                                 <Typography sx={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1, mb: 0.5 }}>
                                                     Member Benefit
                                                 </Typography>
-                                                <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#97c2d5' }}>
+                                                <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#755970' }}>
                                                     Saved ₹{formatPriceINR(order.order?.orderItems[index]?.product.price - order.order?.orderItems[index]?.product.discountedPrice)}
                                                 </Typography>
                                             </Box>
@@ -181,14 +181,14 @@ const OrderDetails = () => {
                                         sx={{
                                             borderRadius: '16px',
                                             borderColor: '#f1f5f9',
-                                            color: '#1e293b',
+                                            color: '#755970',
                                             px: 4,
                                             py: 1.5,
                                             fontSize: '0.75rem',
                                             fontWeight: 900,
                                             letterSpacing: 2,
                                             textTransform: 'uppercase',
-                                            '&:hover': { bgcolor: '#f8fafc', borderColor: '#1e293b' }
+                                            '&:hover': { bgcolor: '#f8fafc', borderColor: '#755970' }
                                         }}
                                     >
                                         Share Experience
@@ -206,7 +206,7 @@ const OrderDetails = () => {
                                 sx={{
                                     p: 4,
                                     borderRadius: '32px',
-                                    bgcolor: '#1e293b',
+                                    bgcolor: '#755970',
                                     color: 'white',
                                     position: 'relative',
                                     overflow: 'hidden'
@@ -215,8 +215,8 @@ const OrderDetails = () => {
                                 <Box sx={{ position: 'absolute', top: -50, right: -50, w: 150, h: 150, bgcolor: 'rgba(151,194,213,0.1)', borderRadius: '50%' }} />
 
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-                                    <Box sx={{ p: 1, borderRadius: '10px', bgcolor: '#97c2d5' }}>
-                                        <MapPin size={20} className="text-[#1e293b]" />
+                                    <Box sx={{ p: 1, borderRadius: '10px', bgcolor: '#755970' }}>
+                                        <MapPin size={20} className="text-[#755970]" />
                                     </Box>
                                     <Typography sx={{ fontSize: '0.8rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 2 }}>
                                         Delivery Registry
@@ -236,7 +236,7 @@ const OrderDetails = () => {
                                     </Box>
 
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                        <Phone size={14} className="text-[#97c2d5]" />
+                                        <Phone size={14} className="text-[#755970]" />
                                         <Typography sx={{ fontSize: '0.85rem', fontWeight: 700 }}>{mobile}</Typography>
                                     </Box>
 
@@ -251,7 +251,7 @@ const OrderDetails = () => {
                                             gap: 2
                                         }}
                                     >
-                                        <ShieldCheck size={20} className="text-[#97c2d5]" />
+                                        <ShieldCheck size={20} className="text-[#755970]" />
                                         <Box>
                                             <Typography sx={{ fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1 }}>
                                                 Secured Delivery
@@ -270,7 +270,7 @@ const OrderDetails = () => {
                 {/* 5. Support CTA */}
                 <Box sx={{ py: 4, textAlign: 'center' }}>
                     <Typography sx={{ fontSize: '0.8rem', color: '#94a3b8', fontStyle: 'italic' }}>
-                        Need further assistance with this movement? <span className="text-[#1e293b] font-bold underline cursor-pointer" onClick={() => navigate('/user-details/?layout=3')}>Speak with Concierge</span>
+                        Need further assistance with this movement? <span className="text-[#755970] font-bold underline cursor-pointer" onClick={() => navigate('/user-details/?layout=3')}>Speak with Concierge</span>
                     </Typography>
                 </Box>
             </div>

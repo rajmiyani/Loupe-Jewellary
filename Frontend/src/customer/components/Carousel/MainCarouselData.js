@@ -1,4 +1,4 @@
-export const mainCarouselData = [
+﻿export const mainCarouselData = [
     {
         image: "https://res.cloudinary.com/deq0hxr3t/image/upload/v1711818136/earrings-carousel_szlzyc.png",
         offer: "exclusive offer -20% off this week",

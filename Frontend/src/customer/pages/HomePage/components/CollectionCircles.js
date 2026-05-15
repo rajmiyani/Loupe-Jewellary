@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Slider from 'react-slick';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
@@ -90,7 +90,7 @@ const CollectionCircles = () => {
                                     fontSize: '0.7rem',
                                     fontWeight: 900,
                                     letterSpacing: 2,
-                                    color: '#1e293b',
+                                    color: '#755970',
                                     textAlign: 'center',
                                     textTransform: 'uppercase'
                                 }}

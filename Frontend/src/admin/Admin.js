@@ -122,7 +122,7 @@ const Admin = () => {
         {/* Logo Section */}
         <Box sx={{
           p: 2,
-          height: '100px',
+          height: '120px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: activeCollapsed ? 'center' : 'flex-start',
@@ -131,20 +131,19 @@ const Admin = () => {
           position: 'relative'
         }}>
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Box sx={{
-                width: 42, height: 42, bgcolor: '#97c2d5', borderRadius: '12px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 4px 15px rgba(151, 194, 213, 0.4)',
-                flexShrink: 0
-              }}>
-                <Typography variant="h6" fontWeight="900" sx={{ color: 'white' }}>L</Typography>
-              </Box>
-              {!activeCollapsed && (
-                <Typography variant="h5" fontWeight="900" sx={{ letterSpacing: 1.5, color: '#111827', fontFamily: 'serif', whiteSpace: 'nowrap' }}>
-                  Loupe
-                </Typography>
-              )}
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: activeCollapsed ? 'center' : 'flex-start', width: '100%', overflow: 'hidden' }}>
+              <img 
+                src="/Loupe-logo.png" 
+                alt="Loupe Logo" 
+                style={{ 
+                  height: activeCollapsed ? '50px' : '85px', 
+                  width: 'auto',
+                  maxWidth: activeCollapsed ? '70px' : '240px',
+                  objectFit: 'contain',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  filter: 'brightness(0) saturate(100%) invert(20%) sepia(10%) saturate(1500%) hue-rotate(245deg) brightness(95%) contrast(90%)'
+                }} 
+              />
             </Box>
           </Link>
 
@@ -158,7 +157,7 @@ const Admin = () => {
               sx={{
                 position: 'absolute',
                 right: 0,
-                bgcolor: '#97c2d5',
+                bgcolor: '#755970',
                 color: 'white',
                 width: 28,
                 height: 28,
@@ -198,10 +197,10 @@ const Admin = () => {
                       cursor: 'pointer',
                       transition: 'all 0.3s',
                       bgcolor: isActive ? '#e0f2f1' : 'transparent',
-                      color: isActive ? '#97c2d5' : '#64748b',
+                      color: isActive ? '#755970' : '#64748b',
                       '&:hover': {
                         bgcolor: isActive ? '#e0f2f1' : '#f8f9fa',
-                        color: isActive ? '#97c2d5' : '#111827',
+                        color: isActive ? '#755970' : '#111827',
                         transform: 'translateX(4px)'
                       }
                     }}
@@ -233,7 +232,7 @@ const Admin = () => {
                           fontSize: '0.85rem',
                           fontWeight: 500,
                           transition: 'all 0.2s',
-                          '&:hover': { color: '#97c2d5', bgcolor: '#f0f9ff' }
+                          '&:hover': { color: '#755970', bgcolor: '#f0f9ff' }
                         }}
                       >
                         {sub.name}
@@ -278,7 +277,7 @@ const Admin = () => {
               <Typography sx={{ fontSize: '0.85rem', fontWeight: 600 }}>{currentDate}</Typography>
             </Box>
             <IconButton onClick={handleOpenNotify} sx={{ bgcolor: '#f8fafc', p: 1.5 }}>
-              <Badge badgeContent={recentOrders.length} color="primary" overlap="circular" sx={{ '& .MuiBadge-badge': { bgcolor: '#97c2d5' } }}>
+              <Badge badgeContent={recentOrders.length} color="primary" overlap="circular" sx={{ '& .MuiBadge-badge': { bgcolor: '#755970' } }}>
                 <Bell size={20} />
               </Badge>
             </IconButton>
@@ -303,13 +302,13 @@ const Admin = () => {
               {recentOrders.map((order) => (
                 <MenuItem key={order._id} onClick={() => { navigate('/admin/orders'); handleCloseNotify(); }} sx={{ py: 1.5 }}>
                   <ListItemIcon sx={{ minWidth: 40 }}>
-                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#e0f2f1', color: '#97c2d5' }}>
+                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#e0f2f1', color: '#755970' }}>
                       <ShoppingBag size={16} />
                     </Avatar>
                   </ListItemIcon>
                   <ListItemText
                     primary={<Typography variant="body2" sx={{ fontWeight: 700 }}>New Order #{order._id.slice(-6).toUpperCase()}</Typography>}
-                    secondary={<Typography variant="caption" sx={{ color: '#94a3b8' }}>AED {order.totalPrice} • {order.user?.firstName}</Typography>}
+                    secondary={<Typography variant="caption" sx={{ color: '#94a3b8' }}>AED {order.totalPrice} Ã¢â‚¬Â¢ {order.user?.firstName}</Typography>}
                   />
                 </MenuItem>
               ))}
@@ -325,7 +324,7 @@ const Admin = () => {
                 <Typography sx={{ fontSize: '0.9rem', fontWeight: 800, color: '#111827' }}>{auth.user?.firstName} {auth.user?.lastName}</Typography>
                 <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase' }}>Administrator</Typography>
               </Box>
-              <Avatar sx={{ width: 45, height: 45, borderRadius: '12px', bgcolor: '#97c2d5' }}>
+              <Avatar sx={{ width: 45, height: 45, borderRadius: '12px', bgcolor: '#755970' }}>
                 {auth.user?.firstName?.charAt(0)}
               </Avatar>
             </Box>

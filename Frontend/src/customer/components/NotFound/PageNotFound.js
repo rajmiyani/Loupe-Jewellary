@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+﻿import { Button } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,8 +13,8 @@ const PageNotFound = () => {
         variant="contained"
         type="submit"
         sx={{
-          ml: '2rem', fontSize: '0.75rem', fontWeight: 'bold', color: '#fff', bgcolor: "#6a9eb5",
-          "&:hover": { bgcolor: "#97c2d5" },
+          ml: '2rem', fontSize: '0.75rem', fontWeight: 'bold', color: '#fff', bgcolor: "#2c1e2f",
+          "&:hover": { bgcolor: "#755970" },
         }}
         className="flex font-medium items-center justify-center rounded-md border-none p-3 focus:outline-none"
       >

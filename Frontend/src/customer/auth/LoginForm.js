@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+﻿import React, { useContext, useState } from 'react'
 import { Button, Grid, TextField, styled, Box, Typography, Divider } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -10,10 +10,10 @@ import { GoogleLogin } from '@react-oauth/google';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
-        color: '#97c2d5',
+        color: '#755970',
     },
     '& .MuiInput-underline:after': {
-        borderBottomColor: '#97c2d5',
+        borderBottomColor: '#755970',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -23,7 +23,7 @@ const CssTextField = styled(TextField)({
             borderColor: '#500724',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#97c2d5',
+            borderColor: '#755970',
         },
     },
 });
@@ -191,7 +191,7 @@ const LoginForm = ({ onLoginSuccess }) => {
                     bgcolor: '#fff'
                 }}
             >
-                <Typography variant="h4" fontWeight="bold" mb={1} sx={{ color: '#97c2d5' }}>
+                <Typography variant="h4" fontWeight="bold" mb={1} sx={{ color: '#755970' }}>
                     Login
                 </Typography>
                 <Typography variant="body2" color="text.secondary" mb={4}>
@@ -236,8 +236,8 @@ const LoginForm = ({ onLoginSuccess }) => {
                                 fullWidth
                                 sx={{
                                     py: 1.5,
-                                    bgcolor: '#6a9eb5',
-                                    '&:hover': { bgcolor: '#97c2d5' },
+                                    bgcolor: '#2c1e2f',
+                                    '&:hover': { bgcolor: '#755970' },
                                     borderRadius: '8px',
                                     textTransform: 'none',
                                     fontSize: '1rem',
@@ -276,7 +276,7 @@ const LoginForm = ({ onLoginSuccess }) => {
                             variant="body2"
                             onClick={() => navigate('/register')}
                             sx={{
-                                color: '#6a9eb5',
+                                color: '#2c1e2f',
                                 fontWeight: 'bold',
                                 cursor: 'pointer',
                                 '&:hover': { textDecoration: 'underline' }

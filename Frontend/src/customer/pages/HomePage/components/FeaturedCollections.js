@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,14 +34,14 @@ const FeaturedCollections = () => {
             <div className="max-w-[1400px] mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div className="max-w-xl">
-                        <span className="text-[#97c2d5] font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Curated Series</span>
+                        <span className="text-[#755970] font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Curated Series</span>
                         <h2 className="text-3xl md:text-5xl font-light text-gray-900 leading-tight">
                             Collections that <span className="font-bold italic">Define You</span>
                         </h2>
                     </div>
                     <button
                         onClick={() => navigate('/all-jewellery')}
-                        className="text-sm font-bold uppercase tracking-widest border-b-2 border-[#97c2d5] pb-1 hover:text-[#6a9eb5] transition-colors"
+                        className="text-sm font-bold uppercase tracking-widest border-b-2 border-[#755970] pb-1 hover:text-[#2c1e2f] transition-colors"
                     >
                         Show All
                     </button>

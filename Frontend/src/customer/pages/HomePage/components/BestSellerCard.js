@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Box, Typography, Checkbox, Tooltip, IconButton } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -35,7 +35,7 @@ const BestSellerCard = ({ product }) => {
                 {/* Floating "New Tier" Badge */}
                 <div className="absolute top-5 left-5 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-90 group-hover:scale-100">
                     <div className="flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-xl border border-gray-100 rounded-full shadow-sm">
-                        <Sparkles size={12} className="text-[#97c2d5]" />
+                        <Sparkles size={12} className="text-[#755970]" />
                         <span className="text-[8px] font-black tracking-widest text-gray-500">BOUTIQUE EXCLUSIVE</span>
                     </div>
                 </div>
@@ -80,11 +80,11 @@ const BestSellerCard = ({ product }) => {
                     >
                         <MessageCircle size={16} />
                     </IconButton>
-                    <button className="flex-1 bg-white text-[#1e293b] text-[10px] font-black tracking-widest uppercase rounded-full shadow-lg hover:bg-[#1e293b] hover:text-white transition-all duration-300 transform active:scale-95 border border-white">
+                    <button className="flex-1 bg-white text-[#755970] text-[10px] font-black tracking-widest uppercase rounded-full shadow-lg hover:bg-[#755970] hover:text-white transition-all duration-300 transform active:scale-95 border border-white">
                         Discovery
                     </button>
                     <IconButton
-                        sx={{ bgcolor: 'white', '&:hover': { bgcolor: '#1e293b', color: 'white' }, transition: 'all 0.3s', boxShadow: '0 8px 20px rgba(0,0,0,0.1)' }}
+                        sx={{ bgcolor: 'white', '&:hover': { bgcolor: '#755970', color: 'white' }, transition: 'all 0.3s', boxShadow: '0 8px 20px rgba(0,0,0,0.1)' }}
                     >
                         <ShoppingBag size={16} />
                     </IconButton>
@@ -109,7 +109,7 @@ const BestSellerCard = ({ product }) => {
 
                 <Typography
                     onClick={() => navigate(`/product/${product.id || ''}`)}
-                    className="text-[#1e293b] font-medium leading-relaxed mb-4 group-hover:text-[#97c2d5] transition-colors duration-300 cursor-pointer"
+                    className="text-[#755970] font-medium leading-relaxed mb-4 group-hover:text-[#755970] transition-colors duration-300 cursor-pointer"
                     sx={{
                         fontSize: '0.9rem',
                         fontFamily: "'Outfit', sans-serif",
@@ -127,7 +127,7 @@ const BestSellerCard = ({ product }) => {
                     <div className="flex flex-col">
                         <span className="text-gray-300 text-[9px] font-bold tracking-widest uppercase mb-0.5">Value Est.</span>
                         <div className="flex items-baseline gap-2">
-                            <span className="text-[#1e293b] font-serif italic text-xl">₹{formatPriceINR(product.discountedPrice || product.price)}</span>
+                            <span className="text-[#755970] font-serif italic text-xl">₹{formatPriceINR(product.discountedPrice || product.price)}</span>
                         </div>
                     </div>
 
@@ -154,7 +154,7 @@ const BestSellerCard = ({ product }) => {
                                             position: 'absolute',
                                             inset: -3,
                                             borderRadius: '50%',
-                                            border: selectedColorIndex === idx ? '1px solid #1e293b' : '1px solid transparent',
+                                            border: selectedColorIndex === idx ? '1px solid #755970' : '1px solid transparent',
                                             transition: 'border-color 0.4s'
                                         },
                                         '&:hover': { transform: 'scale(1.3)' }

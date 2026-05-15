@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import { mainCarouselData } from './MainCarouselData';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import Slider from "react-slick";

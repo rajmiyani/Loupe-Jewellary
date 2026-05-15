@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, styled } from '@mui/material'
+﻿import { Box, Button, Grid, TextField, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,20 +8,20 @@ import { store } from '../../../state/store';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
-    color: '#97c2d5',
+    color: '#755970',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: '#97c2d5',
+    borderBottomColor: '#755970',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: '#9ca3af',
     },
     '&:hover fieldset': {
-      borderColor: '#97c2d5',
+      borderColor: '#755970',
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#97c2d5',
+      borderColor: '#755970',
     },
   },
 });
@@ -86,11 +86,11 @@ const DeliveryAddressForm = () => {
           <div className='overflow-y-scroll h-[30.5rem] rounded-md shadow-md ' id='deli-add-form'>
             <Grid item>
               <div className="p-3 flex flex-col gap-4 cursor-pointer">
-                <h1 className='text-lg font-semibold text-[#97c2d5] uppercase'>Deliver To</h1>
+                <h1 className='text-lg font-semibold text-[#755970] uppercase'>Deliver To</h1>
                 <hr />
                 <div>
                   {auth.user?.address.map((address) => (
-                    <div key={address._id} className='p-3 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
+                    <div key={address._id} className='p-3 rounded-lg' style={{ border: '1px solid #755970' }}>
                       <div className='space-y-2'>
                         <h1 className='text-lg font-semibold'>{address.firstName} {address.lastName}</h1>
                         <p className='text-sm text-gray-500 font-normal'>{address.streetAddress}, {address.city}, {address.state}, {address.zipCode}</p>
@@ -102,7 +102,7 @@ const DeliveryAddressForm = () => {
                           setData(address)
                           console.log(address)
                         }}
-                        sx={{ my: '1rem', fontSize: '0.75rem', color: '#6a9eb5', borderColor: '#6a9eb5', "&:hover": { bgcolor: "#6a9eb5", color: '#fff', borderColor: '#6a9eb5' }, }}
+                        sx={{ my: '1rem', fontSize: '0.75rem', color: '#2c1e2f', borderColor: '#2c1e2f', "&:hover": { bgcolor: "#2c1e2f", color: '#fff', borderColor: '#2c1e2f' }, }}
                         className="flex w-4/12 items-center justify-center rounded-md border-none px-3 py-1"
                       >
                         Use This Address
@@ -258,7 +258,7 @@ const DeliveryAddressForm = () => {
                   // onClick={handleDelivery}
                   variant="contained"
                   type="submit"
-                  sx={{ mt: '2rem', ml: '1.5rem', bgcolor: '#6a9eb5', "&:hover": { bgcolor: "#97c2d5" }, }}
+                  sx={{ mt: '2rem', ml: '1.5rem', bgcolor: '#2c1e2f', "&:hover": { bgcolor: "#755970" }, }}
                   className="flex w-4/12 uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none "
                 >
                   Deliver Here

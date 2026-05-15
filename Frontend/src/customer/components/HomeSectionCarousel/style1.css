@@ -1,4 +1,4 @@
-/* **********Slick Slider Section *************** */
+﻿/* **********Slick Slider Section *************** */
 
 
 /* .homeSlider{padding: 30px 0px;}
@@ -40,7 +40,7 @@
 }
 
 .slick-arrow:hover {
-    background: #6a9eb5 !important;
+    background: #2c1e2f !important;
 }
 
 .slick-arrow:hover::before {
@@ -67,7 +67,7 @@
 }
 
 .slick-active button::before {
-    color: #6a9eb5 !important;
+    color: #2c1e2f !important;
 }
 
 /* .home_slider_Main .item{position: relative;}

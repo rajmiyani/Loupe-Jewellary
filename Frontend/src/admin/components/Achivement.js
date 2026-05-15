@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box } from '@mui/material'
+﻿import { Card, CardContent, Typography, Box } from '@mui/material'
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
@@ -11,7 +11,7 @@ const productSalesData = [
     { name: 'Bracelets', value: 200 },
 ]
 
-const COLORS = ['#97c2d5', '#3b82f6', '#fbbf24', '#10b981']
+const COLORS = ['#755970', '#3b82f6', '#fbbf24', '#10b981']
 
 const Achivement = () => {
     const { adminDashboard } = useSelector(store => store);

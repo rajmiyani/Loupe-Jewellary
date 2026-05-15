@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Grid, Badge } from "@mui/material";
+﻿import { Box, Typography, Paper, Grid, Badge } from "@mui/material";
 import React from "react";
 import { ChevronRight, Package, Truck, CheckCircle2, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
             case 'SHIPPED':
                 return { label: 'Shipped', color: '#3b82f6', bg: '#eff6ff', icon: <Truck size={14} /> };
             case 'CONFIRMED':
-                return { label: 'Confirmed', color: '#1e293b', bg: '#f1f5f9', icon: <Package size={14} /> };
+                return { label: 'Confirmed', color: '#755970', bg: '#f1f5f9', icon: <Package size={14} /> };
             case 'PLACED':
                 return { label: 'Placed', color: '#64748b', bg: '#f8fafc', icon: <Package size={14} /> };
             case 'CANCELED':
@@ -39,7 +39,7 @@ const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
                 transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
                     boxShadow: '0 15px 35px rgba(30, 41, 59, 0.08)',
-                    borderColor: '#97c2d5',
+                    borderColor: '#755970',
                     transform: 'translateY(-4px)'
                 }
             }}
@@ -76,20 +76,20 @@ const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
                                 fontSize: '1.1rem',
                                 fontWeight: 300,
                                 fontFamily: "'Playfair Display', serif",
-                                color: '#1e293b',
+                                color: '#755970',
                                 mb: 0.5
                             }}
                         >
                             {item.product?.title}
                         </Typography>
                         <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic', mb: 1.5 }}>
-                            Boutique Selection • {item.product?.brand || "Loupe Jeweller"}
+                            Boutique Selection â€¢ {item.product?.brand || "Loupe Jeweller"}
                         </Typography>
 
                         <div className="flex flex-wrap gap-4 items-center">
                             <div className="flex flex-col">
                                 <span className="text-[0.6rem] font-black uppercase tracking-wider text-gray-400">Price</span>
-                                <span className="text-[1rem] font-serif italic text-[#1e293b]">₹{formatPriceINR(item?.discountedPrice)}</span>
+                                <span className="text-[1rem] font-serif italic text-[#755970]">₹{formatPriceINR(item?.discountedPrice)}</span>
                             </div>
                             <div className="w-[1px] h-6 bg-gray-100 hidden sm:block" />
                             <div className="flex flex-col">

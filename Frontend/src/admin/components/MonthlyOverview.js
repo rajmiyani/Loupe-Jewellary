@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography, LinearProgress } from '@mui/material'
+﻿import { Avatar, Box, Card, CardContent, Grid, Typography, LinearProgress } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
@@ -15,7 +15,7 @@ const MonthlyOverview = () => {
             trend: '+12.5%',
             isUp: true,
             icon: <Banknote size={20} />,
-            color: '#97c2d5',
+            color: '#755970',
             bg: '#f0f9ff'
         },
         {

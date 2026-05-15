@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Slider from 'react-slick';
 import { Box, Typography, IconButton, Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
@@ -74,11 +74,11 @@ const NextArrow = ({ onClick }) => (
             top: '40%',
             transform: 'translateY(-50%)',
             zIndex: 10,
-            bgcolor: '#1e293b',
+            bgcolor: '#755970',
             color: 'white',
             width: 40,
             height: 40,
-            '&:hover': { bgcolor: '#97c2d5' },
+            '&:hover': { bgcolor: '#755970' },
             transition: 'all 0.3s'
         }}
     >
@@ -95,11 +95,11 @@ const PrevArrow = ({ onClick }) => (
             top: '40%',
             transform: 'translateY(-50%)',
             zIndex: 10,
-            bgcolor: '#1e293b',
+            bgcolor: '#755970',
             color: 'white',
             width: 40,
             height: 40,
-            '&:hover': { bgcolor: '#97c2d5' },
+            '&:hover': { bgcolor: '#755970' },
             transition: 'all 0.3s'
         }}
     >
@@ -145,14 +145,14 @@ const BestSellerSection = () => {
                         fontWeight: 300,
                         fontFamily: "'Playfair Display', serif",
                         letterSpacing: 2,
-                        color: '#1e293b',
+                        color: '#755970',
                         mb: 2,
                         textTransform: 'uppercase'
                     }}
                 >
                     Best Sellers
                 </Typography>
-                <div className="w-16 h-[2px] bg-[#97c2d5] mx-auto opacity-50" />
+                <div className="w-16 h-[2px] bg-[#755970] mx-auto opacity-50" />
             </Box>
 
             <div className="max-w-[1400px] mx-auto px-10 relative">
@@ -171,7 +171,7 @@ const BestSellerSection = () => {
                         navigate('/product-catalogue');
                     }}
                     sx={{
-                        bgcolor: '#1e293b', // Primary Slate
+                        bgcolor: '#755970', // Primary Slate
                         color: 'white',
                         px: 8,
                         py: 2,
@@ -185,7 +185,7 @@ const BestSellerSection = () => {
                         position: 'relative',
                         overflow: 'hidden',
                         '&:hover': {
-                            bgcolor: '#97c2d5', // Loupe Blue Hover
+                            bgcolor: '#755970', // Loupe Blue Hover
                             boxShadow: '0 8px 25px rgba(151, 194, 213, 0.4)',
                             transform: 'translateY(-2px)'
                         },

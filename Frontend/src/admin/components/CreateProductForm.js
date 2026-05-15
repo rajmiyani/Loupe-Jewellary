@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../state/product/Action';
 import {
@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import { Upload, Plus, Trash2, Package, Tag, Image, Layers, DollarSign, BarChart3, ChevronRight, Gem, Ruler, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const BRAND = '#97c2d5';
+const BRAND = '#755970';
 const BRAND_LIGHT = '#f0f9ff';
 const BRAND_DARK = '#5fa0b8';
 

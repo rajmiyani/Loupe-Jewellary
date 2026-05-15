@@ -1,10 +1,10 @@
-import React from 'react'
+﻿import React from 'react'
 import { Card, CardContent, Typography, Box } from '@mui/material'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 
-const COLORS = ['#97c2d5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+const COLORS = ['#755970', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
 const CategoryDistributionChart = () => {
     const { adminDashboard } = useSelector(store => store);

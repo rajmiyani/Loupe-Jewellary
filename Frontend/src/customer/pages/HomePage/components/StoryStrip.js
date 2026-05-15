@@ -1,25 +1,25 @@
-import React from 'react';
+﻿import React from 'react';
 
 const stories = [
   {
     title: 'Ethical Sourcing',
-    desc: 'Every stone is conflict‑free and carefully selected.',
-    icon: '💎',
+    desc: 'Every stone is conflictâ€‘free and carefully selected.',
+    icon: 'ðŸ’Ž',
   },
   {
     title: 'Lifetime Care',
     desc: 'Free cleaning and polishing at our partner stores.',
-    icon: '🧼',
+    icon: 'ðŸ§¼',
   },
   {
     title: 'Artisan Made',
     desc: 'Handcrafted by artisans with decades of expertise.',
-    icon: '🛠️',
+    icon: 'ðŸ› ï¸',
   },
   {
     title: 'Insured Delivery',
     desc: 'Fast, tracked, and insured shipping worldwide.',
-    icon: '🚚',
+    icon: 'ðŸšš',
   },
 ];
 
@@ -33,7 +33,7 @@ const StoryCard = ({ item, index }) => {
             {item.icon}
           </span>
         </div>
-        <h3 className="mt-3 text-lg font-bold text-[#97c2d5] dark:text-white">{item.title}</h3>
+        <h3 className="mt-3 text-lg font-bold text-[#755970] dark:text-white">{item.title}</h3>
         <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{item.desc}</p>
       </div>
     </div>
@@ -44,8 +44,8 @@ const StoryStrip = () => {
   return (
     <section className="px-2 md:px-0">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-[#97c2d5] dark:text-white">Our Promise</h2>
-        <a href="/user-details/?layout=3" className="text-[#6a9eb5] hover:underline dark:text-[#97c2d5]">Contact us</a>
+        <h2 className="text-2xl md:text-3xl font-extrabold text-[#755970] dark:text-white">Our Promise</h2>
+        <a href="/user-details/?layout=3" className="text-[#2c1e2f] hover:underline dark:text-[#755970]">Contact us</a>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {stories.map((s, idx) => (

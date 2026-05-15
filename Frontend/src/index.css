@@ -6,8 +6,9 @@
 
 :root {
   --primary-gold: #D4AF37;
-  --primary-blue: #97c2d5;
-  --primary-blue-dark: #6a9eb5;
+  --primary-theme: #402d43;
+  --accent-theme: #755970;
+  --primary-theme-dark: #2c1e2f;
   --bg-premium: #f8fafc;
   --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(255, 255, 255, 0.3);
@@ -74,12 +75,12 @@ html.dark body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-blue-dark);
+  background: var(--accent-theme);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-blue);
+  background: var(--primary-theme);
 }
 
 /* Buttons and chips accents */
@@ -409,3 +410,33 @@ html.dark body {
   border-color: var(--card-border);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
+
+/* Global Button Theme Override */
+.MuiButton-contained {
+  background-color: var(--accent-theme) !important;
+  color: white !important;
+  transition: var(--transition-smooth) !important;
+}
+.MuiButton-contained:hover {
+  background-color: var(--primary-theme) !important;
+  transform: translateY(-1px);
+}
+.MuiButton-outlined {
+  border-color: var(--accent-theme) !important;
+  color: var(--accent-theme) !important;
+}
+.MuiButton-outlined:hover {
+  background-color: rgba(117, 89, 112, 0.05) !important;
+  border-color: var(--primary-theme) !important;
+}
+
+
+/* Hide scrollbar for elements with no-scrollbar class */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

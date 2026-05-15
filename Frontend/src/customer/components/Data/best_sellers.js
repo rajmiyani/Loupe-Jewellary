@@ -1,4 +1,4 @@
-export const best_sellers = [
+﻿export const best_sellers = [
   {
     "imgUrl": 'https://res.cloudinary.com/deq0hxr3t/image/upload/v1707742451/1_koyxla.jpg',
     "brand": 'Loupe',
