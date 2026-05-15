@@ -13,7 +13,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder } from '../../../state/order/Action';
-import { store } from '../../../state/store';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -76,9 +75,9 @@ const DeliveryAddressForm = () => {
         setNoProfileAddress(false);
         setErrors({});
       } else {
-        // No profile address saved
+        // No profile address saved — show warning and keep checkbox unchecked
         setNoProfileAddress(true);
-        setUseProfileAddress(false);   // keep checkbox unchecked
+        setUseProfileAddress(false);
       }
     } else {
       setNoProfileAddress(false);
@@ -118,172 +117,175 @@ const DeliveryAddressForm = () => {
   /* ─── render ─── */
   return (
     <div className='my-20'>
-      <Grid container spacing={4}>
-        <Grid item xs={12} lg={5}>
-          <div className='overflow-y-scroll h-[30.5rem] rounded-md shadow-md ' id='deli-add-form'>
-            <Grid item>
-              <div className="p-3 flex flex-col gap-4 cursor-pointer">
-                <h1 className='text-lg font-semibold text-[#97c2d5] uppercase'>Deliver To</h1>
-                <hr />
-                <div>
-                  {auth.user?.address.map((address) => (
-                    <div key={address._id} className='p-3 rounded-lg' style={{ border: '1px solid #97c2d5' }}>
-                      <div className='space-y-2'>
-                        <h1 className='text-lg font-semibold'>{address.firstName} {address.lastName}</h1>
-                        <p className='text-sm text-gray-500 font-normal'>{address.streetAddress}, {address.city}, {address.state}, {address.zipCode}</p>
-                        <p className='text-sm text-gray-500 font-normal'>Phone : {address.mobile}</p>
-                      </div>
-                      <Button
-                        variant="outlined"
-                        onClick={() => {
-                          setData(address)
-                          console.log(address)
-                        }}
-                        sx={{ my: '1rem', fontSize: '0.75rem', color: '#6a9eb5', borderColor: '#6a9eb5', "&:hover": { bgcolor: "#6a9eb5", color: '#fff', borderColor: '#6a9eb5' }, }}
-                        className="flex w-4/12 items-center justify-center rounded-md border-none px-3 py-1"
-                      >
-                        Use This Address
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
+      <Box className="border rounded-md shadow-md p-6 max-w-3xl mx-auto">
 
+        {/* "Same as Profile Address" checkbox */}
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={useProfileAddress}
+              onChange={handleProfileCheckbox}
+              sx={{
+                color: '#97c2d5',
+                '&.Mui-checked': { color: '#6a9eb5' },
+              }}
+            />
+          }
+          label={
+            <span className="text-sm font-medium text-gray-700">
+              Same as Profile Address
+            </span>
+          }
+          sx={{ mb: 1 }}
+        />
+
+        {/* Warning if no address in profile */}
+        <Collapse in={noProfileAddress}>
+          <Alert
+            severity="warning"
+            onClose={() => setNoProfileAddress(false)}
+            sx={{ mb: 2, borderRadius: '8px' }}
+          >
+            You haven't saved an address in your profile yet. Please fill in the
+            delivery address below.
+          </Alert>
+        </Collapse>
+
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={3}>
+
+            <Grid item xs={12} sm={6}>
+              <CssTextField
+                id="firstName"
+                name="firstName"
+                label="First Name"
+                fullWidth
+                required
+                autoComplete="given-name"
+                value={data.firstName}
+                onChange={(e) => setData({ ...data, firstName: e.target.value })}
+                error={Boolean(errors.firstName)}
+                helperText={errors.firstName}
+              />
             </Grid>
-          </div>
-        </Grid >
 
-        <Grid item xs={12} lg={7}>
+            <Grid item xs={12} sm={6}>
+              <CssTextField
+                id="lastName"
+                name="lastName"
+                label="Last Name"
+                fullWidth
+                required
+                autoComplete="family-name"
+                value={data.lastName}
+                onChange={(e) => setData({ ...data, lastName: e.target.value })}
+                error={Boolean(errors.lastName)}
+                helperText={errors.lastName}
+              />
+            </Grid>
 
-          <Box className="border rounded-s-md shadow-md p-5">
+            <Grid item xs={12}>
+              <CssTextField
+                id="address"
+                name="address"
+                label="Street Address"
+                fullWidth
+                required
+                multiline
+                rows={3}
+                value={data.streetAddress}
+                onChange={(e) => setData({ ...data, streetAddress: e.target.value })}
+                error={Boolean(errors.streetAddress)}
+                helperText={errors.streetAddress}
+              />
+            </Grid>
 
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={3}>
+            <Grid item xs={12} sm={4}>
+              <CssTextField
+                id="city"
+                name="city"
+                label="City"
+                fullWidth
+                required
+                value={data.city}
+                onChange={(e) => setData({ ...data, city: e.target.value })}
+                error={Boolean(errors.city)}
+                helperText={errors.city}
+              />
+            </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <CssTextField
-                    id="firstName"
-                    name="firstName"
-                    label="First Name"
-                    fullWidth
-                    required
-                    autoComplete="given-name"
-                    value={data.firstName}
-                    onChange={(e) => setData({ ...data, firstName: e.target.value })}
-                    error={Boolean(errors.firstName)}
-                    helperText={errors.firstName}
-                  />
-                </Grid>
+            <Grid item xs={12} sm={4}>
+              <CssTextField
+                id="state"
+                name="state"
+                label="State / Region"
+                fullWidth
+                required
+                value={data.state}
+                onChange={(e) => setData({ ...data, state: e.target.value })}
+                error={Boolean(errors.state)}
+                helperText={errors.state}
+              />
+            </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <CssTextField
-                    id="lastName"
-                    name="lastName"
-                    label="Last Name"
-                    fullWidth
-                    required
-                    autoComplete="family-name"
-                    value={data.lastName}
-                    onChange={(e) => setData({ ...data, lastName: e.target.value })}
-                    error={Boolean(errors.lastName)}
-                    helperText={errors.lastName}
-                  />
-                </Grid>
+            <Grid item xs={12} sm={4}>
+              <CssTextField
+                id="zip"
+                name="zip"
+                label="Zip / Postal Code"
+                fullWidth
+                required
+                autoComplete="postal-code"
+                value={data.zipCode}
+                onChange={(e) => setData({ ...data, zipCode: e.target.value })}
+                error={Boolean(errors.zipCode)}
+                helperText={errors.zipCode}
+              />
+            </Grid>
 
-                <Grid item xs={12}>
-                  <CssTextField
-                    id="address"
-                    name="address"
-                    label="Street Address"
-                    fullWidth
-                    required
-                    multiline
-                    rows={3}
-                    value={data.streetAddress}
-                    onChange={(e) => setData({ ...data, streetAddress: e.target.value })}
-                    error={Boolean(errors.streetAddress)}
-                    helperText={errors.streetAddress}
-                  />
-                </Grid>
+            <Grid item xs={12} sm={6}>
+              <CssTextField
+                id="phoneNumber"
+                name="phoneNumber"
+                label="Phone Number"
+                fullWidth
+                required
+                autoComplete="tel"
+                value={data.mobile}
+                onChange={(e) => {
+                  const onlyDigits = e.target.value.replace(/\D/g, '');
+                  if (onlyDigits.length <= 10) {
+                    setData({ ...data, mobile: onlyDigits });
+                  }
+                }}
+                error={Boolean(errors.mobile)}
+                helperText={errors.mobile}
+              />
+            </Grid>
 
-                <Grid item xs={12} sm={4}>
-                  <CssTextField
-                    id="city"
-                    name="city"
-                    label="City"
-                    fullWidth
-                    required
-                    value={data.city}
-                    onChange={(e) => setData({ ...data, city: e.target.value })}
-                    error={Boolean(errors.city)}
-                    helperText={errors.city}
-                  />
-                </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  mt: '1rem',
+                  bgcolor: '#6a9eb5',
+                  '&:hover': { bgcolor: '#97c2d5' },
+                  px: 6,
+                  py: 1.5,
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                }}
+              >
+                Deliver Here
+              </Button>
+            </Grid>
 
-                <Grid item xs={12} sm={4}>
-                  <CssTextField
-                    id="state"
-                    name="state"
-                    label="State / Region"
-                    fullWidth
-                    required
-                    value={data.state}
-                    onChange={(e) => setData({ ...data, state: e.target.value })}
-                    error={Boolean(errors.state)}
-                    helperText={errors.state}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={4}>
-                  <CssTextField
-                    id="zip"
-                    name="zip"
-                    label="Zip / Postal Code"
-                    fullWidth
-                    required
-                    autoComplete="postal-code"
-                    value={data.zipCode}
-                    onChange={(e) => setData({ ...data, zipCode: e.target.value })}
-                    error={Boolean(errors.zipCode)}
-                    helperText={errors.zipCode}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <CssTextField
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    label="Phone Number"
-                    fullWidth
-                    required
-                    autoComplete="tel"
-                    value={data.mobile}
-                    onChange={(e) => {
-                      const onlyDigits = e.target.value.replace(/\D/g, '');
-                      if (onlyDigits.length <= 10) {
-                        setData({ ...data, mobile: onlyDigits });
-                      }
-                    }}
-                    error={Boolean(errors.mobile)}
-                    helperText={errors.mobile}
-                  />
-                </Grid>
-
-                <Button
-                  // onClick={handleDelivery}
-                  variant="contained"
-                  type="submit"
-                  sx={{ mt: '2rem', ml: '1.5rem', bgcolor: '#6a9eb5', "&:hover": { bgcolor: "#97c2d5" }, }}
-                  className="flex w-4/12 uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none "
-                >
-                  Deliver Here
-                </Button>
-
-              </Grid>
-            </form>
-          </Box>
-        </div>
-        );
+          </Grid>
+        </form>
+      </Box>
+    </div>
+  );
 };
 
-        export default DeliveryAddressForm;
+export default DeliveryAddressForm;
