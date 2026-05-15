@@ -4,12 +4,12 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import { motion } from 'framer-motion';
 
 const socialImages = [
-    'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1605100804763-247f67b3f41e?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1611085510590-09c063b46903?q=80&w=1000&auto=format&fit=crop',
-    '/collection_necklace_flatlay_1778402783094.png',
-    '/collection_earrings_detail_1778402856818.png'
+    "/product/product4.jpeg",
+    "/product/Necklace.jpeg",
+    "/product/product.png",
+    "/product/product 2.png",
+    "/product/_.jpeg",
+    "/product/product5.jpeg"
 ];
 
 const SocialFeed = () => {

@@ -6,7 +6,7 @@ import { formatPriceINR } from "../../../../utils/price";
 const stories = [
     {
         id: 1,
-        image: "https://images.unsplash.com/photo-1617038220319-276d3cfab60e?q=80&w=1000&auto=format&fit=crop",
+        image: "/product/product7.jpeg",
         title: "Celestial Radiance Band",
         price: 24500,
         discount: "5% OFF",
@@ -14,7 +14,7 @@ const stories = [
     },
     {
         id: 2,
-        image: "https://images.unsplash.com/photo-1598560912005-5976593c6511?q=80&w=1000&auto=format&fit=crop",
+        image: "/product/product6.jpeg",
         title: "Marquise Dream Ring",
         price: 18900,
         discount: "3% OFF",
@@ -22,7 +22,7 @@ const stories = [
     },
     {
         id: 3,
-        image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000&auto=format&fit=crop",
+        image: "/product/product5.jpeg",
         title: "Ethereal Halo Studs",
         price: 12500,
         discount: "8% OFF",
@@ -30,12 +30,20 @@ const stories = [
     },
     {
         id: 4,
-        image: "https://images.unsplash.com/photo-1605100804763-247f67b3f41e?q=80&w=1000&auto=format&fit=crop",
+        image: "/product/product4.jpeg",
         title: "Infinite Grace Bangle",
         price: 32000,
         discount: "4% OFF",
         category: "STATEMENT PIECE"
-    }
+    },
+    // {
+    //     id: 5,
+    //     image: "/product/product 3.png",
+    //     title: "Infinite Grace Bangle",
+    //     price: 32000,
+    //     discount: "4% OFF",
+    //     category: "STATEMENT PIECE"
+    // }
 ];
 
 const StyleStory = () => {

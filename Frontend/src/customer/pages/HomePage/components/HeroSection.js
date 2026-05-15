@@ -27,7 +27,7 @@ const HeroSection = () => {
                 <div
                     className="w-full h-full bg-cover bg-center"
                     style={{
-                        backgroundImage: 'url("https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2500&auto=format&fit=crop")',
+                        backgroundImage: 'url("/product/Necklace.jpeg")',
                         filter: 'brightness(0.7)'
                     }}
                 />

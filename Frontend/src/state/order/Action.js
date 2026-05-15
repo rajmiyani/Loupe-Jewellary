@@ -1,6 +1,7 @@
 import { API_BASE_URL, api } from "../../config/apiConfig";
 import { toastNotify } from '../shared/toast';
 import { CREATE_ORDER_FAILURE, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, GET_ORDER_BY_ID_FAILURE, GET_ORDER_BY_ID_REQUEST, GET_ORDER_BY_ID_SUCCESS, GET_ORDER_HISTORY_FAILURE, GET_ORDER_HISTORY_REQUEST, GET_ORDER_HISTORY_SUCCESS } from "./ActionType";
+import { getUser } from "../auth/Action";
 
 export const createOrder = (reqData) => async (dispatch) => {
     // console.log("reqData in createOrder (Action) :", reqData)
@@ -20,6 +21,10 @@ export const createOrder = (reqData) => async (dispatch) => {
             type: CREATE_ORDER_SUCCESS,
             payload: data,
         })
+        const jwt = localStorage.getItem("jwt");
+        if (jwt) {
+            dispatch(getUser(jwt));
+        }
         toastNotify({ type: 'success', title: 'Address saved', description: 'Delivery details saved successfully.' });
     } catch (error) {
         console.log("catch error: ", error);

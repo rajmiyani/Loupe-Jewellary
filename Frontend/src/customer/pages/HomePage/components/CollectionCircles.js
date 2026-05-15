@@ -6,15 +6,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const categories = [
-    { name: "RINGS", image: "https://images.unsplash.com/photo-1605100804763-247f67b3f41e?q=80&w=1000&auto=format&fit=crop", id: "rings" },
-    { name: "EARRINGS", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1000&auto=format&fit=crop", id: "earrings" },
-    { name: "NECKLACES & PENDANTS", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop", id: "necklaces" },
-    { name: "BRACELETS", image: "https://images.unsplash.com/photo-1611085510590-09c063b46903?q=80&w=1000&auto=format&fit=crop", id: "bracelets" },
-    { name: "MANGALSUTRA", image: "https://rukminim2.flixcart.com/image/612/612/k6xxmkw0/necklace-pendant-set/4/r/y/p00010-01-aachho-original-imafzaeghzy6gehr.jpeg?q=70", id: "mangalsutra" },
-    { name: "CHARMS", image: "https://images.unsplash.com/photo-1603561591411-0e7320b9795d?q=80&w=1000&auto=format&fit=crop", id: "charms" },
-    { name: "SOLITAIRES", image: "https://images.unsplash.com/photo-1584305116359-2435fd47b0bf?q=80&w=1000&auto=format&fit=crop", id: "solitaires" },
-    { name: "GOLD COINS", image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=1000&auto=format&fit=crop", id: "gold-coins" },
-    { name: "KIDS JEWELLERY", image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop", id: "kids-jewellery" }
+    { name: "RINGS", image: "/product/product4.jpeg", id: "rings" },
+    { name: "EARRINGS", image: "/product/_.jpeg", id: "earrings" },
+    { name: "NECKLACES & PENDANTS", image: "/product/Necklace.jpeg", id: "necklaces" },
+    { name: "BRACELETS", image: "/product/product 2.png", id: "bracelets" },
+    { name: "MANGALSUTRA", image: "/product/product5.jpeg", id: "mangalsutra" },
+    { name: "CHARMS", image: "/product/product 3.png", id: "charms" },
+    { name: "SOLITAIRES", image: "/product/product7.jpeg", id: "solitaires" },
+    { name: "GOLD COINS", image: "/product/product5.jpeg", id: "gold-coins" },
+    { name: "KIDS JEWELLERY", image: "/product/product.png", id: "kids-jewellery" }
 ];
 
 const CollectionCircles = () => {

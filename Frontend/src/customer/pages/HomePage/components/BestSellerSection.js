@@ -14,9 +14,9 @@ const products = [
         price: 33500,
         discountedPrice: 31150,
         colors: [
-            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "https://images.unsplash.com/photo-1605100804763-247f67b3f41e?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "https://images.unsplash.com/photo-1544441893-675973e31d85?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1000&auto=format&fit=crop" }
+            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "/product/product5.jpeg" },
+            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "/product/product4.jpeg" },
+            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "/product/product7.jpeg" }
         ]
     },
     {
@@ -25,9 +25,9 @@ const products = [
         price: 38000,
         discountedPrice: 35901,
         colors: [
-            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "https://images.unsplash.com/photo-1598560912005-5976593c6511?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "https://images.unsplash.com/photo-1599643477877-537ef5278533?q=80&w=1000&auto=format&fit=crop" }
+            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "/product/_.jpeg" },
+            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "/product/Necklace.jpeg" },
+            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "/product/product.png" }
         ]
     },
     {
@@ -36,9 +36,9 @@ const products = [
         price: 52000,
         discountedPrice: 49888,
         colors: [
-            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "https://images.unsplash.com/photo-1590548366035-77983637172f?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000&auto=format&fit=crop" }
+            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "/product/product 2.png" },
+            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "/product/product 3.png" },
+            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "/product/product6.jpeg" }
         ]
     },
     {
@@ -47,9 +47,9 @@ const products = [
         price: 36000,
         discountedPrice: 34011,
         colors: [
-            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "https://images.unsplash.com/photo-1611085510590-09c063b46903?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1000&auto=format&fit=crop" }
+            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "/product/product5.jpeg" },
+            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "/product/product4.jpeg" },
+            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "/product/product7.jpeg" }
         ]
     },
     {
@@ -58,9 +58,9 @@ const products = [
         price: 55000,
         discountedPrice: 49409,
         colors: [
-            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "https://images.unsplash.com/photo-1512401151675-bc87e7436043?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "https://images.unsplash.com/photo-1598560912005-5976593c6511?q=80&w=1000&auto=format&fit=crop" },
-            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000&auto=format&fit=crop" }
+            { colorName: 'Yellow Gold', colorCode: '#eab308', image: "/product/_.jpeg" },
+            { colorName: 'Rose Gold', colorCode: '#da8a8a', image: "/product/Necklace.jpeg" },
+            { colorName: 'White Gold', colorCode: '#f1f5f9', image: "/product/product.png" }
         ]
     }
 ];

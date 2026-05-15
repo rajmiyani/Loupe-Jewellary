@@ -2,13 +2,13 @@ import { api } from "../../config/apiConfig";
 import { CREATE_PAYMENT_FAILURE, CREATE_PAYMENT_REQUEST, UPDATE_PAYMENT_REQUEST } from "./ActionType"
 import { API_BASE_URL } from "../../config/apiConfig";
 
-export const createPayment = (orderId) => async(dispatch) => {
-    dispatch({type: CREATE_PAYMENT_REQUEST});
+export const createPayment = (orderId) => async (dispatch) => {
+    dispatch({ type: CREATE_PAYMENT_REQUEST });
 
     try {
         const { data } = await api.post(`${API_BASE_URL}/api/payment/${orderId}`, {});
 
-        if(data.payment_link_url) {
+        if (data.payment_link_url) {
             window.location.href = data.payment_link_url;
         }
 
@@ -17,7 +17,7 @@ export const createPayment = (orderId) => async(dispatch) => {
     }
 }
 
-export const updatePayment = (reqData) => async(dispatch) => {  
+export const updatePayment = (reqData) => async (dispatch) => {
     dispatch({ type: UPDATE_PAYMENT_REQUEST })
 
     try {

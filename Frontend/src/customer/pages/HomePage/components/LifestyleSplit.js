@@ -97,7 +97,7 @@ const LifestyleSplit = () => {
                             }}
                         >
                             <img
-                                src="./imagess.jpeg"
+                                src="/product/product 2.png"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
                                 alt="Lifestyle 1"
                             />
@@ -121,7 +121,7 @@ const LifestyleSplit = () => {
                             }}
                         >
                             <img
-                                src="./images.jpeg"
+                                src="/product/product 3.png"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
                                 alt="Lifestyle 2"
                             />
@@ -146,7 +146,7 @@ const LifestyleSplit = () => {
                             }}
                         >
                             <img
-                                src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1000&auto=format&fit=crop"
+                                src="/product/Necklace.jpeg"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
                                 alt="Lifestyle 3"
                             />
