@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+﻿import React, { useContext, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { ModalContext } from "../../../context/modal/modalContext";
 import HomeSectionCarousel from "../../components/HomeSectionCarousel/HomeSectionCarousel";

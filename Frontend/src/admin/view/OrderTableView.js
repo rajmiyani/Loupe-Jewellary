@@ -1,4 +1,4 @@
-import {
+﻿import {
   Avatar,
   Box,
   Card,
@@ -58,10 +58,10 @@ const OrdersTableView = () => {
       <Box sx={{ p: 4, borderBottom: '1px solid #f8fafc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: 900, color: '#111827', letterSpacing: '-0.5px' }}>Latest Orders</Typography>
-          <Box sx={{ px: 1.5, py: 0.5, borderRadius: '8px', bgcolor: '#f0f9ff', color: '#97c2d5', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.5px' }}>LIVE</Box>
+          <Box sx={{ px: 1.5, py: 0.5, borderRadius: '8px', bgcolor: '#f0f9ff', color: '#755970', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.5px' }}>LIVE</Box>
         </Box>
         <Box sx={{ display: 'flex', gap: 1.5 }}>
-          <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2.5, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 800, '&:hover': { borderColor: '#97c2d5', bgcolor: 'transparent' } }}>Filters</Button>
+          <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2.5, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 800, '&:hover': { borderColor: '#755970', bgcolor: 'transparent' } }}>Filters</Button>
           {/* <Button variant="contained" sx={{ borderRadius: '12px', textTransform: 'none', px: 2.5, bgcolor: '#111827', color: '#ffffff', fontWeight: 800, boxShadow: '0 10px 20px rgba(0,0,0,0.1)', '&:hover': { bgcolor: '#1f2937' } }}></Button> */}
         </Box>
       </Box>

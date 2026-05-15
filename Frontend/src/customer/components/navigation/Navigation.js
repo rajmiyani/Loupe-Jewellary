@@ -198,6 +198,8 @@ export default function Navigation() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [expandedCategory, setExpandedCategory] = useState(null);
+  const [expandedSection, setExpandedSection] = useState(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -309,7 +311,7 @@ export default function Navigation() {
                       className="h-10 w-auto object-contain"
                     />
                   </Link>
-                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#1e293b' }}>
+                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#755970' }}>
                     <CloseIcon sx={{ fontSize: 22 }} />
                   </IconButton>
                 </div>
@@ -318,7 +320,7 @@ export default function Navigation() {
                 <Box sx={{ p: 4, bgcolor: '#fafafa' }}>
                   {!auth.user ? (
                     <Box>
-                      <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#1e293b', mb: 1 }}>
+                      <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#755970', mb: 1 }}>
                         The Boutique
                       </Typography>
                       <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 3, letterSpacing: 0.5, lineHeight: 1.6 }}>
@@ -328,18 +330,18 @@ export default function Navigation() {
                         onClick={(e) => { handleOpen(e, "login"); setOpen(false); }}
                         fullWidth
                         variant="contained"
-                        sx={{ bgcolor: '#1e293b', color: 'white', py: 1.5, fontSize: '0.8rem', fontWeight: 800, borderRadius: '8px', textTransform: 'uppercase', letterSpacing: 1 }}
+                        sx={{ bgcolor: '#755970', color: 'white', py: 1.5, fontSize: '0.8rem', fontWeight: 800, borderRadius: '8px', textTransform: 'uppercase', letterSpacing: 1 }}
                       >
                         Sign In
                       </Button>
                     </Box>
                   ) : (
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-                      <div className="w-16 h-16 rounded-full bg-[#1e293b] flex items-center justify-center text-white text-2xl font-serif">
+                      <div className="w-16 h-16 rounded-full bg-[#755970] flex items-center justify-center text-white text-2xl font-serif">
                         {auth.user.firstName?.[0]}
                       </div>
                       <Box>
-                        <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Playfair Display', serif" }}>
+                        <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#755970', fontFamily: "'Playfair Display', serif" }}>
                           Hello, {auth.user.firstName}
                         </Typography>
                         <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 0.8 }}>
@@ -347,7 +349,7 @@ export default function Navigation() {
                         </Typography>
                         <Typography
                           onClick={() => { navigate("/user-details/?layout=0"); setOpen(false); }}
-                          sx={{ fontSize: '0.7rem', color: '#97c2d5', cursor: 'pointer', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5 }}
+                          sx={{ fontSize: '0.7rem', color: '#755970', cursor: 'pointer', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5 }}
                         >
                           My Dashboard
                         </Typography>
@@ -362,29 +364,82 @@ export default function Navigation() {
                     Collections
                   </Typography>
                   {navigation.categories.map((category) => (
-                    <div key={category.id} className="group">
-                      <div className="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all"
-                        onClick={() => { navigate(`/${category.id}`); setOpen(false); }}>
+                    <div key={category.id} className="border-b border-gray-50 last:border-0">
+                      <div
+                        className="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all"
+                        onClick={() => setExpandedCategory(expandedCategory === category.id ? null : category.id)}
+                      >
                         <Typography
                           sx={{
                             fontSize: '0.95rem',
-                            fontWeight: 400,
+                            fontWeight: expandedCategory === category.id ? 700 : 400,
                             fontFamily: "'Playfair Display', serif",
-                            color: '#1e293b',
+                            color: expandedCategory === category.id ? '#755970' : '#755970',
                             letterSpacing: 0.5
                           }}
                         >
                           {category.name}
                         </Typography>
-                        <KeyboardArrowDownIcon sx={{ fontSize: 18, color: '#94a3b8', transform: 'rotate(-90deg)' }} />
+                        <KeyboardArrowDownIcon
+                          sx={{
+                            fontSize: 18,
+                            color: expandedCategory === category.id ? '#755970' : '#94a3b8',
+                            transition: 'transform 0.3s',
+                            transform: expandedCategory === category.id ? 'rotate(0deg)' : 'rotate(-90deg)'
+                          }}
+                        />
                       </div>
+
+                      {/* Dropdown Content */}
+                      <Transition
+                        show={expandedCategory === category.id}
+                        enter="transition-all duration-300 ease-out"
+                        enterFrom="max-h-0 opacity-0"
+                        enterTo="max-h-[1000px] opacity-100"
+                        leave="transition-all duration-200 ease-in"
+                        leaveFrom="max-h-[1000px] opacity-100"
+                        leaveTo="max-h-0 opacity-0"
+                        className="overflow-hidden bg-gray-50/50"
+                      >
+                        <div className="px-8 pb-4">
+                          {category.sections.map((section) => (
+                            <div key={section.id} className="py-2">
+                              <div
+                                className="flex items-center justify-between py-2 cursor-pointer"
+                                onClick={() => setExpandedSection(expandedSection === section.id ? null : section.id)}
+                              >
+                                <Typography sx={{ fontSize: '0.8rem', fontWeight: 700, color: '#475569', textTransform: 'uppercase', letterSpacing: 1 }}>
+                                  {section.name}
+                                </Typography>
+                                <KeyboardArrowDownIcon sx={{ fontSize: 16, color: '#94a3b8', transform: expandedSection === section.id ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
+                              </div>
+
+                              {expandedSection === section.id && (
+                                <ul className="pl-2 mt-1 space-y-2 border-l-2 border-gray-200">
+                                  {section.items.map((item) => (
+                                    <li
+                                      key={item.id}
+                                      className="py-1 text-[0.85rem] text-gray-500 hover:text-[#755970] cursor-pointer"
+                                      onClick={() => {
+                                        handleCategoryClick(category, section, item, () => { setOpen(false); setExpandedCategory(null); setExpandedSection(null); });
+                                      }}
+                                    >
+                                      {item.name}
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </Transition>
                     </div>
                   ))}
 
                   <div className="mt-8 px-6 py-4 mx-4 bg-[#f1f5f9] rounded-xl">
-                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: '#1e293b', mb: 1 }}>Concierge Service</Typography>
+                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: '#755970', mb: 1 }}>Concierge Service</Typography>
                     <Typography sx={{ fontSize: '0.7rem', color: '#64748b', mb: 2 }}>Need help finding the perfect gift?</Typography>
-                    <p className="text-[0.75rem] font-black text-[#97c2d5] uppercase tracking-widest cursor-pointer">Chat With Us</p>
+                    <p className="text-[0.75rem] font-black text-[#755970] uppercase tracking-widest cursor-pointer">Chat With Us</p>
                   </div>
                 </Box>
 
@@ -393,7 +448,7 @@ export default function Navigation() {
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                     <div className="flex items-center gap-2" onClick={handleCountryOpen}>
                       <span className="text-xl">{selectedCountry.flag}</span>
-                      <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#1e293b' }}>{selectedCountry.name} (INR)</Typography>
+                      <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#755970' }}>{selectedCountry.name} (INR)</Typography>
                     </div>
                     {auth.user && (
                       <Typography
@@ -414,7 +469,7 @@ export default function Navigation() {
         </Dialog>
       </Transition.Root>
 
-      <header className="fixed top-0 left-0 right-0 z-50 w-full shadow-md" style={{ backgroundColor: '#97c2d5', color: 'white' }}>
+      <header className="fixed top-0 left-0 right-0 z-50 w-full shadow-md" style={{ backgroundColor: '#402d43', color: 'white' }}>
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
 
@@ -433,9 +488,9 @@ export default function Navigation() {
               </IconButton>
               <Link to="/" className="flex items-center ml-1 lg:ml-0">
                 <img
-                  src="/Loupe_Jeweler-logo.png"
+                  src="/Loupe-logo.png"
                   alt="Loupe Jeweler"
-                  className="h-14 sm:h-16 lg:h-20 w-auto object-contain transition-all duration-300"
+                  className="h-[260px] sm:h-[260px] lg:h-[260px] w-auto object-contain transition-all duration-300 transform scale-110"
                 />
               </Link>
             </div>
@@ -477,7 +532,7 @@ export default function Navigation() {
                                           fontFamily: "'Playfair Display', serif",
                                           fontWeight: 700,
                                           fontSize: '0.9rem',
-                                          color: '#1e293b',
+                                          color: '#755970',
                                           mb: 3,
                                           pb: 1,
                                           borderBottom: '1px solid #f1f5f9'
@@ -489,7 +544,7 @@ export default function Navigation() {
                                             <li key={item.id}>
                                               <p
                                                 onClick={() => handleCategoryClick(category, section, item, () => { close(); setHoveredIndex(null); })}
-                                                className="text-gray-500 hover:text-[#97c2d5] cursor-pointer hover:translate-x-1 transition-all duration-300 text-[0.8rem] font-medium tracking-wide"
+                                                className="text-gray-500 hover:text-[#755970] cursor-pointer hover:translate-x-1 transition-all duration-300 text-[0.8rem] font-medium tracking-wide"
                                               >
                                                 {item.name}
                                               </p>
@@ -512,7 +567,7 @@ export default function Navigation() {
                                       className="w-full h-full object-cover transition-transform duration-1000 group-hover/img:scale-110"
                                     />
                                   </div>
-                                  <Typography sx={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1rem', color: '#1e293b', mb: 1 }}>
+                                  <Typography sx={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1rem', color: '#755970', mb: 1 }}>
                                     The {category.name} Collection
                                   </Typography>
                                   <Typography sx={{ fontSize: '0.7rem', color: '#64748b', mb: 3, letterSpacing: 0.5, lineHeight: 1.5 }}>
@@ -522,9 +577,9 @@ export default function Navigation() {
                                     onClick={() => navigate(`/${category.id}`)}
                                     variant="outlined"
                                     sx={{
-                                      borderColor: '#1e293b', color: '#1e293b', borderRadius: '4px',
+                                      borderColor: '#755970', color: '#755970', borderRadius: '4px',
                                       px: 3, py: 0.8, fontSize: '0.65rem', fontWeight: 900, letterSpacing: 1.5,
-                                      '&:hover': { bgcolor: '#1e293b', color: 'white' }
+                                      '&:hover': { bgcolor: '#755970', color: 'white' }
                                     }}
                                   >
                                     Discover All
@@ -566,37 +621,88 @@ export default function Navigation() {
             {/* Right: Tools */}
             <div className="flex items-center space-x-3 sm:space-x-6">
 
-              {/* Country */}
+              {/* Premium Country Selector */}
               <div
-                className="hidden xl:flex items-center text-white text-[0.75rem] font-semibold cursor-pointer py-1.5 px-3 rounded-full hover:bg-white/10 transition-all border border-white/20"
+                className="hidden xl:flex items-center text-white text-[0.7rem] font-black cursor-pointer py-2 px-4 rounded-full hover:bg-white/10 transition-all border border-white/20 group"
                 onClick={handleCountryOpen}
               >
-                <span className="mr-2 text-base">{selectedCountry.flag}</span>
-                <span className="uppercase tracking-[0.1em]">{selectedCountry.name} ({selectedCountry.currency.split(' ')[0]})</span>
-                <KeyboardArrowDownIcon sx={{ fontSize: 16, ml: 0.5, opacity: 0.8 }} />
+                <span className="mr-2.5 text-lg filter drop-shadow-sm">{selectedCountry.flag}</span>
+                <div className="flex flex-col items-start leading-tight">
+                  <span className="uppercase tracking-[0.15em] opacity-80 text-[0.6rem]">Shipping to</span>
+                  <span className="uppercase tracking-[0.1em] font-black">{selectedCountry.name} ({selectedCountry.currency.split(' ')[1] || selectedCountry.currency.split(' ')[0]})</span>
+                </div>
+                <KeyboardArrowDownIcon sx={{ fontSize: 18, ml: 1, opacity: 0.6, transition: 'transform 0.3s', transform: Boolean(countryAnchorEl) ? 'rotate(180deg)' : 'rotate(0deg)' }} />
               </div>
+              
               <Menu
                 anchorEl={countryAnchorEl}
                 open={Boolean(countryAnchorEl)}
                 onClose={handleCountryClose}
+                elevation={0}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
                 PaperProps={{
                   sx: {
-                    mt: 1,
-                    boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
-                    borderRadius: '12px',
-                    minWidth: '180px',
-                    border: '1px solid #f0f0f0'
+                    mt: 1.5,
+                    boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
+                    borderRadius: '16px',
+                    minWidth: '240px',
+                    border: '1px solid #f1f5f9',
+                    p: 1
                   }
                 }}
               >
-                <MenuItem onClick={() => handleCountrySelect({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' })} sx={{ py: 1.5, '&:hover': { bgcolor: '#f0f9ff' } }}>
-                  <span style={{ fontSize: '1.2rem', marginRight: '12px' }}>🇮🇳</span>
-                  <ListItemText primary="INDIA" secondary="INR ₹" primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }} secondaryTypographyProps={{ fontSize: '0.75rem' }} />
+                <Box sx={{ px: 2, py: 1.5, mb: 1 }}>
+                  <Typography sx={{ fontSize: '0.65rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1.5 }}>
+                    Select Region & Currency
+                  </Typography>
+                </Box>
+                
+                <MenuItem 
+                  onClick={() => handleCountrySelect({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' })} 
+                  sx={{ 
+                    borderRadius: '10px',
+                    py: 1.5, 
+                    mb: 0.5,
+                    bgcolor: selectedCountry.code === 'IN' ? '#f8fafc' : 'transparent',
+                    border: selectedCountry.code === 'IN' ? '1px solid #e2e8f0' : '1px solid transparent',
+                    '&:hover': { bgcolor: '#f1f5f9' } 
+                  }}
+                >
+                  <span style={{ fontSize: '1.4rem', marginRight: '16px' }}>🇮🇳</span>
+                  <ListItemText 
+                    primary="India" 
+                    secondary="Indian Rupee (₹)" 
+                    primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }} 
+                    secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }} 
+                  />
+                  {selectedCountry.code === 'IN' && <div className="w-2 h-2 rounded-full bg-[#755970] ml-2" />}
                 </MenuItem>
-                <Divider sx={{ my: '0 !important' }} />
-                <MenuItem onClick={() => handleCountrySelect({ name: 'USA', code: 'US', currency: 'USD $', flag: '🇺🇸' })} sx={{ py: 1.5, '&:hover': { bgcolor: '#f0f9ff' } }}>
-                  <span style={{ fontSize: '1.2rem', marginRight: '12px' }}>🇺🇸</span>
-                  <ListItemText primary="USA" secondary="USD $" primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 600 }} secondaryTypographyProps={{ fontSize: '0.75rem' }} />
+
+                <MenuItem 
+                  onClick={() => handleCountrySelect({ name: 'USA', code: 'US', currency: 'USD $', flag: '🇺🇸' })} 
+                  sx={{ 
+                    borderRadius: '10px',
+                    py: 1.5,
+                    bgcolor: selectedCountry.code === 'US' ? '#f8fafc' : 'transparent',
+                    border: selectedCountry.code === 'US' ? '1px solid #e2e8f0' : '1px solid transparent',
+                    '&:hover': { bgcolor: '#f1f5f9' } 
+                  }}
+                >
+                  <span style={{ fontSize: '1.4rem', marginRight: '16px' }}>🇺🇸</span>
+                  <ListItemText 
+                    primary="United States" 
+                    secondary="US Dollar ($)" 
+                    primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }} 
+                    secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }} 
+                  />
+                  {selectedCountry.code === 'US' && <div className="w-2 h-2 rounded-full bg-[#755970] ml-2" />}
                 </MenuItem>
               </Menu>
 
@@ -651,7 +757,7 @@ export default function Navigation() {
                           onClick={(e) => { handleOpen(e, "login"); handleProfileClose(); }}
                           variant="contained"
                           fullWidth
-                          sx={{ bgcolor: '#97c2d5', '&:hover': { bgcolor: '#7eb1c9' }, textTransform: 'none', fontWeight: 600, py: 1 }}
+                          sx={{ bgcolor: '#755970', '&:hover': { bgcolor: '#5a4255' }, textTransform: 'none', fontWeight: 600, py: 1 }}
                         >
                           Log In
                         </Button>
@@ -659,7 +765,7 @@ export default function Navigation() {
                           onClick={(e) => { handleOpen(e, "register"); handleProfileClose(); }}
                           variant="text"
                           fullWidth
-                          sx={{ color: '#97c2d5', textTransform: 'none', fontWeight: 600 }}
+                          sx={{ color: '#755970', textTransform: 'none', fontWeight: 600 }}
                         >
                           Sign Up
                         </Button>
@@ -668,7 +774,7 @@ export default function Navigation() {
                   ) : (
                     <>
                       <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#97c2d5] flex items-center justify-center text-white font-bold text-sm">
+                        <div className="w-8 h-8 rounded-full bg-[#755970] flex items-center justify-center text-white font-bold text-sm">
                           {auth.user.firstName?.[0]}
                         </div>
                         <div className="flex flex-col">
@@ -710,7 +816,7 @@ export default function Navigation() {
 
               {/* Cart */}
               <IconButton onClick={() => setCartOpen(true)} sx={{ color: 'white', p: 1 }}>
-                <Badge badgeContent={cart.cart?.totalItem} sx={{ '& .MuiBadge-badge': { backgroundColor: 'white', color: '#97c2d5', fontWeight: 'bold' } }}>
+                <Badge badgeContent={cart.cart?.totalItem} sx={{ '& .MuiBadge-badge': { backgroundColor: 'white', color: '#755970', fontWeight: 'bold' } }}>
                   <AddShoppingCartIcon sx={{ width: "23px", height: "23px" }} />
                 </Badge>
               </IconButton>
@@ -736,41 +842,41 @@ export default function Navigation() {
           }
         }}
       >
-        <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #eee' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <ShoppingBagOutlinedIcon sx={{ color: '#1e293b' }} />
-            <Typography variant="h6" sx={{ fontWeight: 800, color: '#1e293b', fontFamily: 'serif' }}>Your Bag</Typography>
+        <Box sx={{ p: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f8fafc' }}>
+          <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5 }}>
+            <Typography variant="h5" sx={{ fontWeight: 300, color: '#755970', fontFamily: "'Playfair Display', serif", letterSpacing: 1 }}>Your Collection</Typography>
+            <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>({cart.cart?.totalItem || 0})</Typography>
           </Box>
-          <IconButton onClick={() => setCartOpen(false)} sx={{ ml: 'auto' }}><CloseIcon /></IconButton>
+          <IconButton onClick={() => setCartOpen(false)} sx={{ color: '#94a3b8', '&:hover': { color: '#755970', bgcolor: '#f8fafc' } }}><CloseIcon sx={{ fontSize: 20 }} /></IconButton>
         </Box>
 
-        <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 3 }}>
+        <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 4, bgcolor: '#fcfcfc' }}>
           {cart.cart?.cartItems?.length > 0 ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {cart.cart.cartItems.map((item) => (
-                <Box key={item._id} sx={{ display: 'flex', gap: 2 }}>
-                  <Box sx={{ width: 80, height: 100, borderRadius: '8px', overflow: 'hidden', flexShrink: 0, bgcolor: '#f4f4f4' }}>
+                <Box key={item._id} sx={{ display: 'flex', gap: 3, position: 'relative' }}>
+                  <Box sx={{ width: 100, height: 130, borderRadius: '16px', overflow: 'hidden', flexShrink: 0, bgcolor: '#fff', border: '1px solid #f1f5f9', boxShadow: '0 10px 20px rgba(0,0,0,0.02)' }}>
                     <img
                       src={item.product?.imageUrls?.[0]?.imageUrl}
                       alt={item.product?.title}
                       className="w-full h-full object-cover"
                     />
                   </Box>
-                  <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                    <Typography sx={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b', mb: 0.5, lineHeight: 1.3 }}>
+                  <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', pt: 1 }}>
+                    <Typography sx={{ fontSize: '0.95rem', fontWeight: 600, color: '#755970', mb: 0.5, lineHeight: 1.4, fontFamily: "'Playfair Display', serif" }}>
                       {item.product?.title}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: '#64748b', mb: 1 }}>
-                      Qty: {item.quantity} {item.weight ? `| ${item.weight}` : ''}
+                    <Typography variant="caption" sx={{ color: '#94a3b8', mb: 2, letterSpacing: 0.5 }}>
+                      QUANTITY: {item.quantity} {item.weight ? `| ${item.weight}` : ''}
                     </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 'auto' }}>
-                      <Typography sx={{ fontWeight: 800, color: '#1e293b', fontSize: '0.9rem' }}>
+                    <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                      <Typography sx={{ fontWeight: 900, color: '#755970', fontSize: '1.1rem', fontFamily: "'Outfit', sans-serif" }}>
                         ₹{formatPriceINR(item.discountedPrice)}
                       </Typography>
                       <IconButton
                         size="small"
                         onClick={() => handleRemoveCartItem(item._id)}
-                        sx={{ color: '#94a3b8', '&:hover': { color: '#ef4444' } }}
+                        sx={{ color: '#cbd5e1', '&:hover': { color: '#ef4444' } }}
                       >
                         <DeleteOutlineIcon fontSize="small" />
                       </IconButton>
@@ -780,58 +886,48 @@ export default function Navigation() {
               ))}
             </Box>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full text-gray-400 py-20">
-              <AddShoppingCartIcon sx={{ fontSize: 64, mb: 2, opacity: 0.2 }} />
-              <Typography sx={{ fontWeight: 600, color: '#94a3b8' }}>Your bag is empty</Typography>
+            <div className="flex flex-col items-center justify-center h-full text-center py-20 px-6">
+              <Box sx={{ width: 80, height: 80, borderRadius: '50%', bgcolor: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 4 }}>
+                <ShoppingBagOutlinedIcon sx={{ fontSize: 32, color: '#cbd5e1' }} />
+              </Box>
+              <Typography sx={{ fontSize: '1.4rem', fontFamily: "'Playfair Display', serif", color: '#755970', mb: 1.5 }}>Your bag is empty</Typography>
+              <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', mb: 5, lineHeight: 1.6 }}>Discover our exclusive collections and find the perfect piece to start your collection.</Typography>
               <Button
-                variant="outlined"
+                variant="contained"
                 onClick={() => setCartOpen(false)}
                 sx={{
-                  mt: 3, px: 4, borderRadius: '8px', textTransform: 'none',
-                  borderColor: '#97c2d5', color: '#97c2d5',
-                  '&:hover': { borderColor: '#7eb1c9', bgcolor: '#f0f9ff' }
+                  px: 6, py: 1.8, borderRadius: '12px', textTransform: 'uppercase',
+                  bgcolor: '#755970', color: 'white', fontWeight: 800, letterSpacing: 2, fontSize: '0.75rem',
+                  '&:hover': { bgcolor: '#543b59', transform: 'translateY(-2px)' },
+                  transition: 'all 0.3s'
                 }}
               >
-                Start Shopping
+                Explore Boutique
               </Button>
             </div>
           )}
         </Box>
 
         {cart.cart?.cartItems?.length > 0 && (
-          <Box sx={{ p: 3, borderTop: '1px solid #eee', bgcolor: '#fafafa' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2.5 }}>
-              <Typography sx={{ color: '#64748b', fontWeight: 600 }}>Subtotal</Typography>
-              <Typography sx={{ color: '#1e293b', fontWeight: 800, fontSize: '1.1rem' }}>
-                ₹{formatPriceINR(cart.cart?.totalDiscountedPrice)}
-              </Typography>
+          <Box sx={{ p: 4, borderTop: '1px solid #f1f5f9', bgcolor: 'white' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+              <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>Subtotal</Typography>
+              <Typography sx={{ fontSize: '1.2rem', fontWeight: 900, color: '#755970', fontFamily: "'Outfit', sans-serif" }}>₹{formatPriceINR(cart.cart?.totalPrice)}</Typography>
             </Box>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => { setCartOpen(false); navigate('/cart'); }}
-                sx={{
-                  py: 1.5, borderRadius: '10px', textTransform: 'none', fontWeight: 700,
-                  borderColor: '#1e293b', color: '#1e293b',
-                  '&:hover': { borderColor: '#1e293b', bgcolor: '#f1f5f9' }
-                }}
-              >
-                View Bag
-              </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={() => { setCartOpen(false); navigate('/checkout?step=1'); }}
-                sx={{
-                  py: 1.5, borderRadius: '10px', textTransform: 'none', fontWeight: 700,
-                  bgcolor: '#1e293b', color: 'white',
-                  '&:hover': { bgcolor: '#97c2d5' }, boxShadow: 'none'
-                }}
-              >
-                Checkout
-              </Button>
-            </Box>
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={() => { navigate('/checkout'); setCartOpen(false); }}
+              sx={{
+                py: 2.2, borderRadius: '14px', bgcolor: '#755970', color: 'white', fontWeight: 900, fontSize: '0.85rem', letterSpacing: 2, textTransform: 'uppercase',
+                '&:hover': { bgcolor: '#5a4255' }
+              }}
+            >
+              Proceed to Checkout
+            </Button>
+            <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', mt: 2, color: '#94a3b8' }}>
+              Complimentary shipping and premium gift wrap included.
+            </Typography>
           </Box>
         )}
       </Drawer>

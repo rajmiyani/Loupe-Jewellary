@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
@@ -22,14 +22,14 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     },
     [`&.${stepConnectorClasses.active}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            background: '#1e293b',
-            background: 'linear-gradient(to right, #1e293b, #97c2d5)',
+            background: '#755970',
+            background: 'linear-gradient(to right, #755970, #755970)',
         },
     },
     [`&.${stepConnectorClasses.completed}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            background: '#1e293b',
-            background: 'linear-gradient(to right, #1e293b, #97c2d5)',
+            background: '#755970',
+            background: 'linear-gradient(to right, #755970, #755970)',
         },
     },
     [`& .${stepConnectorClasses.line}`]: {
@@ -53,15 +53,15 @@ const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
     border: '1px solid #f1f5f9',
     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
     ...(ownerState.active && {
-        background: '#1e293b',
-        color: '#97c2d5',
+        background: '#755970',
+        color: '#755970',
         boxShadow: '0 10px 25px rgba(30, 41, 59, 0.15)',
-        borderColor: '#1e293b',
+        borderColor: '#755970',
         transform: 'scale(1.1)',
     }),
     ...(ownerState.completed && {
         background: '#f1f5f9',
-        color: '#1e293b',
+        color: '#755970',
         borderColor: '#e2e8f0',
     }),
 }));
@@ -115,8 +115,8 @@ export default function OrderTracker({ activeStep }) {
                                         letterSpacing: 1.5,
                                         mt: 2,
                                         color: '#94a3b8',
-                                        '&.Mui-active': { color: '#1e293b' },
-                                        '&.Mui-completed': { color: '#1e293b', opacity: 0.7 }
+                                        '&.Mui-active': { color: '#755970' },
+                                        '&.Mui-completed': { color: '#755970', opacity: 0.7 }
                                     }
                                 }}
                             >

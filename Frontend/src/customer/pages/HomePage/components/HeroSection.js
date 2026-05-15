@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Button, Typography, Box } from '@mui/material';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -26,6 +26,7 @@ const HeroSection = () => {
             >
                 <div
                     className="w-full h-full bg-cover bg-center"
+                    loading="lazy"
                     style={{
                         backgroundImage: 'url("/product/Necklace.jpeg")',
                         filter: 'brightness(0.7)'
@@ -47,7 +48,7 @@ const HeroSection = () => {
                             sx={{
                                 letterSpacing: 6,
                                 fontWeight: 700,
-                                color: '#97c2d5',
+                                color: '#755970',
                                 fontSize: { xs: '0.7rem', md: '0.8rem' },
                                 mb: 2,
                                 display: 'block'
@@ -68,7 +69,7 @@ const HeroSection = () => {
                             }}
                         >
                             Timeless Elegance <br />
-                            <span className="text-[#97c2d5] italic font-light">Redefined.</span>
+                            <span className="text-[#755970] italic font-light">Redefined.</span>
                         </Typography>
 
                         <Typography
@@ -89,7 +90,7 @@ const HeroSection = () => {
                             variant="contained"
                             endIcon={<ArrowRight size={20} />}
                             sx={{
-                                bgcolor: '#97c2d5',
+                                bgcolor: '#755970',
                                 color: 'white',
                                 px: { xs: 4, md: 6 },
                                 py: { xs: 1.5, md: 2 },

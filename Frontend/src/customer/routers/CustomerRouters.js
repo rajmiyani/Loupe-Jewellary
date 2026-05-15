@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import HomePage from "../pages/HomePage/HomePage";
 import Product from "../components/Products/product";
@@ -15,6 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import UserDetails from "../components/User_Details/UserDetails";
 import Footer from "../components/Footer/Footer";
 import { getUser } from "../../state/auth/Action";
+import PrivacyPolicy from "../pages/Policies/PrivacyPolicy";
+import RefundPolicy from "../pages/Policies/RefundPolicy";
+import ShippingPolicy from "../pages/Policies/ShippingPolicy";
+import TermsOfService from "../pages/Policies/TermsOfService";
+import ContactInfo from "../pages/Policies/ContactInfo";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -191,6 +196,12 @@ const CustomerRouters = () => {
           path="/payment/:orderId"
           element={<WithLayout showLayout={true}><OrderHistory /></WithLayout>}
         />
+
+        <Route path="/privacy" element={<WithLayout showLayout={true}><PrivacyPolicy /></WithLayout>} />
+        <Route path="/refund" element={<WithLayout showLayout={true}><RefundPolicy /></WithLayout>} />
+        <Route path="/shipping" element={<WithLayout showLayout={true}><ShippingPolicy /></WithLayout>} />
+        <Route path="/terms" element={<WithLayout showLayout={true}><TermsOfService /></WithLayout>} />
+        <Route path="/contact-info" element={<WithLayout showLayout={true}><ContactInfo /></WithLayout>} />
 
         {/* 404 Page */}
         <Route

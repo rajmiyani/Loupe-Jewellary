@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Slider from 'react-slick';
 import { Box, Typography, IconButton } from '@mui/material';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -58,7 +58,7 @@ const NextArrow = ({ onClick }) => (
             transform: 'translateY(-50%)',
             zIndex: 10,
             bgcolor: 'white',
-            color: '#1e293b',
+            color: '#755970',
             width: 40,
             height: 40,
             boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
@@ -80,7 +80,7 @@ const PrevArrow = ({ onClick }) => (
             transform: 'translateY(-50%)',
             zIndex: 10,
             bgcolor: 'white',
-            color: '#1e293b',
+            color: '#755970',
             width: 40,
             height: 40,
             boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
@@ -127,7 +127,7 @@ const PerfectSparkleSection = () => {
                         fontWeight: 300,
                         fontFamily: "'Playfair Display', serif",
                         letterSpacing: 2,
-                        color: '#1e293b',
+                        color: '#755970',
                         mb: 2,
                         textTransform: 'uppercase'
                     }}
@@ -156,13 +156,13 @@ const PerfectSparkleSection = () => {
                                 {/* Details */}
                                 <div className="flex flex-col text-left">
                                     <div className="flex items-center gap-2 mb-1">
-                                        <span className="text-[#1e293b] font-bold text-sm md:text-base">
+                                        <span className="text-[#755970] font-bold text-sm md:text-base">
                                             ₹{product.price}
                                         </span>
                                         <span className="text-gray-400 line-through text-xs md:text-sm">
                                             ₹{product.oldPrice}
                                         </span>
-                                        <span className="text-[#97c2d5] font-medium text-xs md:text-sm">
+                                        <span className="text-[#755970] font-medium text-xs md:text-sm">
                                             {product.discount}
                                         </span>
                                     </div>

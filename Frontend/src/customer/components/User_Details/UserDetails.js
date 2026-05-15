@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Typography, Divider, Button, Grid } from '@mui/material';
 import { User, Heart, Package, Headset, LogOut } from 'lucide-react';
@@ -57,13 +57,13 @@ const UserDetails = () => {
               <Box sx={{ p: 3, borderBottom: '1px solid #f1f5f9' }}>
                 <Box sx={{
                   width: 56, height: 56, borderRadius: '50%',
-                  bgcolor: '#1e293b', color: 'white',
+                  bgcolor: '#755970', color: 'white',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '1.4rem', fontWeight: 700, mb: 2
                 }}>
                   {auth.user?.firstName?.[0]}
                 </Box>
-                <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#1e293b' }}>
+                <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#755970' }}>
                   {auth.user?.firstName} {auth.user?.lastName}
                 </Typography>
                 <Typography sx={{ fontSize: '0.8rem', color: '#94a3b8' }}>
@@ -86,7 +86,7 @@ const UserDetails = () => {
                       borderRadius: '8px',
                       cursor: 'pointer',
                       mb: 0.5,
-                      bgcolor: activeTab === item.id ? '#1e293b' : 'transparent',
+                      bgcolor: activeTab === item.id ? '#755970' : 'transparent',
                       color: activeTab === item.id ? 'white' : '#475569',
                       '&:hover': activeTab !== item.id ? { bgcolor: '#f1f5f9' } : {},
                     }}
@@ -129,7 +129,7 @@ const UserDetails = () => {
           {/* Main Content */}
           <Grid item xs={12} md={9}>
             <Box sx={{ bgcolor: 'white', borderRadius: '12px', border: '1px solid #e2e8f0', p: { xs: 3, md: 4 } }}>
-              <Typography sx={{ fontSize: '1.2rem', fontWeight: 700, color: '#1e293b', mb: 3 }}>
+              <Typography sx={{ fontSize: '1.2rem', fontWeight: 700, color: '#755970', mb: 3 }}>
                 {menuItems[activeTab]?.name}
               </Typography>
               <Divider sx={{ mb: 3 }} />

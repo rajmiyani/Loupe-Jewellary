@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+﻿import React, { useContext, useState } from 'react'
 import { Box, Button, Divider, Grid, TextField, styled as tfStyle, Modal, Typography, Rating } from '@mui/material'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -10,30 +10,30 @@ import { RRContext } from '../../../context/rrBox/rrContext';
 
 const CssTextField = tfStyle(TextField)({
     '& label.Mui-focused': {
-        color: '#97c2d5',
+        color: '#755970',
     },
     '& .MuiInput-underline:after': {
-        borderBottomColor: '#97c2d5',
+        borderBottomColor: '#755970',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
             borderColor: '#9ca3af',
         },
         '&:hover fieldset': {
-            borderColor: '#97c2d5',
+            borderColor: '#755970',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#97c2d5',
+            borderColor: '#755970',
         },
     },
 });
 
 const StyledRating = ratingStyle(Rating)({
     "& .MuiRating-iconFilled": {
-        color: "#6a9eb5",
+        color: "#2c1e2f",
     },
     "& .MuiRating-iconHover": {
-        color: "#97c2d5",
+        color: "#755970",
     },
 });
 
@@ -89,7 +89,7 @@ export default function RatingReviewForm({ open, handleClose }) {
                 <Box sx={style}>
                     <div>
                         <form onSubmit={handleSubmit}>
-                            <h1 className='mb-5 font-semibold text-3xl text-center' style={{ color: '#6a9eb5' }}>Ratings & Review</h1>
+                            <h1 className='mb-5 font-semibold text-3xl text-center' style={{ color: '#2c1e2f' }}>Ratings & Review</h1>
                             <Grid container spacing={3}>
 
                                 <Grid item xs={12}>
@@ -127,7 +127,7 @@ export default function RatingReviewForm({ open, handleClose }) {
                                         onClick={() => { handleClose() }}
                                         variant="outlined"
                                         type='button'
-                                        sx={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#6a9eb5', borderColor: '#6a9eb5', "&:hover": { boxShadow: "#6a9eb5 0px 5px 30px", borderColor: '#6a9eb5' }, }}
+                                        sx={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#2c1e2f', borderColor: '#2c1e2f', "&:hover": { boxShadow: "#2c1e2f 0px 5px 30px", borderColor: '#2c1e2f' }, }}
                                         className="flex items-center justify-center rounded-md border-none p-3 focus:outline-none"
                                     >
                                         Cancel
@@ -136,7 +136,7 @@ export default function RatingReviewForm({ open, handleClose }) {
                                     <Button
                                         variant="contained"
                                         type="submit"
-                                        sx={{ fontSize: '0.75rem', fontWeight: 'bold', ml: '1.5rem', bgcolor: '#6a9eb5', "&:hover": { bgcolor: "#97c2d5" }, }}
+                                        sx={{ fontSize: '0.75rem', fontWeight: 'bold', ml: '1.5rem', bgcolor: '#2c1e2f', "&:hover": { bgcolor: "#755970" }, }}
                                         className="flex items-center justify-center rounded-md border-none p-3 text-white focus:outline-none "
                                     >
                                         Post

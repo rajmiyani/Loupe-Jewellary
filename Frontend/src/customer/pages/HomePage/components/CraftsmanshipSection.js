@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 
 const CraftsmanshipSection = () => {
@@ -23,7 +23,7 @@ const CraftsmanshipSection = () => {
                     transition={{ duration: 1 }}
                     className="max-w-2xl"
                 >
-                    <span className="text-[#97c2d5] font-bold tracking-[0.3em] uppercase text-sm mb-4 block">
+                    <span className="text-[#755970] font-bold tracking-[0.3em] uppercase text-sm mb-4 block">
                         The Art of Creation
                     </span>
                     <h2 className="text-4xl md:text-6xl font-light text-white mb-8 leading-tight">

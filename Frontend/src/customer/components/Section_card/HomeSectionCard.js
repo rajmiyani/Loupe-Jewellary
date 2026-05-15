@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link, useNavigate } from "react-router-dom";
-import { Checkbox } from "@mui/material";
+import { Checkbox, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { store } from "../../../state/store";
 import { addWishItem, removeWishItem } from "../../../state/wishlist/Action";
@@ -57,19 +57,37 @@ const HomeSectionCard = ({ product, productLabel }) => {
 
         {/* Product Label */}
         {productLabel && (
-          <div className="absolute bottom-3 left-3 z-10 px-3 py-1 bg-[#97c2d5] text-white text-[10px] font-bold rounded-full tracking-widest shadow-lg">
+          <div className="absolute bottom-3 left-3 z-10 px-3 py-1 bg-[#755970] text-white text-[10px] font-bold rounded-full tracking-widest shadow-lg">
             {productLabel}
           </div>
         )}
       </div>
 
-      <div className="p-4 text-center">
-        <h3 className="text-gray-900 font-medium text-sm mb-2 truncate px-2 group-hover:text-[#97c2d5] transition-colors">
+      <div className="p-5 text-center">
+        <Typography 
+          sx={{ 
+            color: '#1e293b', 
+            fontWeight: 400, 
+            fontSize: '0.9rem', 
+            mb: 1, 
+            fontFamily: "'Playfair Display', serif",
+            display: '-webkit-box',
+            WebkitLineClamp: 1,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            px: 1
+          }}
+          className="group-hover:text-[#755970] transition-colors"
+        >
           {product.title}
-        </h3>
+        </Typography>
         <div className="flex items-center justify-center gap-3">
-          <p className="text-[#1e293b] font-bold text-base">₹ {formatPriceINR(product.discountedPrice)}</p>
-          <p className="text-gray-400 line-through text-xs italic">₹ {formatPriceINR(product.price)}</p>
+          <Typography sx={{ color: '#755970', fontWeight: 900, fontSize: '1.05rem', fontFamily: "'Outfit', sans-serif" }}>
+            â‚¹{formatPriceINR(product.discountedPrice)}
+          </Typography>
+          <Typography sx={{ color: '#94a3b8', textDecoration: 'line-through', fontSize: '0.75rem', fontStyle: 'italic', opacity: 0.8 }}>
+            â‚¹{formatPriceINR(product.price)}
+          </Typography>
         </div>
       </div>
     </motion.div>

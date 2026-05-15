@@ -1,10 +1,10 @@
-import { Grid } from '@mui/material'
+﻿import { Grid } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (
-        <footer className='w-full bg-[#97c2d5] text-white pt-10 pb-5 border-t border-white/10'>
+        <footer className='w-full bg-[#402d43] text-white pt-10 pb-5 border-t border-white/10'>
             <div className='max-w-[1400px] mx-auto px-6 md:px-12'>
                 <Grid container spacing={10}>
                     {/* Column 1: Boutique Collections */}
@@ -88,14 +88,21 @@ const Footer = () => {
                             <h3 className='text-xs font-bold uppercase tracking-[0.3em] text-white mb-10'>
                                 Contact
                             </h3>
-                            <div className='space-y-8 text-[13px] text-white/90 leading-loose tracking-wide'>
-                                <p className='max-w-[200px]'>
-                                    RR MALL, MOTA VARACHHA, <br />
-                                    SURAT, GUJRAT, INDIA
+                            <div className='space-y-6 text-[13px] text-white/90 leading-loose tracking-wide'>
+                                <p className='max-w-[250px]'>
+                                    <strong className="text-white/70 block mb-1">Address:</strong>
+                                    Sardar Avas, Diamond, Managadh Chowk, Varachha Main Road, Varachha, Surat, Gujarat, India
                                 </p>
                                 <p>
+                                    <strong className="text-white/70 block mb-1">Email:</strong>
                                     <a href="mailto:loupejewelsllp@gmail.com" className='hover:text-[#0a0a0a] transition-colors'>
                                         loupejewelsllp@gmail.com
+                                    </a>
+                                </p>
+                                <p>
+                                    <strong className="text-white/70 block mb-1">Mobile No:</strong>
+                                    <a href="tel:+919909109074" className='hover:text-[#0a0a0a] transition-colors'>
+                                        +91 99091 09074
                                     </a>
                                 </p>
                                 <div className='flex gap-6 items-center pt-4'>
@@ -122,10 +129,10 @@ const Footer = () => {
 
                 {/* Bottom Row Credits */}
                 <div className='pt-5 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-6'>
-                    <p className='text-[10px] uppercase tracking-[0.4em] text-black/100'>
+                    <p className='text-[10px] uppercase tracking-[0.4em] text-white'>
                         &copy; 2025 Loupe Jewellery LLP . All rights reserved.
                     </p>
-                    <p className='text-[10px] uppercase tracking-[0.4em] text-black/100'>
+                    <p className='text-[10px] uppercase tracking-[0.4em] text-white'>
                         Dev by <a href="#" className='hover:text-[#0a0a0a] transition-colors'>Codiq Solution</a>
                     </p>
                 </div>

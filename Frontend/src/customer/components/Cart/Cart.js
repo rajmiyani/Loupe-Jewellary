@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+﻿import React, { useEffect } from 'react'
 import CartItem from './CartItem'
 import { Button, Box, Typography, Divider, Grid } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
@@ -118,11 +118,11 @@ const Cart = () => {
                                                     mt: 2,
                                                     py: 2,
                                                     borderRadius: '16px',
-                                                    bgcolor: '#1e293b',
+                                                    bgcolor: '#755970',
                                                     fontWeight: 800,
                                                     fontSize: '1.1rem',
                                                     textTransform: 'none',
-                                                    '&:hover': { bgcolor: '#97c2d5' },
+                                                    '&:hover': { bgcolor: '#755970' },
                                                     boxShadow: '0 10px 30px rgba(30,41,59,0.18)'
                                                 }}
                                             >
@@ -134,7 +134,7 @@ const Cart = () => {
 
                                 <Box sx={{ mt: 4, p: 3, bgcolor: 'var(--bg-premium)', borderRadius: '20px', border: '1px solid var(--border-gold)', display: 'flex', alignItems: 'center', gap: 2 }}>
                                     <Box sx={{ bgcolor: 'var(--primary-gold)', p: 1, borderRadius: '8px', color: 'var(--primary-blue)' }}>
-                                        <Typography variant="h6" fontWeight="900">✨</Typography>
+                                        <Typography variant="h6" fontWeight="900">âœ¨</Typography>
                                     </Box>
                                     <Typography variant="body2" sx={{ fontWeight: 600, color: 'var(--primary-blue)' }}>
                                         Secure your master pieces today. Fast & Insured delivery.
@@ -178,10 +178,10 @@ const Cart = () => {
                                     px: 6,
                                     py: 1.5,
                                     borderRadius: '12px',
-                                    bgcolor: '#1e293b',
+                                    bgcolor: '#755970',
                                     fontWeight: 700,
                                     textTransform: 'none',
-                                    '&:hover': { bgcolor: '#97c2d5' }
+                                    '&:hover': { bgcolor: '#755970' }
                                 }}
                             >
                                 Start Shopping

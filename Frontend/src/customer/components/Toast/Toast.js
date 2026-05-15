@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+﻿import React, { useEffect } from 'react';
 
 const icons = {
-  success: '✅',
-  error: '⚠️',
-  info: 'ℹ️',
+  success: 'âœ…',
+  error: 'âš ï¸',
+  info: 'â„¹ï¸',
 };
 
 const Toast = ({ id, type = 'success', title = 'Success', description = '', duration = 2500, onClose }) => {
@@ -19,7 +19,7 @@ const Toast = ({ id, type = 'success', title = 'Success', description = '', dura
         <div className="title">{title}</div>
         {description && <div className="desc text-sm">{description}</div>}
       </div>
-      <button aria-label="Close" onClick={() => onClose?.(id)} className="ml-2 opacity-70 hover:opacity-100">✖</button>
+      <button aria-label="Close" onClick={() => onClose?.(id)} className="ml-2 opacity-70 hover:opacity-100">âœ–</button>
     </div>
   );
 };

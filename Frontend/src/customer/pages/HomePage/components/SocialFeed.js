@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Box, Typography } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import { motion } from 'framer-motion';
@@ -24,7 +24,7 @@ const SocialFeed = () => {
             >
                 <Typography
                     variant="overline"
-                    sx={{ letterSpacing: 4, fontWeight: 800, color: '#97c2d5', fontSize: '0.8rem' }}
+                    sx={{ letterSpacing: 4, fontWeight: 800, color: '#755970', fontSize: '0.8rem' }}
                 >
                     FOLLOW @LOUPEJEWELRY
                 </Typography>

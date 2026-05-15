@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { formatPriceINR } from "../../../../utils/price";
@@ -54,7 +54,7 @@ const StyleStory = () => {
                     sx={{
                         fontSize: { xs: '0.7rem', md: '0.8rem' },
                         fontWeight: 900,
-                        color: '#97c2d5',
+                        color: '#755970',
                         letterSpacing: 4,
                         mb: 2,
                         textTransform: 'uppercase'
@@ -68,7 +68,7 @@ const StyleStory = () => {
                         fontWeight: 300,
                         fontFamily: "'Playfair Display', serif",
                         letterSpacing: 1,
-                        color: '#1e293b',
+                        color: '#755970',
                         mb: 2,
                         textTransform: 'uppercase'
                     }}
@@ -88,7 +88,7 @@ const StyleStory = () => {
                 >
                     Discover the effortless elegance of Loupe Jeweller through our curated lifestyle moments and high-fidelity craftsmanship.
                 </Typography>
-                <div className="w-16 h-[2px] bg-[#97c2d5] mx-auto opacity-30" />
+                <div className="w-16 h-[2px] bg-[#755970] mx-auto opacity-30" />
             </Box>
 
             <Box
@@ -130,7 +130,7 @@ const StyleStory = () => {
 
                             {/* Category Overlay */}
                             <div className="absolute top-4 left-4">
-                                <span className="bg-white/90 backdrop-blur-md text-[#1e293b] text-[8px] font-black tracking-widest px-3 py-1.5 rounded-full shadow-sm">
+                                <span className="bg-white/90 backdrop-blur-md text-[#755970] text-[8px] font-black tracking-widest px-3 py-1.5 rounded-full shadow-sm">
                                     {story.category}
                                 </span>
                             </div>
@@ -142,10 +142,10 @@ const StyleStory = () => {
                                     fullWidth
                                     sx={{
                                         bgcolor: 'white',
-                                        color: '#1e293b',
+                                        color: '#755970',
                                         fontSize: '0.7rem',
                                         fontWeight: 900,
-                                        '&:hover': { bgcolor: '#97c2d5', color: 'white' }
+                                        '&:hover': { bgcolor: '#755970', color: 'white' }
                                     }}
                                 >
                                     Shop the look
@@ -159,7 +159,7 @@ const StyleStory = () => {
                                 sx={{
                                     fontSize: '0.9rem',
                                     fontWeight: 600,
-                                    color: '#1e293b',
+                                    color: '#755970',
                                     fontFamily: "'Outfit', sans-serif",
                                     mb: 1
                                 }}
@@ -167,8 +167,8 @@ const StyleStory = () => {
                                 {story.title}
                             </Typography>
                             <div className="flex items-center justify-center gap-3">
-                                <span className="text-[#1e293b] font-serif italic text-lg">₹{formatPriceINR(story.price)}</span>
-                                <span className="text-[#97c2d5] text-[10px] font-black tracking-tighter uppercase">{story.discount}</span>
+                                <span className="text-[#755970] font-serif italic text-lg">₹{formatPriceINR(story.price)}</span>
+                                <span className="text-[#755970] text-[10px] font-black tracking-tighter uppercase">{story.discount}</span>
                             </div>
                         </div>
                     </motion.div>

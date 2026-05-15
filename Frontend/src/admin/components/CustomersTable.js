@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import {
   Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Avatar, Button,
@@ -13,7 +13,7 @@ import { store } from "../../state/store";
 import { deleteUserProfile, getAllUsers } from "../../state/auth/Action";
 import { styled } from '@mui/material/styles';
 
-const BRAND = '#97c2d5';
+const BRAND = '#755970';
 const BRAND_LIGHT = '#f0f9ff';
 const BRAND_DARK = '#5fa0b8';
 
