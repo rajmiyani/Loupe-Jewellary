@@ -477,8 +477,8 @@ export default function Navigation() {
             <div className="flex items-center">
               <IconButton
                 onClick={() => setOpen(true)}
-                className="lg:hidden"
                 sx={{
+                  display: { xs: 'flex', lg: 'none' },
                   color: 'white',
                   ml: -1,
                   '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
@@ -633,7 +633,7 @@ export default function Navigation() {
                 </div>
                 <KeyboardArrowDownIcon sx={{ fontSize: 18, ml: 1, opacity: 0.6, transition: 'transform 0.3s', transform: Boolean(countryAnchorEl) ? 'rotate(180deg)' : 'rotate(0deg)' }} />
               </div>
-              
+
               <Menu
                 anchorEl={countryAnchorEl}
                 open={Boolean(countryAnchorEl)}
@@ -663,44 +663,44 @@ export default function Navigation() {
                     Select Region & Currency
                   </Typography>
                 </Box>
-                
-                <MenuItem 
-                  onClick={() => handleCountrySelect({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' })} 
-                  sx={{ 
+
+                <MenuItem
+                  onClick={() => handleCountrySelect({ name: 'INDIA', code: 'IN', currency: 'INR ₹', flag: '🇮🇳' })}
+                  sx={{
                     borderRadius: '10px',
-                    py: 1.5, 
+                    py: 1.5,
                     mb: 0.5,
                     bgcolor: selectedCountry.code === 'IN' ? '#f8fafc' : 'transparent',
                     border: selectedCountry.code === 'IN' ? '1px solid #e2e8f0' : '1px solid transparent',
-                    '&:hover': { bgcolor: '#f1f5f9' } 
+                    '&:hover': { bgcolor: '#f1f5f9' }
                   }}
                 >
                   <span style={{ fontSize: '1.4rem', marginRight: '16px' }}>🇮🇳</span>
-                  <ListItemText 
-                    primary="India" 
-                    secondary="Indian Rupee (₹)" 
-                    primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }} 
-                    secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }} 
+                  <ListItemText
+                    primary="India"
+                    secondary="Indian Rupee (₹)"
+                    primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }}
+                    secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }}
                   />
                   {selectedCountry.code === 'IN' && <div className="w-2 h-2 rounded-full bg-[#755970] ml-2" />}
                 </MenuItem>
 
-                <MenuItem 
-                  onClick={() => handleCountrySelect({ name: 'USA', code: 'US', currency: 'USD $', flag: '🇺🇸' })} 
-                  sx={{ 
+                <MenuItem
+                  onClick={() => handleCountrySelect({ name: 'USA', code: 'US', currency: 'USD $', flag: '🇺🇸' })}
+                  sx={{
                     borderRadius: '10px',
                     py: 1.5,
                     bgcolor: selectedCountry.code === 'US' ? '#f8fafc' : 'transparent',
                     border: selectedCountry.code === 'US' ? '1px solid #e2e8f0' : '1px solid transparent',
-                    '&:hover': { bgcolor: '#f1f5f9' } 
+                    '&:hover': { bgcolor: '#f1f5f9' }
                   }}
                 >
                   <span style={{ fontSize: '1.4rem', marginRight: '16px' }}>🇺🇸</span>
-                  <ListItemText 
-                    primary="United States" 
-                    secondary="US Dollar ($)" 
-                    primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }} 
-                    secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }} 
+                  <ListItemText
+                    primary="United States"
+                    secondary="US Dollar ($)"
+                    primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }}
+                    secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }}
                   />
                   {selectedCountry.code === 'US' && <div className="w-2 h-2 rounded-full bg-[#755970] ml-2" />}
                 </MenuItem>

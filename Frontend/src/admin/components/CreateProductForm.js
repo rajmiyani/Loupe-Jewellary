@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../state/product/Action';
 import {
@@ -154,6 +154,57 @@ const CreateProductForm = () => {
 
   const showRingSize = isRing || (prodType === 'other' || prodType === 'best-sellers') && !isNecklace;
   const showNecklaceFields = isNecklace || (prodType === 'other' || prodType === 'best-sellers') && !isRing;
+
+  const stylesByType = {
+    earrings: [
+      { value: 'earring', label: 'Earring' },
+      { value: 'drop', label: 'Drop' },
+      { value: 'hoop', label: 'Hoop' },
+      { value: 'stud', label: 'Studs' },
+      { value: 'jhumka', label: 'Jhumkas' },
+    ],
+    rings: [
+      { value: 'ring', label: 'Ring' },
+      { value: 'engagement-ring', label: 'Engagement Ring' },
+      { value: 'pearl-ring', label: 'Pearl Ring' },
+      { value: 'couple-ring', label: 'Couple Rings' },
+    ],
+    nacklaces: [
+      { value: 'chain', label: 'Chain' },
+      { value: 'mangal-sutra', label: 'Mangal Sutra' },
+      { value: 'necklace', label: 'Necklace' },
+      { value: 'pendant', label: 'Pendant' },
+      { value: 'locket', label: 'Locket' },
+    ],
+    wedding: [
+      { value: 'bridal-ring', label: 'Bridal Ring' },
+      { value: 'engagement-ring', label: 'Engagement Ring' },
+      { value: 'couple-ring', label: 'Couple Rings' },
+      { value: 'mangal-sutra', label: 'Mangal Sutra' },
+    ],
+  };
+
+  const allStyles = [
+    { value: 'bangle', label: 'Bangle' },
+    { value: 'bracelet', label: 'Bracelet' },
+    { value: 'chain', label: 'Chain' },
+    { value: 'earring', label: 'Earring' },
+    { value: 'mangal-sutra', label: 'Mangal Sutra' },
+    { value: 'necklace', label: 'Necklace' },
+    { value: 'pendant', label: 'Pendant' },
+    { value: 'locket', label: 'Locket' },
+    { value: 'ring', label: 'Ring' },
+    { value: 'drop', label: 'Drop' },
+    { value: 'hoop', label: 'Hoop' },
+    { value: 'stud', label: 'Studs' },
+    { value: 'jhumka', label: 'Jhumkas' },
+    { value: 'engagement-ring', label: 'Engagement Ring' },
+    { value: 'pearl-ring', label: 'Pearl Ring' },
+    { value: 'bridal-ring', label: 'Bridal Ring' },
+    { value: 'couple-ring', label: 'Couple Rings' },
+  ];
+
+  const filteredStyles = stylesByType[prodType] || allStyles;
 
   return (
     <Box sx={{ p: { xs: 2, md: 0 }, bgcolor: '#f8fafc', minHeight: '100vh' }}>
@@ -381,11 +432,7 @@ const CreateProductForm = () => {
                       <FormControl fullWidth>
                         <InputLabel sx={{ fontWeight: 600 }}>Main Category (Material)</InputLabel>
                         <StyledSelect label="Main Category (Material)" name="topLevelCategory" value={productData.topLevelCategory} onChange={handleChange}>
-                          <MenuItem value="gold">Gold Jewelry</MenuItem>
-                          <MenuItem value="silver">Silver Jewelry</MenuItem>
                           <MenuItem value="diamond">Diamond Jewelry</MenuItem>
-                          <MenuItem value="platinum">Platinum Jewelry</MenuItem>
-                          <MenuItem value="gemstone">Gemstone Jewelry</MenuItem>
                         </StyledSelect>
                       </FormControl>
                     </Grid>
@@ -404,27 +451,18 @@ const CreateProductForm = () => {
                     </Grid>
                     <Grid item xs={12}>
                       <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Specific Style (e.g., Hoop, Bridal Ring)</InputLabel>
-                        <StyledSelect label="Specific Style (e.g., Hoop, Bridal Ring)" name="thirdLevelCategory" value={productData.thirdLevelCategory} onChange={handleChange}>
-                          <MenuItem value="bangle">Bangle</MenuItem>
-                          <MenuItem value="bracelet">Bracelet</MenuItem>
-                          <MenuItem value="chain">Chain</MenuItem>
-                          <MenuItem value="earring">Earring</MenuItem>
-                          <MenuItem value="mangal-sutra">Mangal Sutra</MenuItem>
-                          <MenuItem value="necklace">Necklace</MenuItem>
-                          <MenuItem value="pendant">Pendant</MenuItem>
-                          <MenuItem value="locket">Locket</MenuItem>
-                          <MenuItem value="ring">Ring</MenuItem>
-                          <MenuItem value="drop">Drop</MenuItem>
-                          <MenuItem value="hoop">Hoop</MenuItem>
-                          <MenuItem value="stud">Studs</MenuItem>
-                          <MenuItem value="jhumka">Jhumkas</MenuItem>
-                          <MenuItem value="engagement-ring">Engagement Ring</MenuItem>
-                          <MenuItem value="pearl-ring">Pearl Ring</MenuItem>
-                          <MenuItem value="bridal-ring">Bridal Ring</MenuItem>
-                          <MenuItem value="couple-ring">Couple Rings</MenuItem>
+                        <InputLabel sx={{ fontWeight: 600 }}>Specific Style</InputLabel>
+                        <StyledSelect label="Specific Style" name="thirdLevelCategory" value={productData.thirdLevelCategory} onChange={handleChange} disabled={!prodType}>
+                          {filteredStyles.map((s) => (
+                            <MenuItem key={s.value} value={s.value}>{s.label}</MenuItem>
+                          ))}
                         </StyledSelect>
                       </FormControl>
+                      {!prodType && (
+                        <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600, mt: 0.5, display: 'block' }}>
+                          Select a Product Type first
+                        </Typography>
+                      )}
                     </Grid>
                   </Grid>
                 </CardContent>
@@ -453,9 +491,7 @@ const CreateProductForm = () => {
                       <Grid item xs={12} sm={6}>
                         <StyledTextField label="Metal Purity (e.g. 18K, 22K)" name="metalPurity" value={productData.metalPurity} onChange={handleChange} fullWidth />
                       </Grid>
-                      <Grid item xs={12}>
-                        <StyledTextField label="Metal Weight (g)" name="metalWeight" type="number" value={productData.metalWeight} onChange={handleChange} fullWidth />
-                      </Grid>
+
                       <Grid item xs={12}>
                         <StyledTextField label="Hallmark / Certification" name="hallmarkCertification" value={productData.hallmarkCertification} onChange={handleChange} fullWidth />
                       </Grid>
@@ -498,9 +534,7 @@ const CreateProductForm = () => {
                           </StyledSelect>
                         </FormControl>
                       </Grid>
-                      <Grid item xs={12}>
-                        <StyledTextField label="Stone Wt (Carat)" name="stoneWeight" type="number" value={productData.stoneWeight} onChange={handleChange} fullWidth />
-                      </Grid>
+
                     </Grid>
                   </CardContent>
                 </Card>
