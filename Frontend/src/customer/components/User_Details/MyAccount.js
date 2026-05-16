@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography, Divider, Avatar, Button, Grid, TextField } from '@mui/material';
 import { Edit3, Mail, MapPin, Phone, Save, X } from 'lucide-react';
@@ -140,7 +140,7 @@ const MyAccount = () => {
               variant="outlined"
             />
           ) : (
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{user?.firstName || '—'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{user?.firstName || '-'}</Typography>
           )}
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -155,7 +155,7 @@ const MyAccount = () => {
               variant="outlined"
             />
           ) : (
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{user?.lastName || '—'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{user?.lastName || '-'}</Typography>
           )}
         </Grid>
         <Grid item xs={12}>
@@ -163,7 +163,7 @@ const MyAccount = () => {
             <Mail size={15} color="#755970" />
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>Email</Typography>
           </Box>
-          <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600, mt: 0.5 }}>{user?.email || '—'}</Typography>
+          <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600, mt: 0.5 }}>{user?.email || '-'}</Typography>
           <Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', mt: 0.5 }}>Email cannot be changed</Typography>
         </Grid>
         <Grid item xs={12}>
@@ -182,7 +182,7 @@ const MyAccount = () => {
               sx={{ mt: 1 }}
             />
           ) : (
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600, mt: 0.5 }}>{user?.mobile || '—'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600, mt: 0.5 }}>{user?.mobile || '-'}</Typography>
           )}
         </Grid>
       </Grid>
@@ -201,19 +201,19 @@ const MyAccount = () => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>Street</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.streetAddress || '—'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.streetAddress || '-'}</Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>City</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.city || '—'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.city || '-'}</Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>State</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.state || '—'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.state || '-'}</Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>Postal Code</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.zipCode || '—'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.zipCode || '-'}</Typography>
           </Grid>
         </Grid>
       ) : (

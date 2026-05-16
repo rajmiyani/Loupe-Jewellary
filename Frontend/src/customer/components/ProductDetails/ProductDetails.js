@@ -1,4 +1,4 @@
-﻿import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box, Button, Grid, Rating, TextField, Typography, Divider,
   MenuItem, Breadcrumbs, Link, IconButton, Chip, Collapse,
@@ -20,9 +20,9 @@ import {
   Headset, Video, Minus, Plus, Package, Star,
 } from "lucide-react";
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* -------------------------------------------
    Styled Select Field
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+------------------------------------------- */
 const CssTextField = selectStyle(TextField)({
   "& label.Mui-focused": { color: "#755970" },
   "& .MuiOutlinedInput-root": {
@@ -33,9 +33,9 @@ const CssTextField = selectStyle(TextField)({
   },
 });
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* -------------------------------------------
    Accordion helper
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+------------------------------------------- */
 function SimpleAccordion({ title, children, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
@@ -59,9 +59,137 @@ function SimpleAccordion({ title, children, defaultOpen = false }) {
   );
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+/* -------------------------------------------
+   Static Product Data for Best Sellers
+------------------------------------------- */
+const STATIC_BEST_SELLERS = {
+  "1": {
+    _id: "1",
+    title: "0.30 POINTER MARQUISE SHAPE DIAMOND RING | Loupe jeweler",
+    price: 33500,
+    discountedPrice: 31150,
+    discountPercent: 7,
+    description: "A breathtaking marquise-shaped diamond centerpiece, meticulously set in a polished gold band. This elegant ring captures the essence of sophisticated charm and timeless beauty. Perfect for engagements or special celebrations.",
+    color: "Yellow Gold",
+    type: "Diamond Ring",
+    metalType: "Gold",
+    metalPurity: "18K",
+    stoneWeight: "0.30",
+    imageUrls: [
+      { imageUrl: "/product/product5.jpeg" },
+      { imageUrl: "/product/product4.jpeg" },
+      { imageUrl: "/product/product7.jpeg" }
+    ],
+    sizes: [
+      { weight: "2.40 G", size: "12" },
+      { weight: "2.50 G", size: "14" },
+      { weight: "2.60 G", size: "16" }
+    ],
+    reviews: [],
+    ratings: []
+  },
+  "2": {
+    _id: "2",
+    title: "0.50 CARAT LABGROWN DIAMOND ROUND SHAPE RING",
+    price: 38000,
+    discountedPrice: 35901,
+    discountPercent: 5,
+    description: "Modern elegance meets sustainable luxury. This round solitaire lab-grown diamond ring offers brilliance and fire that rivals the finest mined diamonds. A conscious choice for the modern connoisseur.",
+    color: "White Gold",
+    type: "Lab Grown Diamond",
+    metalType: "White Gold",
+    metalPurity: "14K",
+    stoneWeight: "0.50",
+    imageUrls: [
+      { imageUrl: "/product/_.jpeg" },
+      { imageUrl: "/product/Necklace.jpeg" },
+      { imageUrl: "/product/product.png" }
+    ],
+    sizes: [
+      { weight: "3.15 G", size: "11" },
+      { weight: "3.25 G", size: "13" },
+      { weight: "3.35 G", size: "15" }
+    ],
+    reviews: [],
+    ratings: []
+  },
+  "3": {
+    _id: "3",
+    title: "0.50 CTW ROUND DIAMOND ENGAGEMENT RING",
+    price: 52000,
+    discountedPrice: 49888,
+    discountPercent: 4,
+    description: "A classic engagement ring featuring a brilliant round center diamond accented by a delicate halo of smaller stones. Symbolizing an eternal bond of love and commitment.",
+    color: "Rose Gold",
+    type: "Diamond Ring",
+    metalType: "Gold",
+    metalPurity: "18K",
+    stoneWeight: "0.50",
+    imageUrls: [
+      { imageUrl: "/product/product 2.png" },
+      { imageUrl: "/product/product 3.png" },
+      { imageUrl: "/product/product6.jpeg" }
+    ],
+    sizes: [
+      { weight: "2.80 G", size: "12" },
+      { weight: "2.90 G", size: "14" }
+    ],
+    reviews: [],
+    ratings: []
+  },
+  "4": {
+    _id: "4",
+    title: "0.50 POINTER CLASSIC STYLE LAB GROWN DIAMOND RING",
+    price: 36000,
+    discountedPrice: 34011,
+    discountPercent: 6,
+    description: "Simple, elegant, and timeless. This classic solitaire ring features a 0.50 pointer lab-grown diamond in a secure six-prong setting, designed to maximize sparkle.",
+    color: "Yellow Gold",
+    type: "Lab Grown Diamond",
+    metalType: "Gold",
+    metalPurity: "18K",
+    stoneWeight: "0.50",
+    imageUrls: [
+      { imageUrl: "/product/product5.jpeg" },
+      { imageUrl: "/product/product4.jpeg" },
+      { imageUrl: "/product/product7.jpeg" }
+    ],
+    sizes: [
+      { weight: "2.20 G", size: "10" },
+      { weight: "2.30 G", size: "12" }
+    ],
+    reviews: [],
+    ratings: []
+  },
+  "5": {
+    _id: "5",
+    title: "0.80 CARAT ROUND SOLITAIRE DIAMOND RING",
+    price: 55000,
+    discountedPrice: 49409,
+    discountPercent: 10,
+    description: "A statement of pure luxury. This impressive 0.80 carat round solitaire diamond ring command attention with its exceptional clarity and breathtaking brilliance.",
+    color: "White Gold",
+    type: "Diamond Ring",
+    metalType: "White Gold",
+    metalPurity: "18K",
+    stoneWeight: "0.80",
+    imageUrls: [
+      { imageUrl: "/product/_.jpeg" },
+      { imageUrl: "/product/Necklace.jpeg" },
+      { imageUrl: "/product/product.png" }
+    ],
+    sizes: [
+      { weight: "3.50 G", size: "14" },
+      { weight: "3.60 G", size: "16" }
+    ],
+    reviews: [],
+    ratings: []
+  }
+};
+
+/* -------------------------------------------
    Main Component
-â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+------------------------------------------- */
 export default function ProductDetails() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
@@ -84,16 +212,17 @@ export default function ProductDetails() {
 
   // Auto-select first weight/size once product loads
   useEffect(() => {
-    if (products?.product?.sizes?.length > 0) {
-      setSelectedWeight(products.product.sizes[0].weight || "");
-      if (products.product.sizes[0].size) {
-        setSelectedSize(products.product.sizes[0].size);
+    const activeProduct = STATIC_BEST_SELLERS[param.productId] || products?.product;
+    if (activeProduct?.sizes?.length > 0) {
+      setSelectedWeight(activeProduct.sizes[0].weight || "");
+      if (activeProduct.sizes[0].size) {
+        setSelectedSize(activeProduct.sizes[0].size);
       }
     }
-  }, [products?.product?._id]);
+  }, [param.productId, products?.product?._id]);
 
   const handleAddToCart = (buyNow = false) => {
-    dispatch(addItemToCart({ productId: param.productId, weight: selectedWeight, quantity }));
+    dispatch(addItemToCart({ productId: param.productId, weight: selectedWeight, size: selectedSize, quantity }));
     if (buyNow) {
       navigate("/cart");
     } else {
@@ -102,22 +231,24 @@ export default function ProductDetails() {
   };
 
   const handleBuyNow = () => {
-    dispatch(addItemToCart({ productId: param.productId, weight: selectedWeight, quantity }));
+    dispatch(addItemToCart({ productId: param.productId, weight: selectedWeight, size: selectedSize, quantity }));
     navigate("/cart");
   };
 
   const handleWhatsApp = () => {
-    const msg = encodeURIComponent(`Hi Loupe Jeweller! I'm interested in: ${products?.product?.title} â€” ₹${formatPriceINR(products?.product?.discountedPrice)}`);
+    const msg = encodeURIComponent(`Hi Loupe Jeweller! I'm interested in: ${products?.product?.title} - ₹${formatPriceINR(products?.product?.discountedPrice)}`);
     window.open(`https://wa.me/919909109074?text=${msg}`, "_blank");
   };
 
-  if (!products.product) return null;
-  const product = products.product;
+  const staticProduct = STATIC_BEST_SELLERS[param.productId];
+  const product = staticProduct || products.product;
+
+  if (!product) return null;
 
   return (
     <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• TOP SECTION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      {/* ================== TOP SECTION ================== */}
       <Box sx={{ bgcolor: "white", borderBottom: "1px solid #f1f5f9" }}>
         <Box sx={{ maxWidth: 1280, mx: "auto", px: { xs: 2, md: 5 }, py: 2 }}>
           <Breadcrumbs separator={<ChevronRight size={13} />}>
@@ -130,10 +261,10 @@ export default function ProductDetails() {
 
       <Box sx={{ maxWidth: 1280, mx: "auto", px: { xs: 2, md: 5 }, pt: 4, pb: 8 }}>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MAIN PRODUCT ROW â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ================== MAIN PRODUCT ROW ================== */}
         <Grid container spacing={{ xs: 3, md: 6 }}>
 
-          {/* â”€â”€ LEFT: Image Gallery â”€â”€ */}
+          {/* -- LEFT: Image Gallery -- */}
           <Grid item xs={12} md={6}>
             <Box sx={{ display: "flex", gap: 2, position: { md: "sticky" }, top: { md: 100 } }}>
               {/* Vertical thumbnails */}
@@ -187,7 +318,7 @@ export default function ProductDetails() {
             </Box>
           </Grid>
 
-          {/* â”€â”€ RIGHT: Product Info Panel â”€â”€ */}
+          {/* -- RIGHT: Product Info Panel -- */}
           <Grid item xs={12} md={6}>
 
             {/* Brand */}
@@ -248,7 +379,7 @@ export default function ProductDetails() {
                   )}
                   {product.stoneWeight && (
                     <span style={{ color: "#94a3b8", marginLeft: 8, fontSize: "0.75rem" }}>
-                      Â· {product.stoneWeight} Ct
+                      - {product.stoneWeight} Ct
                     </span>
                   )}
                 </span>
@@ -431,7 +562,7 @@ export default function ProductDetails() {
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
                   {[
                     ["Free Domestic Shipping", "All orders above ₹500 qualify for free standard shipping across India."],
-                    ["Delivery Time", "Standard delivery: 5â€“7 business days. Express delivery: 2â€“3 business days."],
+                    ["Delivery Time", "Standard delivery: 5-7 business days. Express delivery: 2-3 business days."],
                     ["Insured Delivery", "All jewellery is shipped in tamper-proof, insured packaging for your safety."],
                     ["Returns & Exchange", "7-day easy return or exchange policy. Item must be in original condition."],
                   ].map(([title, desc], i) => (
@@ -446,7 +577,7 @@ export default function ProductDetails() {
           </Grid>
         </Grid>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• WHAT'S INCLUDED â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ================== WHAT'S INCLUDED ================== */}
         <Box sx={{ mt: 8, p: { xs: 3, md: 5 }, bgcolor: "white", borderRadius: "16px", border: "1px solid #e2e8f0" }}>
           <Typography sx={{ fontSize: "1.2rem", fontWeight: 800, color: "#755970", textAlign: "center", mb: 1 }}>
             What's Included With The Purchase?
@@ -457,10 +588,9 @@ export default function ProductDetails() {
           <Grid container spacing={3} justifyContent="center">
             {[
               { icon: <Truck size={28} color="#755970" />, label: "Free Domestic Shipping" },
-              { icon: <Gift size={28} color="#755970" />, label: "Gift Box" },
               { icon: <ShieldCheck size={28} color="#755970" />, label: "Care Tips Card" },
               { icon: <Package size={28} color="#755970" />, label: "Jewellery Certificate" },
-              { icon: <Headset size={28} color="#755970" />, label: "24Ã—7 Customer Support" },
+              { icon: <Headset size={28} color="#755970" />, label: "24x7 Customer Support" },
             ].map((item, i) => (
               <Grid item xs={6} sm={4} md={2.4} key={i}>
                 <Box sx={{ textAlign: "center", p: 2 }}>
@@ -479,7 +609,7 @@ export default function ProductDetails() {
           </Grid>
         </Box>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• WATCH & SHOP â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ================== WATCH & SHOP ================== */}
         <Box sx={{ mt: 6 }}>
           <Box sx={{
             borderRadius: "16px", overflow: "hidden",
@@ -511,16 +641,16 @@ export default function ProductDetails() {
               </Typography>
               <Typography sx={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.8, mb: 3 }}>
                 Not sure how it looks in real life? Book a free live video consultation with our jewellery experts.
-                See the piece up close, ask questions, and shop with confidence â€” all from the comfort of your home.
+                See the piece up close, ask questions, and shop with confidence - all from the comfort of your home.
               </Typography>
               <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
                 <Button
                   onClick={handleWhatsApp}
                   sx={{
-                    bgcolor: "#755970", color: "#755970", px: 4, py: 1.4,
+                    bgcolor: "#755970", color: "white", px: 4, py: 1.4,
                     borderRadius: "10px", fontWeight: 800, fontSize: "0.82rem",
-                    textTransform: "none", "&:hover": { bgcolor: "#b0d0df" },
-                    boxShadow: "0 4px 18px rgba(151,194,213,0.4)"
+                    textTransform: "none", "&:hover": { bgcolor: "#5a4255" },
+                    boxShadow: "0 4px 18px rgba(0,0,0,0.2)"
                   }}
                 >
                   Book a Video Call
@@ -542,7 +672,7 @@ export default function ProductDetails() {
           </Box>
         </Box>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• YOU MAY ALSO LIKE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ================== YOU MAY ALSO LIKE ================== */}
         <Box sx={{ mt: 8, mx: { xs: -2, md: -5 }, px: { xs: 2, md: 5 } }}>
           <HomeSectionCarousel
             sectionName="You May Also Like"
@@ -551,7 +681,7 @@ export default function ProductDetails() {
           />
         </Box>
 
-        {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CUSTOMER REVIEWS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+        {/* ================== CUSTOMER REVIEWS ================== */}
         <Box sx={{ mt: 8 }}>
           <Typography sx={{ fontSize: "1.2rem", fontWeight: 800, color: "#755970", mb: 3 }}>
             Customer Reviews

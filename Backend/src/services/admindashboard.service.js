@@ -52,6 +52,7 @@ const getLatestOrders = async () => {
     try {
         const latestOrders = await Order.find()
             .populate("user")
+            .populate("shippingAddress")
             .sort({ createdAt: -1 })
             .limit(5);
         return latestOrders;

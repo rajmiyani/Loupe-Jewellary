@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { IconButton, Box, Typography, Divider } from '@mui/material';
 import { Trash2, Plus, Minus } from 'lucide-react';
 import { useDispatch } from 'react-redux';
@@ -47,7 +47,7 @@ const CartItem = ({ item }) => {
                     </Box>
 
                     <Typography variant="body2" sx={{ my: 1, color: 'text.secondary', fontWeight: 500 }}>
-                        Weight: {item.weight} | Size: {item.width} MM
+                        Weight: {item.weight ? `${item.weight} G` : 'N/A'} | Size: {item.size ? `${item.size} MM` : 'N/A'}
                     </Typography>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>

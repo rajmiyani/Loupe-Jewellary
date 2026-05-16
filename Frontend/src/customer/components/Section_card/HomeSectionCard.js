@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link, useNavigate } from "react-router-dom";
@@ -83,10 +83,10 @@ const HomeSectionCard = ({ product, productLabel }) => {
         </Typography>
         <div className="flex items-center justify-center gap-3">
           <Typography sx={{ color: '#755970', fontWeight: 900, fontSize: '1.05rem', fontFamily: "'Outfit', sans-serif" }}>
-            â‚¹{formatPriceINR(product.discountedPrice)}
+            ₹{formatPriceINR(product.discountedPrice)}
           </Typography>
           <Typography sx={{ color: '#94a3b8', textDecoration: 'line-through', fontSize: '0.75rem', fontStyle: 'italic', opacity: 0.8 }}>
-            â‚¹{formatPriceINR(product.price)}
+            ₹{formatPriceINR(product.price)}
           </Typography>
         </div>
       </div>

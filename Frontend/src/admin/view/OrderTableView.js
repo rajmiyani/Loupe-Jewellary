@@ -1,4 +1,4 @@
-﻿import {
+import {
   Avatar,
   Box,
   Card,
@@ -10,18 +10,27 @@
   TableRow,
   Typography,
   IconButton,
-  Button
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Divider,
+  Grid,
+  Chip,
+  Paper
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../../state/admin/order/Action";
-import { Globe, ShoppingBag, Eye, Trash2, Filter } from "lucide-react";
+import { Globe, ShoppingBag, Eye, Trash2, Filter, User, MapPin, Package } from "lucide-react";
 import { useDashboard } from "../components/AdminDashboard";
 
 const OrdersTableView = () => {
   const dispatch = useDispatch();
   const { adminOrder } = useSelector((store) => store);
   const { searchQuery, statusFilter, selectedMonth, selectedYear } = useDashboard();
+  const [selectedOrder, setSelectedOrder] = React.useState(null);
 
   useEffect(() => {
     dispatch(getOrders());
@@ -97,7 +106,7 @@ const OrdersTableView = () => {
                       <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1e293b' }}>
                         {order.user?.firstName} {order.user?.lastName}
                       </Typography>
-                      <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>
+                      <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600, display: 'block' }}>
                         {order.user?.email}
                       </Typography>
                     </Box>
@@ -123,8 +132,7 @@ const OrdersTableView = () => {
                   </TableCell>
                   <TableCell align="right">
                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
-                      <IconButton size="small" sx={{ color: '#94a3b8' }}><Eye size={18} /></IconButton>
-                      <IconButton size="small" sx={{ color: '#94a3b8' }}><Trash2 size={18} /></IconButton>
+                      <IconButton size="small" sx={{ color: '#94a3b8' }} onClick={() => setSelectedOrder(order)}><Eye size={18} /></IconButton>
                     </Box>
                   </TableCell>
                 </TableRow>
@@ -133,6 +141,120 @@ const OrdersTableView = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Dialog
+        open={!!selectedOrder}
+        onClose={() => setSelectedOrder(null)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: '24px', p: 1 }
+        }}
+      >
+        {selectedOrder && (
+          <>
+            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 1 }}>
+              <Box>
+                <Typography variant="h5" sx={{ fontWeight: 900, color: '#402d43' }}>Order Details</Typography>
+                <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>ID: {selectedOrder._id}</Typography>
+              </Box>
+              <Chip
+                label={selectedOrder.orderStatus}
+                sx={{
+                  fontWeight: 800,
+                  borderRadius: '8px',
+                  bgcolor: getStatusColor(selectedOrder.orderStatus).bg,
+                  color: getStatusColor(selectedOrder.orderStatus).text
+                }}
+              />
+            </DialogTitle>
+            <Divider />
+            <DialogContent>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ mb: 3 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                      <User size={18} /> Customer Information
+                    </Typography>
+                    <Paper variant="outlined" sx={{ p: 2, borderRadius: '16px', bgcolor: '#f8fafc' }}>
+                      <Typography variant="body1" sx={{ fontWeight: 700 }}>{selectedOrder.user?.firstName} {selectedOrder.user?.lastName}</Typography>
+                      <Typography variant="body2" color="textSecondary">{selectedOrder.user?.email}</Typography>
+                      <Typography variant="body2" color="textSecondary">{selectedOrder.user?.mobile}</Typography>
+                    </Paper>
+                  </Box>
+
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                      <MapPin size={18} /> Shipping Address
+                    </Typography>
+                    <Paper variant="outlined" sx={{ p: 2, borderRadius: '16px', bgcolor: '#f0f9ff' }}>
+                      {selectedOrder.shippingAddress ? (
+                        <>
+                          <Typography variant="body2" sx={{ fontWeight: 600 }}>{(selectedOrder.shippingAddress.firstName || 'N/A')} {(selectedOrder.shippingAddress.lastName || '')}</Typography>
+                          <Typography variant="body2">{selectedOrder.shippingAddress.streetAddress || 'N/A'}</Typography>
+                          <Typography variant="body2">{(selectedOrder.shippingAddress.city || 'N/A')}, {(selectedOrder.shippingAddress.state || 'N/A')} - {(selectedOrder.shippingAddress.zipCode || 'N/A')}</Typography>
+                          <Typography variant="body2" sx={{ mt: 1, fontWeight: 700, color: '#755970' }}>Mobile: {selectedOrder.shippingAddress.mobile || 'N/A'}</Typography>
+                        </>
+                      ) : (
+                        <Typography color="error">Address not provided</Typography>
+                      )}
+                    </Paper>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                    <Package size={18} /> Order Items
+                  </Typography>
+                  <Box sx={{ maxHeight: 300, overflowY: 'auto', pr: 1 }}>
+                    {selectedOrder.orderItems?.map((item, index) => (
+                      <Paper key={index} variant="outlined" sx={{ p: 1.5, mb: 1.5, borderRadius: '12px', display: 'flex', gap: 2, alignItems: 'center' }}>
+                        <Avatar
+                          variant="rounded"
+                          src={item.product?.imageUrls?.[0]?.imageUrl}
+                          sx={{ width: 60, height: 60, borderRadius: '8px' }}
+                        />
+                        <Box sx={{ flex: 1 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 700, color: '#1e293b' }}>{item.product?.title}</Typography>
+                          <Typography variant="caption" color="textSecondary" display="block">
+                            Qty: {item.quantity} | Size: {item.size ? `${item.size} MM` : 'N/A'} | Weight: {item.weight ? `${item.weight}g` : 'N/A'}
+                          </Typography>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#755970' }}>₹{item.price}</Typography>
+                        </Box>
+                      </Paper>
+                    ))}
+                  </Box>
+
+                  <Box sx={{ mt: 3, p: 2, bgcolor: '#402d43', borderRadius: '16px', color: '#fff' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">Total Price</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 700 }}>₹{selectedOrder.totalPrice}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">Discount</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 700, color: '#10b981' }}>-{selectedOrder.discount}%</Typography>
+                    </Box>
+                    <Divider sx={{ my: 1, bgcolor: 'rgba(255,255,255,0.1)' }} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>Net Amount</Typography>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 900 }}>₹{selectedOrder.totalDiscountedPrice}</Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
+            </DialogContent>
+            <DialogActions sx={{ p: 3 }}>
+              <Button
+                onClick={() => setSelectedOrder(null)}
+                variant="outlined"
+                sx={{ borderRadius: '10px', fontWeight: 700, textTransform: 'none', px: 4 }}
+              >
+                Close
+              </Button>
+            </DialogActions>
+          </>
+        )}
+      </Dialog>
     </Card>
   );
 };

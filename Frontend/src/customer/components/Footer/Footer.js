@@ -102,7 +102,7 @@ const Footer = () => {
                                 <p>
                                     <strong className="text-white/70 block mb-1">Mobile No:</strong>
                                     <a href="tel:+919909109074" className='hover:text-[#0a0a0a] transition-colors'>
-                                        +91 99091 09074
+                                        +91 99091 09074, +91 99091 87074 <br /> +91 99091 09974
                                     </a>
                                 </p>
                                 <div className='flex gap-6 items-center pt-4'>

@@ -1,6 +1,6 @@
-﻿import { API_BASE_URL, api } from "../../config/apiConfig";
+import { API_BASE_URL, api } from "../../config/apiConfig";
 import { toastNotify } from '../shared/toast';
-import { CREATE_ORDER_FAILURE, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, GET_ORDER_BY_ID_FAILURE, GET_ORDER_BY_ID_REQUEST, GET_ORDER_BY_ID_SUCCESS, GET_ORDER_HISTORY_FAILURE, GET_ORDER_HISTORY_REQUEST, GET_ORDER_HISTORY_SUCCESS } from "./ActionType";
+import { CANCEL_ORDER_FAILURE, CANCEL_ORDER_REQUEST, CANCEL_ORDER_SUCCESS, CREATE_ORDER_FAILURE, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, GET_ORDER_BY_ID_FAILURE, GET_ORDER_BY_ID_REQUEST, GET_ORDER_BY_ID_SUCCESS, GET_ORDER_HISTORY_FAILURE, GET_ORDER_HISTORY_REQUEST, GET_ORDER_HISTORY_SUCCESS } from "./ActionType";
 import { getUser } from "../auth/Action";
 
 export const createOrder = (reqData) => async (dispatch) => {
@@ -95,3 +95,21 @@ export const getOrderHistory = (reqData) => async (dispatch) => {
 }
 
 
+export const cancelOrder = (orderId) => async (dispatch) => {
+    dispatch({ type: CANCEL_ORDER_REQUEST });
+
+    try {
+        const { data } = await api.put(`${API_BASE_URL}/api/orders/${orderId}/cancel`);
+        dispatch({
+            type: CANCEL_ORDER_SUCCESS,
+            payload: data,
+        });
+        toastNotify({ type: 'success', title: 'Order Cancelled', description: 'Your order has been cancelled successfully.' });
+    } catch (error) {
+        dispatch({
+            type: CANCEL_ORDER_FAILURE,
+            payload: error.message,
+        });
+        toastNotify({ type: 'error', title: 'Error', description: 'Failed to cancel order.' });
+    }
+};

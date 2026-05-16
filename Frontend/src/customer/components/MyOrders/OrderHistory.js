@@ -1,4 +1,4 @@
-﻿import { Button, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import OrderCard from "./OrderCard";
@@ -167,6 +167,7 @@ const OrderHistory = () => {
                             orderId={order._id}
                             index={index}
                             orderStatus={order.orderStatus}
+                            adminMessage={order.adminMessage}
                           />
                         ))}
                       </div>

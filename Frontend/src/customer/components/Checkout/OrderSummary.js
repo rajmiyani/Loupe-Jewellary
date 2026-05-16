@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
@@ -70,8 +70,8 @@ const OrderSummary = () => {
                     </div>
                     <div className='ml-5 space-y-1'>
                       <p className='font-semibold text-xl'>{item.product?.title}</p>
-                      <p className='text-sm py-1 text-gray-400 font-medium'>Weight : {item.weight}
-                        {/* | Size : 16.40 MM */}
+                      <p className='text-sm py-1 text-gray-400 font-medium'>
+                        Weight: {item.weight ? `${item.weight} G` : 'N/A'} | Size: {item.size ? `${item.size} MM` : 'N/A'}
                       </p>
                       <p className='text-sm  text-gray-400 font-medium'>Quantity: {item.quantity}</p>
 

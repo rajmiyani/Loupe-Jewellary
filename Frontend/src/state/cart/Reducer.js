@@ -1,4 +1,4 @@
-﻿import { ADD_ITEM_TO_CART_FAILURE, ADD_ITEM_TO_CART_REQUEST, ADD_ITEM_TO_CART_SUCCESSS, GET_CART_FAILURE, GET_CART_REQUEST, GET_CART_SUCCESSS, REMOVE_CART_ITEM_FAILURE, REMOVE_CART_ITEM_REQUEST, REMOVE_CART_ITEM_SUCCESSS, UPDATE_CART_ITEM_FAILURE, UPDATE_CART_ITEM_REQUEST, UPDATE_CART_ITEM_SUCCESSS } from "./ActionType";
+import { ADD_ITEM_TO_CART_FAILURE, ADD_ITEM_TO_CART_REQUEST, ADD_ITEM_TO_CART_SUCCESSS, GET_CART_FAILURE, GET_CART_REQUEST, GET_CART_SUCCESSS, REMOVE_CART_ITEM_FAILURE, REMOVE_CART_ITEM_REQUEST, REMOVE_CART_ITEM_SUCCESSS, UPDATE_CART_ITEM_FAILURE, UPDATE_CART_ITEM_REQUEST, UPDATE_CART_ITEM_SUCCESSS, CLEAR_CART } from "./ActionType";
 import { produce } from "immer";
 
 const initialState = {
@@ -62,6 +62,13 @@ export const cartReducer = (state = initialState, action) => {
             case UPDATE_CART_ITEM_FAILURE:
                 draftState.loading = false;
                 draftState.error = action.payload;
+                break;
+            
+            case CLEAR_CART:
+                draftState.cart = null;
+                draftState.cartItems = [];
+                draftState.loading = false;
+                draftState.error = null;
                 break;
 
             default:

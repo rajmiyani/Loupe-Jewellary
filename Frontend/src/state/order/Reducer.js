@@ -1,4 +1,4 @@
-﻿import {
+import {
   CREATE_ORDER_FAILURE,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
@@ -8,6 +8,9 @@
   GET_ORDER_HISTORY_FAILURE,
   GET_ORDER_HISTORY_REQUEST,
   GET_ORDER_HISTORY_SUCCESS,
+  CANCEL_ORDER_REQUEST,
+  CANCEL_ORDER_SUCCESS,
+  CANCEL_ORDER_FAILURE,
 } from "./ActionType";
 
 const initialState = {
@@ -73,6 +76,25 @@ export const orderReducer = (state = initialState, action) => {
         error: null,
       };
     case GET_ORDER_HISTORY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case CANCEL_ORDER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case CANCEL_ORDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        order: { ...state.order, orderStatus: "DELETED" }, // Reflect the "removal"
+        error: null,
+      };
+    case CANCEL_ORDER_FAILURE:
       return {
         ...state,
         loading: false,

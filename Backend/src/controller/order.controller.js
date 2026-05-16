@@ -32,8 +32,18 @@ const orderHistory = async(req, res) => {
     }
 }
 
+const cancelOrder = async(req, res) => {
+    try {
+        await orderService.cancelOrderByUser(req.params.id);
+        return res.status(200).send({ message: "Order cancelled successfully", success: true });
+    } catch (error) {
+        return res.status(500).send({ error: error.message });
+    }
+}
+
 module.exports = {
     createOrder,
     findOrderById,
-    orderHistory
+    orderHistory,
+    cancelOrder
 }

@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -24,7 +24,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Grid,
+  TextField
 } from "@mui/material";
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +36,12 @@ import {
   Truck,
   ThumbsUp,
   Trash2,
-  Clock
+  Clock,
+  Eye,
+  User,
+  MapPin,
+  Package,
+  Info
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { store } from "../../state/store";
@@ -51,6 +58,8 @@ const statusConfig = {
 const OrdersTable = () => {
   const [anchorEl, setAnchorEl] = React.useState({});
   const [orderToDelete, setOrderToDelete] = React.useState(null);
+  const [deleteReason, setDeleteReason] = React.useState("");
+  const [selectedOrder, setSelectedOrder] = React.useState(null);
   const dispatch = useDispatch();
   const { adminOrder } = useSelector(store => store);
 
@@ -64,8 +73,11 @@ const OrdersTable = () => {
 
   const handleDeleteOrder = () => {
     if (orderToDelete) {
-      dispatch(deleteOrder(orderToDelete))
-        .then(() => toast.success("Order deleted successfully!"))
+      dispatch(deleteOrder(orderToDelete, deleteReason))
+        .then(() => {
+          toast.success("Order deleted successfully!");
+          setDeleteReason("");
+        })
         .catch(() => toast.error("Failed to delete order."));
       setOrderToDelete(null);
     }
@@ -104,7 +116,7 @@ const OrdersTable = () => {
                 <TableCell sx={{ fontWeight: 700 }}>Total Price</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
                 <TableCell sx={{ fontWeight: 700 }} align="center">Update Status</TableCell>
-                <TableCell sx={{ fontWeight: 700 }} align="center">Action</TableCell>
+                <TableCell sx={{ fontWeight: 700 }} align="center">Details</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -207,11 +219,20 @@ const OrdersTable = () => {
                       </Menu>
                     </TableCell>
                     <TableCell align="center">
-                      <Tooltip title="Delete Order">
-                        <IconButton color="error" onClick={() => setOrderToDelete(item._id)}>
-                          <Trash2 size={18} />
-                        </IconButton>
-                      </Tooltip>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        onClick={() => setSelectedOrder(item)}
+                        startIcon={<Eye size={16} />}
+                        sx={{
+                          borderRadius: '8px',
+                          textTransform: 'none',
+                          bgcolor: '#755970',
+                          '&:hover': { bgcolor: '#402d43' }
+                        }}
+                      >
+                        View
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );
@@ -221,22 +242,118 @@ const OrdersTable = () => {
         </TableContainer>
       </Card>
 
-      <Dialog open={!!orderToDelete} onClose={() => setOrderToDelete(null)} PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle sx={{ fontWeight: 800 }}>Confirm Deletion</DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ fontWeight: 600, color: '#475569', mt: 1 }}>
-            Are you sure you want to delete this order? This action cannot be undone and will remove all order records.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions sx={{ p: 2 }}>
-          <Button onClick={() => setOrderToDelete(null)} sx={{ color: '#64748b', fontWeight: 700 }}>
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteOrder} color="error" variant="contained" sx={{ fontWeight: 700, borderRadius: '8px' }}>
-            Delete Order
-          </Button>
-        </DialogActions>
+      <Dialog
+        open={!!selectedOrder}
+        onClose={() => setSelectedOrder(null)}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: { borderRadius: '24px', p: 1 }
+        }}
+      >
+        {selectedOrder && (
+          <>
+            <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 1 }}>
+              <Box>
+                <Typography variant="h5" sx={{ fontWeight: 900, color: '#402d43' }}>Order Details</Typography>
+                <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>ID: {selectedOrder._id}</Typography>
+              </Box>
+              <Chip
+                label={selectedOrder.orderStatus}
+                color={statusConfig[selectedOrder.orderStatus]?.color || 'default'}
+                sx={{ fontWeight: 800, borderRadius: '8px' }}
+              />
+            </DialogTitle>
+            <Divider />
+            <DialogContent>
+              <Grid container spacing={4}>
+                {/* Customer & Shipping Section */}
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ mb: 3 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                      <User size={18} /> Customer Information
+                    </Typography>
+                    <Paper variant="outlined" sx={{ p: 2, borderRadius: '16px', bgcolor: '#f8fafc' }}>
+                      <Typography variant="body1" sx={{ fontWeight: 700 }}>{selectedOrder.user?.firstName} {selectedOrder.user?.lastName}</Typography>
+                      <Typography variant="body2" color="textSecondary">{selectedOrder.user?.email}</Typography>
+                      <Typography variant="body2" color="textSecondary">{selectedOrder.user?.mobile}</Typography>
+                    </Paper>
+                  </Box>
+
+                  <Box>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                      <MapPin size={18} /> Shipping Address
+                    </Typography>
+                    <Paper variant="outlined" sx={{ p: 2, borderRadius: '16px', bgcolor: '#f0f9ff' }}>
+                      {selectedOrder.shippingAddress ? (
+                        <>
+                          <Typography variant="body2" sx={{ fontWeight: 600 }}>{(selectedOrder.shippingAddress.firstName || 'N/A')} {(selectedOrder.shippingAddress.lastName || '')}</Typography>
+                          <Typography variant="body2">{selectedOrder.shippingAddress.streetAddress || 'N/A'}</Typography>
+                          <Typography variant="body2">{(selectedOrder.shippingAddress.city || 'N/A')}, {(selectedOrder.shippingAddress.state || 'N/A')} - {(selectedOrder.shippingAddress.zipCode || 'N/A')}</Typography>
+                          <Typography variant="body2" sx={{ mt: 1, fontWeight: 700, color: '#755970' }}>Mobile: {selectedOrder.shippingAddress.mobile || 'N/A'}</Typography>
+                        </>
+                      ) : (
+                        <Typography color="error">Address not provided</Typography>
+                      )}
+                    </Paper>
+                  </Box>
+                </Grid>
+
+                {/* Products Section */}
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                    <Package size={18} /> Order Items
+                  </Typography>
+                  <Box sx={{ maxHeight: 300, overflowY: 'auto', pr: 1 }}>
+                    {selectedOrder.orderItems?.map((item, index) => (
+                      <Paper key={index} variant="outlined" sx={{ p: 1.5, mb: 1.5, borderRadius: '12px', display: 'flex', gap: 2, alignItems: 'center' }}>
+                        <Avatar
+                          variant="rounded"
+                          src={item.product?.imageUrls?.[0]?.imageUrl}
+                          sx={{ width: 60, height: 60, borderRadius: '8px' }}
+                        />
+                        <Box sx={{ flex: 1 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 700, color: '#1e293b' }}>{item.product?.title}</Typography>
+                          <Typography variant="caption" color="textSecondary" display="block">
+                            Qty: {item.quantity} | Size: {item.size ? `${item.size} MM` : 'N/A'} | Weight: {item.weight ? `${item.weight}g` : 'N/A'}
+                          </Typography>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#755970' }}>₹{item.price}</Typography>
+                        </Box>
+                      </Paper>
+                    ))}
+                  </Box>
+
+                  <Box sx={{ mt: 3, p: 2, bgcolor: '#402d43', borderRadius: '16px', color: '#fff' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">Total Price</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 700 }}>₹{selectedOrder.totalPrice}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">Discount</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 700, color: '#10b981' }}>-{selectedOrder.discount}%</Typography>
+                    </Box>
+                    <Divider sx={{ my: 1, bgcolor: 'rgba(255,255,255,0.1)' }} />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>Net Amount</Typography>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 900 }}>₹{selectedOrder.totalDiscountedPrice}</Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
+            </DialogContent>
+            <DialogActions sx={{ p: 3 }}>
+              <Button
+                onClick={() => setSelectedOrder(null)}
+                variant="outlined"
+                sx={{ borderRadius: '10px', fontWeight: 700, textTransform: 'none', px: 4 }}
+              >
+                Close
+              </Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
+
     </motion.div>
   );
 };

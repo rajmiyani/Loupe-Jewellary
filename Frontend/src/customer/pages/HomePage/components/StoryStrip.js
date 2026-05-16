@@ -1,9 +1,9 @@
-﻿import React from 'react';
+import React from 'react';
 
 const stories = [
   {
     title: 'Ethical Sourcing',
-    desc: 'Every stone is conflictâ€‘free and carefully selected.',
+    desc: 'Every stone is conflict-free and carefully selected.',
     icon: 'ðŸ’Ž',
   },
   {
@@ -57,10 +57,6 @@ const StoryStrip = () => {
     </section>
   );
 };
-
-export default StoryStrip;
-
-
 
 
 

@@ -1,10 +1,10 @@
-﻿import { Box, Typography, Paper, Grid, Badge } from "@mui/material";
+import { Box, Typography, Paper, Grid, Badge } from "@mui/material";
 import React from "react";
 import { ChevronRight, Package, Truck, CheckCircle2, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatPriceINR } from "../../../utils/price";
 
-const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
+const OrderCard = ({ item, orderId, index, orderDate, orderStatus, adminMessage }) => {
     const navigate = useNavigate();
 
     const getStatusConfig = (status) => {
@@ -83,7 +83,7 @@ const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
                             {item.product?.title}
                         </Typography>
                         <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic', mb: 1.5 }}>
-                            Boutique Selection â€¢ {item.product?.brand || "Loupe Jeweller"}
+                            Boutique Selection - {item.product?.brand || "Loupe Jeweller"}
                         </Typography>
 
                         <div className="flex flex-wrap gap-4 items-center">
@@ -93,10 +93,17 @@ const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
                             </div>
                             <div className="w-[1px] h-6 bg-gray-100 hidden sm:block" />
                             <div className="flex flex-col">
-                                <span className="text-[0.6rem] font-black uppercase tracking-wider text-gray-400">Quantity</span>
-                                <span className="text-[0.85rem] font-bold text-[#64748b]">{item.quantity || 1} Piece</span>
+                                <span className="text-[0.6rem] font-black uppercase tracking-wider text-gray-400">Specs</span>
+                                <span className="text-[0.85rem] font-bold text-[#64748b]">
+                                    {item.size ? `${item.size} MM` : 'N/A'} | {item.weight ? `${item.weight}g` : 'N/A'}
+                                </span>
                             </div>
                         </div>
+                        {adminMessage && (
+                            <Typography sx={{ fontSize: '0.75rem', color: '#ef4444', fontWeight: 600, mt: 1.5, bgcolor: '#fef2f2', p: 1, borderRadius: '8px', border: '1px solid #fee2e2' }}>
+                                Reason: {adminMessage}
+                            </Typography>
+                        )}
                     </Box>
                 </Grid>
 
@@ -113,6 +120,26 @@ const OrderCard = ({ item, orderId, index, orderDate, orderStatus }) => {
                         <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic', display: 'flex', alignItems: 'center', justifyContent: { xs: 'flex-start', sm: 'flex-end' }, gap: 0.5 }}>
                             Ordered {orderDate} <ChevronRight size={14} />
                         </Typography>
+                        {(orderStatus === "PLACED" || orderStatus === "CONFIRMED") && (
+                            <Typography 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    // We don't have dispatch here, need to pass it or use a link
+                                    navigate(`/account/orders/${orderId}/${index}`);
+                                }}
+                                sx={{ 
+                                    fontSize: '0.65rem', 
+                                    color: '#ef4444', 
+                                    fontWeight: 800, 
+                                    mt: 2, 
+                                    cursor: 'pointer',
+                                    textTransform: 'uppercase',
+                                    '&:hover': { textDecoration: 'underline' }
+                                }}
+                            >
+                                Cancel Treasure
+                            </Typography>
+                        )}
                     </Box>
                 </Grid>
             </Grid>

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import { Play, ChevronLeft, ChevronRight, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -36,7 +36,7 @@ const MotionReels = () => {
                         variant="overline"
                         sx={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: 3, color: '#755970', display: 'flex', alignItems: 'center', gap: 1 }}
                     >
-                        STYLED IN MOTION <span className="text-sm">Ã¢Å“Â¨</span>
+                        STYLED IN MOTION <span className="text-sm">✨</span>
                     </Typography>
                     <Typography
                         variant="h4"

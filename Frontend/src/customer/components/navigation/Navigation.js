@@ -460,7 +460,7 @@ export default function Navigation() {
                     )}
                   </Box>
                   <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: '0.6rem', letterSpacing: 1 }}>
-                    © 2024 LOUPE JEWELER • FLAGSHIP STORE
+                    © 2024 LOUPE JEWELER - FLAGSHIP STORE
                   </Typography>
                 </Box>
               </Dialog.Panel>
@@ -866,8 +866,8 @@ export default function Navigation() {
                     <Typography sx={{ fontSize: '0.95rem', fontWeight: 600, color: '#755970', mb: 0.5, lineHeight: 1.4, fontFamily: "'Playfair Display', serif" }}>
                       {item.product?.title}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: '#94a3b8', mb: 2, letterSpacing: 0.5 }}>
-                      QUANTITY: {item.quantity} {item.weight ? `| ${item.weight}` : ''}
+                    <Typography variant="caption" sx={{ color: '#94a3b8', mb: 2, letterSpacing: 0.5, textTransform: 'uppercase' }}>
+                      QUANTITY: {item.quantity} {item.weight ? `| ${item.weight} G` : ''} {item.size ? `| ${item.size} MM` : ''}
                     </Typography>
                     <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                       <Typography sx={{ fontWeight: 900, color: '#755970', fontSize: '1.1rem', fontFamily: "'Outfit', sans-serif" }}>

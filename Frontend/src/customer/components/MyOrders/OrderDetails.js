@@ -1,4 +1,4 @@
-﻿import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import OrderTracker from './OrderTracker';
 import { Box, Typography, Paper, Grid, IconButton, Button, Divider } from "@mui/material";
 import {
@@ -12,7 +12,7 @@ import {
     ShieldCheck
 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderById } from '../../../state/order/Action';
+import { getOrderById, cancelOrder } from '../../../state/order/Action';
 import { useNavigate, useParams } from 'react-router-dom';
 import RatingReviewForm from './RatingReviewForm';
 import { RRContext } from '../../../context/rrBox/rrContext';
@@ -56,8 +56,10 @@ const OrderDetails = () => {
     }, [order?.order?.orderStatus]);
 
     const handleOpen = () => {
-        navigate(`/product/${order.order?.orderItems[index]?.product._id}/ratrev`)
-        modal.openModal();
+        if (orderItem?.product?._id) {
+            navigate(`/product/${orderItem.product._id}/ratrev`)
+            modal.openModal();
+        }
     };
 
     const handleClose = () => {
@@ -65,6 +67,16 @@ const OrderDetails = () => {
     };
 
     const { firstName, lastName, streetAddress, city, zipCode, mobile, state } = order.order?.shippingAddress || {};
+    
+    if (order.loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                <Typography sx={{ fontSize: '1.5rem', fontWeight: 300, color: '#755970' }}>Loading your Treasures...</Typography>
+            </Box>
+        );
+    }
+
+    const orderItem = order.order?.orderItems?.[index];
 
     return (
         <Box sx={{ p: { xs: 2, md: 4, lg: 6 }, bgcolor: '#f1f5f9', minHeight: '100vh' }}>
@@ -79,11 +91,53 @@ const OrderDetails = () => {
                     >
                         Back to Registry
                     </Button>
-                    <Box className="flex items-center gap-2">
-                        <Info size={14} className="text-[#755970]" />
-                        <Typography sx={{ fontSize: '0.65rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>
-                            Order ID: {params.orderId?.slice(-8).toUpperCase()}
-                        </Typography>
+                    <Box className="flex items-center gap-4">
+                        {(order.order?.orderStatus === "PLACED" || order.order?.orderStatus === "CONFIRMED") && (
+                            <Button
+                                variant="outlined"
+                                onClick={() => {
+                                    if (window.confirm("Are you sure you want to cancel this treasure's journey?")) {
+                                        dispatch(cancelOrder(params.orderId));
+                                    }
+                                }}
+                                sx={{
+                                    borderRadius: '12px',
+                                    borderColor: '#ef4444',
+                                    color: '#ef4444',
+                                    fontSize: '0.65rem',
+                                    fontWeight: 800,
+                                    px: 2,
+                                    '&:hover': { bgcolor: '#ef4444', color: 'white', borderColor: '#ef4444' }
+                                }}
+                            >
+                                Cancel Order
+                            </Button>
+                        )}
+                        <Button
+                            variant="outlined"
+                            startIcon={<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA" width="16" />}
+                            onClick={() => {
+                                const message = `Hello Loupe Jeweller, I'd like to get the invoice for my order ${params.orderId?.toUpperCase()}.\n\nCustomer: ${firstName} ${lastName}\nProduct: ${orderItem?.product?.title}\nPrice: ₹${formatPriceINR(orderItem?.product?.discountedPrice)}\nMobile: ${mobile}`;
+                                window.open(`https://wa.me/919909109074?text=${encodeURIComponent(message)}`, '_blank');
+                            }}
+                            sx={{
+                                borderRadius: '12px',
+                                borderColor: '#25D366',
+                                color: '#25D366',
+                                fontSize: '0.65rem',
+                                fontWeight: 800,
+                                px: 2,
+                                '&:hover': { bgcolor: '#25D366', color: 'white', borderColor: '#25D366' }
+                            }}
+                        >
+                            WhatsApp Invoice
+                        </Button>
+                        <Box className="flex items-center gap-2">
+                            <Info size={14} className="text-[#755970]" />
+                            <Typography sx={{ fontSize: '0.65rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>
+                                Order ID: {params.orderId?.slice(-8).toUpperCase()}
+                            </Typography>
+                        </Box>
                     </Box>
                 </Box>
 
@@ -92,6 +146,23 @@ const OrderDetails = () => {
                     <Typography sx={{ fontSize: '2.5rem', fontFamily: "'Playfair Display', serif", color: '#755970', mb: 4, fontWeight: 300 }}>
                         Journey of your <span className="italic">Treasures</span>
                     </Typography>
+
+                    {order.order?.adminMessage && (
+                        <Box sx={{ mb: 4, p: 3, borderRadius: '24px', bgcolor: '#fef2f2', border: '1px solid #fee2e2', display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Box sx={{ p: 1.5, borderRadius: '12px', bgcolor: '#ef4444', color: 'white' }}>
+                                <Info size={24} />
+                            </Box>
+                            <Box>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#ef4444', textTransform: 'uppercase', letterSpacing: 1 }}>
+                                    Message from Boutique Manager
+                                </Typography>
+                                <Typography variant="body1" sx={{ color: '#b91c1c', fontWeight: 500 }}>
+                                    {order.order?.adminMessage}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    )}
+
                     <OrderTracker activeStep={activeStep} />
                 </Box>
 
@@ -122,8 +193,8 @@ const OrderDetails = () => {
                                         <img
                                             className="w-full h-full object-cover"
                                             src={
-                                                Array.isArray(order.order?.orderItems[index]?.product?.imageUrls) && order.order?.orderItems[index]?.product?.imageUrls.length > 0
-                                                    ? (order.order?.orderItems[index]?.product?.imageUrls[0]?.imageUrl || order.order?.orderItems[index]?.product?.imageUrls[0])
+                                                Array.isArray(orderItem?.product?.imageUrls) && orderItem?.product?.imageUrls.length > 0
+                                                    ? (orderItem?.product?.imageUrls[0]?.imageUrl || orderItem?.product?.imageUrls[0])
                                                     : "https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg"
                                             }
                                             alt="product"
@@ -134,7 +205,7 @@ const OrderDetails = () => {
                                     <Box sx={{ flexGrow: 1, py: 1 }}>
                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                                             <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#755970' }}>
-                                                {order.order?.orderItems[index]?.product.title}
+                                                {orderItem?.product?.title}
                                             </Typography>
                                             <div className="px-3 py-1 bg-[#755970]/10 rounded-full">
                                                 <Typography sx={{ fontSize: '0.6rem', color: '#755970', fontWeight: 900, letterSpacing: 1.5 }}>
@@ -142,11 +213,11 @@ const OrderDetails = () => {
                                                 </Typography>
                                             </div>
                                         </Box>
-
+ 
                                         <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', mb: 4, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
-                                            <span className="font-bold text-[#755970]">Weight:</span> {order.order?.orderItems[index]?.weight} G |
-                                            <span className="font-bold text-[#755970]">Size:</span> {order.order?.orderItems[index]?.size} MM |
-                                            <span className="font-bold text-[#755970]">Boutique:</span> {order.order?.orderItems[index]?.product.brand}
+                                            <span className="font-bold text-[#755970]">Weight:</span> {orderItem?.weight ? `${orderItem.weight} G` : 'N/A'} |
+                                            <span className="font-bold text-[#755970]">Size:</span> {orderItem?.size ? `${orderItem.size} MM` : 'N/A'} |
+                                            <span className="font-bold text-[#755970]">Boutique:</span> {orderItem?.product?.brand}
                                         </Typography>
 
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -155,7 +226,7 @@ const OrderDetails = () => {
                                                     Investment
                                                 </Typography>
                                                 <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#755970', fontFamily: "'Outfit', sans-serif" }}>
-                                                    ₹{formatPriceINR(order.order?.orderItems[index]?.product.discountedPrice)}
+                                                    ₹{formatPriceINR(orderItem?.product?.discountedPrice)}
                                                 </Typography>
                                             </Box>
                                             <Box sx={{ h: 30, w: '1px', bgcolor: '#f1f5f9' }} />
@@ -164,7 +235,7 @@ const OrderDetails = () => {
                                                     Member Benefit
                                                 </Typography>
                                                 <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#755970' }}>
-                                                    Saved ₹{formatPriceINR(order.order?.orderItems[index]?.product.price - order.order?.orderItems[index]?.product.discountedPrice)}
+                                                    Saved ₹{formatPriceINR((orderItem?.product?.price || 0) - (orderItem?.product?.discountedPrice || 0))}
                                                 </Typography>
                                             </Box>
                                         </Box>

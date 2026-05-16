@@ -7,45 +7,55 @@ const cartService = require('../services/cart.service.js');
 async function createOrder(user, shippAddress) {
     let address;
 
-    if (shippAddress._id) {
-        let existAddress = await Address.findById(shippAddress._id);
-        address = existAddress;
-    }
-    else {
-        // Deduplication logic: Check if an identical address already exists for this user in memory
-        console.log("Checking for existing address among user's saved addresses. Count:", user.address?.length);
-
-        const shippAddr = {
-            firstName: shippAddress.firstName?.trim(),
-            lastName: shippAddress.lastName?.trim(),
-            streetAddress: shippAddress.streetAddress?.trim(),
-            city: shippAddress.city?.trim(),
-            state: shippAddress.state?.trim(),
-            zipCode: String(shippAddress.zipCode || '').trim(),
-            mobile: String(shippAddress.mobile || '').trim()
+    if (shippAddress) {
+        // Handle both nested and flat address objects
+        const addressData = shippAddress.address || shippAddress;
+        
+        // Map fields explicitly to handle potential naming variations
+        const mappedAddress = {
+            firstName: addressData.firstName?.trim() || '',
+            lastName: addressData.lastName?.trim() || '',
+            streetAddress: addressData.streetAddress?.trim() || '',
+            city: addressData.city?.trim() || '',
+            state: addressData.state?.trim() || '',
+            zipCode: (addressData.zipCode || addressData.zip || '').toString().trim(),
+            mobile: (addressData.mobile || addressData.phoneNumber || '').toString().trim()
         };
 
-        let existingAddress = user.address.find(addr =>
-            addr.firstName?.trim() === shippAddr.firstName &&
-            addr.lastName?.trim() === shippAddr.lastName &&
-            addr.streetAddress?.trim() === shippAddr.streetAddress &&
-            addr.city?.trim() === shippAddr.city &&
-            addr.state?.trim() === shippAddr.state &&
-            String(addr.zipCode || '').trim() === shippAddr.zipCode &&
-            String(addr.mobile || '').trim() === shippAddr.mobile
-        );
+        // Basic validation to prevent saving completely empty address documents
+        const isAddressValid = mappedAddress.firstName && mappedAddress.streetAddress && mappedAddress.mobile;
 
-        if (existingAddress) {
-            console.log("Found existing address in memory:", existingAddress._id);
-            address = existingAddress;
-        } else {
-            console.log("No existing address found in memory. Creating new one.");
-            address = new Address(shippAddress);
-            address.user = user;
-            await address.save();
+        if (addressData._id) {
+            let existAddress = await Address.findById(addressData._id);
+            address = existAddress;
+        } else if (isAddressValid) {
+            // Deduplication logic: Check if an identical address already exists for this user in memory
+            // ONLY reuse if the fields are actually present
+            let existingAddress = user.address?.find(addr =>
+                addr.firstName?.trim() === mappedAddress.firstName &&
+                addr.lastName?.trim() === mappedAddress.lastName &&
+                addr.streetAddress?.trim() === mappedAddress.streetAddress &&
+                addr.city?.trim() === mappedAddress.city &&
+                addr.state?.trim() === mappedAddress.state &&
+                String(addr.zipCode || '').trim() === mappedAddress.zipCode &&
+                String(addr.mobile || '').trim() === mappedAddress.mobile &&
+                addr.firstName // Ensure the existing one isn't blank either
+            );
 
-            user.address.push(address);
-            await user.save();
+            if (existingAddress) {
+                console.log("Found existing address in memory:", existingAddress._id);
+                address = existingAddress;
+            } else {
+                console.log("No existing address found in memory. Creating new one.");
+                address = new Address({
+                    ...mappedAddress,
+                    user: user._id
+                });
+                await address.save();
+
+                user.address.push(address);
+                await user.save();
+            }
         }
     }
 
@@ -78,8 +88,9 @@ async function createOrder(user, shippAddress) {
     })
 
     const savedOrder = await createdOrder.save();
-
-    return savedOrder;
+    
+    // Return the populated order to ensure frontend has all data (like address fields) immediately
+    return await findOrderById(savedOrder._id);
 }
 
 
@@ -137,7 +148,10 @@ async function findOrderById(orderId) {
 async function usersOrderHistory(userId) {
     try {
         const orders = await Order.find({ user: new mongoose.Types.ObjectId(userId) })
-            .populate({ path: "orderItems", populate: { path: "product" } }).sort({ createdAt: -1 }).lean();
+            .populate({ path: "orderItems", populate: { path: "product" } })
+            .populate("shippingAddress")
+            .sort({ createdAt: -1 })
+            .lean();
 
         return orders;
     } catch (error) {
@@ -147,9 +161,10 @@ async function usersOrderHistory(userId) {
 
 async function getAllOrders() {
     try {
-        return await Order.find()
+        return await Order.find({ orderStatus: { $ne: "DELETED" } })
             .populate({ path: "orderItems", populate: { path: "product" } })
             .populate('user')
+            .populate("shippingAddress")
             .sort({ createdAt: -1 })
             .lean();
     } catch (error) {
@@ -157,9 +172,21 @@ async function getAllOrders() {
     }
 }
 
-async function deleteOrder(orderId) {
+async function deleteOrder(orderId, reason) {
     const order = await findOrderById(orderId);
-    await Order.findByIdAndDelete(order._id);
+    order.orderStatus = "DELETED";
+    order.adminMessage = reason;
+    return await order.save();
+}
+
+async function cancelOrderByUser(orderId) {
+    const order = await findOrderById(orderId);
+    if (!order) throw new Error("Order not found");
+    
+    // To "remove" from admin side as requested, we set status to DELETED
+    order.orderStatus = "DELETED";
+    order.adminMessage = "Order cancelled by customer";
+    return await order.save();
 }
 
 module.exports = {
@@ -172,5 +199,6 @@ module.exports = {
     findOrderById,
     usersOrderHistory,
     getAllOrders,
-    deleteOrder
+    deleteOrder,
+    cancelOrderByUser
 }

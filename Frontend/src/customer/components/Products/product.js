@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
@@ -26,7 +26,8 @@ import {
   Box,
   Divider,
   IconButton,
-  Button
+  Button,
+  Chip
 } from '@mui/material';
 import Loading from '../../../Loading';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -45,35 +46,16 @@ const rangeFilters = [
     id: "price",
     name: "Price",
   },
-  {
-    id: "discount",
-    name: "Discount",
-  },
 ];
 
 const filters = [
   {
-    id: "type",
-    name: "Jewellery Type",
-    options: [
-      { value: "diamond", label: "Diamond Jewellery", checked: false },
-      { value: "gold", label: "Gold Jewellery", checked: false },
-      { value: "silver", label: "Silver Jewellery", checked: false },
-      { value: "gemstones", label: "Jewellery with Gemstones", checked: false },
-      { value: "platinum", label: "Platinum Jewellery", checked: false },
-    ],
-  },
-  {
     id: "color",
     name: "Color",
     options: [
-      { value: "rose", label: "Rose", checked: false, hex: "#E0BFB8" },
-      { value: "rose-white", label: "Rose & White", checked: false, hex: "linear-gradient(45deg, #E0BFB8 50%, #FFFFFF 50%)" },
-      { value: "white", label: "White", checked: false, hex: "#FFFFFF" },
-      { value: "yellow", label: "Yellow", checked: false, hex: "#F3DC74" },
-      { value: "yellow-white", label: "Yellow & White", checked: false, hex: "linear-gradient(45deg, #F3DC74 50%, #FFFFFF 50%)" },
-      { value: "yellow-rose", label: "Yellow & Rose", checked: false, hex: "linear-gradient(45deg, #F3DC74 50%, #E0BFB8 50%)" },
-      { value: "yellow-white-rose", label: "Tri-Color", checked: false, hex: "conic-gradient(#F3DC74 120deg, #FFFFFF 120deg 240deg, #E0BFB8 240deg)" },
+      { value: "yellow", label: "Gold", checked: false, hex: "#F3DC74" },
+      { value: "white", label: "Silver", checked: false, hex: "#E5E7EB" },
+      { value: "rose", label: "Rose Gold", checked: false, hex: "#E0BFB8" },
     ],
   },
   {
@@ -448,7 +430,31 @@ export default function Product() {
                 <Box sx={{ overflowY: 'auto', flexGrow: 1 }}>
                   {/* Reuse Accordion components here if space permits, or simpler list */}
                   <Typography sx={{ fontSize: '0.8rem', fontWeight: 900, mb: 2 }}>Tap options to apply</Typography>
-                  {/* ... same filter logic ... */}
+                  <Box sx={{ py: 2 }}>
+                    {filters.map((section) => (
+                      <Box key={section.id} sx={{ mb: 4 }}>
+                        <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#755970', mb: 2 }}>
+                          {section.name}
+                        </Typography>
+                        <div className="flex flex-wrap gap-2">
+                          {section.options.map((option) => (
+                            <Chip
+                              key={option.value}
+                              label={option.label}
+                              onClick={() => handleFilters(option.value, section.id)}
+                              variant={searchParams.get(section.id)?.split(',').includes(option.value) ? "filled" : "outlined"}
+                              sx={{
+                                borderRadius: '8px',
+                                bgcolor: searchParams.get(section.id)?.split(',').includes(option.value) ? '#755970' : 'transparent',
+                                color: searchParams.get(section.id)?.split(',').includes(option.value) ? 'white' : '#64748b',
+                                '&:hover': { bgcolor: searchParams.get(section.id)?.split(',').includes(option.value) ? '#5a4255' : '#f1f5f9' }
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
                 <Button fullWidth variant="contained" onClick={() => setMobileFiltersOpen(false)} sx={{ bgcolor: '#755970', mt: 4, py: 1.5 }}>Apply Filters</Button>
               </Dialog.Panel>

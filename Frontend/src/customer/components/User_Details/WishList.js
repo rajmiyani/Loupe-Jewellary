@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { getWish, addWishItem, removeWishItem } from '../../../state/wishlist/Action';
 import { useNavigate } from 'react-router-dom';
@@ -143,10 +143,10 @@ const WishList = () => {
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                           <Box className="flex items-baseline gap-2">
                             <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#755970', fontFamily: "'Outfit', sans-serif" }}>
-                              â‚¹{formatPriceINR(product?.discountedPrice)}
+                              ₹{formatPriceINR(product?.discountedPrice)}
                             </Typography>
                             <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', textDecoration: 'line-through' }}>
-                              â‚¹{formatPriceINR(product?.price)}
+                              ₹{formatPriceINR(product?.price)}
                             </Typography>
                           </Box>
                           <div className="px-3 py-1 bg-[#755970]/10 rounded-full">
