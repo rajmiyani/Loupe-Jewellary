@@ -9,7 +9,9 @@ import {
     ChevronLeft,
     Info,
     ShoppingBag,
-    ShieldCheck
+    ShieldCheck,
+    AlertCircle,
+    Clock
 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderById, cancelOrder } from '../../../state/order/Action';
@@ -27,6 +29,17 @@ const OrderDetails = () => {
     const navigate = useNavigate();
     const modal = useContext(RRContext);
     const [activeStep, setActiveStep] = useState(1);
+    const [cancelError, setCancelError] = useState('');
+    const [cancelSuccess, setCancelSuccess] = useState(false);
+
+    // ─── Cancellation window logic ───────────────────────────────────────────
+    const ORDER_CANCEL_DAYS = 3;
+    const orderCreatedAt = order.order?.createdAt ? new Date(order.order.createdAt) : null;
+    const now = new Date();
+    const diffDays = orderCreatedAt ? (now - orderCreatedAt) / (1000 * 60 * 60 * 24) : Infinity;
+    const canCancel = diffDays <= ORDER_CANCEL_DAYS;
+    const daysRemaining = orderCreatedAt ? Math.max(0, Math.ceil(ORDER_CANCEL_DAYS - diffDays)) : 0;
+    // ─────────────────────────────────────────────────────────────────────────
 
     useEffect(() => {
         dispatch(getOrderById(params.orderId));
@@ -67,7 +80,7 @@ const OrderDetails = () => {
     };
 
     const { firstName, lastName, streetAddress, city, zipCode, mobile, state } = order.order?.shippingAddress || {};
-    
+
     if (order.loading) {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
@@ -92,27 +105,6 @@ const OrderDetails = () => {
                         Back to Registry
                     </Button>
                     <Box className="flex items-center gap-4">
-                        {(order.order?.orderStatus === "PLACED" || order.order?.orderStatus === "CONFIRMED") && (
-                            <Button
-                                variant="outlined"
-                                onClick={() => {
-                                    if (window.confirm("Are you sure you want to cancel this treasure's journey?")) {
-                                        dispatch(cancelOrder(params.orderId));
-                                    }
-                                }}
-                                sx={{
-                                    borderRadius: '12px',
-                                    borderColor: '#ef4444',
-                                    color: '#ef4444',
-                                    fontSize: '0.65rem',
-                                    fontWeight: 800,
-                                    px: 2,
-                                    '&:hover': { bgcolor: '#ef4444', color: 'white', borderColor: '#ef4444' }
-                                }}
-                            >
-                                Cancel Order
-                            </Button>
-                        )}
                         <Button
                             variant="outlined"
                             startIcon={<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA" width="16" />}
@@ -213,7 +205,7 @@ const OrderDetails = () => {
                                                 </Typography>
                                             </div>
                                         </Box>
- 
+
                                         <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', mb: 4, display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                                             <span className="font-bold text-[#755970]">Weight:</span> {orderItem?.weight ? `${orderItem.weight} G` : 'N/A'} |
                                             <span className="font-bold text-[#755970]">Size:</span> {orderItem?.size ? `${orderItem.size} MM` : 'N/A'} |
@@ -241,6 +233,78 @@ const OrderDetails = () => {
                                         </Box>
                                     </Box>
                                 </div>
+
+                                {/* Cancel Order Section */}
+                                {(order.order?.orderStatus === "PENDING" || order.order?.orderStatus === "PLACED" || order.order?.orderStatus === "CONFIRMED") && (
+                                    <Box sx={{ mt: 4 }}>
+                                        {/* Policy Note */}
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'flex-start',
+                                                gap: 1.5,
+                                                p: 2,
+                                                borderRadius: '12px',
+                                                bgcolor: canCancel ? '#f0fdf4' : '#fef2f2',
+                                                border: `1px solid ${canCancel ? '#bbf7d0' : '#fecaca'}`,
+                                                mb: 2
+                                            }}
+                                        >
+                                            <Clock size={14} color={canCancel ? '#16a34a' : '#ef4444'} style={{ marginTop: 2, flexShrink: 0 }} />
+                                            <Typography sx={{ fontSize: '0.75rem', color: canCancel ? '#15803d' : '#b91c1c', lineHeight: 1.6 }}>
+                                                <strong>📌 Note – Cancellation Policy:</strong> Orders can be cancelled within{' '}
+                                                <strong>{ORDER_CANCEL_DAYS} days</strong> of placement.{' '}
+                                                {canCancel
+                                                    ? <>You have <strong>{daysRemaining} day{daysRemaining !== 1 ? 's' : ''}</strong> remaining to cancel this order.</>  
+                                                    : <>The cancellation window for this order has <strong>expired</strong>. For assistance, please contact our <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => navigate('/user-details/?layout=3')}>Concierge team</span>.</>
+                                                }
+                                            </Typography>
+                                        </Box>
+
+                                        {/* Cancel Button */}
+                                        {canCancel && (
+                                            <Button
+                                                variant="contained"
+                                                fullWidth
+                                                onClick={() => {
+                                                    if (window.confirm("Are you sure you want to cancel this order?")) {
+                                                        setCancelError('');
+                                                        dispatch(cancelOrder(params.orderId))
+                                                            .then(() => setCancelSuccess(true))
+                                                            .catch(err => setCancelError(err?.message || 'Cancellation failed.'));
+                                                    }
+                                                }}
+                                                sx={{
+                                                    borderRadius: '14px',
+                                                    bgcolor: '#fef2f2',
+                                                    color: '#ef4444',
+                                                    border: '1px solid #fecaca',
+                                                    fontSize: '0.8rem',
+                                                    fontWeight: 800,
+                                                    py: 1.5,
+                                                    boxShadow: 'none',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: 1.5,
+                                                    '&:hover': {
+                                                        bgcolor: '#ef4444',
+                                                        color: 'white',
+                                                        borderColor: '#ef4444',
+                                                        boxShadow: '0 8px 24px rgba(239,68,68,0.25)'
+                                                    }
+                                                }}
+                                            >
+                                                Cancel Order
+                                            </Button>
+                                        )}
+
+                                        {/* Error feedback */}
+                                        {cancelError && (
+                                            <Typography sx={{ mt: 1, fontSize: '0.7rem', color: '#ef4444', textAlign: 'center' }}>
+                                                {cancelError}
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                )}
 
                                 <Divider sx={{ my: 4, opacity: 0.5 }} />
 

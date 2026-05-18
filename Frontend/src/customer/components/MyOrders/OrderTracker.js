@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
@@ -18,7 +18,7 @@ import { motion } from 'framer-motion';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
-        top: 22,
+        top: 25,
     },
     [`&.${stepConnectorClasses.active}`]: {
         [`& .${stepConnectorClasses.line}`]: {
@@ -41,28 +41,28 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#f1f5f9',
     zIndex: 1,
-    color: '#94a3b8',
+    color: '#64748b',
     width: 50,
     height: 50,
     display: 'flex',
     borderRadius: '16px',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '1px solid #f1f5f9',
+    border: '2px solid #e2e8f0',
     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
     ...(ownerState.active && {
         background: '#755970',
-        color: '#755970',
-        boxShadow: '0 10px 25px rgba(30, 41, 59, 0.15)',
+        color: '#ffffff',
+        boxShadow: '0 10px 25px rgba(117, 89, 112, 0.35)',
         borderColor: '#755970',
         transform: 'scale(1.1)',
     }),
     ...(ownerState.completed && {
-        background: '#f1f5f9',
+        background: '#f5f0f4',
         color: '#755970',
-        borderColor: '#e2e8f0',
+        borderColor: '#d4b8cf',
     }),
 }));
 

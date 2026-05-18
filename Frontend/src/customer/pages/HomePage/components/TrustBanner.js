@@ -1,6 +1,6 @@
-﻿import React from 'react';
+import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { RefreshCcw, Shield, Gem, Truck } from 'lucide-react';
+import { RefreshCcw, Gem, Truck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const features = [
@@ -8,11 +8,6 @@ const features = [
         icon: <RefreshCcw size={28} strokeWidth={1.5} />,
         title: 'Buyback & Exchange',
         desc: 'Exchange old designs, upgrade anytime'
-    },
-    {
-        icon: <Shield size={28} strokeWidth={1.5} />,
-        title: 'BIS Hallmark',
-        desc: '916 Hallmarked Pure Gold'
     },
     {
         icon: <Gem size={28} strokeWidth={1.5} />,
@@ -61,9 +56,9 @@ const TrustBanner = () => {
             <Box
                 sx={{
                     display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: '1fr 1fr 1fr 1fr' },
+                    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: '1fr 1fr 1fr' },
                     gap: 3,
-                    maxWidth: 1500,
+                    maxWidth: 1200,
                     mx: 'auto'
                 }}
             >

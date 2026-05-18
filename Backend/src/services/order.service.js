@@ -182,7 +182,18 @@ async function deleteOrder(orderId, reason) {
 async function cancelOrderByUser(orderId) {
     const order = await findOrderById(orderId);
     if (!order) throw new Error("Order not found");
-    
+
+    // Enforce 3-day cancellation window
+    const ORDER_CANCEL_DAYS = 3;
+    const orderDate = new Date(order.createdAt);
+    const now = new Date();
+    const diffInMs = now - orderDate;
+    const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+    if (diffInDays > ORDER_CANCEL_DAYS) {
+        throw new Error(`Cancellation window has expired. Orders can only be cancelled within ${ORDER_CANCEL_DAYS} days of placement.`);
+    }
+
     // To "remove" from admin side as requested, we set status to DELETED
     order.orderStatus = "DELETED";
     order.adminMessage = "Order cancelled by customer";
