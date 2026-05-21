@@ -1,4 +1,4 @@
-﻿import axios from 'axios';
+import axios from 'axios';
 import { API_BASE_URL, api } from '../../config/apiConfig';
 import { toastNotify } from '../shared/toast';
 import { DELETE_USER_FAILURE, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_ALL_USERS_FAILURE, GET_ALL_USERS_REQUEST, GET_ALL_USERS_SUCCESS, GET_USER_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGESTER_FAILURE, REGESTER_REQUEST, REGESTER_SUCCESS, UPDATE_USER_FAILURE, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS } from './ActionType';
@@ -55,7 +55,8 @@ export const login = (userData) => async (dispatch) => {
     } catch (error) {
         const message = error?.response?.data?.error || error?.response?.data?.message || error.message;
         dispatch(loginFailure(message));
-        throw new Error(message);
+        // Rethrow the original Axios error so callers can inspect .response.status / .response.data
+        throw error;
     }
 };
 
