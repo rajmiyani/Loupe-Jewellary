@@ -6,6 +6,46 @@ const wishService = require('../services/wishlist.service.js');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+// ─── In-Memory Rate Limiter ───────────────────────────────────────────────────
+// Tracks failed login attempts per IP address.
+// Format: { ip: { count: number, lockedUntil: Date | null } }
+const loginAttempts = {};
+const MAX_ATTEMPTS = 4;          // max failed attempts before lockout
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
+
+const getClientIp = (req) =>
+    (req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+
+const isRateLimited = (ip) => {
+    const record = loginAttempts[ip];
+    if (!record) return false;
+    if (record.lockedUntil && Date.now() < record.lockedUntil) return true;
+    // Lockout expired — reset
+    if (record.lockedUntil && Date.now() >= record.lockedUntil) {
+        delete loginAttempts[ip];
+    }
+    return false;
+};
+
+const recordFailedAttempt = (ip) => {
+    if (!loginAttempts[ip]) loginAttempts[ip] = { count: 0, lockedUntil: null };
+    loginAttempts[ip].count += 1;
+    if (loginAttempts[ip].count >= MAX_ATTEMPTS) {
+        loginAttempts[ip].lockedUntil = Date.now() + LOCKOUT_DURATION_MS;
+    }
+};
+
+const resetAttempts = (ip) => {
+    delete loginAttempts[ip];
+};
+
+const getRemainingLockoutSeconds = (ip) => {
+    const record = loginAttempts[ip];
+    if (!record || !record.lockedUntil) return 0;
+    return Math.ceil((record.lockedUntil - Date.now()) / 1000);
+};
+// ────────────────────────────────────────────────────────────────────────────
+
 const register = async (req, res) => {
     try {
         const user = await userService.createUser(req.body);
@@ -26,24 +66,57 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log("req.body in login::auth.controller", req.body)
+    const ip = getClientIp(req);
+    console.log("req.body in login::auth.controller", req.body);
+
+    // ── Rate limit check ──────────────────────────────────────────────────────
+    if (isRateLimited(ip)) {
+        const secondsLeft = getRemainingLockoutSeconds(ip);
+        const minutesLeft = Math.ceil(secondsLeft / 60);
+        return res.status(429).send({
+            message: `Too many failed login attempts. Please try again in ${minutesLeft} minute(s).`,
+            retryAfterSeconds: secondsLeft,
+            statusCode: 429,
+        });
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
     try {
         const user = await userService.getUserByEmail(email);
-        console.log("user in login::auth.controller", user)
+        console.log("user in login::auth.controller", user);
 
         if (!user) {
-            return res.status(404).send({ message: `user not found with email: ${email}`, email });
+            recordFailedAttempt(ip);
+            const attemptsLeft = MAX_ATTEMPTS - (loginAttempts[ip]?.count || 0);
+            return res.status(404).send({
+                message: `No account found with email: ${email}.`,
+                attemptsLeft: Math.max(attemptsLeft, 0),
+            });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(401).send({ message: 'Invalid Password...' });
+            recordFailedAttempt(ip);
+            if (isRateLimited(ip)) {
+                const secondsLeft = getRemainingLockoutSeconds(ip);
+                const minutesLeft = Math.ceil(secondsLeft / 60);
+                return res.status(429).send({
+                    message: `Too many failed login attempts. Account temporarily locked for ${minutesLeft} minute(s).`,
+                    retryAfterSeconds: secondsLeft,
+                    statusCode: 429,
+                });
+            }
+            const attemptsLeft = MAX_ATTEMPTS - (loginAttempts[ip]?.count || 0);
+            return res.status(401).send({
+                message: `Invalid password. You have ${attemptsLeft} attempt(s) remaining.`,
+                attemptsLeft,
+            });
         }
 
+        // Successful login — clear the rate-limit counter
+        resetAttempts(ip);
         const jwt = jwtProvider.generateToken(user._id);
-
         return res.status(200).send({ jwt, message: 'login success', role: user.role });
 
     } catch (error) {

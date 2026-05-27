@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { Button, Grid, TextField, styled, Box, Typography, Divider } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -36,9 +36,33 @@ const LoginForm = ({ onLoginSuccess }) => {
     });
     const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
     const [errMsg, setErrMsg] = useState("");
+    // Rate-limiting state
+    const [attemptsLeft, setAttemptsLeft] = useState(null);   // null = no warning yet
+    const [lockoutSeconds, setLockoutSeconds] = useState(0);  // >0 = locked out
+    const lockoutTimerRef = useRef(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const modal = useContext(ModalContext)
+    const modal = useContext(ModalContext);
+
+    // Countdown ticker for lockout
+    useEffect(() => {
+        if (lockoutSeconds > 0) {
+            setSubmitBtnDisable(true);
+            lockoutTimerRef.current = setInterval(() => {
+                setLockoutSeconds((prev) => {
+                    if (prev <= 1) {
+                        clearInterval(lockoutTimerRef.current);
+                        setSubmitBtnDisable(false);
+                        setAttemptsLeft(null);
+                        setErrMsg("");
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+        return () => clearInterval(lockoutTimerRef.current);
+    }, [lockoutSeconds]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,6 +78,9 @@ const LoginForm = ({ onLoginSuccess }) => {
             dispatch(login(userData))
                 .then((user) => {
                     setSubmitBtnDisable(false);
+                    setAttemptsLeft(null);
+                    clearInterval(lockoutTimerRef.current);
+                    setLockoutSeconds(0);
                     modal.closeModal();
                     if (onLoginSuccess) {
                         onLoginSuccess(user);
@@ -65,15 +92,38 @@ const LoginForm = ({ onLoginSuccess }) => {
                 })
                 .catch((err) => {
                     setSubmitBtnDisable(false);
-
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Please ensure your email and password are entered correctly.",
-                        showConfirmButton: false,
-                        timer: 3000,
-                    });
                     console.log('Error in login ::: ', err.message);
+
+                    // Parse the error response from the server (raw Axios error rethrown by Action.js)
+                    const responseData = err?.response?.data;
+                    const status = err?.response?.status;
+
+                    if (status === 429 || err.message?.includes('429')) {
+                        // Locked out — parse seconds from message or use default
+                        const seconds = responseData?.retryAfterSeconds || 900;
+                        setLockoutSeconds(seconds);
+                        const mins = Math.ceil(seconds / 60);
+                        Swal.fire({
+                            icon: "warning",
+                            title: "Account Temporarily Locked 🔒",
+                            html: `Too many failed login attempts.<br/>Please try again in <b>${mins} minute(s)</b>.`,
+                            showConfirmButton: false,
+                            timer: 5000,
+                        });
+                    } else {
+                        // Normal failure — show remaining attempts if available
+                        const left = responseData?.attemptsLeft;
+                        if (typeof left === 'number' && left >= 0) {
+                            setAttemptsLeft(left);
+                        }
+                        Swal.fire({
+                            icon: "error",
+                            title: "Login Failed",
+                            text: responseData?.message || "Please ensure your email and password are entered correctly.",
+                            showConfirmButton: false,
+                            timer: 3500,
+                        });
+                    }
                 })
         }
     };
@@ -221,6 +271,51 @@ const LoginForm = ({ onLoginSuccess }) => {
                                 {errMsg}
                             </Typography>
                         </Grid>
+
+                        {/* Attempts remaining warning */}
+                        {attemptsLeft !== null && lockoutSeconds === 0 && (
+                            <Grid item xs={12}>
+                                <Box sx={{
+                                    bgcolor: '#fff8e1',
+                                    border: '1px solid #ffe082',
+                                    borderRadius: '8px',
+                                    px: 2,
+                                    py: 1,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1
+                                }}>
+                                    <Typography variant="body2" sx={{ color: '#b45309', fontWeight: 600 }}>
+                                        ⚠️ {attemptsLeft === 0
+                                            ? 'No attempts left. You are now locked out.'
+                                            : `Warning: ${attemptsLeft} login attempt(s) remaining before lockout.`}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                        )}
+
+                        {/* Lockout countdown banner */}
+                        {lockoutSeconds > 0 && (
+                            <Grid item xs={12}>
+                                <Box sx={{
+                                    bgcolor: '#fef2f2',
+                                    border: '1px solid #fca5a5',
+                                    borderRadius: '8px',
+                                    px: 2,
+                                    py: 1.5,
+                                    textAlign: 'center'
+                                }}>
+                                    <Typography variant="body2" sx={{ color: '#dc2626', fontWeight: 700 }}>
+                                        🔒 Account Locked
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ color: '#7f1d1d' }}>
+                                        Too many failed attempts. Try again in{' '}
+                                        <b>{Math.floor(lockoutSeconds / 60)}:{String(lockoutSeconds % 60).padStart(2, '0')}</b>
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                        )}
+
                         <Grid item xs={12}>
                             <Button
                                 variant="contained"
@@ -229,15 +324,17 @@ const LoginForm = ({ onLoginSuccess }) => {
                                 fullWidth
                                 sx={{
                                     py: 1.5,
-                                    bgcolor: '#2c1e2f',
-                                    '&:hover': { bgcolor: '#755970' },
+                                    bgcolor: lockoutSeconds > 0 ? '#9ca3af' : '#2c1e2f',
+                                    '&:hover': { bgcolor: lockoutSeconds > 0 ? '#9ca3af' : '#755970' },
                                     borderRadius: '8px',
                                     textTransform: 'none',
                                     fontSize: '1rem',
                                     fontWeight: 'bold'
                                 }}
                             >
-                                {submitBtnDisable ? 'Signing in...' : 'Sign In'}
+                                {lockoutSeconds > 0
+                                    ? `Locked — ${Math.floor(lockoutSeconds / 60)}:${String(lockoutSeconds % 60).padStart(2, '0')}`
+                                    : submitBtnDisable ? 'Signing in...' : 'Sign In'}
                             </Button>
                         </Grid>
                     </Grid>
