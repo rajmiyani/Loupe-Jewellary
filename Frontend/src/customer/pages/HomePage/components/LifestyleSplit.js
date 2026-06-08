@@ -1,4 +1,4 @@
-﻿import React, { useRef } from 'react';
+import React, { useRef } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { motion, useScroll, useTransform } from 'framer-motion';
 

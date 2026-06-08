@@ -1,4 +1,4 @@
-﻿import { Grid, Box, Typography, InputBase, Button, ButtonGroup, Select, MenuItem, FormControl, Chip } from '@mui/material'
+import { Grid, Box, Typography, InputBase, Button, ButtonGroup, Select, MenuItem, FormControl, Chip } from '@mui/material'
 import React, { useState, createContext, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import MonthlyOverview from './MonthlyOverview'
@@ -10,6 +10,7 @@ import { Search, X, Filter } from 'lucide-react'
 import { useEffect } from 'react'
 import { getDashboardStats, getLatestOrders, getWeeklyStats, getAllProducts, getCategoryDistribution } from '../../state/admin/dashboard/Action'
 import SalesCategoryDistribution from './SalesCategoryDistribution'
+import GoldPriceWidget from './GoldPriceWidget'
 
 export const DashboardContext = createContext({
   searchQuery: '',
@@ -86,6 +87,11 @@ const AdminDashboard = () => {
         <Box sx={{ mb: 4 }}>
           <MonthlyOverview />
         </Box>
+
+        {/* Gold Price Widget */}
+        {/* <Box sx={{ mb: 4 }}>
+          <GoldPriceWidget />
+        </Box> */}
 
         <Grid container spacing={4}>
           {/* Row 2: Combined Sales Trend & Category Distribution */}

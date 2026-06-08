@@ -4,11 +4,12 @@ import { createProduct } from '../../state/product/Action';
 import {
   Box, Grid, TextField, Button, Typography, FormControl,
   InputLabel, Select, MenuItem, Card, CardContent, Avatar,
-  Divider, Chip, IconButton
+  Divider, Chip, IconButton, CircularProgress, LinearProgress
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Upload, Plus, Trash2, Package, Tag, Image, Layers, DollarSign, BarChart3, ChevronRight, Gem, Ruler, Award } from 'lucide-react';
+import { Upload, Plus, Trash2, Package, Tag, Image, Layers, DollarSign, BarChart3, ChevronRight, Gem, Ruler, Award, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { uploadMultipleImagesViaBackend, deleteAssetViaBackend, getOptimizedCloudinaryUrl } from '../../utils/cloudinaryUtils';
 
 const BRAND = '#755970';
 const BRAND_LIGHT = '#f0f9ff';
@@ -46,6 +47,8 @@ const SectionHeader = ({ icon, title, description }) => (
 const initialSizes = [{ weight: 'g', size: 'MM', stock: 0 }];
 
 const CreateProductForm = () => {
+  const [imageUploading, setImageUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [productData, setProductData] = useState({
     imageUrls: [],
     title: '',
@@ -89,24 +92,25 @@ const CreateProductForm = () => {
       const selectedFiles = Array.from(files).filter((f) => f.type?.startsWith('image/')).slice(0, 4);
       if (selectedFiles.length === 0) return;
 
-      const uploadOne = async (file) => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'myCloud');
-        const res = await fetch('https://api.cloudinary.com/v1_1/deq0hxr3t/image/upload', {
-          method: 'POST',
-          body: formData,
-        });
-        if (!res.ok) throw new Error('Failed to upload image');
-        const data = await res.json();
-        return data.secure_url;
-      };
-
+      setImageUploading(true);
+      setUploadProgress(0);
       try {
-        const urls = await Promise.all(selectedFiles.map(uploadOne));
-        setProductData((prev) => ({ ...prev, imageUrls: urls.slice(0, 4).map((u) => ({ imageUrl: u })) }));
+        // Upload via backend → stored at quality:100 on Cloudinary
+        const results = await uploadMultipleImagesViaBackend(selectedFiles);
+        setUploadProgress(100);
+        setProductData((prev) => ({
+          ...prev,
+          imageUrls: results.slice(0, 4).map((r) => ({
+            imageUrl: r.secure_url,
+            publicId: r.public_id,
+          })),
+        }));
       } catch (err) {
-        console.error(err.message);
+        console.error('Image upload error:', err.message);
+        alert('Image upload failed. Please try again.');
+      } finally {
+        setImageUploading(false);
+        setTimeout(() => setUploadProgress(0), 1500);
       }
       return;
     }
@@ -118,6 +122,17 @@ const CreateProductForm = () => {
     } else {
       setProductData({ ...productData, [name]: value });
     }
+  };
+
+  const handleRemoveImage = async (index) => {
+    const img = productData.imageUrls[index];
+    if (img?.publicId) {
+      try { await deleteAssetViaBackend(img.publicId, 'image'); } catch (e) { /* non-blocking */ }
+    }
+    setProductData((prev) => ({
+      ...prev,
+      imageUrls: prev.imageUrls.filter((_, i) => i !== index),
+    }));
   };
 
   const handleAddSize = () => {
@@ -239,38 +254,76 @@ const CreateProductForm = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
               <Card sx={{ borderRadius: '24px', border: '1px solid #f1f5f9', boxShadow: '0 4px 20px rgba(0,0,0,0.02)', mb: 3 }}>
                 <CardContent sx={{ p: 4 }}>
-                  <SectionHeader icon={<Image size={20} />} title="Product Images" description="Upload up to 4 high-quality images" />
+                  <SectionHeader icon={<Image size={20} />} title="Product Images" description="Upload up to 4 high-quality images — stored lossless on Cloudinary" />
                   <Box
                     component="label"
                     sx={{
                       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                      p: 4, border: `2px dashed ${BRAND}`, borderRadius: '16px',
-                      bgcolor: BRAND_LIGHT, cursor: 'pointer', transition: 'all 0.3s',
-                      '&:hover': { bgcolor: '#e0f2fe', borderColor: BRAND_DARK }
+                      p: 4, border: `2px dashed ${imageUploading ? '#94a3b8' : BRAND}`, borderRadius: '16px',
+                      bgcolor: imageUploading ? '#f8fafc' : BRAND_LIGHT,
+                      cursor: imageUploading ? 'not-allowed' : 'pointer', transition: 'all 0.3s',
+                      '&:hover': { bgcolor: imageUploading ? '#f8fafc' : '#e0f2fe', borderColor: imageUploading ? '#94a3b8' : BRAND_DARK }
                     }}
                   >
-                    <Avatar sx={{ bgcolor: '#fff', color: BRAND, width: 56, height: 56, mb: 2, boxShadow: `0 8px 20px ${BRAND}40` }}>
-                      <Upload size={24} />
+                    <Avatar sx={{ bgcolor: '#fff', color: imageUploading ? '#94a3b8' : BRAND, width: 56, height: 56, mb: 2, boxShadow: `0 8px 20px ${BRAND}40` }}>
+                      {imageUploading ? <CircularProgress size={24} sx={{ color: '#94a3b8' }} /> : <Upload size={24} />}
                     </Avatar>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1e293b' }}>Drag & Drop or Click to Upload</Typography>
-                    <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600, mt: 0.5 }}>PNG, JPG, WEBP up to 10MB (max 4 images)</Typography>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 800, color: imageUploading ? '#94a3b8' : '#1e293b' }}>
+                      {imageUploading ? 'Uploading to Cloudinary...' : 'Drag & Drop or Click to Upload'}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600, mt: 0.5 }}>PNG, JPG, WEBP up to 10MB (max 4 images) · Stored at 100% quality</Typography>
                     <input
                       type="file"
                       name="imageUrl"
                       accept="image/*"
                       multiple
                       hidden
+                      disabled={imageUploading}
                       onChange={(e) => handleChange(e, null, 'imageUrls')}
                     />
                   </Box>
+
+                  {/* Upload Progress Bar */}
+                  {imageUploading && (
+                    <Box sx={{ mt: 2 }}>
+                      <LinearProgress
+                        variant={uploadProgress > 0 ? 'determinate' : 'indeterminate'}
+                        value={uploadProgress}
+                        sx={{ borderRadius: 4, height: 6, bgcolor: '#e2e8f0', '& .MuiLinearProgress-bar': { bgcolor: BRAND } }}
+                      />
+                      <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600, mt: 0.5, display: 'block', textAlign: 'center' }}>
+                        {uploadProgress > 0 ? `${uploadProgress}% — Saving at maximum quality...` : 'Preparing upload...'}
+                      </Typography>
+                    </Box>
+                  )}
 
                   {productData.imageUrls.length > 0 && (
                     <Grid container spacing={2} sx={{ mt: 2 }}>
                       {productData.imageUrls.map((image, index) => (
                         <Grid item xs={6} sm={3} key={index}>
                           <Box sx={{ position: 'relative', borderRadius: '16px', overflow: 'hidden', border: `2px solid ${BRAND}40` }}>
-                            <img src={image.imageUrl} alt={`Product ${index + 1}`} style={{ width: '100%', height: 100, objectFit: 'cover', display: 'block' }} />
+                            <img
+                              src={getOptimizedCloudinaryUrl(image.imageUrl, 'image')}
+                              alt={`Product ${index + 1}`}
+                              style={{ width: '100%', height: 100, objectFit: 'cover', display: 'block' }}
+                            />
                             <Chip label={`#${index + 1}`} size="small" sx={{ position: 'absolute', top: 6, left: 6, bgcolor: BRAND, color: '#fff', fontWeight: 800, fontSize: '0.65rem', height: 20 }} />
+                            <IconButton
+                              size="small"
+                              onClick={() => handleRemoveImage(index)}
+                              sx={{
+                                position: 'absolute', top: 4, right: 4,
+                                bgcolor: 'rgba(244,63,94,0.85)', color: '#fff', width: 22, height: 22,
+                                '&:hover': { bgcolor: '#f43f5e' }
+                              }}
+                            >
+                              <Trash2 size={12} />
+                            </IconButton>
+                            {image.publicId && (
+                              <Box sx={{ position: 'absolute', bottom: 4, right: 4 }}>
+                                <CheckCircle size={14} color="#22c55e" />
+                              </Box>
+                            )}
                           </Box>
                         </Grid>
                       ))}

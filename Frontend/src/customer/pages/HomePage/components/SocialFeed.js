@@ -26,13 +26,13 @@ const SocialFeed = () => {
                     variant="overline"
                     sx={{ letterSpacing: 4, fontWeight: 800, color: '#755970', fontSize: '0.8rem' }}
                 >
-                    FOLLOW @LOUPEJEWELRY
+                    FOLLOW @LOUPE_DIAMONDS
                 </Typography>
                 <Typography
                     variant="body2"
                     sx={{ color: '#64748b', mt: 1, fontWeight: 500, letterSpacing: 1 }}
                 >
-                    Tag us to get featured #loupejewelry
+                    Tag us to get featured #loupe_diamonds
                 </Typography>
             </motion.div>
 

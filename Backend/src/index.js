@@ -61,4 +61,17 @@ app.use("/api/payment", paymentRouter);
 const adminDashboardRouter = require('./routes/admindashboard.route.js');
 app.use("/api/admin/dashboard", adminDashboardRouter);
 
+// Cloudinary upload (images + videos via backend, authenticated)
+const uploadRouter = require('./routes/upload.route.js');
+app.use('/api/upload', uploadRouter);
+
+// Sparkle Videos (Find Your Perfect Sparkle section)
+const sparkleVideoRouter = require('./routes/sparkleVideo.route.js');
+app.use('/api/sparkle-videos', sparkleVideoRouter);
+
+// Gold Price Proxy (avoids CORS from browser)
+const goldPriceRouter = require('./routes/goldPrice.route.js');
+app.use('/api/gold-price', goldPriceRouter);
+
+
 module.exports = app;
