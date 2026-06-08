@@ -470,6 +470,31 @@ export default function Navigation() {
       </Transition.Root>
 
       <header className="fixed top-0 left-0 right-0 z-50 w-full shadow-md" style={{ backgroundColor: '#402d43', color: 'white' }}>
+        {/* Premium Top Announcement / Notice Bar */}
+        <div 
+          className="w-full py-1.5 px-4 text-[0.75rem] font-medium tracking-wider border-b border-white/5" 
+          style={{ 
+            backgroundColor: '#2b1c2e', 
+            color: '#ebd69d' 
+          }}
+        >
+          {/* eslint-disable-next-line jsx-a11y/no-distracting-elements */}
+          <marquee behavior="scroll" direction="left" scrollamount="4" style={{ verticalAlign: 'middle' }}>
+            <span className="inline-flex items-center mx-12">
+              <span className="mr-2">✨</span>
+              <strong>Notice : </strong> &nbsp; Product delivered in 10-15 Days.
+            </span>
+            <span className="inline-flex items-center mx-12">
+              <span className="mr-2">💎</span>
+              <strong>Trust : </strong> 100% Certified Original & Hallmarked Jewellery
+            </span>
+            <span className="inline-flex items-center mx-12">
+              <span className="mr-2">🛡️</span>
+              <strong>Assurance : </strong> Secure Insured Shipping Worldwide & Easy Returns
+            </span>
+          </marquee>
+        </div>
+
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
 
@@ -825,7 +850,7 @@ export default function Navigation() {
           </div>
         </div>
       </header>
-      <div className="h-20" aria-hidden="true" />
+      <div className="h-[108px]" aria-hidden="true" />
       {/* <div className="h-4" aria-hidden="true" /> */}
 
       {/* Cart Drawer */}
