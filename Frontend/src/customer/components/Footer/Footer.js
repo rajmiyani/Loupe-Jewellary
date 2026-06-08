@@ -91,7 +91,7 @@ const Footer = () => {
                             <div className='space-y-6 text-[13px] text-white/90 leading-loose tracking-wide'>
                                 <p className='max-w-[250px]'>
                                     <strong className="text-white/70 block mb-1">Address:</strong>
-                                    Sardar Avas, Diamond, Managadh Chowk, Varachha Main Road, Varachha, Surat, Gujarat, India
+                                    12-17 Sardar Owners, Association, Mini Bazar, Varachha, Surat, Gujarat, India - 395006
                                 </p>
                                 <p>
                                     <strong className="text-white/70 block mb-1">Email:</strong>

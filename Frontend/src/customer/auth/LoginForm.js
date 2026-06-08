@@ -192,24 +192,16 @@ const LoginForm = ({ onLoginSuccess }) => {
 
     return (
         <Box sx={{ display: 'flex', minHeight: '500px' }}>
-            {/* Left Side: Image */}
+            {/* Left Side: Premium Product Image */}
             <Box
                 sx={{
                     flex: 1,
                     display: { xs: 'none', md: 'block' },
-                    backgroundImage: 'url("/assets/images/auth-bg.png")',
+                    bgcolor: '#755970',
+                    backgroundImage: 'url("/assets/images/auth_product_dummy.png")',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     position: 'relative',
-                    '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(80, 7, 36, 0.3)',
-                    }
                 }}
             >
                 <Box
@@ -218,13 +210,14 @@ const LoginForm = ({ onLoginSuccess }) => {
                         bottom: 40,
                         left: 40,
                         color: '#fff',
-                        zIndex: 1
+                        zIndex: 1,
+                        textShadow: '0 2px 4px rgba(0,0,0,0.4)'
                     }}
                 >
-                    <Typography variant="h4" fontWeight="bold" gutterBottom>
+                    <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ fontFamily: "'Playfair Display', serif" }}>
                         Welcome Back to Loupe
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body1" sx={{ opacity: 0.9 }}>
                         Discover timeless elegance and curated collections.
                     </Typography>
                 </Box>
