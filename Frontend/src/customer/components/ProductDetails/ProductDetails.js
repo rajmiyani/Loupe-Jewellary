@@ -24,12 +24,12 @@ import {
    Styled Select Field
 ------------------------------------------- */
 const CssTextField = selectStyle(TextField)({
-  "& label.Mui-focused": { color: "#755970" },
+  "& label.Mui-focused": { color: "#3c7399" },
   "& .MuiOutlinedInput-root": {
     borderRadius: "8px",
     "& fieldset": { borderColor: "#e2e8f0" },
-    "&:hover fieldset": { borderColor: "#755970" },
-    "&.Mui-focused fieldset": { borderColor: "#755970" },
+    "&:hover fieldset": { borderColor: "#3c7399" },
+    "&.Mui-focused fieldset": { borderColor: "#3c7399" },
   },
 });
 
@@ -49,7 +49,7 @@ function SimpleAccordion({ title, children, defaultOpen = false }) {
           "&:hover": { bgcolor: "#f1f5f9" },
         }}
       >
-        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, color: "#755970" }}>{title}</Typography>
+        <Typography sx={{ fontSize: "0.9rem", fontWeight: 700, color: "#3c7399" }}>{title}</Typography>
         {open ? <ChevronUp size={18} color="#475569" /> : <ChevronDown size={18} color="#475569" />}
       </Box>
       <Collapse in={open}>
@@ -254,7 +254,7 @@ export default function ProductDetails() {
           <Breadcrumbs separator={<ChevronRight size={13} />}>
             <Link underline="hover" href="/" sx={{ fontSize: "0.75rem", color: "#94a3b8" }}>Home</Link>
             <Link underline="hover" href="/jewellery" sx={{ fontSize: "0.75rem", color: "#94a3b8" }}>Jewellery</Link>
-            <Typography sx={{ fontSize: "0.75rem", color: "#755970", fontWeight: 600 }}>{product.title}</Typography>
+            <Typography sx={{ fontSize: "0.75rem", color: "#3c7399", fontWeight: 600 }}>{product.title}</Typography>
           </Breadcrumbs>
         </Box>
       </Box>
@@ -276,7 +276,7 @@ export default function ProductDetails() {
                     sx={{
                       width: 76, height: 76, borderRadius: "10px", overflow: "hidden",
                       cursor: "pointer",
-                      border: activeIndex === i ? "2px solid #755970" : "2px solid #e2e8f0",
+                      border: activeIndex === i ? "2px solid #3c7399" : "2px solid #e2e8f0",
                       opacity: activeIndex === i ? 1 : 0.6,
                       transition: "all 0.2s",
                       "&:hover": { opacity: 1 },
@@ -294,17 +294,17 @@ export default function ProductDetails() {
                     label={`Flat ${product.discountPercent}% Off`}
                     sx={{
                       position: "absolute", top: 14, left: 14, zIndex: 1,
-                      bgcolor: "#755970", color: "white",
+                      bgcolor: "#3c7399", color: "white",
                       fontWeight: 700, fontSize: "0.7rem", borderRadius: "6px",
                     }}
                   />
                 )}
                 <Box sx={{ position: "absolute", top: 14, right: 14, zIndex: 1, display: "flex", gap: 1 }}>
                   <IconButton size="small" sx={{ bgcolor: "white", boxShadow: "0 2px 8px rgba(0,0,0,0.1)", "&:hover": { bgcolor: "#f8fafc" } }}>
-                    <Heart size={17} color="#755970" />
+                    <Heart size={17} color="#3c7399" />
                   </IconButton>
                   <IconButton size="small" sx={{ bgcolor: "white", boxShadow: "0 2px 8px rgba(0,0,0,0.1)", "&:hover": { bgcolor: "#f8fafc" } }}>
-                    <Share2 size={17} color="#755970" />
+                    <Share2 size={17} color="#3c7399" />
                   </IconButton>
                 </Box>
                 <Box sx={{ borderRadius: "16px", overflow: "hidden", bgcolor: "#f5f5f5", border: "1px solid #eee" }}>
@@ -322,18 +322,18 @@ export default function ProductDetails() {
           <Grid item xs={12} md={6}>
 
             {/* Brand */}
-            <Typography sx={{ fontSize: "0.72rem", fontWeight: 800, color: "#755970", textTransform: "uppercase", letterSpacing: 2, mb: 0.5 }}>
+            <Typography sx={{ fontSize: "0.72rem", fontWeight: 800, color: "#3c7399", textTransform: "uppercase", letterSpacing: 2, mb: 0.5 }}>
               Loupe Jeweller
             </Typography>
 
             {/* Product Name */}
-            <Typography variant="h5" sx={{ fontWeight: 700, color: "#755970", lineHeight: 1.3, mb: 1 }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, color: "#3c7399", lineHeight: 1.3, mb: 1 }}>
               {product.title}
             </Typography>
 
             {/* Rating */}
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-              <Rating value={4.2} readOnly size="small" sx={{ color: "#755970" }} />
+              <Rating value={4.2} readOnly size="small" sx={{ color: "#3c7399" }} />
               <Typography sx={{ fontSize: "0.75rem", color: "#64748b" }}>
                 {product.reviews?.length || 0} Reviews
               </Typography>
@@ -343,26 +343,38 @@ export default function ProductDetails() {
 
             {/* Price */}
             <Box sx={{ mb: 2.5 }}>
-              <Box sx={{ display: "flex", alignItems: "baseline", gap: 1.5, flexWrap: "wrap" }}>
-                <Typography sx={{ fontSize: "1.8rem", fontWeight: 800, color: "#755970" }}>
+              <Box sx={{ display: "flex", alignItems: "baseline", gap: 2, flexWrap: "wrap" }}>
+                <Typography sx={{ fontSize: "2rem", fontWeight: 800, color: "#1e3545", fontFamily: "'Outfit', sans-serif" }}>
                   ₹{formatPriceINR(product.discountedPrice)}
                 </Typography>
-                <Typography sx={{ fontSize: "1rem", color: "#94a3b8", textDecoration: "line-through" }}>
-                  ₹{formatPriceINR(product.price)}
-                </Typography>
-                {product.discountPercent > 0 && (
-                  <Typography sx={{ fontSize: "0.85rem", color: "#16a34a", fontWeight: 700 }}>
-                    {product.discountPercent}% Off
-                  </Typography>
+                {product.price > product.discountedPrice && (
+                  <>
+                    <Typography sx={{ fontSize: "1.1rem", color: "#94a3b8", textDecoration: "line-through", fontWeight: 400 }}>
+                      ₹{formatPriceINR(product.price)}
+                    </Typography>
+                    <Chip
+                      label={`${product.discountPercent}% OFF`}
+                      size="small"
+                      sx={{
+                        bgcolor: "rgba(212, 175, 55, 0.08)",
+                        color: "#D4AF37",
+                        fontWeight: 900,
+                        fontSize: "0.75rem",
+                        borderRadius: "6px",
+                        border: "1px solid rgba(212, 175, 55, 0.15)",
+                        px: 0.5
+                      }}
+                    />
+                  </>
                 )}
               </Box>
-              <Typography sx={{ fontSize: "0.7rem", color: "#94a3b8" }}>(MRP inclusive of all taxes)</Typography>
+              <Typography sx={{ fontSize: "0.75rem", color: "#94a3b8", mt: 0.5 }}>(MRP inclusive of all taxes)</Typography>
             </Box>
 
             {/* Color */}
             <Box sx={{ mb: 2 }}>
               <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#475569", mb: 0.8 }}>
-                Color: <span style={{ color: "#755970", textTransform: "capitalize" }}>{product.color}</span>
+                Color: <span style={{ color: "#3c7399", textTransform: "capitalize" }}>{product.color}</span>
               </Typography>
             </Box>
 
@@ -370,10 +382,10 @@ export default function ProductDetails() {
             <Box sx={{ mb: 2 }}>
               <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#475569", mb: 0.8 }}>
                 Material:{" "}
-                <span style={{ color: "#755970", textTransform: "capitalize" }}>
+                <span style={{ color: "#3c7399", textTransform: "capitalize" }}>
                   {product.type}
                   {product.metalPurity && (
-                    <span style={{ color: "#755970", marginLeft: 8, fontWeight: 800 }}>
+                    <span style={{ color: "#3c7399", marginLeft: 8, fontWeight: 800 }}>
                       {product.metalPurity}
                     </span>
                   )}
@@ -390,8 +402,8 @@ export default function ProductDetails() {
             {product.metalType && (
               <Box sx={{ mb: 2 }}>
                 <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#475569", mb: 0.8 }}>
-                  Metal: <span style={{ color: "#755970" }}>{product.metalType}</span>
-                  {product.metalPurity && <span style={{ color: "#755970", marginLeft: 6 }}>{product.metalPurity}</span>}
+                  Metal: <span style={{ color: "#3c7399" }}>{product.metalType}</span>
+                  {product.metalPurity && <span style={{ color: "#3c7399", marginLeft: 6 }}>{product.metalPurity}</span>}
                 </Typography>
               </Box>
             )}
@@ -401,7 +413,7 @@ export default function ProductDetails() {
             {/* Weight Selection */}
             {product.sizes?.length > 0 && (
               <Box sx={{ mb: 2.5 }}>
-                <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#755970", mb: 1 }}>Weight</Typography>
+                <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#3c7399", mb: 1 }}>Weight</Typography>
                 <CssTextField
                   select size="small" fullWidth
                   value={selectedWeight}
@@ -419,7 +431,7 @@ export default function ProductDetails() {
             {/* Size Selection */}
             {product.sizes?.[0]?.size && (
               <Box sx={{ mb: 2.5 }}>
-                <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#755970", mb: 1 }}>Size</Typography>
+                <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#3c7399", mb: 1 }}>Size</Typography>
                 <CssTextField
                   select size="small" fullWidth
                   value={selectedSize}
@@ -435,7 +447,7 @@ export default function ProductDetails() {
 
             {/* Quantity */}
             <Box sx={{ mb: 2.5 }}>
-              <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#755970", mb: 1 }}>Quantity</Typography>
+              <Typography sx={{ fontSize: "0.8rem", fontWeight: 700, color: "#3c7399", mb: 1 }}>Quantity</Typography>
               <Box sx={{ display: "flex", alignItems: "center", gap: 0, border: "1px solid #e2e8f0", borderRadius: "8px", width: "fit-content" }}>
                 <IconButton
                   size="small"
@@ -444,7 +456,7 @@ export default function ProductDetails() {
                 >
                   <Minus size={15} />
                 </IconButton>
-                <Typography sx={{ px: 3, fontWeight: 700, color: "#755970", fontSize: "0.95rem", minWidth: 44, textAlign: "center" }}>
+                <Typography sx={{ px: 3, fontWeight: 700, color: "#3c7399", fontSize: "0.95rem", minWidth: 44, textAlign: "center" }}>
                   {quantity}
                 </Typography>
                 <IconButton
@@ -485,9 +497,9 @@ export default function ProductDetails() {
                   startIcon={<ShoppingCart size={18} />}
                   sx={{
                     flex: 1, py: 1.5, borderRadius: "10px",
-                    borderColor: "#755970", color: "#755970",
+                    borderColor: "#3c7399", color: "#3c7399",
                     fontWeight: 700, fontSize: "0.85rem", textTransform: "none",
-                    "&:hover": { bgcolor: "#f1f5f9", borderColor: "#755970" },
+                    "&:hover": { bgcolor: "#f1f5f9", borderColor: "#3c7399" },
                   }}
                 >
                   Add to Cart
@@ -497,9 +509,9 @@ export default function ProductDetails() {
                   variant="contained"
                   sx={{
                     flex: 1, py: 1.5, borderRadius: "10px",
-                    bgcolor: "#755970", color: "white",
+                    bgcolor: "#3c7399", color: "white",
                     fontWeight: 700, fontSize: "0.85rem", textTransform: "none",
-                    "&:hover": { bgcolor: "#755970" }, boxShadow: "none",
+                    "&:hover": { bgcolor: "#3c7399" }, boxShadow: "none",
                   }}
                 >
                   Buy It Now
@@ -519,16 +531,16 @@ export default function ProductDetails() {
                 px: 2, py: 1, border: "1px solid #e2e8f0", borderRadius: "8px",
                 display: "flex", alignItems: "center", gap: 1, bgcolor: "#f8fafc"
               }}>
-                <ShieldCheck size={16} color="#755970" />
-                <Typography sx={{ fontSize: "0.75rem", fontWeight: 800, color: "#755970", letterSpacing: 0.5 }}>BIS</Typography>
+                <ShieldCheck size={16} color="#3c7399" />
+                <Typography sx={{ fontSize: "0.75rem", fontWeight: 800, color: "#3c7399", letterSpacing: 0.5 }}>BIS</Typography>
               </Box>
               {/* SGL */}
               <Box sx={{
                 px: 2, py: 1, border: "1px solid #e2e8f0", borderRadius: "8px",
                 display: "flex", alignItems: "center", gap: 1, bgcolor: "#f8fafc"
               }}>
-                <Star size={16} color="#755970" fill="#755970" />
-                <Typography sx={{ fontSize: "0.75rem", fontWeight: 800, color: "#755970", letterSpacing: 0.5 }}>SGL</Typography>
+                <Star size={16} color="#3c7399" fill="#3c7399" />
+                <Typography sx={{ fontSize: "0.75rem", fontWeight: 800, color: "#3c7399", letterSpacing: 0.5 }}>SGL</Typography>
               </Box>
             </Box>
 
@@ -538,14 +550,14 @@ export default function ProductDetails() {
               p: 2, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5, mb: 2.5,
             }}>
               {[
-                { icon: <RefreshCw size={18} color="#755970" />, text: "Buyback & Exchange" },
-                { icon: <ShieldCheck size={18} color="#755970" />, text: "BIS Hallmark" },
-                { icon: <Truck size={18} color="#755970" />, text: "Free Shipping" },
-                { icon: <Gift size={18} color="#755970" />, text: "Certified Diamond" },
+                { icon: <RefreshCw size={18} color="#3c7399" />, text: "Buyback & Exchange" },
+                { icon: <ShieldCheck size={18} color="#3c7399" />, text: "BIS Hallmark" },
+                { icon: <Truck size={18} color="#3c7399" />, text: "Free Shipping" },
+                { icon: <Gift size={18} color="#3c7399" />, text: "Certified Diamond" },
               ].map((b, i) => (
                 <Box key={i} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   {b.icon}
-                  <Typography sx={{ fontSize: "0.75rem", color: "#755970", fontWeight: 600 }}>{b.text}</Typography>
+                  <Typography sx={{ fontSize: "0.75rem", color: "#3c7399", fontWeight: 600 }}>{b.text}</Typography>
                 </Box>
               ))}
             </Box>
@@ -567,7 +579,7 @@ export default function ProductDetails() {
                     ["Returns & Exchange", "7-day easy return or exchange policy. Item must be in original condition."],
                   ].map(([title, desc], i) => (
                     <Box key={i}>
-                      <Typography sx={{ fontSize: "0.82rem", fontWeight: 700, color: "#755970", mb: 0.3 }}>{title}</Typography>
+                      <Typography sx={{ fontSize: "0.82rem", fontWeight: 700, color: "#3c7399", mb: 0.3 }}>{title}</Typography>
                       <Typography sx={{ fontSize: "0.78rem", color: "#64748b", lineHeight: 1.7 }}>{desc}</Typography>
                     </Box>
                   ))}
@@ -579,7 +591,7 @@ export default function ProductDetails() {
 
         {/* ================== WHAT'S INCLUDED ================== */}
         <Box sx={{ mt: 8, p: { xs: 3, md: 5 }, bgcolor: "white", borderRadius: "16px", border: "1px solid #e2e8f0" }}>
-          <Typography sx={{ fontSize: "1.2rem", fontWeight: 800, color: "#755970", textAlign: "center", mb: 1 }}>
+          <Typography sx={{ fontSize: "1.2rem", fontWeight: 800, color: "#3c7399", textAlign: "center", mb: 1 }}>
             What's Included With The Purchase?
           </Typography>
           <Typography sx={{ fontSize: "0.82rem", color: "#94a3b8", textAlign: "center", mb: 4 }}>
@@ -587,10 +599,10 @@ export default function ProductDetails() {
           </Typography>
           <Grid container spacing={3} justifyContent="center">
             {[
-              { icon: <Truck size={28} color="#755970" />, label: "Free Domestic Shipping" },
-              { icon: <ShieldCheck size={28} color="#755970" />, label: "Care Tips Card" },
-              { icon: <Package size={28} color="#755970" />, label: "Jewellery Certificate" },
-              { icon: <Headset size={28} color="#755970" />, label: "24x7 Customer Support" },
+              { icon: <Truck size={28} color="#3c7399" />, label: "Free Domestic Shipping" },
+              { icon: <ShieldCheck size={28} color="#3c7399" />, label: "Care Tips Card" },
+              { icon: <Package size={28} color="#3c7399" />, label: "Jewellery Certificate" },
+              { icon: <Headset size={28} color="#3c7399" />, label: "24x7 Customer Support" },
             ].map((item, i) => (
               <Grid item xs={6} sm={4} md={2.4} key={i}>
                 <Box sx={{ textAlign: "center", p: 2 }}>
@@ -602,7 +614,7 @@ export default function ProductDetails() {
                   }}>
                     {item.icon}
                   </Box>
-                  <Typography sx={{ fontSize: "0.78rem", fontWeight: 700, color: "#755970" }}>{item.label}</Typography>
+                  <Typography sx={{ fontSize: "0.78rem", fontWeight: 700, color: "#3c7399" }}>{item.label}</Typography>
                 </Box>
               </Grid>
             ))}
@@ -613,7 +625,7 @@ export default function ProductDetails() {
         <Box sx={{ mt: 6 }}>
           <Box sx={{
             borderRadius: "16px", overflow: "hidden",
-            background: "linear-gradient(135deg, #755970 0%, #0f172a 100%)",
+            background: "linear-gradient(135deg, #3c7399 0%, #0f172a 100%)",
             p: { xs: 3, md: 5 },
             display: "flex", flexDirection: { xs: "column", md: "row" },
             alignItems: "center", gap: 4,
@@ -627,7 +639,7 @@ export default function ProductDetails() {
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
               <Box sx={{ textAlign: "center", p: 3 }}>
-                <Video size={52} color="#755970" />
+                <Video size={52} color="#3c7399" />
                 <Typography sx={{ color: "rgba(255,255,255,0.6)", fontSize: "0.72rem", mt: 1.5, fontWeight: 600 }}>
                   LIVE VIDEO CALL
                 </Typography>
@@ -647,9 +659,9 @@ export default function ProductDetails() {
                 <Button
                   onClick={handleWhatsApp}
                   sx={{
-                    bgcolor: "#755970", color: "white", px: 4, py: 1.4,
+                    bgcolor: "#3c7399", color: "white", px: 4, py: 1.4,
                     borderRadius: "10px", fontWeight: 800, fontSize: "0.82rem",
-                    textTransform: "none", "&:hover": { bgcolor: "#5a4255" },
+                    textTransform: "none", "&:hover": { bgcolor: "#2b526d" },
                     boxShadow: "0 4px 18px rgba(0,0,0,0.2)"
                   }}
                 >
@@ -662,7 +674,7 @@ export default function ProductDetails() {
                     borderColor: "rgba(255,255,255,0.3)", color: "white",
                     px: 4, py: 1.4, borderRadius: "10px",
                     fontWeight: 700, fontSize: "0.82rem", textTransform: "none",
-                    "&:hover": { borderColor: "#755970", bgcolor: "rgba(151,194,213,0.1)" }
+                    "&:hover": { borderColor: "#3c7399", bgcolor: "rgba(151,194,213,0.1)" }
                   }}
                 >
                   Call Us: +91 99091 09074
@@ -683,7 +695,7 @@ export default function ProductDetails() {
 
         {/* ================== CUSTOMER REVIEWS ================== */}
         <Box sx={{ mt: 8 }}>
-          <Typography sx={{ fontSize: "1.2rem", fontWeight: 800, color: "#755970", mb: 3 }}>
+          <Typography sx={{ fontSize: "1.2rem", fontWeight: 800, color: "#3c7399", mb: 3 }}>
             Customer Reviews
           </Typography>
           <Divider sx={{ mb: 4 }} />
@@ -705,9 +717,9 @@ export default function ProductDetails() {
                     onClick={() => { navigate(`/product/${param.productId}/ratrev`); modal.openModal(); }}
                     variant="outlined"
                     sx={{
-                      borderColor: "#755970", color: "#755970", borderRadius: "8px",
+                      borderColor: "#3c7399", color: "#3c7399", borderRadius: "8px",
                       textTransform: "none", fontWeight: 600,
-                      "&:hover": { bgcolor: "#755970", color: "white", borderColor: "#755970" }
+                      "&:hover": { bgcolor: "#3c7399", color: "white", borderColor: "#3c7399" }
                     }}
                   >
                     Write a Review
@@ -718,9 +730,9 @@ export default function ProductDetails() {
                 <Button
                   onClick={() => { navigate(`/product/${param.productId}/ratrev`); modal.openModal(); }}
                   variant="outlined" sx={{
-                    mt: 3, borderColor: "#755970", color: "#755970",
+                    mt: 3, borderColor: "#3c7399", color: "#3c7399",
                     borderRadius: "8px", textTransform: "none", fontWeight: 600,
-                    "&:hover": { bgcolor: "#755970", color: "white", borderColor: "#755970" }
+                    "&:hover": { bgcolor: "#3c7399", color: "white", borderColor: "#3c7399" }
                   }}
                 >
                   Write a Review
@@ -730,11 +742,11 @@ export default function ProductDetails() {
 
             <Grid item xs={12} lg={4}>
               <Box sx={{ p: 3, bgcolor: "white", borderRadius: "14px", border: "1px solid #e2e8f0" }}>
-                <Typography sx={{ fontWeight: 700, mb: 2.5, color: "#755970" }}>Rating Overview</Typography>
+                <Typography sx={{ fontWeight: 700, mb: 2.5, color: "#3c7399" }}>Rating Overview</Typography>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
-                  <Typography sx={{ fontSize: "3rem", fontWeight: 900, color: "#755970", lineHeight: 1 }}>4.6</Typography>
+                  <Typography sx={{ fontSize: "3rem", fontWeight: 900, color: "#3c7399", lineHeight: 1 }}>4.6</Typography>
                   <Box>
-                    <Rating value={4.6} precision={0.5} readOnly sx={{ color: "#755970" }} size="small" />
+                    <Rating value={4.6} precision={0.5} readOnly sx={{ color: "#3c7399" }} size="small" />
                     <Typography sx={{ fontSize: "0.72rem", color: "#94a3b8", mt: 0.5 }}>Based on reviews</Typography>
                   </Box>
                 </Box>
@@ -748,7 +760,7 @@ export default function ProductDetails() {
                   <Box key={i} sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1 }}>
                     <Typography sx={{ fontSize: "0.72rem", color: "#64748b", width: 70, flexShrink: 0 }}>{r.label}</Typography>
                     <Box sx={{ flex: 1, height: 6, bgcolor: "#e2e8f0", borderRadius: 3, overflow: "hidden" }}>
-                      <Box sx={{ width: `${r.pct}%`, height: "100%", bgcolor: "#755970", borderRadius: 3 }} />
+                      <Box sx={{ width: `${r.pct}%`, height: "100%", bgcolor: "#3c7399", borderRadius: 3 }} />
                     </Box>
                     <Typography sx={{ fontSize: "0.72rem", color: "#94a3b8", width: 28, textAlign: "right" }}>{r.pct}%</Typography>
                   </Box>

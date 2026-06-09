@@ -311,7 +311,7 @@ export default function Navigation() {
                       className="h-10 w-auto object-contain"
                     />
                   </Link>
-                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#755970' }}>
+                  <IconButton onClick={() => setOpen(false)} sx={{ color: '#3c7399' }}>
                     <CloseIcon sx={{ fontSize: 22 }} />
                   </IconButton>
                 </div>
@@ -320,7 +320,7 @@ export default function Navigation() {
                 <Box sx={{ p: 4, bgcolor: '#fafafa' }}>
                   {!auth.user ? (
                     <Box>
-                      <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#755970', mb: 1 }}>
+                      <Typography sx={{ fontSize: '1.4rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#3c7399', mb: 1 }}>
                         The Boutique
                       </Typography>
                       <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 3, letterSpacing: 0.5, lineHeight: 1.6 }}>
@@ -330,18 +330,18 @@ export default function Navigation() {
                         onClick={(e) => { handleOpen(e, "login"); setOpen(false); }}
                         fullWidth
                         variant="contained"
-                        sx={{ bgcolor: '#755970', color: 'white', py: 1.5, fontSize: '0.8rem', fontWeight: 800, borderRadius: '8px', textTransform: 'uppercase', letterSpacing: 1 }}
+                        sx={{ bgcolor: '#3c7399', color: 'white', py: 1.5, fontSize: '0.8rem', fontWeight: 800, borderRadius: '8px', textTransform: 'uppercase', letterSpacing: 1 }}
                       >
                         Sign In
                       </Button>
                     </Box>
                   ) : (
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2.5 }}>
-                      <div className="w-16 h-16 rounded-full bg-[#755970] flex items-center justify-center text-white text-2xl font-serif">
+                      <div className="w-16 h-16 rounded-full bg-[#3c7399] flex items-center justify-center text-white text-2xl font-serif">
                         {auth.user.firstName?.[0]}
                       </div>
                       <Box>
-                        <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#755970', fontFamily: "'Playfair Display', serif" }}>
+                        <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#3c7399', fontFamily: "'Playfair Display', serif" }}>
                           Hello, {auth.user.firstName}
                         </Typography>
                         <Typography sx={{ fontSize: '0.75rem', color: '#64748b', mb: 0.8 }}>
@@ -349,7 +349,7 @@ export default function Navigation() {
                         </Typography>
                         <Typography
                           onClick={() => { navigate("/user-details/?layout=0"); setOpen(false); }}
-                          sx={{ fontSize: '0.7rem', color: '#755970', cursor: 'pointer', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5 }}
+                          sx={{ fontSize: '0.7rem', color: '#3c7399', cursor: 'pointer', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5 }}
                         >
                           My Dashboard
                         </Typography>
@@ -374,7 +374,7 @@ export default function Navigation() {
                             fontSize: '0.95rem',
                             fontWeight: expandedCategory === category.id ? 700 : 400,
                             fontFamily: "'Playfair Display', serif",
-                            color: expandedCategory === category.id ? '#755970' : '#755970',
+                            color: expandedCategory === category.id ? '#3c7399' : '#3c7399',
                             letterSpacing: 0.5
                           }}
                         >
@@ -383,7 +383,7 @@ export default function Navigation() {
                         <KeyboardArrowDownIcon
                           sx={{
                             fontSize: 18,
-                            color: expandedCategory === category.id ? '#755970' : '#94a3b8',
+                            color: expandedCategory === category.id ? '#3c7399' : '#94a3b8',
                             transition: 'transform 0.3s',
                             transform: expandedCategory === category.id ? 'rotate(0deg)' : 'rotate(-90deg)'
                           }}
@@ -419,7 +419,7 @@ export default function Navigation() {
                                   {section.items.map((item) => (
                                     <li
                                       key={item.id}
-                                      className="py-1 text-[0.85rem] text-gray-500 hover:text-[#755970] cursor-pointer"
+                                      className="py-1 text-[0.85rem] text-gray-500 hover:text-[#3c7399] cursor-pointer"
                                       onClick={() => {
                                         handleCategoryClick(category, section, item, () => { setOpen(false); setExpandedCategory(null); setExpandedSection(null); });
                                       }}
@@ -437,9 +437,9 @@ export default function Navigation() {
                   ))}
 
                   <div className="mt-8 px-6 py-4 mx-4 bg-[#f1f5f9] rounded-xl">
-                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: '#755970', mb: 1 }}>Concierge Service</Typography>
+                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: '#3c7399', mb: 1 }}>Concierge Service</Typography>
                     <Typography sx={{ fontSize: '0.7rem', color: '#64748b', mb: 2 }}>Need help finding the perfect gift?</Typography>
-                    <p className="text-[0.75rem] font-black text-[#755970] uppercase tracking-widest cursor-pointer">Chat With Us</p>
+                    <p className="text-[0.75rem] font-black text-[#3c7399] uppercase tracking-widest cursor-pointer">Chat With Us</p>
                   </div>
                 </Box>
 
@@ -448,7 +448,7 @@ export default function Navigation() {
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                     <div className="flex items-center gap-2" onClick={handleCountryOpen}>
                       <span className="text-xl">{selectedCountry.flag}</span>
-                      <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#755970' }}>{selectedCountry.name} (INR)</Typography>
+                      <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#3c7399' }}>{selectedCountry.name} (INR)</Typography>
                     </div>
                     {auth.user && (
                       <Typography
@@ -469,12 +469,12 @@ export default function Navigation() {
         </Dialog>
       </Transition.Root>
 
-      <header className="fixed top-0 left-0 right-0 z-50 w-full shadow-md" style={{ backgroundColor: '#402d43', color: 'white' }}>
+      <header className="fixed top-0 left-0 right-0 z-50 w-full shadow-md" style={{ backgroundColor: '#a9cee5', color: '#1e3545' }}>
         {/* Premium Top Announcement / Notice Bar */}
         <div 
           className="w-full py-1.5 px-4 text-[0.75rem] font-medium tracking-wider border-b border-white/5" 
           style={{ 
-            backgroundColor: '#2b1c2e', 
+            backgroundColor: '#152635', 
             color: '#ebd69d' 
           }}
         >
@@ -504,9 +504,9 @@ export default function Navigation() {
                 onClick={() => setOpen(true)}
                 sx={{
                   display: { xs: 'flex', lg: 'none' },
-                  color: 'white',
+                  color: '#1e3545',
                   ml: -1,
-                  '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
+                  '&:hover': { bgcolor: 'rgba(30,53,69,0.08)' }
                 }}
               >
                 <MenuIcon sx={{ fontSize: 28 }} />
@@ -533,7 +533,7 @@ export default function Navigation() {
                     >
                       {({ close }) => (
                         <>
-                          <Popover.Button className={classNames(hoveredIndex === index ? "border-white font-bold" : "border-transparent", "z-10 flex items-center text-[0.8rem] tracking-widest uppercase text-white outline-none border-b-2 transition-all pb-1")}>
+                          <Popover.Button className={classNames(hoveredIndex === index ? "border-[#1e3545] font-bold" : "border-transparent", "z-10 flex items-center text-[0.8rem] tracking-widest uppercase text-[#1e3545] outline-none border-b-2 transition-all pb-1")}>
                             {category.name}
                           </Popover.Button>
                           <Transition
@@ -557,7 +557,7 @@ export default function Navigation() {
                                           fontFamily: "'Playfair Display', serif",
                                           fontWeight: 700,
                                           fontSize: '0.9rem',
-                                          color: '#755970',
+                                          color: '#3c7399',
                                           mb: 3,
                                           pb: 1,
                                           borderBottom: '1px solid #f1f5f9'
@@ -569,7 +569,7 @@ export default function Navigation() {
                                             <li key={item.id}>
                                               <p
                                                 onClick={() => handleCategoryClick(category, section, item, () => { close(); setHoveredIndex(null); })}
-                                                className="text-gray-500 hover:text-[#755970] cursor-pointer hover:translate-x-1 transition-all duration-300 text-[0.8rem] font-medium tracking-wide"
+                                                className="text-gray-500 hover:text-[#3c7399] cursor-pointer hover:translate-x-1 transition-all duration-300 text-[0.8rem] font-medium tracking-wide"
                                               >
                                                 {item.name}
                                               </p>
@@ -592,7 +592,7 @@ export default function Navigation() {
                                       className="w-full h-full object-cover transition-transform duration-1000 group-hover/img:scale-110"
                                     />
                                   </div>
-                                  <Typography sx={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1rem', color: '#755970', mb: 1 }}>
+                                  <Typography sx={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1rem', color: '#3c7399', mb: 1 }}>
                                     The {category.name} Collection
                                   </Typography>
                                   <Typography sx={{ fontSize: '0.7rem', color: '#64748b', mb: 3, letterSpacing: 0.5, lineHeight: 1.5 }}>
@@ -602,9 +602,9 @@ export default function Navigation() {
                                     onClick={() => navigate(`/${category.id}`)}
                                     variant="outlined"
                                     sx={{
-                                      borderColor: '#755970', color: '#755970', borderRadius: '4px',
+                                      borderColor: '#3c7399', color: '#3c7399', borderRadius: '4px',
                                       px: 3, py: 0.8, fontSize: '0.65rem', fontWeight: 900, letterSpacing: 1.5,
-                                      '&:hover': { bgcolor: '#755970', color: 'white' }
+                                      '&:hover': { bgcolor: '#3c7399', color: 'white' }
                                     }}
                                   >
                                     Discover All
@@ -620,7 +620,7 @@ export default function Navigation() {
                 </Popover.Group>
               ) : (
                 <div className="w-full max-w-xl animate-in fade-in slide-in-from-top-4 duration-300">
-                  <div className="relative flex items-center border-b-2 border-white/70 py-1 group focus-within:border-white transition-all">
+                  <div className="relative flex items-center border-b-2 border-[#1e3545]/70 py-1 group focus-within:border-[#1e3545] transition-all">
                     <InputBase
                       autoFocus
                       placeholder="Search for products..."
@@ -629,13 +629,13 @@ export default function Navigation() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={handleSearch}
                       sx={{
-                        color: 'white',
+                        color: '#1e3545',
                         fontSize: '1.1rem',
                         fontFamily: 'serif',
-                        '& input::placeholder': { color: 'white', opacity: 0.7 }
+                        '& input::placeholder': { color: '#1e3545', opacity: 0.7 }
                       }}
                     />
-                    <IconButton onClick={() => setSearchOpen(false)} sx={{ color: 'white', p: 0.5 }}>
+                    <IconButton onClick={() => setSearchOpen(false)} sx={{ color: '#1e3545', p: 0.5 }}>
                       <CloseIcon sx={{ fontSize: 20 }} />
                     </IconButton>
                   </div>
@@ -648,7 +648,7 @@ export default function Navigation() {
 
               {/* Premium Country Selector */}
               <div
-                className="hidden xl:flex items-center text-white text-[0.7rem] font-black cursor-pointer py-2 px-4 rounded-full hover:bg-white/10 transition-all border border-white/20 group"
+                className="hidden xl:flex items-center text-[#1e3545] text-[0.7rem] font-black cursor-pointer py-2 px-4 rounded-full hover:bg-[#1e3545]/10 transition-all border border-[#1e3545]/20 group"
                 onClick={handleCountryOpen}
               >
                 <span className="mr-2.5 text-lg filter drop-shadow-sm">{selectedCountry.flag}</span>
@@ -707,7 +707,7 @@ export default function Navigation() {
                     primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }}
                     secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }}
                   />
-                  {selectedCountry.code === 'IN' && <div className="w-2 h-2 rounded-full bg-[#755970] ml-2" />}
+                  {selectedCountry.code === 'IN' && <div className="w-2 h-2 rounded-full bg-[#3c7399] ml-2" />}
                 </MenuItem>
 
                 <MenuItem
@@ -727,7 +727,7 @@ export default function Navigation() {
                     primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }}
                     secondaryTypographyProps={{ fontSize: '0.75rem', color: '#64748b' }}
                   />
-                  {selectedCountry.code === 'US' && <div className="w-2 h-2 rounded-full bg-[#755970] ml-2" />}
+                  {selectedCountry.code === 'US' && <div className="w-2 h-2 rounded-full bg-[#3c7399] ml-2" />}
                 </MenuItem>
               </Menu>
 
@@ -736,10 +736,10 @@ export default function Navigation() {
                 <IconButton
                   onClick={handleProfileClick}
                   sx={{
-                    color: 'white',
+                    color: '#1e3545',
                     p: 1,
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' },
-                    bgcolor: Boolean(anchorEl) ? 'rgba(255,255,255,0.2)' : 'transparent'
+                    '&:hover': { bgcolor: 'rgba(30, 53, 69, 0.08)' },
+                    bgcolor: Boolean(anchorEl) ? 'rgba(30, 53, 69, 0.12)' : 'transparent'
                   }}
                 >
                   <PermIdentityOutlinedIcon sx={{ width: "24px", height: "24px" }} />
@@ -782,7 +782,7 @@ export default function Navigation() {
                           onClick={(e) => { handleOpen(e, "login"); handleProfileClose(); }}
                           variant="contained"
                           fullWidth
-                          sx={{ bgcolor: '#755970', '&:hover': { bgcolor: '#5a4255' }, textTransform: 'none', fontWeight: 600, py: 1 }}
+                          sx={{ bgcolor: '#3c7399', '&:hover': { bgcolor: '#2b526d' }, textTransform: 'none', fontWeight: 600, py: 1 }}
                         >
                           Log In
                         </Button>
@@ -790,7 +790,7 @@ export default function Navigation() {
                           onClick={(e) => { handleOpen(e, "register"); handleProfileClose(); }}
                           variant="text"
                           fullWidth
-                          sx={{ color: '#755970', textTransform: 'none', fontWeight: 600 }}
+                          sx={{ color: '#3c7399', textTransform: 'none', fontWeight: 600 }}
                         >
                           Sign Up
                         </Button>
@@ -799,7 +799,7 @@ export default function Navigation() {
                   ) : (
                     <>
                       <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#755970] flex items-center justify-center text-white font-bold text-sm">
+                        <div className="w-8 h-8 rounded-full bg-[#3c7399] flex items-center justify-center text-white font-bold text-sm">
                           {auth.user.firstName?.[0]}
                         </div>
                         <div className="flex flex-col">
@@ -835,13 +835,13 @@ export default function Navigation() {
               </div>
 
               {/* Search Toggle */}
-              <IconButton onClick={() => setSearchOpen(!searchOpen)} sx={{ color: 'white', p: 1 }}>
+              <IconButton onClick={() => setSearchOpen(!searchOpen)} sx={{ color: '#1e3545', p: 1 }}>
                 <SearchIcon sx={{ width: "24px", height: "24px" }} />
               </IconButton>
 
               {/* Cart */}
-              <IconButton onClick={() => setCartOpen(true)} sx={{ color: 'white', p: 1 }}>
-                <Badge badgeContent={cart.cart?.totalItem} sx={{ '& .MuiBadge-badge': { backgroundColor: 'white', color: '#755970', fontWeight: 'bold' } }}>
+              <IconButton onClick={() => setCartOpen(true)} sx={{ color: '#1e3545', p: 1 }}>
+                <Badge badgeContent={cart.cart?.totalItem} sx={{ '& .MuiBadge-badge': { backgroundColor: '#1e3545', color: 'white', fontWeight: 'bold' } }}>
                   <AddShoppingCartIcon sx={{ width: "23px", height: "23px" }} />
                 </Badge>
               </IconButton>
@@ -869,10 +869,10 @@ export default function Navigation() {
       >
         <Box sx={{ p: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f8fafc' }}>
           <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5 }}>
-            <Typography variant="h5" sx={{ fontWeight: 300, color: '#755970', fontFamily: "'Playfair Display', serif", letterSpacing: 1 }}>Your Collection</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 300, color: '#3c7399', fontFamily: "'Playfair Display', serif", letterSpacing: 1 }}>Your Collection</Typography>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2 }}>({cart.cart?.totalItem || 0})</Typography>
           </Box>
-          <IconButton onClick={() => setCartOpen(false)} sx={{ color: '#94a3b8', '&:hover': { color: '#755970', bgcolor: '#f8fafc' } }}><CloseIcon sx={{ fontSize: 20 }} /></IconButton>
+          <IconButton onClick={() => setCartOpen(false)} sx={{ color: '#94a3b8', '&:hover': { color: '#3c7399', bgcolor: '#f8fafc' } }}><CloseIcon sx={{ fontSize: 20 }} /></IconButton>
         </Box>
 
         <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 4, bgcolor: '#fcfcfc' }}>
@@ -888,14 +888,14 @@ export default function Navigation() {
                     />
                   </Box>
                   <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', pt: 1 }}>
-                    <Typography sx={{ fontSize: '0.95rem', fontWeight: 600, color: '#755970', mb: 0.5, lineHeight: 1.4, fontFamily: "'Playfair Display', serif" }}>
+                    <Typography sx={{ fontSize: '0.95rem', fontWeight: 600, color: '#3c7399', mb: 0.5, lineHeight: 1.4, fontFamily: "'Playfair Display', serif" }}>
                       {item.product?.title}
                     </Typography>
                     <Typography variant="caption" sx={{ color: '#94a3b8', mb: 2, letterSpacing: 0.5, textTransform: 'uppercase' }}>
                       QUANTITY: {item.quantity} {item.weight ? `| ${item.weight} G` : ''} {item.size ? `| ${item.size} MM` : ''}
                     </Typography>
                     <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                      <Typography sx={{ fontWeight: 900, color: '#755970', fontSize: '1.1rem', fontFamily: "'Outfit', sans-serif" }}>
+                      <Typography sx={{ fontWeight: 900, color: '#3c7399', fontSize: '1.1rem', fontFamily: "'Outfit', sans-serif" }}>
                         ₹{formatPriceINR(item.discountedPrice)}
                       </Typography>
                       <IconButton
@@ -915,14 +915,14 @@ export default function Navigation() {
               <Box sx={{ width: 80, height: 80, borderRadius: '50%', bgcolor: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 4 }}>
                 <ShoppingBagOutlinedIcon sx={{ fontSize: 32, color: '#cbd5e1' }} />
               </Box>
-              <Typography sx={{ fontSize: '1.4rem', fontFamily: "'Playfair Display', serif", color: '#755970', mb: 1.5 }}>Your bag is empty</Typography>
+              <Typography sx={{ fontSize: '1.4rem', fontFamily: "'Playfair Display', serif", color: '#3c7399', mb: 1.5 }}>Your bag is empty</Typography>
               <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', mb: 5, lineHeight: 1.6 }}>Discover our exclusive collections and find the perfect piece to start your collection.</Typography>
               <Button
                 variant="contained"
                 onClick={() => setCartOpen(false)}
                 sx={{
                   px: 6, py: 1.8, borderRadius: '12px', textTransform: 'uppercase',
-                  bgcolor: '#755970', color: 'white', fontWeight: 800, letterSpacing: 2, fontSize: '0.75rem',
+                  bgcolor: '#3c7399', color: 'white', fontWeight: 800, letterSpacing: 2, fontSize: '0.75rem',
                   '&:hover': { bgcolor: '#543b59', transform: 'translateY(-2px)' },
                   transition: 'all 0.3s'
                 }}
@@ -937,15 +937,15 @@ export default function Navigation() {
           <Box sx={{ p: 4, borderTop: '1px solid #f1f5f9', bgcolor: 'white' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
               <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>Subtotal</Typography>
-              <Typography sx={{ fontSize: '1.2rem', fontWeight: 900, color: '#755970', fontFamily: "'Outfit', sans-serif" }}>₹{formatPriceINR(cart.cart?.totalPrice)}</Typography>
+              <Typography sx={{ fontSize: '1.2rem', fontWeight: 900, color: '#3c7399', fontFamily: "'Outfit', sans-serif" }}>₹{formatPriceINR(cart.cart?.totalPrice)}</Typography>
             </Box>
             <Button
               fullWidth
               variant="contained"
               onClick={() => { navigate('/checkout'); setCartOpen(false); }}
               sx={{
-                py: 2.2, borderRadius: '14px', bgcolor: '#755970', color: 'white', fontWeight: 900, fontSize: '0.85rem', letterSpacing: 2, textTransform: 'uppercase',
-                '&:hover': { bgcolor: '#5a4255' }
+                py: 2.2, borderRadius: '14px', bgcolor: '#3c7399', color: 'white', fontWeight: 900, fontSize: '0.85rem', letterSpacing: 2, textTransform: 'uppercase',
+                '&:hover': { bgcolor: '#2b526d' }
               }}
             >
               Proceed to Checkout

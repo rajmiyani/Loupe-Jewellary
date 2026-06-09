@@ -137,7 +137,7 @@ const HeroSection = () => {
                                     sx={{
                                         letterSpacing: 6,
                                         fontWeight: 700,
-                                        color: '#755970',
+                                        color: '#3c7399',
                                         fontSize: { xs: '0.75rem', md: '0.85rem' },
                                         mb: 2,
                                         display: 'block'
@@ -166,7 +166,7 @@ const HeroSection = () => {
                                     }}
                                 >
                                     {slides[current].title} <br />
-                                    <span className="text-[#755970] italic font-light">
+                                    <span className="text-[#3c7399] italic font-light">
                                         {slides[current].titleItalic}
                                     </span>
                                 </Typography>
@@ -205,7 +205,7 @@ const HeroSection = () => {
                                     variant="contained"
                                     endIcon={<ArrowRight size={20} />}
                                     sx={{
-                                        bgcolor: '#755970',
+                                        bgcolor: '#3c7399',
                                         color: 'white',
                                         px: { xs: 4, md: 5 },
                                         py: { xs: 1.5, md: 2 },
@@ -290,7 +290,7 @@ const HeroSection = () => {
                                     duration: isHovered ? 0 : 6,
                                     ease: "linear"
                                 }}
-                                className="absolute inset-0 bg-[#755970]"
+                                className="absolute inset-0 bg-[#3c7399]"
                             />
                         )}
                         <div className="absolute inset-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />

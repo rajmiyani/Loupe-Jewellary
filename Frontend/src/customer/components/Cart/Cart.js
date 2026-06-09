@@ -118,11 +118,11 @@ const Cart = () => {
                                                     mt: 2,
                                                     py: 2,
                                                     borderRadius: '16px',
-                                                    bgcolor: '#755970',
+                                                    bgcolor: '#3c7399',
                                                     fontWeight: 800,
                                                     fontSize: '1.1rem',
                                                     textTransform: 'none',
-                                                    '&:hover': { bgcolor: '#755970' },
+                                                    '&:hover': { bgcolor: '#3c7399' },
                                                     boxShadow: '0 10px 30px rgba(30,41,59,0.18)'
                                                 }}
                                             >
@@ -178,10 +178,10 @@ const Cart = () => {
                                     px: 6,
                                     py: 1.5,
                                     borderRadius: '12px',
-                                    bgcolor: '#755970',
+                                    bgcolor: '#3c7399',
                                     fontWeight: 700,
                                     textTransform: 'none',
-                                    '&:hover': { bgcolor: '#755970' }
+                                    '&:hover': { bgcolor: '#3c7399' }
                                 }}
                             >
                                 Start Shopping

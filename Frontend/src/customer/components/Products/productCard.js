@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import zIndex from "@mui/material/styles/zIndex";
@@ -49,15 +49,15 @@ const ProductCard = ({ product, index }) => {
         {/* Premium Discount Badge */}
         {discount > 0 && (
           <div className="absolute top-5 left-5 bg-white/80 backdrop-blur-xl px-3 py-1.5 rounded-full border border-gray-100 shadow-sm z-10 transition-all duration-300 group-hover:scale-110">
-            <p className="text-[0.6rem] font-black text-[#755970] uppercase tracking-[0.15em]">{discount}% OFF</p>
+            <p className="text-[0.6rem] font-black text-[#3c7399] uppercase tracking-[0.15em]">{discount}% OFF</p>
           </div>
         )}
 
         {/* Luxury Badge (New Arrival) */}
         {index < 3 && (
-          <div className="absolute top-5 right-5 bg-[#755970]/90 backdrop-blur-xl px-3 py-1.5 rounded-full shadow-sm z-10">
+          <div className="absolute top-5 right-5 bg-[#3c7399]/90 backdrop-blur-xl px-3 py-1.5 rounded-full shadow-sm z-10">
             <p className="text-[0.6rem] font-bold text-white uppercase tracking-widest flex items-center gap-1.5">
-              <span className="w-1 h-1 rounded-full bg-[#755970]" />
+              <span className="w-1 h-1 rounded-full bg-[#3c7399]" />
               New
             </p>
           </div>
@@ -75,31 +75,36 @@ const ProductCard = ({ product, index }) => {
             letterSpacing: '0.25em',
             transition: 'color 0.3s'
           }}
-          className="group-hover:text-[#755970]"
+          className="group-hover:text-[#3c7399]"
         >
           {product?.type || "Fine Jewellery"}
         </Typography>
 
-        <h3 className="text-[1.05rem] font-medium text-[#755970] font-serif leading-tight line-clamp-2 min-h-[2.5rem]">
+        <h3 className="text-[1.05rem] font-medium text-[#3c7399] font-serif leading-tight line-clamp-2 min-h-[2.5rem]">
           {product?.title || "Untitled Masterpiece"}
         </h3>
 
         {/* Elegant Pricing Display */}
         <div className="flex flex-col items-center pt-1">
-          <div className="flex items-center gap-3">
-            <span className="text-xl font-serif italic text-[#755970]">
+          <div className="flex items-baseline gap-2">
+            <span className="text-[1.15rem] font-bold text-[#1e3545] font-sans tracking-tight">
               ₹{formatPriceINR(productDiscountedPrice)}
             </span>
             {discount > 0 && (
-              <span className="text-[0.8rem] text-[#cbd5e1] line-through font-light">
+              <span className="text-[0.8rem] text-slate-400 line-through font-normal">
                 ₹{formatPriceINR(productPrice)}
+              </span>
+            )}
+            {discount > 0 && (
+              <span className="text-[0.7rem] font-black text-[#D4AF37] uppercase tracking-wider ml-1">
+                ({discount}% OFF)
               </span>
             )}
           </div>
 
           {/* Collection Signature */}
           <div className={`mt-3 transition-all duration-500 overflow-hidden ${isMouseHover ? 'h-6 opacity-100' : 'h-0 opacity-0'}`}>
-            <p className="text-[0.65rem] font-bold text-[#755970] uppercase tracking-widest border-t border-slate-50 pt-2 px-6">
+            <p className="text-[0.65rem] font-bold text-[#3c7399] uppercase tracking-widest border-t border-slate-50 pt-2 px-6">
               {product?.brand || "Loupe Jeweler Boutique"}
             </p>
           </div>

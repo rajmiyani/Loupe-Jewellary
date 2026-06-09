@@ -29,14 +29,14 @@ const LifestyleSplit = () => {
                         sx={{
                             fontFamily: 'serif',
                             fontWeight: 400,
-                            color: '#755970',
+                            color: '#3c7399',
                             fontSize: { xs: '2.5rem', md: '4rem' },
                             lineHeight: 1.1,
                             mb: 4
                         }}
                     >
                         Crafted for <br />
-                        <span className="italic text-[#755970]">Every Moment</span>
+                        <span className="italic text-[#3c7399]">Every Moment</span>
                     </Typography>
                     <Typography
                         variant="body1"
@@ -54,8 +54,8 @@ const LifestyleSplit = () => {
                     <Button
                         variant="outlined"
                         sx={{
-                            borderColor: '#755970',
-                            color: '#755970',
+                            borderColor: '#3c7399',
+                            color: '#3c7399',
                             px: 5,
                             py: 1.8,
                             borderRadius: '100px',

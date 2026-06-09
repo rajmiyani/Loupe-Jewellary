@@ -131,7 +131,7 @@ export default function Checkout() {
                                         sx={{
                                             textTransform: 'none',
                                             fontWeight: 800,
-                                            color: '#755970',
+                                            color: '#3c7399',
                                             '&:hover': { bgcolor: 'transparent', textDecoration: 'underline' }
                                         }}
                                     >

@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 
-const COLORS = ['#755970', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+const COLORS = ['#3c7399', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
 const CategoryDistributionChart = () => {
     const { adminDashboard } = useSelector(store => store);

@@ -13,8 +13,8 @@ const PageNotFound = () => {
         variant="contained"
         type="submit"
         sx={{
-          ml: '2rem', fontSize: '0.75rem', fontWeight: 'bold', color: '#fff', bgcolor: "#2c1e2f",
-          "&:hover": { bgcolor: "#755970" },
+          ml: '2rem', fontSize: '0.75rem', fontWeight: 'bold', color: '#fff', bgcolor: "#1e3545",
+          "&:hover": { bgcolor: "#3c7399" },
         }}
         className="flex font-medium items-center justify-center rounded-md border-none p-3 focus:outline-none"
       >

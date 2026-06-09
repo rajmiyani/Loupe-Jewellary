@@ -22,14 +22,14 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     },
     [`&.${stepConnectorClasses.active}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            background: '#755970',
-            background: 'linear-gradient(to right, #755970, #755970)',
+            background: '#3c7399',
+            background: 'linear-gradient(to right, #3c7399, #3c7399)',
         },
     },
     [`&.${stepConnectorClasses.completed}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            background: '#755970',
-            background: 'linear-gradient(to right, #755970, #755970)',
+            background: '#3c7399',
+            background: 'linear-gradient(to right, #3c7399, #3c7399)',
         },
     },
     [`& .${stepConnectorClasses.line}`]: {
@@ -53,15 +53,15 @@ const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
     border: '2px solid #e2e8f0',
     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
     ...(ownerState.active && {
-        background: '#755970',
+        background: '#3c7399',
         color: '#ffffff',
         boxShadow: '0 10px 25px rgba(117, 89, 112, 0.35)',
-        borderColor: '#755970',
+        borderColor: '#3c7399',
         transform: 'scale(1.1)',
     }),
     ...(ownerState.completed && {
         background: '#f5f0f4',
-        color: '#755970',
+        color: '#3c7399',
         borderColor: '#d4b8cf',
     }),
 }));
@@ -115,8 +115,8 @@ export default function OrderTracker({ activeStep }) {
                                         letterSpacing: 1.5,
                                         mt: 2,
                                         color: '#94a3b8',
-                                        '&.Mui-active': { color: '#755970' },
-                                        '&.Mui-completed': { color: '#755970', opacity: 0.7 }
+                                        '&.Mui-active': { color: '#3c7399' },
+                                        '&.Mui-completed': { color: '#3c7399', opacity: 0.7 }
                                     }
                                 }}
                             >

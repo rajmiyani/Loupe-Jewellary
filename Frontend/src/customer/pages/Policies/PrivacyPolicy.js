@@ -5,14 +5,14 @@ const PrivacyPolicy = () => {
   return (
     <Box sx={{ py: 10, bgcolor: '#fafafa', minHeight: '100vh' }}>
       <Container maxWidth="md" sx={{ bgcolor: 'white', p: { xs: 4, md: 8 }, borderRadius: '16px', boxShadow: '0 10px 40px rgba(0,0,0,0.05)' }}>
-        <Typography variant="h3" sx={{ fontFamily: "'Playfair Display', serif", fontWeight: 800, color: '#755970', mb: 2, textAlign: 'center' }}>
+        <Typography variant="h3" sx={{ fontFamily: "'Playfair Display', serif", fontWeight: 800, color: '#3c7399', mb: 2, textAlign: 'center' }}>
           Privacy Policy
         </Typography>
         <Typography variant="body2" sx={{ textAlign: 'center', color: '#64748b', mb: 6, textTransform: 'uppercase', letterSpacing: 2 }}>
           Last Updated: {new Date().toLocaleDateString()}
         </Typography>
 
-        <Box sx={{ color: '#334155', lineHeight: 1.8, '& h5': { color: '#755970', fontWeight: 700, mt: 4, mb: 2, fontSize: '1.2rem' } }}>
+        <Box sx={{ color: '#334155', lineHeight: 1.8, '& h5': { color: '#3c7399', fontWeight: 700, mt: 4, mb: 2, fontSize: '1.2rem' } }}>
           <Typography sx={{ mb: 3 }}>
             At Loupe Jewellery LLP, your privacy is of utmost importance to us. This Privacy Policy outlines how we collect, use, and protect your personal information when you visit our website or make a purchase from us.
           </Typography>

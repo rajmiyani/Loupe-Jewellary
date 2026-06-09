@@ -160,7 +160,7 @@ const Admin = () => {
               sx={{
                 position: 'absolute',
                 right: 0,
-                bgcolor: '#755970',
+                bgcolor: '#3c7399',
                 color: 'white',
                 width: 28,
                 height: 28,
@@ -200,10 +200,10 @@ const Admin = () => {
                       cursor: 'pointer',
                       transition: 'all 0.3s',
                       bgcolor: isActive ? '#e0f2f1' : 'transparent',
-                      color: isActive ? '#755970' : '#64748b',
+                      color: isActive ? '#3c7399' : '#64748b',
                       '&:hover': {
                         bgcolor: isActive ? '#e0f2f1' : '#f8f9fa',
-                        color: isActive ? '#755970' : '#111827',
+                        color: isActive ? '#3c7399' : '#111827',
                         transform: 'translateX(4px)'
                       }
                     }}
@@ -235,7 +235,7 @@ const Admin = () => {
                           fontSize: '0.85rem',
                           fontWeight: 500,
                           transition: 'all 0.2s',
-                          '&:hover': { color: '#755970', bgcolor: '#f0f9ff' }
+                          '&:hover': { color: '#3c7399', bgcolor: '#f0f9ff' }
                         }}
                       >
                         {sub.name}
@@ -284,7 +284,7 @@ const Admin = () => {
             <GoldPriceBadge />
 
             <IconButton onClick={handleOpenNotify} sx={{ bgcolor: '#f8fafc', p: 1.5 }}>
-              <Badge badgeContent={recentOrders.length} color="primary" overlap="circular" sx={{ '& .MuiBadge-badge': { bgcolor: '#755970' } }}>
+              <Badge badgeContent={recentOrders.length} color="primary" overlap="circular" sx={{ '& .MuiBadge-badge': { bgcolor: '#3c7399' } }}>
                 <Bell size={20} />
               </Badge>
             </IconButton>
@@ -309,7 +309,7 @@ const Admin = () => {
               {recentOrders.map((order) => (
                 <MenuItem key={order._id} onClick={() => { navigate('/admin/orders'); handleCloseNotify(); }} sx={{ py: 1.5 }}>
                   <ListItemIcon sx={{ minWidth: 40 }}>
-                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#e0f2f1', color: '#755970' }}>
+                    <Avatar sx={{ width: 32, height: 32, bgcolor: '#e0f2f1', color: '#3c7399' }}>
                       <ShoppingBag size={16} />
                     </Avatar>
                   </ListItemIcon>
@@ -331,7 +331,7 @@ const Admin = () => {
                 <Typography sx={{ fontSize: '0.9rem', fontWeight: 800, color: '#111827' }}>{auth.user?.firstName} {auth.user?.lastName}</Typography>
                 <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase' }}>Administrator</Typography>
               </Box>
-              <Avatar sx={{ width: 45, height: 45, borderRadius: '12px', bgcolor: '#755970' }}>
+              <Avatar sx={{ width: 45, height: 45, borderRadius: '12px', bgcolor: '#3c7399' }}>
                 {auth.user?.firstName?.charAt(0)}
               </Avatar>
             </Box>

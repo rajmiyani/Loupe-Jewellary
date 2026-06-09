@@ -12,7 +12,7 @@ import { Upload, Plus, Trash2, Package, Tag, Image, Layers, DollarSign, BarChart
 import { motion } from 'framer-motion';
 import { uploadMultipleImagesViaBackend, deleteAssetViaBackend, getOptimizedCloudinaryUrl } from '../../utils/cloudinaryUtils';
 
-const BRAND = '#755970';
+const BRAND = '#3c7399';
 const BRAND_LIGHT = '#f0f9ff';
 const BRAND_DARK = '#5fa0b8';
 

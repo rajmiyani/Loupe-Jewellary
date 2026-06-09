@@ -38,7 +38,7 @@ const OrderSummary = () => {
       <div className='p-5 shadow-lg rounded-s-md h-screen overflow-y-scroll' id='order-summary'>
 
         {/* <AddressCard /> */}
-        <div className='flex flex-wrap items-center justify-between p-3 rounded-lg' style={{ border: '1px solid #755970' }}>
+        <div className='flex flex-wrap items-center justify-between p-3 rounded-lg' style={{ border: '1px solid #3c7399' }}>
           <div className='space-y-2'>
             <h1 className='text-lg font-semibold'>{order.order?.shippingAddress?.firstName + " " + order.order?.shippingAddress?.lastName}</h1>
             <p className='text-sm text-gray-500 font-normal'>{order.order?.shippingAddress?.streetAddress}, {order.order?.shippingAddress?.city}, {order.order?.shippingAddress?.zipCode}</p>
@@ -93,7 +93,7 @@ const OrderSummary = () => {
               <div className='rounded-lg shadow-md p-5 pb-0'>
                 <h1
                   className='uppercase font-semibold text-lg pb-4'
-                  style={{ color: "#2c1e2f" }}
+                  style={{ color: "#1e3545" }}
                 >
                   Order Summary
                 </h1>
@@ -116,7 +116,7 @@ const OrderSummary = () => {
                   <hr />
                   <div
                     className='flex justify-between font-bold'
-                    style={{ color: "#2c1e2f" }}
+                    style={{ color: "#1e3545" }}
                   >
                     <span>TOTAL (Incl of all Taxes.)</span>
                     <span>₹ {formatPriceINR(order.order?.totalDiscountedPrice)}</span>
@@ -128,7 +128,7 @@ const OrderSummary = () => {
                   variant="contained"
                   type="submit"
                   disabled={disablePay}
-                  sx={{ my: '2rem', bgcolor: '#2c1e2f', "&:hover": { bgcolor: "#755970" }, }}
+                  sx={{ my: '2rem', bgcolor: '#1e3545', "&:hover": { bgcolor: "#3c7399" }, }}
                   className="flex w-full uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none disabled:bg-gray-500"
                 >
                   Payment

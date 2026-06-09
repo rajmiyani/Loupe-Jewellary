@@ -90,7 +90,7 @@ const CollectionCircles = () => {
                                     fontSize: '0.7rem',
                                     fontWeight: 900,
                                     letterSpacing: 2,
-                                    color: '#755970',
+                                    color: '#3c7399',
                                     textAlign: 'center',
                                     textTransform: 'uppercase'
                                 }}

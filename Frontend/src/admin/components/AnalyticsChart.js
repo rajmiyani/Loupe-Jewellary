@@ -23,7 +23,7 @@ const AnalyticsChart = () => {
                     <Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5 }}>
                             <Typography variant="h6" sx={{ fontWeight: 900, color: '#1e293b', letterSpacing: '-0.5px' }}>Performance Analysis</Typography>
-                            <Box sx={{ px: 1.5, py: 0.4, borderRadius: '8px', bgcolor: '#f0f9ff', color: '#755970', fontSize: '0.7rem', fontWeight: 800 }}>ANALYTICS</Box>
+                            <Box sx={{ px: 1.5, py: 0.4, borderRadius: '8px', bgcolor: '#f0f9ff', color: '#3c7399', fontSize: '0.7rem', fontWeight: 800 }}>ANALYTICS</Box>
                         </Box>
                         <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>Visualizing revenue and sales trajectories</Typography>
                     </Box>
@@ -33,7 +33,7 @@ const AnalyticsChart = () => {
                                 value={selectedMonth}
                                 onChange={(e) => setSelectedMonth(e.target.value)}
                                 displayEmpty
-                                sx={{ borderRadius: '12px', fontWeight: 700, fontSize: '0.85rem', bgcolor: '#f8fafc', color: '#64748b', '& .MuiOutlinedInput-notchedOutline': { borderColor: '#f1f5f9' }, '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#755970' }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#755970' } }}
+                                sx={{ borderRadius: '12px', fontWeight: 700, fontSize: '0.85rem', bgcolor: '#f8fafc', color: '#64748b', '& .MuiOutlinedInput-notchedOutline': { borderColor: '#f1f5f9' }, '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#3c7399' }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#3c7399' } }}
                             >
                                 {[{ value: '', label: 'All Months' }, { value: '0', label: 'Jan' }, { value: '1', label: 'Feb' }, { value: '2', label: 'Mar' }, { value: '3', label: 'Apr' }, { value: '4', label: 'May' }, { value: '5', label: 'Jun' }, { value: '6', label: 'Jul' }, { value: '7', label: 'Aug' }, { value: '8', label: 'Sep' }, { value: '9', label: 'Oct' }, { value: '10', label: 'Nov' }, { value: '11', label: 'Dec' }].map(m => (
                                     <MenuItem key={m.value} value={m.value} sx={{ fontWeight: 700 }}>{m.label}</MenuItem>
@@ -44,7 +44,7 @@ const AnalyticsChart = () => {
                             <Select
                                 value={selectedYear}
                                 onChange={(e) => setSelectedYear(e.target.value)}
-                                sx={{ borderRadius: '12px', fontWeight: 700, fontSize: '0.85rem', bgcolor: '#f8fafc', color: '#64748b', '& .MuiOutlinedInput-notchedOutline': { borderColor: '#f1f5f9' }, '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#755970' }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#755970' } }}
+                                sx={{ borderRadius: '12px', fontWeight: 700, fontSize: '0.85rem', bgcolor: '#f8fafc', color: '#64748b', '& .MuiOutlinedInput-notchedOutline': { borderColor: '#f1f5f9' }, '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#3c7399' }, '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#3c7399' } }}
                             >
                                 {[2024, 2025, 2026].map(y => (
                                     <MenuItem key={y} value={y} sx={{ fontWeight: 700 }}>{y}</MenuItem>
@@ -60,8 +60,8 @@ const AnalyticsChart = () => {
                             <AreaChart data={weeklyStats.length > 0 ? weeklyStats : []}>
                                 <defs>
                                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#755970" stopOpacity={0.1} />
-                                        <stop offset="95%" stopColor="#755970" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#3c7399" stopOpacity={0.1} />
+                                        <stop offset="95%" stopColor="#3c7399" stopOpacity={0} />
                                     </linearGradient>
                                     <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#10b981" stopOpacity={0.1} />
@@ -95,7 +95,7 @@ const AnalyticsChart = () => {
                                 <Area
                                     type="monotone"
                                     dataKey="Revenue"
-                                    stroke="#755970"
+                                    stroke="#3c7399"
                                     strokeWidth={3}
                                     fillOpacity={1}
                                     fill="url(#colorRev)"

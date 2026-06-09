@@ -148,7 +148,7 @@ const HomeSectionCarousel = ({
                 <div>
                     <h2
                         style={{ letterSpacing: "1px" }}
-                        className="text-4xl font-semibold text-[#755970] text-center px-10"
+                        className="text-4xl font-semibold text-[#3c7399] text-center px-10"
                     >
                         {sectionName}
                     </h2>

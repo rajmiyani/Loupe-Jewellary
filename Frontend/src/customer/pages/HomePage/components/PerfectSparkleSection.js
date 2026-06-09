@@ -11,7 +11,7 @@ const NextArrow = ({ onClick }) => (
         onClick={onClick}
         sx={{
             position: 'absolute', right: { xs: 0, md: -20 }, top: '45%',
-            transform: 'translateY(-50%)', zIndex: 10, bgcolor: 'white', color: '#755970',
+            transform: 'translateY(-50%)', zIndex: 10, bgcolor: 'white', color: '#3c7399',
             width: 40, height: 40, boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
             '&:hover': { bgcolor: '#f8fafc' }, transition: 'all 0.3s'
         }}
@@ -25,7 +25,7 @@ const PrevArrow = ({ onClick }) => (
         onClick={onClick}
         sx={{
             position: 'absolute', left: { xs: 0, md: -20 }, top: '45%',
-            transform: 'translateY(-50%)', zIndex: 10, bgcolor: 'white', color: '#755970',
+            transform: 'translateY(-50%)', zIndex: 10, bgcolor: 'white', color: '#3c7399',
             width: 40, height: 40, boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
             '&:hover': { bgcolor: '#f8fafc' }, transition: 'all 0.3s'
         }}
@@ -71,7 +71,7 @@ const PerfectSparkleSection = () => {
                     sx={{
                         fontSize: { xs: '1.2rem', md: '1.8rem' }, fontWeight: 300,
                         fontFamily: "'Playfair Display', serif", letterSpacing: 2,
-                        color: '#755970', mb: 2, textTransform: 'uppercase'
+                        color: '#3c7399', mb: 2, textTransform: 'uppercase'
                     }}
                 >
                     FIND YOUR PERFECT SPARKLE
@@ -111,12 +111,12 @@ const PerfectSparkleSection = () => {
                                     </div>
                                     <div className="flex flex-col text-left">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <span className="text-[#755970] font-bold text-sm md:text-base">₹{video.price}</span>
+                                            <span className="text-[#3c7399] font-bold text-sm md:text-base">₹{video.price}</span>
                                             {video.oldPrice && (
                                                 <span className="text-gray-400 line-through text-xs md:text-sm">₹{video.oldPrice}</span>
                                             )}
                                             {video.discount && (
-                                                <span className="text-[#755970] font-medium text-xs md:text-sm">{video.discount}</span>
+                                                <span className="text-[#3c7399] font-medium text-xs md:text-sm">{video.discount}</span>
                                             )}
                                         </div>
                                         <span className="text-gray-500 text-xs md:text-sm truncate">{video.title}</span>

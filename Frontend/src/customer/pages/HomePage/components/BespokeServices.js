@@ -39,8 +39,8 @@ const BespokeServices = () => {
                             transition={{ delay: index * 0.1 }}
                             className="flex flex-col items-center text-center group"
                         >
-                            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 group-hover:bg-[#755970] group-hover:text-white transition-all duration-500 transform group-hover:-translate-y-2 border border-neutral-100">
-                                <service.Icon size={24} className="text-[#2c1e2f] group-hover:text-black transition-colors duration-500" />
+                            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-6 group-hover:bg-[#3c7399] group-hover:text-white transition-all duration-500 transform group-hover:-translate-y-2 border border-neutral-100">
+                                <service.Icon size={24} className="text-[#1e3545] group-hover:text-black transition-colors duration-500" />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 mb-3 tracking-tight">
                                 {service.title}

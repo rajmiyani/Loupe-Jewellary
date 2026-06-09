@@ -11,10 +11,10 @@ import { GoogleLogin } from '@react-oauth/google';
 
 const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
-        color: '#755970',
+        color: '#3c7399',
     },
     '& .MuiInput-underline:after': {
-        borderBottomColor: '#755970',
+        borderBottomColor: '#3c7399',
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -24,7 +24,7 @@ const CssTextField = styled(TextField)({
             borderColor: '#500724',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#755970',
+            borderColor: '#3c7399',
         },
     },
 });
@@ -190,7 +190,7 @@ const RegisterForm = ({ onRegisterSuccess }) => {
                 sx={{
                     flex: 1,
                     display: { xs: 'none', md: 'block' },
-                    bgcolor: '#755970',
+                    bgcolor: '#3c7399',
                     backgroundImage: 'url("/assets/images/auth_product_dummy.png")',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
@@ -227,7 +227,7 @@ const RegisterForm = ({ onRegisterSuccess }) => {
                     bgcolor: '#fff'
                 }}
             >
-                <Typography variant="h4" fontWeight="bold" mb={1} sx={{ color: '#755970' }}>
+                <Typography variant="h4" fontWeight="bold" mb={1} sx={{ color: '#3c7399' }}>
                     Sign Up
                 </Typography>
                 <Typography variant="body2" color="text.secondary" mb={3}>
@@ -294,8 +294,8 @@ const RegisterForm = ({ onRegisterSuccess }) => {
                                 fullWidth
                                 sx={{
                                     py: 1.5,
-                                    bgcolor: '#2c1e2f',
-                                    '&:hover': { bgcolor: '#755970' },
+                                    bgcolor: '#1e3545',
+                                    '&:hover': { bgcolor: '#3c7399' },
                                     borderRadius: '8px',
                                     textTransform: 'none',
                                     fontSize: '1rem',
@@ -334,7 +334,7 @@ const RegisterForm = ({ onRegisterSuccess }) => {
                             variant="body2"
                             onClick={() => navigate('/login')}
                             sx={{
-                                color: '#2c1e2f',
+                                color: '#1e3545',
                                 fontWeight: 'bold',
                                 cursor: 'pointer',
                                 '&:hover': { textDecoration: 'underline' }
