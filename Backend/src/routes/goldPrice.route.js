@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
         ]);
 
         const usdPerOz = yahooData?.chart?.result?.[0]?.meta?.regularMarketPrice;
-        const usdToInr = fxData?.rates?.INR || 83.5;
+        const usdToInr = fxData?.rates?.INR || 93.00;
 
         if (!usdPerOz || typeof usdPerOz !== 'number') {
             console.error('[GoldPrice] Unexpected Yahoo data:', JSON.stringify(yahooData).slice(0, 200));

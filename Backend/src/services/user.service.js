@@ -93,13 +93,13 @@ const getAllUsers = async () => {
 
 const deleteUserById = async (userId) => {
     try {
-        const user = await findUserById(userId);
+        const user = await User.findByIdAndDelete(userId);
 
         if (!user) {
             throw new Error("Couldn't find user for deletion");
         }
 
-        await User.deleteOne({ _id: userId }); // Using deleteOne() instead of remove()
+        // await User.deleteOne({ _id: userId }); // Using deleteOne() instead of remove()
         return 'User deleted successfully';
     } catch (err) {
         console.error("Error deleting user:", err);

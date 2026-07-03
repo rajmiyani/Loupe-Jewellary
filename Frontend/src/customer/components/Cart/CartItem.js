@@ -8,6 +8,7 @@ import { formatPriceINR } from '../../../utils/price';
 
 const CartItem = ({ item }) => {
     const dispatch = useDispatch();
+    const MAX_QUANTITY = 10;
 
     const handleUpdateCartItem = (num) => {
         const data = { data: { quantity: item.quantity + num }, cartItemId: item?._id }
@@ -77,12 +78,36 @@ const CartItem = ({ item }) => {
                             </Typography>
                             <IconButton
                                 size="small"
+                                disabled={item.quantity >= MAX_QUANTITY}
                                 onClick={() => handleUpdateCartItem(1)}
-                                sx={{ color: 'var(--primary-blue)' }}
+                                sx={{
+                                    color: item.quantity >= MAX_QUANTITY ? '#94a3b8' : 'var(--primary-blue)',
+                                    '&.Mui-disabled': { color: '#cbd5e1' }
+                                }}
                             >
                                 <Plus size={16} />
                             </IconButton>
                         </Box>
+                        {item.quantity >= MAX_QUANTITY && (
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    bgcolor: '#fef3c7',
+                                    color: '#92400e',
+                                    px: 1.5,
+                                    py: 0.5,
+                                    borderRadius: '8px',
+                                    fontWeight: 700,
+                                    fontSize: '0.7rem',
+                                    letterSpacing: 0.5,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.5
+                                }}
+                            >
+                                ⚠️ Max 10 per item
+                            </Typography>
+                        )}
                     </Box>
                 </Box>
             </Box>
