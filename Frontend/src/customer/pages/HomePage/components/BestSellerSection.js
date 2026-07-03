@@ -74,11 +74,11 @@ const NextArrow = ({ onClick }) => (
             top: '40%',
             transform: 'translateY(-50%)',
             zIndex: 10,
-            bgcolor: '#755970',
+            bgcolor: '#3c7399',
             color: 'white',
             width: 40,
             height: 40,
-            '&:hover': { bgcolor: '#755970' },
+            '&:hover': { bgcolor: '#3c7399' },
             transition: 'all 0.3s'
         }}
     >
@@ -95,11 +95,11 @@ const PrevArrow = ({ onClick }) => (
             top: '40%',
             transform: 'translateY(-50%)',
             zIndex: 10,
-            bgcolor: '#755970',
+            bgcolor: '#3c7399',
             color: 'white',
             width: 40,
             height: 40,
-            '&:hover': { bgcolor: '#755970' },
+            '&:hover': { bgcolor: '#3c7399' },
             transition: 'all 0.3s'
         }}
     >
@@ -145,14 +145,14 @@ const BestSellerSection = () => {
                         fontWeight: 300,
                         fontFamily: "'Playfair Display', serif",
                         letterSpacing: 2,
-                        color: '#755970',
+                        color: '#3c7399',
                         mb: 2,
                         textTransform: 'uppercase'
                     }}
                 >
                     Best Sellers
                 </Typography>
-                <div className="w-16 h-[2px] bg-[#755970] mx-auto opacity-50" />
+                <div className="w-16 h-[2px] bg-[#3c7399] mx-auto opacity-50" />
             </Box>
 
             <div className="max-w-[1400px] mx-auto px-10 relative">
@@ -171,7 +171,7 @@ const BestSellerSection = () => {
                         navigate('/product-catalogue');
                     }}
                     sx={{
-                        bgcolor: '#755970', // Primary Slate
+                        bgcolor: '#3c7399', // Primary Slate
                         color: 'white',
                         px: 8,
                         py: 2,
@@ -185,7 +185,7 @@ const BestSellerSection = () => {
                         position: 'relative',
                         overflow: 'hidden',
                         '&:hover': {
-                            bgcolor: '#755970', // Loupe Blue Hover
+                            bgcolor: '#3c7399', // Loupe Blue Hover
                             boxShadow: '0 8px 25px rgba(151, 194, 213, 0.4)',
                             transform: 'translateY(-2px)'
                         },

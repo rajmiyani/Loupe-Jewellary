@@ -227,8 +227,8 @@ const OrdersTable = () => {
                         sx={{
                           borderRadius: '8px',
                           textTransform: 'none',
-                          bgcolor: '#755970',
-                          '&:hover': { bgcolor: '#402d43' }
+                          bgcolor: '#3c7399',
+                          '&:hover': { bgcolor: '#a9cee5' }
                         }}
                       >
                         View
@@ -255,7 +255,7 @@ const OrdersTable = () => {
           <>
             <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pb: 1 }}>
               <Box>
-                <Typography variant="h5" sx={{ fontWeight: 900, color: '#402d43' }}>Order Details</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 900, color: '#a9cee5' }}>Order Details</Typography>
                 <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>ID: {selectedOrder._id}</Typography>
               </Box>
               <Chip
@@ -270,7 +270,7 @@ const OrdersTable = () => {
                 {/* Customer & Shipping Section */}
                 <Grid item xs={12} md={6}>
                   <Box sx={{ mb: 3 }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#a9cee5' }}>
                       <User size={18} /> Customer Information
                     </Typography>
                     <Paper variant="outlined" sx={{ p: 2, borderRadius: '16px', bgcolor: '#f8fafc' }}>
@@ -281,7 +281,7 @@ const OrdersTable = () => {
                   </Box>
 
                   <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#a9cee5' }}>
                       <MapPin size={18} /> Shipping Address
                     </Typography>
                     <Paper variant="outlined" sx={{ p: 2, borderRadius: '16px', bgcolor: '#f0f9ff' }}>
@@ -290,7 +290,7 @@ const OrdersTable = () => {
                           <Typography variant="body2" sx={{ fontWeight: 600 }}>{(selectedOrder.shippingAddress.firstName || 'N/A')} {(selectedOrder.shippingAddress.lastName || '')}</Typography>
                           <Typography variant="body2">{selectedOrder.shippingAddress.streetAddress || 'N/A'}</Typography>
                           <Typography variant="body2">{(selectedOrder.shippingAddress.city || 'N/A')}, {(selectedOrder.shippingAddress.state || 'N/A')} - {(selectedOrder.shippingAddress.zipCode || 'N/A')}</Typography>
-                          <Typography variant="body2" sx={{ mt: 1, fontWeight: 700, color: '#755970' }}>Mobile: {selectedOrder.shippingAddress.mobile || 'N/A'}</Typography>
+                          <Typography variant="body2" sx={{ mt: 1, fontWeight: 700, color: '#3c7399' }}>Mobile: {selectedOrder.shippingAddress.mobile || 'N/A'}</Typography>
                         </>
                       ) : (
                         <Typography color="error">Address not provided</Typography>
@@ -301,7 +301,7 @@ const OrdersTable = () => {
 
                 {/* Products Section */}
                 <Grid item xs={12} md={6}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#402d43' }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1, mb: 2, color: '#a9cee5' }}>
                     <Package size={18} /> Order Items
                   </Typography>
                   <Box sx={{ maxHeight: 300, overflowY: 'auto', pr: 1 }}>
@@ -317,13 +317,13 @@ const OrdersTable = () => {
                           <Typography variant="caption" color="textSecondary" display="block">
                             Qty: {item.quantity} | Size: {item.size ? `${item.size} MM` : 'N/A'} | Weight: {item.weight ? `${item.weight}g` : 'N/A'}
                           </Typography>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#755970' }}>₹{item.price}</Typography>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#3c7399' }}>₹{item.price}</Typography>
                         </Box>
                       </Paper>
                     ))}
                   </Box>
 
-                  <Box sx={{ mt: 3, p: 2, bgcolor: '#402d43', borderRadius: '16px', color: '#fff' }}>
+                  <Box sx={{ mt: 3, p: 2, bgcolor: '#a9cee5', borderRadius: '16px', color: '#1e3545' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                       <Typography variant="body2">Total Price</Typography>
                       <Typography variant="body2" sx={{ fontWeight: 700 }}>₹{selectedOrder.totalPrice}</Typography>
@@ -332,7 +332,7 @@ const OrdersTable = () => {
                       <Typography variant="body2">Discount</Typography>
                       <Typography variant="body2" sx={{ fontWeight: 700, color: '#10b981' }}>-{selectedOrder.discount}%</Typography>
                     </Box>
-                    <Divider sx={{ my: 1, bgcolor: 'rgba(255,255,255,0.1)' }} />
+                    <Divider sx={{ my: 1, bgcolor: 'rgba(30, 53, 69, 0.15)' }} />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>Net Amount</Typography>
                       <Typography variant="subtitle1" sx={{ fontWeight: 900 }}>₹{selectedOrder.totalDiscountedPrice}</Typography>

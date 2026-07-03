@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { uploadVideoViaBackend, deleteAssetViaBackend } from '../../utils/cloudinaryUtils';
 import { API_BASE_URL } from '../../config/apiConfig';
 
-const BRAND = '#755970';
+const BRAND = '#3c7399';
 
 const SparkleVideoManager = () => {
   const [videos, setVideos] = useState([]);

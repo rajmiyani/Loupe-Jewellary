@@ -11,7 +11,7 @@ const productSalesData = [
     { name: 'Bracelets', value: 200 },
 ]
 
-const COLORS = ['#755970', '#3b82f6', '#fbbf24', '#10b981']
+const COLORS = ['#3c7399', '#3b82f6', '#fbbf24', '#10b981']
 
 const Achivement = () => {
     const { adminDashboard } = useSelector(store => store);

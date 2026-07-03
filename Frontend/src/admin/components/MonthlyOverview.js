@@ -15,7 +15,7 @@ const MonthlyOverview = () => {
             trend: '+12.5%',
             isUp: true,
             icon: <Banknote size={20} />,
-            color: '#755970',
+            color: '#3c7399',
             bg: '#f0f9ff'
         },
         {

@@ -237,7 +237,7 @@ export default function Product() {
               fontSize: { xs: '2.5rem', md: '4rem' },
               fontWeight: 400,
               fontFamily: "'Playfair Display', serif",
-              color: '#755970',
+              color: '#3c7399',
               mb: 2,
               textTransform: 'capitalize'
             }}
@@ -267,10 +267,10 @@ export default function Product() {
           <aside className="w-full lg:w-[280px] flex-shrink-0">
             <div className="sticky top-32">
               <div className="flex items-center justify-between mb-8">
-                <Typography sx={{ fontSize: '1.2rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#755970' }}>Filters</Typography>
+                <Typography sx={{ fontSize: '1.2rem', fontWeight: 300, fontFamily: "'Playfair Display', serif", color: '#3c7399' }}>Filters</Typography>
                 <button
                   onClick={() => setMobileFiltersOpen(true)}
-                  className="lg:hidden p-2 text-[#755970]"
+                  className="lg:hidden p-2 text-[#3c7399]"
                 >
                   <FilterAltIcon />
                 </button>
@@ -279,7 +279,7 @@ export default function Product() {
               {/* Price Range Filter */}
               <Accordion disableGutters elevation={0} defaultExpanded sx={{ bgcolor: 'transparent', '&:before': { display: 'none' }, mb: 3 }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />} sx={{ p: 0, minHeight: 0, '& .MuiAccordionSummary-content': { my: 1.5 } }}>
-                  <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#755970' }}>Price Range</Typography>
+                  <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#3c7399' }}>Price Range</Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ p: 0, pb: 2 }}>
                   <div className="space-y-6 pt-4">
@@ -304,7 +304,7 @@ export default function Product() {
               {filters.map((section) => (
                 <Accordion key={section.id} disableGutters elevation={0} defaultExpanded sx={{ bgcolor: 'transparent', '&:before': { display: 'none' }, mb: 3 }}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ fontSize: 18 }} />} sx={{ p: 0, minHeight: 0, '& .MuiAccordionSummary-content': { my: 1.5 } }}>
-                    <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#755970' }}>{section.name}</Typography>
+                    <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#3c7399' }}>{section.name}</Typography>
                   </AccordionSummary>
                   <AccordionDetails sx={{ p: 0, pb: 2 }}>
                     {section.id === 'color' ? (
@@ -313,7 +313,7 @@ export default function Product() {
                           <div
                             key={option.value}
                             onClick={() => handleFilters(option.value, section.id)}
-                            className={`w-9 h-9 rounded-full cursor-pointer border-2 transition-all flex items-center justify-center ${colorValue?.split(',').includes(option.value) ? 'border-[#755970] scale-110' : 'border-transparent'}`}
+                            className={`w-9 h-9 rounded-full cursor-pointer border-2 transition-all flex items-center justify-center ${colorValue?.split(',').includes(option.value) ? 'border-[#3c7399] scale-110' : 'border-transparent'}`}
                             title={option.label}
                           >
                             <div
@@ -333,7 +333,7 @@ export default function Product() {
                                 size="small"
                                 checked={searchParams.get(section.id)?.split(',').includes(option.value) || false}
                                 onChange={() => handleFilters(option.value, section.id)}
-                                sx={{ color: '#dadada', '&.Mui-checked': { color: '#755970' } }}
+                                sx={{ color: '#dadada', '&.Mui-checked': { color: '#3c7399' } }}
                               />
                             }
                             label={<Typography sx={{ fontSize: '0.85rem', color: '#64748b' }}>{option.label}</Typography>}
@@ -347,13 +347,13 @@ export default function Product() {
 
               {/* Sorting Section */}
               <div className="pt-6 border-t border-slate-100">
-                <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#755970', mb: 3 }}>Sort By</Typography>
+                <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#3c7399', mb: 3 }}>Sort By</Typography>
                 <RadioGroup value={sortValue || "low_to_high"} onChange={(e) => handleSortFilter(e.target.value)}>
                   {sortOptions.map((option) => (
                     <FormControlLabel
                       key={option.value}
                       value={option.value}
-                      control={<Radio size="small" sx={{ color: '#dadada', '&.Mui-checked': { color: '#755970' } }} />}
+                      control={<Radio size="small" sx={{ color: '#dadada', '&.Mui-checked': { color: '#3c7399' } }} />}
                       label={<Typography sx={{ fontSize: '0.85rem', color: '#64748b' }}>{option.name}</Typography>}
                     />
                   ))}
@@ -370,8 +370,8 @@ export default function Product() {
                   <div className="w-32 h-32 opacity-10 mb-6">
                     <img src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg" alt="No results" className="w-full h-full object-contain" />
                   </div>
-                  <Typography variant="h5" sx={{ fontFamily: "'Playfair Display', serif", color: '#755970', mb: 1 }}>No Masterpieces Found</Typography>
-                  <Box sx={{ w: 40, h: 2, bgcolor: '#755970', my: 2 }} />
+                  <Typography variant="h5" sx={{ fontFamily: "'Playfair Display', serif", color: '#3c7399', mb: 1 }}>No Masterpieces Found</Typography>
+                  <Box sx={{ w: 40, h: 2, bgcolor: '#3c7399', my: 2 }} />
                   <Typography sx={{ color: '#94a3b8', fontSize: '0.9rem' }}>Try refining your filters or search keywords.</Typography>
                 </div>
               ) : (
@@ -398,9 +398,9 @@ export default function Product() {
                     '& .MuiPaginationItem-root': {
                       fontFamily: 'serif',
                       fontWeight: 700,
-                      color: '#755970',
+                      color: '#3c7399',
                       '&.Mui-selected': {
-                        bgcolor: '#755970',
+                        bgcolor: '#3c7399',
                         color: 'white',
                         '&:hover': { bgcolor: '#334155' }
                       }
@@ -433,7 +433,7 @@ export default function Product() {
                   <Box sx={{ py: 2 }}>
                     {filters.map((section) => (
                       <Box key={section.id} sx={{ mb: 4 }}>
-                        <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#755970', mb: 2 }}>
+                        <Typography sx={{ fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, color: '#3c7399', mb: 2 }}>
                           {section.name}
                         </Typography>
                         <div className="flex flex-wrap gap-2">
@@ -445,9 +445,9 @@ export default function Product() {
                               variant={searchParams.get(section.id)?.split(',').includes(option.value) ? "filled" : "outlined"}
                               sx={{
                                 borderRadius: '8px',
-                                bgcolor: searchParams.get(section.id)?.split(',').includes(option.value) ? '#755970' : 'transparent',
+                                bgcolor: searchParams.get(section.id)?.split(',').includes(option.value) ? '#3c7399' : 'transparent',
                                 color: searchParams.get(section.id)?.split(',').includes(option.value) ? 'white' : '#64748b',
-                                '&:hover': { bgcolor: searchParams.get(section.id)?.split(',').includes(option.value) ? '#5a4255' : '#f1f5f9' }
+                                '&:hover': { bgcolor: searchParams.get(section.id)?.split(',').includes(option.value) ? '#2b526d' : '#f1f5f9' }
                               }}
                             />
                           ))}
@@ -456,7 +456,7 @@ export default function Product() {
                     ))}
                   </Box>
                 </Box>
-                <Button fullWidth variant="contained" onClick={() => setMobileFiltersOpen(false)} sx={{ bgcolor: '#755970', mt: 4, py: 1.5 }}>Apply Filters</Button>
+                <Button fullWidth variant="contained" onClick={() => setMobileFiltersOpen(false)} sx={{ bgcolor: '#3c7399', mt: 4, py: 1.5 }}>Apply Filters</Button>
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -25,7 +25,7 @@ const Stat = ({ label, value, suffix = '' }) => {
   const ref = useCountUp(value);
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border p-6 bg-white dark:bg-gray-900 dark:border-gray-700">
-      <p className="text-3xl font-extrabold text-[#755970] dark:text-white">
+      <p className="text-3xl font-extrabold text-[#3c7399] dark:text-white">
         <span ref={ref}>0</span>
         {suffix}
       </p>

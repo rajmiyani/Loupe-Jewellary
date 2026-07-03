@@ -40,7 +40,7 @@
 }
 
 .slick-arrow:hover {
-    background: #2c1e2f !important;
+    background: #1e3545 !important;
 }
 
 .slick-arrow:hover::before {
@@ -67,7 +67,7 @@
 }
 
 .slick-active button::before {
-    color: #2c1e2f !important;
+    color: #1e3545 !important;
 }
 
 /* .home_slider_Main .item{position: relative;}

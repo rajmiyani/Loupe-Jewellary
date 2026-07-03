@@ -54,14 +54,14 @@ const MyAccount = () => {
           sx={{
             width: 72,
             height: 72,
-            bgcolor: '#755970',
+            bgcolor: '#3c7399',
             fontSize: '1.8rem',
           }}
         >
           {user?.firstName?.[0]}
         </Avatar>
         <Box sx={{ flexGrow: 1 }}>
-          <Typography sx={{ fontSize: '1.4rem', fontWeight: 700, color: '#755970' }}>
+          <Typography sx={{ fontSize: '1.4rem', fontWeight: 700, color: '#3c7399' }}>
             {user?.firstName} {user?.lastName}
           </Typography>
           <Typography sx={{ fontSize: '0.85rem', color: '#64748b' }}>
@@ -74,12 +74,12 @@ const MyAccount = () => {
             onClick={() => setIsEditing(true)}
             startIcon={<Edit3 size={16} />}
             sx={{
-              borderColor: '#755970',
-              color: '#755970',
+              borderColor: '#3c7399',
+              color: '#3c7399',
               fontSize: '0.8rem',
               textTransform: 'none',
               borderRadius: '8px',
-              '&:hover': { bgcolor: '#755970', color: 'white', borderColor: '#755970' }
+              '&:hover': { bgcolor: '#3c7399', color: 'white', borderColor: '#3c7399' }
             }}
           >
             Edit
@@ -91,7 +91,7 @@ const MyAccount = () => {
               onClick={handleSave}
               startIcon={<Save size={16} />}
               sx={{
-                bgcolor: '#755970',
+                bgcolor: '#3c7399',
                 color: 'white',
                 fontSize: '0.8rem',
                 textTransform: 'none',
@@ -140,7 +140,7 @@ const MyAccount = () => {
               variant="outlined"
             />
           ) : (
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{user?.firstName || '-'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600 }}>{user?.firstName || '-'}</Typography>
           )}
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -155,20 +155,20 @@ const MyAccount = () => {
               variant="outlined"
             />
           ) : (
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{user?.lastName || '-'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600 }}>{user?.lastName || '-'}</Typography>
           )}
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Mail size={15} color="#755970" />
+            <Mail size={15} color="#3c7399" />
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>Email</Typography>
           </Box>
-          <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600, mt: 0.5 }}>{user?.email || '-'}</Typography>
+          <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600, mt: 0.5 }}>{user?.email || '-'}</Typography>
           <Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', mt: 0.5 }}>Email cannot be changed</Typography>
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Phone size={15} color="#755970" />
+            <Phone size={15} color="#3c7399" />
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>Mobile</Typography>
           </Box>
           {isEditing ? (
@@ -182,7 +182,7 @@ const MyAccount = () => {
               sx={{ mt: 1 }}
             />
           ) : (
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600, mt: 0.5 }}>{user?.mobile || '-'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600, mt: 0.5 }}>{user?.mobile || '-'}</Typography>
           )}
         </Grid>
       </Grid>
@@ -191,7 +191,7 @@ const MyAccount = () => {
 
       {/* Address */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-        <MapPin size={15} color="#755970" />
+        <MapPin size={15} color="#3c7399" />
         <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1.5 }}>
           Primary Address
         </Typography>
@@ -201,19 +201,19 @@ const MyAccount = () => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>Street</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.streetAddress || '-'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600 }}>{address.streetAddress || '-'}</Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>City</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.city || '-'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600 }}>{address.city || '-'}</Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>State</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.state || '-'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600 }}>{address.state || '-'}</Typography>
           </Grid>
           <Grid item xs={12} sm={4}>
             <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>Postal Code</Typography>
-            <Typography sx={{ fontSize: '1rem', color: '#755970', fontWeight: 600 }}>{address.zipCode || '-'}</Typography>
+            <Typography sx={{ fontSize: '1rem', color: '#3c7399', fontWeight: 600 }}>{address.zipCode || '-'}</Typography>
           </Grid>
         </Grid>
       ) : (

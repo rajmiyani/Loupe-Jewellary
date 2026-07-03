@@ -16,17 +16,17 @@ const SpotlightCTA = () => {
       </div>
       <div className="relative px-6 py-12 md:px-12 md:py-16 grid md:grid-cols-2 gap-8 items-center">
         <div className="slide-up">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#755970] dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#3c7399] dark:text-white">
             Elevate Your Shine
           </h2>
           <p className="mt-3 text-gray-700 dark:text-gray-300 max-w-prose">
             Explore handcrafted collections designed for every celebration. New designs drop every week.
           </p>
           <div className="mt-6 flex gap-3">
-            <a href="/all-jewellery/category/necklace" className="inline-flex items-center rounded-lg bg-[#2c1e2f] px-4 py-2 text-white font-semibold hover:bg-[#755970] transition">
+            <a href="/all-jewellery/category/necklace" className="inline-flex items-center rounded-lg bg-[#1e3545] px-4 py-2 text-white font-semibold hover:bg-[#3c7399] transition">
               Shop Necklaces
             </a>
-            <a href="/gold/earrings/stud?type=gold" className="inline-flex items-center rounded-lg border border-[#2c1e2f] text-[#2c1e2f] px-4 py-2 font-semibold hover:bg-blue-50 dark:text-[#755970] dark:border-[#755970] dark:hover:bg-gray-800 transition">
+            <a href="/gold/earrings/stud?type=gold" className="inline-flex items-center rounded-lg border border-[#1e3545] text-[#1e3545] px-4 py-2 font-semibold hover:bg-blue-50 dark:text-[#3c7399] dark:border-[#3c7399] dark:hover:bg-gray-800 transition">
               Explore Earrings
             </a>
           </div>

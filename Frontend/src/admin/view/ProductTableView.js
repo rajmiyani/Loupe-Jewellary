@@ -60,7 +60,7 @@ const ProductsTableView = () => {
           <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 600 }}>Analyzing highest performing inventory</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1.5 }}>
-          <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 700, '&:hover': { borderColor: '#755970', bgcolor: 'transparent' } }}>Filters</Button>
+          <Button variant="outlined" startIcon={<Filter size={16} />} sx={{ borderRadius: '12px', textTransform: 'none', px: 2, borderColor: '#f1f5f9', color: '#64748b', fontWeight: 700, '&:hover': { borderColor: '#3c7399', bgcolor: 'transparent' } }}>Filters</Button>
           {/* <Button variant="contained" sx={{ borderRadius: '12px', textTransform: 'none', px: 2, bgcolor: '#111827', color: '#ffffff', fontWeight: 700, boxShadow: '0 10px 20px rgba(0,0,0,0.1)', '&:hover': { bgcolor: '#1f2937' } }}>Inventory</Button> */}
         </Box>
       </Box>

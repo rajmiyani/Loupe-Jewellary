@@ -7,7 +7,7 @@ const ContactUs = () => {
   const contactMethods = [
     {
       title: "Direct Assistance",
-      icon: <Phone size={24} className="text-[#755970]" />,
+      icon: <Phone size={24} className="text-[#3c7399]" />,
       value: "99091 09074",
       sub: "Also: 99091 87074 | 99091 09974",
       action: "Call Concierge",
@@ -15,7 +15,7 @@ const ContactUs = () => {
     },
     {
       title: "Electronic Inquiry",
-      icon: <Mail size={24} className="text-[#755970]" />,
+      icon: <Mail size={24} className="text-[#3c7399]" />,
       value: "loupejewelsllp@gmail.com",
       sub: "Expected response within 24 boutique hours",
       action: "Send Inquiry",
@@ -38,7 +38,7 @@ const ContactUs = () => {
             sx={{
               fontSize: '0.8rem',
               fontWeight: 900,
-              color: '#755970',
+              color: '#3c7399',
               letterSpacing: 6,
               mb: 3,
               textTransform: 'uppercase'
@@ -52,7 +52,7 @@ const ContactUs = () => {
               fontWeight: 300,
               fontFamily: "'Playfair Display', serif",
               letterSpacing: 2,
-              color: '#755970',
+              color: '#3c7399',
               mb: 4,
               lineHeight: 1.1
             }}
@@ -72,7 +72,7 @@ const ContactUs = () => {
           >
             Our dedicated concierge team is at your immediate disposal. From bespoke design consultations to personal order logistics, we ensure your journey with Loupe is nothing short of extraordinary.
           </Typography>
-          <div className="w-24 h-[1px] bg-[#755970] mx-auto opacity-20" />
+          <div className="w-24 h-[1px] bg-[#3c7399] mx-auto opacity-20" />
         </motion.div>
       </Box>
 
@@ -100,8 +100,8 @@ const ContactUs = () => {
                   cursor: 'pointer',
                   '&:hover': {
                     boxShadow: '0 40px 80px rgba(15, 23, 42, 0.1)',
-                    borderColor: '#755970',
-                    '& .method-icon': { bgcolor: '#755970', color: 'white', transform: 'rotate(10deg)' }
+                    borderColor: '#3c7399',
+                    '& .method-icon': { bgcolor: '#3c7399', color: 'white', transform: 'rotate(10deg)' }
                   }
                 }}
               >
@@ -115,7 +115,7 @@ const ContactUs = () => {
                     height: 80,
                     borderRadius: '24px',
                     bgcolor: '#f8fafc',
-                    color: '#755970',
+                    color: '#3c7399',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -127,7 +127,7 @@ const ContactUs = () => {
                   {React.cloneElement(method.icon, { size: 32 })}
                 </Box>
 
-                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#755970', mb: 1.5, fontFamily: "'Outfit', sans-serif", letterSpacing: 0.5 }}>
+                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#3c7399', mb: 1.5, fontFamily: "'Outfit', sans-serif", letterSpacing: 0.5 }}>
                   {method.title}
                 </Typography>
 
@@ -136,15 +136,15 @@ const ContactUs = () => {
                 </Typography>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5, mb: 6 }}>
-                  <Clock size={14} className="text-[#755970]" />
+                  <Clock size={14} className="text-[#3c7399]" />
                   <Typography sx={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>
                     {method.sub}
                   </Typography>
                 </Box>
 
-                <div className="flex items-center justify-center gap-3 py-4 border-t border-gray-50 group text-[#755970] font-black uppercase text-[0.75rem] tracking-[0.25em]">
+                <div className="flex items-center justify-center gap-3 py-4 border-t border-gray-50 group text-[#3c7399] font-black uppercase text-[0.75rem] tracking-[0.25em]">
                   <span>{method.action}</span>
-                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-2 text-[#755970]" />
+                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-2 text-[#3c7399]" />
                 </div>
               </Paper>
             </motion.div>

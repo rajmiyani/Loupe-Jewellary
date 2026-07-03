@@ -87,8 +87,8 @@ const OrderHistory = () => {
               key={orderStatus[0].id}
               className="border-b border-gray-200 py-6"
             >
-              <div className="px-3 py-2 bg-blue-50 border border-[#755970] rounded-md">
-                <h1 className="text-base font-semibold text-[#755970]">
+              <div className="px-3 py-2 bg-blue-50 border border-[#3c7399] rounded-md">
+                <h1 className="text-base font-semibold text-[#3c7399]">
                   {orderStatus[0].name}
                 </h1>
               </div>
@@ -129,12 +129,12 @@ const OrderHistory = () => {
                     <img src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1711647931/no-order_fa6v9a.svg" alt="empty-wish" />
                   </div>
                   <div className="flex flex-col justify-center items-center gap-2">
-                    <h1 className="text-2xl font-semibold text-[#2c1e2f]">No orders found!</h1>
+                    <h1 className="text-2xl font-semibold text-[#1e3545]">No orders found!</h1>
                     <Button
                       onClick={() => navigate('/')}
                       variant="contained"
                       type="submit"
-                      sx={{ bgcolor: '#2c1e2f', "&:hover": { bgcolor: "#755970" }, }}
+                      sx={{ bgcolor: '#1e3545', "&:hover": { bgcolor: "#3c7399" }, }}
                       className="flex w-full uppercase items-center justify-center rounded-md border-none px-8 py-3 text-base font-medium text-white focus:outline-none "
                     >
                       Continue Shopping
@@ -155,7 +155,7 @@ const OrderHistory = () => {
                     return (
                       <div className="space-y-5 mb-10" key={order._id}>
                         {showDate && (
-                          <h1 className="text-2xl my-3 mt-10 font-semibold text-[#755970]">
+                          <h1 className="text-2xl my-3 mt-10 font-semibold text-[#3c7399]">
                             {formatOrderDate}
                           </h1>
                         )}

@@ -33,7 +33,7 @@ const MONTHS = [
 ];
 const STATUS_FILTERS = ['all', 'placed', 'confirmed', 'shipped', 'delivered', 'cancelled'];
 const STATUS_COLORS = {
-  all: { bg: '#f0f9ff', color: '#755970', activeBg: '#755970', activeColor: '#fff' },
+  all: { bg: '#f0f9ff', color: '#3c7399', activeBg: '#3c7399', activeColor: '#fff' },
   placed: { bg: '#fffbeb', color: '#d4af37', activeBg: '#d4af37', activeColor: '#fff' },
   confirmed: { bg: '#fef3c7', color: '#d97706', activeBg: '#d97706', activeColor: '#fff' },
   shipped: { bg: '#e0e7ff', color: '#4338ca', activeBg: '#4338ca', activeColor: '#fff' },

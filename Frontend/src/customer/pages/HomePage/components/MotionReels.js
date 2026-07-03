@@ -34,13 +34,13 @@ const MotionReels = () => {
                 <Box>
                     <Typography
                         variant="overline"
-                        sx={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: 3, color: '#755970', display: 'flex', alignItems: 'center', gap: 1 }}
+                        sx={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: 3, color: '#3c7399', display: 'flex', alignItems: 'center', gap: 1 }}
                     >
                         STYLED IN MOTION <span className="text-sm">✨</span>
                     </Typography>
                     <Typography
                         variant="h4"
-                        sx={{ fontFamily: 'serif', fontWeight: 400, color: '#755970', mt: 1, fontSize: { xs: '1.75rem', md: '2.5rem' } }}
+                        sx={{ fontFamily: 'serif', fontWeight: 400, color: '#3c7399', mt: 1, fontSize: { xs: '1.75rem', md: '2.5rem' } }}
                     >
                         See how our pieces shine in real moments.
                     </Typography>
@@ -58,7 +58,7 @@ const MotionReels = () => {
                         gap: 1,
                         pb: 0.5,
                         borderBottom: '2px solid #f1f5f9',
-                        '&:hover': { color: '#755970', borderColor: '#755970' },
+                        '&:hover': { color: '#3c7399', borderColor: '#3c7399' },
                         transition: 'all 0.3s'
                     }}
                 >
@@ -95,7 +95,7 @@ const MotionReels = () => {
                                 transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                                 '&:hover img': { transform: 'scale(1.1)' },
                                 '&:hover .reel-overlay': { bgcolor: 'rgba(0,0,0,0.1)' },
-                                '&:hover .play-btn': { scale: 1.1, bgcolor: '#755970' },
+                                '&:hover .play-btn': { scale: 1.1, bgcolor: '#3c7399' },
                                 boxLight: '0 10px 30px rgba(0,0,0,0.05)'
                             }}
                         >
@@ -128,7 +128,7 @@ const MotionReels = () => {
                                 <Typography sx={{ fontSize: '1rem', fontWeight: 700, mb: 0.5 }}>{reel.name}</Typography>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography sx={{ opacity: 0.9, fontSize: '0.9rem', fontWeight: 500 }}>{reel.price}</Typography>
-                                    <IconButton size="small" sx={{ bgcolor: 'rgba(255,255,255,0.15)', color: 'white', '&:hover': { bgcolor: 'white', color: '#755970' } }}>
+                                    <IconButton size="small" sx={{ bgcolor: 'rgba(255,255,255,0.15)', color: 'white', '&:hover': { bgcolor: 'white', color: '#3c7399' } }}>
                                         <ShoppingBag size={18} />
                                     </IconButton>
                                 </Box>

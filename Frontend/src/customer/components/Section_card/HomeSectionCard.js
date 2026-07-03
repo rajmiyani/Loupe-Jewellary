@@ -57,7 +57,7 @@ const HomeSectionCard = ({ product, productLabel }) => {
 
         {/* Product Label */}
         {productLabel && (
-          <div className="absolute bottom-3 left-3 z-10 px-3 py-1 bg-[#755970] text-white text-[10px] font-bold rounded-full tracking-widest shadow-lg">
+          <div className="absolute bottom-3 left-3 z-10 px-3 py-1 bg-[#3c7399] text-white text-[10px] font-bold rounded-full tracking-widest shadow-lg">
             {productLabel}
           </div>
         )}
@@ -77,12 +77,12 @@ const HomeSectionCard = ({ product, productLabel }) => {
             overflow: 'hidden',
             px: 1
           }}
-          className="group-hover:text-[#755970] transition-colors"
+          className="group-hover:text-[#3c7399] transition-colors"
         >
           {product.title}
         </Typography>
         <div className="flex items-center justify-center gap-3">
-          <Typography sx={{ color: '#755970', fontWeight: 900, fontSize: '1.05rem', fontFamily: "'Outfit', sans-serif" }}>
+          <Typography sx={{ color: '#3c7399', fontWeight: 900, fontSize: '1.05rem', fontFamily: "'Outfit', sans-serif" }}>
             ₹{formatPriceINR(product.discountedPrice)}
           </Typography>
           <Typography sx={{ color: '#94a3b8', textDecoration: 'line-through', fontSize: '0.75rem', fontStyle: 'italic', opacity: 0.8 }}>

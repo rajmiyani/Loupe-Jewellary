@@ -29,7 +29,7 @@ const TrustBanner = () => {
                     sx={{
                         fontSize: { xs: '0.7rem', md: '0.8rem' },
                         fontWeight: 900,
-                        color: '#755970',
+                        color: '#3c7399',
                         letterSpacing: 4,
                         mb: 2,
                         textTransform: 'uppercase'
@@ -43,7 +43,7 @@ const TrustBanner = () => {
                         fontWeight: 300,
                         fontFamily: "'Playfair Display', serif",
                         letterSpacing: 2,
-                        color: '#755970',
+                        color: '#3c7399',
                         mb: 3,
                         textTransform: 'uppercase'
                     }}
@@ -73,15 +73,15 @@ const TrustBanner = () => {
                             p: 4,
                             borderRadius: '20px',
                             bgcolor: '#ffffff',
-                            color: '#755970',
+                            color: '#3c7399',
                             border: '1px solid #f1f5f9',
                             boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
                             cursor: 'pointer',
                             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                             '&:hover': {
-                                bgcolor: '#755970', // Match website theme
+                                bgcolor: '#3c7399', // Match website theme
                                 color: '#ffffff',
-                                border: '1px solid #755970',
+                                border: '1px solid #3c7399',
                                 boxShadow: '0 20px 40px rgba(64, 45, 67, 0.2)',
                                 '& .icon-box': {
                                     bgcolor: 'rgba(255, 255, 255, 0.1)',
@@ -104,7 +104,7 @@ const TrustBanner = () => {
                                 height: 60,
                                 borderRadius: '50%',
                                 bgcolor: '#f8fafc',
-                                color: '#755970',
+                                color: '#3c7399',
                                 mr: 3,
                                 transition: 'all 0.4s ease'
                             }}

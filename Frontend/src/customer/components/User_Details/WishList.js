@@ -30,9 +30,9 @@ const WishList = () => {
             className="flex flex-col items-center justify-center py-24 text-center rounded-[32px] bg-white border border-dashed border-gray-200"
           >
             <Box sx={{ p: 4, borderRadius: '50%', bgcolor: 'rgba(151, 194, 213, 0.05)', mb: 4 }}>
-              <Heart size={64} className="text-[#755970] opacity-40" strokeWidth={1} />
+              <Heart size={64} className="text-[#3c7399] opacity-40" strokeWidth={1} />
             </Box>
-            <Typography sx={{ fontSize: '2rem', fontFamily: "'Playfair Display', serif", color: '#755970', mb: 1.5, letterSpacing: -0.5 }}>
+            <Typography sx={{ fontSize: '2rem', fontFamily: "'Playfair Display', serif", color: '#3c7399', mb: 1.5, letterSpacing: -0.5 }}>
               Your Curated Treasures
             </Typography>
             <Typography sx={{ fontSize: '0.95rem', color: '#64748b', mb: 5, maxWidth: 450, lineHeight: 1.6 }}>
@@ -42,7 +42,7 @@ const WishList = () => {
               onClick={() => navigate('/')}
               variant="contained"
               sx={{
-                bgcolor: '#755970',
+                bgcolor: '#3c7399',
                 color: 'white',
                 px: 8,
                 py: 2.2,
@@ -51,7 +51,7 @@ const WishList = () => {
                 fontWeight: 900,
                 letterSpacing: 3,
                 textTransform: 'uppercase',
-                '&:hover': { bgcolor: '#755970', transform: 'translateY(-2px)' },
+                '&:hover': { bgcolor: '#3c7399', transform: 'translateY(-2px)' },
                 transition: 'all 0.3s'
               }}
             >
@@ -128,7 +128,7 @@ const WishList = () => {
                             fontSize: '1.2rem',
                             fontWeight: 300,
                             fontFamily: "'Playfair Display', serif",
-                            color: '#755970',
+                            color: '#3c7399',
                             mb: 1.5,
                             cursor: 'pointer',
                             display: '-webkit-box',
@@ -142,15 +142,15 @@ const WishList = () => {
 
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                           <Box className="flex items-baseline gap-2">
-                            <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#755970', fontFamily: "'Outfit', sans-serif" }}>
+                            <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#3c7399', fontFamily: "'Outfit', sans-serif" }}>
                               ₹{formatPriceINR(product?.discountedPrice)}
                             </Typography>
                             <Typography sx={{ fontSize: '0.85rem', color: '#94a3b8', textDecoration: 'line-through' }}>
                               ₹{formatPriceINR(product?.price)}
                             </Typography>
                           </Box>
-                          <div className="px-3 py-1 bg-[#755970]/10 rounded-full">
-                            <Typography sx={{ fontSize: '0.65rem', color: '#755970', fontWeight: 900, letterSpacing: 1 }}>
+                          <div className="px-3 py-1 bg-[#3c7399]/10 rounded-full">
+                            <Typography sx={{ fontSize: '0.65rem', color: '#3c7399', fontWeight: 900, letterSpacing: 1 }}>
                               {product?.discountPercent}% OFF
                             </Typography>
                           </div>
@@ -162,7 +162,7 @@ const WishList = () => {
                           startIcon={<ShoppingBag size={18} />}
                           onClick={() => navigate(`/product/${product?._id}`)}
                           sx={{
-                            bgcolor: '#755970',
+                            bgcolor: '#3c7399',
                             color: 'white',
                             py: 2,
                             borderRadius: '16px',
@@ -170,7 +170,7 @@ const WishList = () => {
                             fontWeight: 900,
                             letterSpacing: 2,
                             textTransform: 'uppercase',
-                            '&:hover': { bgcolor: '#755970' }
+                            '&:hover': { bgcolor: '#3c7399' }
                           }}
                         >
                           Discover Piece

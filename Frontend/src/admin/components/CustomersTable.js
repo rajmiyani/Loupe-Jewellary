@@ -13,7 +13,7 @@ import { store } from "../../state/store";
 import { deleteUserProfile, getAllUsers } from "../../state/auth/Action";
 import { styled } from '@mui/material/styles';
 
-const BRAND = '#755970';
+const BRAND = '#3c7399';
 const BRAND_LIGHT = '#f0f9ff';
 const BRAND_DARK = '#5fa0b8';
 

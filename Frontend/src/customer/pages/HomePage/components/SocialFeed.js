@@ -24,7 +24,7 @@ const SocialFeed = () => {
             >
                 <Typography
                     variant="overline"
-                    sx={{ letterSpacing: 4, fontWeight: 800, color: '#755970', fontSize: '0.8rem' }}
+                    sx={{ letterSpacing: 4, fontWeight: 800, color: '#3c7399', fontSize: '0.8rem' }}
                 >
                     FOLLOW @LOUPE_DIAMONDS
                 </Typography>
