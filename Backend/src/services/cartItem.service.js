@@ -16,6 +16,14 @@ async function updateCartItem(userId, cartItemId, cartItemData) {
         }
 
         if(user._id.toString() === userId.toString()) {
+            const MAX_QUANTITY = 10;
+            if (cartItemData.quantity > MAX_QUANTITY) {
+                throw new Error(`You can only order a maximum of ${MAX_QUANTITY} units of the same product.`);
+            }
+            if (cartItemData.quantity < 1) {
+                throw new Error(`Quantity must be at least 1.`);
+            }
+
             item.quantity = cartItemData.quantity;
             item.price = item.quantity * item.product.price;
             item.discountedPrice = item.quantity * item.product.discountedPrice;
