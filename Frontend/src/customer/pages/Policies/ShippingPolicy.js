@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Box, Typography, Container } from '@mui/material';
 
 const ShippingPolicy = () => {
@@ -17,29 +17,25 @@ const ShippingPolicy = () => {
             We understand how important it is to receive your jewellery on time and in pristine condition. Our shipping process is designed to be secure, transparent, and fast.
           </Typography>
 
-          <h5>1. Processing Time</h5>
-          <Typography sx={{ mb: 3 }}>
-            In-stock items are typically processed and shipped within 1-3 business days. Custom-made or personalized pieces require additional time and usually ship within 7-14 business days.
+          <h5>1. Payment Terms</h5>
+          <Typography sx={{ mb: 3 }} component="div">
+            <ul style={{ paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong>Customized Jewellery:</strong> A 50% advance payment is required to begin production. The remaining 50% balance must be cleared prior to shipping.</li>
+                <li><strong>Ready Stock Jewellery:</strong> 100% payment is required at the time of purchase.</li>
+            </ul>
           </Typography>
 
-          <h5>2. Shipping Methods and Costs</h5>
-          <Typography sx={{ mb: 3 }}>
-            We offer fully insured, expedited shipping on all domestic orders free of charge. For international orders, shipping fees are calculated at checkout based on destination and package weight.
+          <h5>2. Shipping & Delivery Timelines</h5>
+          <Typography sx={{ mb: 3 }} component="div">
+            <ul style={{ paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong>Ready Stock Jewellery:</strong> Dispatched and delivered within <strong>5-7 working days</strong>.</li>
+                <li><strong>Customized Jewellery:</strong> Requires <strong>10-12 days</strong> for production and readiness, followed by an additional <strong>5-7 days</strong> for delivery (Approx. 20 days total from the date of order confirmation).</li>
+            </ul>
           </Typography>
 
-          <h5>3. Secure Packaging</h5>
+          <h5>3. Secure Packaging & Delivery</h5>
           <Typography sx={{ mb: 3 }}>
-            All orders are shipped in discreet, unbranded outer packaging to ensure the security of your high-value item during transit. Inside, your jewellery will be beautifully presented in our signature Loupe presentation box.
-          </Typography>
-
-          <h5>4. Tracking Your Order</h5>
-          <Typography sx={{ mb: 3 }}>
-            Once your order ships, you will receive a confirmation email containing your tracking number and a link to track your package in real-time.
-          </Typography>
-
-          <h5>5. Delivery Requirements</h5>
-          <Typography sx={{ mb: 3 }}>
-            For your protection, all orders require a direct signature upon delivery. We cannot ship to P.O. boxes. Please ensure someone is available at the delivery address to sign for the package.
+            All orders are shipped securely. For your protection, all orders require a direct signature upon delivery. We cannot ship to P.O. boxes. Please ensure someone is available at the delivery address to sign for the package.
           </Typography>
         </Box>
       </Container>

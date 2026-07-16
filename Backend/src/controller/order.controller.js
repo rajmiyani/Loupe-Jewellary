@@ -1,4 +1,5 @@
 const orderService = require('../services/order.service.js');
+const invoiceService = require('../services/invoice.service.js');
 
 const createOrder = async(req, res) => {
     const user = await req.user;
@@ -41,9 +42,29 @@ const cancelOrder = async(req, res) => {
     }
 }
 
+const exportInvoice = async(req, res) => {
+    try {
+        let order = await orderService.findOrderById(req.params.id);
+        
+        // Ensure user owns this order
+        const user = await req.user;
+        if (order.user._id.toString() !== user._id.toString()) {
+            return res.status(403).send({ error: "Unauthorized access to this order's invoice." });
+        }
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=invoice-${order._id}.pdf`);
+        
+        invoiceService.buildInvoice(order, res);
+    } catch (error) {
+        return res.status(500).send({ error: error.message });
+    }
+}
+
 module.exports = {
     createOrder,
     findOrderById,
     orderHistory,
-    cancelOrder
+    cancelOrder,
+    exportInvoice
 }

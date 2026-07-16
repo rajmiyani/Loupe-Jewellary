@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Box, Typography, Container } from '@mui/material';
 
 const RefundPolicy = () => {
@@ -17,29 +17,35 @@ const RefundPolicy = () => {
             At Loupe Jewellery, we strive to ensure you are completely satisfied with your purchase. If you are not entirely happy with your item, we are here to help.
           </Typography>
 
-          <h5>1. 7-Day Return Policy</h5>
+          <h5>1. Return & Exchange Valuation</h5>
           <Typography sx={{ mb: 3 }}>
-            We offer a 7-day return policy on all eligible jewellery. If you are not satisfied with your purchase, you may return it within 7 days of delivery for a full refund or exchange. The item must be in its original, unworn condition with all original tags, certificates, and packaging intact.
+            We offer a <strong>100% return on the current metal price</strong> of your jewellery. However, Labour charges, GST, and shipping charges will be deducted from the total refund or exchange amount.
           </Typography>
 
-          <h5>2. Non-Returnable Items</h5>
-          <Typography sx={{ mb: 3 }}>
-            Custom-made, engraved, or altered pieces are non-returnable and non-refundable. Items that show signs of wear or have been damaged after delivery will not be accepted for return.
+          <h5>2. Eligibility (Ready Stock vs Customized)</h5>
+          <Typography sx={{ mb: 3 }} component="div">
+            <ul style={{ paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong>Ready Stock (In-stock):</strong> Eligible for buyback and exchange according to the valuation policy above.</li>
+                <li><strong>Customized Jewellery:</strong> Customized jewellery is strictly <strong>not eligible</strong> for buyback, return, or exchange.</li>
+            </ul>
           </Typography>
 
-          <h5>3. Lifetime Buyback & Exchange</h5>
+          <h5>3. Product Condition & Quality Control (QC)</h5>
           <Typography sx={{ mb: 3 }}>
-            We offer a lifetime exchange and buyback policy on all gold and diamond jewellery purchased from us. Exchange value will be calculated based on the current market value of the metal and stones, minus making charges and applicable deductions.
+            The returned jewellery must be <strong>strictly unused</strong> and in its original, pristine condition. Once the item is received at our facility, our Quality Control (QC) team will conduct a thorough inspection. If any damage is detected or if the original certification is missing, additional charges will apply and be deducted from the refund. Furthermore, if the jewellery has been altered, repaired, or tampered with by any <strong>third-party jeweller</strong>, the final decision regarding the return or exchange will remain solely at the discretion of the seller.
           </Typography>
 
-          <h5>4. Refund Process</h5>
-          <Typography sx={{ mb: 3 }}>
-            Once we receive your returned item, it will be inspected by our quality assurance team. If approved, your refund will be processed to the original method of payment within 7-10 business days.
+          <h5>4. Documentation & Unboxing Video</h5>
+          <Typography sx={{ mb: 3 }} component="div">
+            <ul style={{ paddingLeft: '20px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}>An <strong>unboxing video</strong> of the delivered package is mandatory for any return or exchange claims. If an unboxing video is not provided, the final decision will rest entirely with the seller.</li>
+                <li>The <strong>original GST bill</strong> (or a valid copy) must be presented at the time of initiating a Return or Exchange (R&E).</li>
+            </ul>
           </Typography>
 
-          <h5>5. How to Initiate a Return</h5>
+          <h5>5. Return Shipping & Refund Process</h5>
           <Typography sx={{ mb: 3 }}>
-            To initiate a return, please contact our customer care team at loupejewelsllp@gmail.com with your order number and reason for return. We will provide you with further instructions and arrange for a secure pickup.
+            A <strong>2% return shipping charge</strong> will be levied on the overall product value for processing the return pickup. Once the jewellery passes our QC inspection, the final refund amount will be processed and credited to your bank account via <strong>RTGS or NEFT within 7-10 working days</strong>.
           </Typography>
         </Box>
       </Container>

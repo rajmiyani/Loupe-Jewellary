@@ -11,8 +11,10 @@ import {
     ShoppingBag,
     ShieldCheck,
     AlertCircle,
-    Clock
+    Clock,
+    Download
 } from 'lucide-react';
+import { api } from '../../../config/apiConfig';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrderById, cancelOrder } from '../../../state/order/Action';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -81,6 +83,29 @@ const OrderDetails = () => {
 
     const { firstName, lastName, streetAddress, city, zipCode, mobile, state } = order.order?.shippingAddress || {};
 
+    const [isDownloading, setIsDownloading] = useState(false);
+
+    const handleDownloadInvoice = async () => {
+        try {
+            setIsDownloading(true);
+            const response = await api.get(`/api/orders/${params.orderId}/invoice`, {
+                responseType: 'blob',
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `invoice-${params.orderId}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error("Failed to download invoice:", error);
+            // Optionally, we could set an error state here and show it
+        } finally {
+            setIsDownloading(false);
+        }
+    };
+
     if (order.loading) {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
@@ -105,6 +130,23 @@ const OrderDetails = () => {
                         Back to Registry
                     </Button>
                     <Box className="flex items-center gap-4">
+                        <Button
+                            variant="outlined"
+                            startIcon={<Download size={16} />}
+                            onClick={handleDownloadInvoice}
+                            disabled={isDownloading}
+                            sx={{
+                                borderRadius: '12px',
+                                borderColor: '#3c7399',
+                                color: '#3c7399',
+                                fontSize: '0.65rem',
+                                fontWeight: 800,
+                                px: 2,
+                                '&:hover': { bgcolor: '#3c7399', color: 'white', borderColor: '#3c7399' }
+                            }}
+                        >
+                            {isDownloading ? 'Downloading...' : 'Download Invoice'}
+                        </Button>
                         <Button
                             variant="outlined"
                             startIcon={<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA" width="16" />}

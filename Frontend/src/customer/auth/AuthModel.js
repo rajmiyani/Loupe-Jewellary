@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import RegisterForm from './RegisterForm';
@@ -30,7 +30,7 @@ export default function AuthModel({ open, handleClose }) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={style} className="no-scrollbar">
                     {location.pathname === "/login" ? <LoginForm /> : <RegisterForm />}
                 </Box>
             </Modal>

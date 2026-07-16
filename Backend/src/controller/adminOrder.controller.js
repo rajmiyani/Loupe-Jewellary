@@ -1,4 +1,5 @@
 const orderService = require('../services/order.service.js');
+const invoiceService = require('../services/invoice.service.js');
 
 const getAllOrders = async(req, res) => {
     try {
@@ -65,6 +66,19 @@ const deleteOrder = async(req, res) => {
     }
 }
 
+const exportInvoice = async(req, res) => {
+    try {
+        let order = await orderService.findOrderById(req.params.orderId);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=invoice-${order._id}.pdf`);
+        
+        invoiceService.buildInvoice(order, res);
+    } catch (error) {
+        return res.status(500).send({ error: error.message });
+    }
+}
+
 module.exports = {
     getAllOrders,
     confirmedOrders,
@@ -72,4 +86,5 @@ module.exports = {
     deliveredOrders,
     deleteOrder,
     cancelledOrders,
+    exportInvoice
 }

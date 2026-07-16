@@ -7,6 +7,7 @@ import IsAdmin from './config/isAdmin';
 import WhatsAppContact from './customer/components/navigation/WhatsAppContact';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   // Initialize theme from localStorage once on mount
@@ -27,6 +28,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+
+      <ScrollToTop />
+      
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route path='/*' element={<CustomerRouters />}></Route>

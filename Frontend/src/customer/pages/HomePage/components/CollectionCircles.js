@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
@@ -48,8 +48,8 @@ const CollectionCircles = () => {
     };
 
     return (
-        <Box sx={{ py: 10, bgcolor: '#ffffff', overflow: 'hidden' }}>
-            <div className="max-w-[1600px] mx-auto">
+        <Box className="no-scrollbar" sx={{ py: 10, bgcolor: '#ffffff', overflow: 'hidden', overflowY: 'hidden' }}>
+            <div className="max-w-[1600px] mx-auto no-scrollbar" style={{ overflowY: 'hidden' }}>
                 <Slider {...settings}>
                     {categories.map((cat, i) => (
                         <Box

@@ -301,7 +301,7 @@ export default function Navigation() {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-[85vw] flex-col overflow-y-auto bg-white pb-12 shadow-2xl">
+              <Dialog.Panel className="relative flex w-full max-w-[85vw] flex-col overflow-y-auto bg-white pb-12 shadow-2xl no-scrollbar">
                 {/* 1. Editorial Header Bar */}
                 <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5 bg-white border-b border-gray-100">
                   <Link to="/" onClick={() => setOpen(false)}>

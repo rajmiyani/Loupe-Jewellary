@@ -76,11 +76,13 @@ const HeroSection = () => {
         <Box
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            className="no-scrollbar"
             sx={{
                 width: '100%',
                 height: { xs: '75vh', md: '85vh' },
                 position: 'relative',
                 overflow: 'hidden',
+                overflowY: 'hidden',
                 bgcolor: '#0f172a'
             }}
         >

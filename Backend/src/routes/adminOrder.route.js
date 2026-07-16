@@ -10,5 +10,6 @@ router.put('/:orderId/ship', authenticate, orderController.shippedOrders);
 router.put('/:orderId/deliver', authenticate, orderController.deliveredOrders); 
 router.put('/:orderId/cancel', authenticate, orderController.cancelledOrders); 
 router.put('/:orderId/delete', authenticate, orderController.deleteOrder); 
+router.get('/:orderId/invoice', authenticate, orderController.exportInvoice); 
 
 module.exports = router;

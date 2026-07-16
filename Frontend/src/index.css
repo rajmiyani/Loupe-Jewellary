@@ -21,13 +21,17 @@
   box-sizing: border-box;
 }
 
+/* Prevent double scrollbar — only ONE scrollbar allowed on the entire page */
+html, body {
+  overflow-x: hidden;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  overflow-x: hidden;
   font-family: 'Poppins', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -136,16 +140,13 @@ html.dark body {
   bottom: 0px;
   width: 100%;
   height: 2px;
-  /* --tw-text-opacity: 0.7; */
   background: #3c7399;
   border-radius: 40px;
   transform: scaleX(0);
-  /* transform-origin: right; */
   transition: transform 0.3s;
 }
 
 .unline-animation:hover::after {
-  /* transform-origin: left; */
   transform: scaleX(1);
   height: 3px;
 }
@@ -166,17 +167,14 @@ html.dark body {
   bottom: 0px;
   width: 100%;
   height: 2px;
-  /* --tw-text-opacity: 0.7; */
   background: #111827;
   /* gray-900 */
   border-radius: 40px;
   transform: scaleX(0);
-  /* transform-origin: right; */
   transition: transform 0.3s;
 }
 
 .unline-navigation:hover::after {
-  /* transform-origin: left; */
   transform: scaleX(1);
   height: 3px;
 }
@@ -353,7 +351,7 @@ html.dark body {
   position: relative;
 }
 
-.marquee>div {
+.marquee > div {
   display: inline-block;
   padding-left: 100%;
   will-change: transform;
@@ -431,7 +429,6 @@ html.dark body {
   border-color: var(--primary-theme) !important;
 }
 
-
 /* Hide scrollbar for elements with no-scrollbar class */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -441,3 +438,8 @@ html.dark body {
   scrollbar-width: none;
 }
 
+/* Fix react-slick vertical scrollbars */
+.slick-list,
+.slick-track {
+  overflow-y: hidden !important;
+}
