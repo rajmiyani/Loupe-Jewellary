@@ -16,6 +16,7 @@ import {
   MessageCircle,
   ChevronDown,
   ChevronUp,
+  Tag,
   Menu as MenuIcon
 } from "lucide-react";
 import {
@@ -43,12 +44,14 @@ import EditProductForm from "./components/EditProductForm";
 import AdminDashboard from "./components/AdminDashboard";
 import SparkleVideoManager from "./components/SparkleVideoManager";
 import GoldPriceBadge from "./components/GoldPriceBadge";
+import CategoryManagement from "./components/CategoryManagement";
 import { getOrders } from "../state/admin/order/Action";
 
 const menu = [
   { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
   { name: "Orders", path: "/admin/orders", icon: ShoppingBag },
   { name: "Products", path: "/admin/products", icon: Package },
+  { name: "Categories", path: "/admin/categories", icon: Tag },
   { name: "Customers", path: "/admin/customers", icon: Users },
   { name: "Add Product", path: "/admin/product/create", icon: PlusSquare },
   { name: "Sparkle Videos", path: "/admin/sparkle-videos", icon: MessageCircle },
@@ -361,6 +364,7 @@ const Admin = () => {
             <Route path="/orders" element={<OrdersTable />} />
             <Route path="/product/create" element={<CreateProductForm />} />
             <Route path="/product/edit/:productId" element={<EditProductForm />} />
+            <Route path="/categories" element={<CategoryManagement />} />
             <Route path="/sparkle-videos" element={<SparkleVideoManager />} />
           </Routes>
         </Box>

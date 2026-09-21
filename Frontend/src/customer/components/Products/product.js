@@ -114,40 +114,67 @@ export default function Product() {
   const typeValue = searchParams.get("type");
   const occasionValue = searchParams.get("occasion");
   const searchValue = searchParams.get("search");
+  const collectionQueryValue = searchParams.get("collection") || searchParams.get("collectionName");
 
   useEffect(() => {
     const [minPrice, maxPrice] = priceValue === null ? [100, 1000000] : priceValue.split(",").map(Number);
     const [minDiscount, maxDiscount] = discountValue === null ? [0, 100] : discountValue.split(",").map(Number);
 
     try {
-      const jewelryCollections = ['best-sellers', 'reccomanded', 'new-arrival', 'dharohar', 'aksharam', 'loupe', 'wedding'];
-      const collectionParam = jewelryCollections.includes(param.levelOne) ? param.levelOne : null;
+      let resolvedCategory = "jewellery";
+      let resolvedColor = colorValue || "";
+      let resolvedType = typeValue || "";
+      let resolvedOccasion = occasionValue || "";
+      let resolvedCollection = collectionQueryValue || "";
+      let resolvedSearch = searchValue || "";
+
+      if (param.categoryName) {
+        resolvedCategory = param.categoryName;
+      } else if (param.levelOne && param.levelTwo && param.levelThree) {
+        const sec = (param.levelTwo || "").toLowerCase();
+        const item = (param.levelThree || "").toLowerCase();
+
+        if (sec === "metal") {
+          resolvedCategory = param.levelOne;
+          if (item.includes("rose")) resolvedColor = "rose";
+          else if (item.includes("silver") || item.includes("white")) resolvedColor = "white";
+          else if (item.includes("gold") || item.includes("yellow")) resolvedColor = "yellow";
+          else resolvedColor = item;
+        } else if (sec === "stone") {
+          resolvedCategory = param.levelOne;
+          resolvedSearch = item.replace("stone-", "");
+        } else if (sec === "collections" || sec === "collection") {
+          resolvedCategory = param.levelOne;
+          resolvedCollection = item;
+        } else if (sec === "occasion") {
+          resolvedCategory = param.levelOne;
+          if (item.includes("daily")) resolvedOccasion = "casual";
+          else if (item.includes("bridal")) resolvedOccasion = "bridal";
+          else if (item.includes("party")) resolvedOccasion = "modern";
+          else resolvedOccasion = item;
+        } else {
+          resolvedCategory = param.levelThree || param.levelOne || "jewellery";
+        }
+      } else if (param.levelOne) {
+        resolvedCategory = param.levelOne;
+      }
 
       const jewelryType = ['gold', 'diamond', 'silver', 'gemstone', 'platinum'];
       const occasionTypes = ['bridal', 'casual', 'engagement', 'modern', 'office', 'traditional-ethenic'];
 
-      let resolvedType = typeValue || "";
-      if (!resolvedType) {
-        if (jewelryType.includes(param.levelThree)) {
-          resolvedType = param.levelThree;
-        } else if (jewelryType.includes(param.levelOne)) {
-          resolvedType = param.levelOne;
+      if (jewelryType.includes(resolvedCategory.toLowerCase()) || occasionTypes.includes(resolvedCategory.toLowerCase())) {
+        if (jewelryType.includes(resolvedCategory.toLowerCase())) {
+          resolvedType = resolvedCategory;
         }
-      }
-
-      let resolvedOccasion = occasionValue || "";
-      if (!resolvedOccasion && occasionTypes.includes(param.levelThree)) {
-        resolvedOccasion = param.levelThree;
-      }
-
-      let resolvedCategory = param.levelThree || "jewellery";
-      if (jewelryType.includes(resolvedCategory) || occasionTypes.includes(resolvedCategory)) {
+        if (occasionTypes.includes(resolvedCategory.toLowerCase())) {
+          resolvedOccasion = resolvedCategory;
+        }
         resolvedCategory = "jewellery";
       }
 
       const data = {
         category: resolvedCategory,
-        color: colorValue || [],
+        color: resolvedColor || [],
         minPrice,
         maxPrice,
         minDiscount,
@@ -157,9 +184,10 @@ export default function Product() {
         pageSize: 12,
         occasion: resolvedOccasion || [],
         type: resolvedType || [],
-        collectionName: collectionParam || "",
-        search: searchValue || "",
-      }
+        collectionName: resolvedCollection || "",
+        search: resolvedSearch || "",
+      };
+
       dispatch(findProducts(data));
 
     } catch (error) {
@@ -167,6 +195,9 @@ export default function Product() {
     }
 
   }, [
+    param.categoryName,
+    param.levelOne,
+    param.levelTwo,
     param.levelThree,
     colorValue,
     priceValue,
@@ -176,7 +207,8 @@ export default function Product() {
     occasionValue,
     typeValue,
     searchValue,
-  ])
+    collectionQueryValue,
+  ]);
 
   // Handle multiple filters on cards
   const handleFilters = (value, sectionId) => {

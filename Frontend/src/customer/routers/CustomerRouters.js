@@ -135,6 +135,14 @@ const CustomerRouters = () => {
           }
         />
         <Route
+          path="/category/:categoryName"
+          element={
+            <WithLayout showLayout={true}>
+              <Product />
+            </WithLayout>
+          }
+        />
+        <Route
           path="/:levelOne/:levelTwo/:levelThree"
           element={
             <WithLayout showLayout={true}>

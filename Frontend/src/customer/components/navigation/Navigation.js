@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState, useMemo } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,6 +14,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import AuthModel from "../../auth/AuthModel";
 import { getUser, logout } from "../../../state/auth/Action";
+import { getAllCategories } from "../../../state/category/Action";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalContext } from "../../../context/modal/modalContext";
 import { getCart, removeCartItem } from "../../../state/cart/Action";
@@ -239,7 +240,11 @@ export default function Navigation() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { auth, cart } = useSelector((store) => store);
+  const { auth, cart, category: categoryState } = useSelector((store) => store);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
 
   useEffect(() => {
     if (jwt) {
@@ -247,6 +252,64 @@ export default function Navigation() {
       dispatch(getCart());
     }
   }, [jwt, auth.jwt]);
+
+  const activeNavigation = useMemo(() => {
+    const dbCats = categoryState?.categories || [];
+    if (!dbCats || dbCats.length === 0) {
+      return navigation;
+    }
+
+    const topLevelCats = dbCats.filter(c => !c.parentCategory || c.level === 1);
+
+    const categoriesList = topLevelCats.map(topCat => {
+      const topCatId = topCat.slug || topCat.name.toLowerCase().replace(/\s+/g, '-');
+      const subCats = dbCats.filter(c => {
+        if (!c.parentCategory) return false;
+        const parentId = typeof c.parentCategory === 'object' ? c.parentCategory._id : c.parentCategory;
+        return String(parentId) === String(topCat._id);
+      });
+
+      const styleItems = subCats.map(sc => ({
+        name: sc.name,
+        id: sc.slug || sc.name.toLowerCase().replace(/\s+/g, '-')
+      }));
+
+      const defaultMatch = navigation.categories.find(c => c.id === topCatId || c.name.toLowerCase() === topCat.name.toLowerCase());
+      
+      let sections = [];
+      if (styleItems.length > 0) {
+        sections.push({
+          id: 'style',
+          name: 'Shop by Style',
+          items: styleItems
+        });
+      }
+
+      if (defaultMatch && defaultMatch.sections) {
+        defaultMatch.sections.forEach(sec => {
+          if (sec.id !== 'style') {
+            sections.push(sec);
+          }
+        });
+      }
+
+      if (sections.length === 0) {
+        sections.push({
+          id: 'all',
+          name: 'All Items',
+          items: [{ name: `All ${topCat.name}`, id: topCatId }]
+        });
+      }
+
+      return {
+        id: topCatId,
+        name: topCat.name,
+        sections: sections
+      };
+    });
+
+    return { categories: categoriesList, pages: [] };
+  }, [categoryState?.categories]);
 
   const handleRemoveCartItem = (cartItemId) => {
     dispatch(removeCartItem(cartItemId));
@@ -273,8 +336,36 @@ export default function Navigation() {
   };
 
   const handleCategoryClick = (category, section, item, close) => {
-    navigate(`/${category.id}/${section.id}/${item.id}`);
-    close();
+    const catId = category?.id || category?.name || 'jewellery';
+    const secId = section?.id || 'all';
+    const itemId = item?.id || item?.name || 'all';
+
+    if (secId === 'metal') {
+      let colorVal = 'yellow';
+      if (itemId.includes('rose')) colorVal = 'rose';
+      else if (itemId.includes('silver') || itemId.includes('white')) colorVal = 'white';
+      else if (itemId.includes('gold')) colorVal = 'yellow';
+      navigate(`/category/${encodeURIComponent(catId)}?color=${colorVal}`);
+    } else if (secId === 'stone') {
+      let stoneName = (item?.name || itemId).replace(/^stone-/, '');
+      navigate(`/category/${encodeURIComponent(catId)}?search=${encodeURIComponent(stoneName)}`);
+    } else if (secId === 'collections' || secId === 'collection') {
+      let collectionVal = itemId.replace('-necklaces', '').replace('-bracelets', '');
+      navigate(`/category/${encodeURIComponent(catId)}?collectionName=${encodeURIComponent(collectionVal)}`);
+    } else if (secId === 'occasion') {
+      let occVal = 'bridal';
+      if (itemId.includes('daily')) occVal = 'casual';
+      else if (itemId.includes('bridal')) occVal = 'bridal';
+      else if (itemId.includes('party')) occVal = 'modern';
+      navigate(`/category/${encodeURIComponent(catId)}?occasion=${encodeURIComponent(occVal)}`);
+    } else if (secId === 'trending' || secId === 'gifts') {
+      navigate(`/category/jewellery?search=${encodeURIComponent(item?.name || itemId)}`);
+    } else {
+      const targetId = item?.id || item?.name || catId;
+      navigate(`/category/${encodeURIComponent(targetId)}`);
+    }
+
+    if (close) close();
   };
 
   const handleOpen = (e, authMode) => {
@@ -403,7 +494,7 @@ export default function Navigation() {
                   <Typography sx={{ px: 4, mb: 2, fontSize: '0.65rem', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 2 }}>
                     Collections
                   </Typography>
-                  {navigation.categories.map((category) => (
+                  {activeNavigation.categories.map((category) => (
                     <div key={category.id} className="border-b border-gray-50 last:border-0">
                       <div
                         className="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all"
@@ -570,7 +661,7 @@ export default function Navigation() {
             <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center px-10">
               {!searchOpen ? (
                 <Popover.Group className="flex space-x-8">
-                  {navigation.categories.map((category, index) => (
+                  {activeNavigation.categories.map((category, index) => (
                     <Popover
                       key={`${category.name}-${index}`}
                       className="flex"
@@ -638,9 +729,9 @@ export default function Navigation() {
                                     <Typography sx={{ fontSize: '0.7rem', color: '#94a3b8', letterSpacing: 0.5 }}>
                                       Explore the full {category.name} collection
                                     </Typography>
-                                    <Button
-                                      onClick={() => { navigate(`/${category.id}`); close(); setHoveredIndex(null); }}
-                                      variant="text"
+                                     <Button
+                                       onClick={() => { navigate(`/category/${encodeURIComponent(category.name || category.id)}`); close(); setHoveredIndex(null); }}
+                                       variant="text"
                                       sx={{
                                         color: '#3c7399', fontSize: '0.7rem', fontWeight: 900, letterSpacing: 1.5,
                                         textTransform: 'uppercase', p: 0, minWidth: 0,

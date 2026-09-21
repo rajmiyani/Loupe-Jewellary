@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../state/product/Action';
+import { getAllCategories, createCategory as createCategoryAction } from '../../state/category/Action';
 import {
   Box, Grid, TextField, Button, Typography, FormControl,
   InputLabel, Select, MenuItem, Card, CardContent, Avatar,
   Chip, IconButton, CircularProgress, LinearProgress,
-  Paper, Switch, FormControlLabel,
+  Paper, Switch, FormControlLabel, Dialog, DialogTitle,
+  DialogContent, DialogActions, Tooltip,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
@@ -89,12 +91,49 @@ const initialMetal = { metalType: 'Gold', purity: '18K', finalWeight: '', unit: 
 const initialSpec = { label: '', value: '' };
 
 const CreateProductForm = () => {
+  const dispatch = useDispatch();
+  const { category: categoryState } = useSelector((store) => store);
+
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [activeColorTab, setActiveColorTab] = useState('yellow-gold');
   const [activeVideoColorTab, setActiveVideoColorTab] = useState('yellow-gold');
   const [videoUploading, setVideoUploading] = useState(false);
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
+
+  // New Category Dialog states
+  const [newCategoryModalOpen, setNewCategoryModalOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [newCategoryParent, setNewCategoryParent] = useState('');
+  const [creatingCategoryLoading, setCreatingCategoryLoading] = useState(false);
+
+  React.useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  const handleCreateNewCategory = async (e) => {
+    if (e) e.preventDefault();
+    if (!newCategoryName.trim()) return;
+    setCreatingCategoryLoading(true);
+    try {
+      const created = await dispatch(createCategoryAction({
+        name: newCategoryName.trim(),
+        parentCategory: newCategoryParent || null,
+      }));
+      const catName = created?.name || newCategoryName.trim();
+      setProductData((prev) => ({
+        ...prev,
+        secondLevelCategory: catName,
+      }));
+      setNewCategoryName('');
+      setNewCategoryParent('');
+      setNewCategoryModalOpen(false);
+    } catch (err) {
+      alert(err.message || 'Failed to create category');
+    } finally {
+      setCreatingCategoryLoading(false);
+    }
+  };
 
   const [productData, setProductData] = useState({
     title: '',
@@ -159,7 +198,6 @@ const CreateProductForm = () => {
     blackBeadsRows: '',
   });
 
-  const dispatch = useDispatch();
   const { products } = useSelector((store) => store);
 
   // Generic field change handler
@@ -621,41 +659,70 @@ const CreateProductForm = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={4}>
-                      <FormControl fullWidth>
-                        <InputLabel sx={{ fontWeight: 600 }}>Sub Category (Item Type)</InputLabel>
-                        <StyledSelect
-                          label="Sub Category (Item Type)"
-                          name="secondLevelCategory"
-                          value={productData.secondLevelCategory || ''}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setProductData((prev) => ({
-                              ...prev,
-                              secondLevelCategory: val,
-                              thirdLevelCategory: '',
-                            }));
-                          }}
-                        >
-                          <MenuItem value="rings">Rings</MenuItem>
-                          <MenuItem value="earrings">Earrings</MenuItem>
-                          <MenuItem value="necklaces">Necklaces</MenuItem>
-                          <MenuItem value="pendants">Pendants</MenuItem>
-                          <MenuItem value="bracelets">Bracelets</MenuItem>
-                          <MenuItem value="bangles">Bangles</MenuItem>
-                          <MenuItem value="chains">Chains</MenuItem>
-                          <MenuItem value="mangalsutra">Mangalsutra</MenuItem>
-                          <MenuItem value="lockets">Lockets</MenuItem>
-                          <MenuItem value="anklets">Anklets</MenuItem>
-                          <MenuItem value="nose-pins">Nose Pins</MenuItem>
-                          <MenuItem value="other">Other Accessories</MenuItem>
-                          {productData.secondLevelCategory &&
-                            !['rings', 'earrings', 'necklaces', 'pendants', 'bracelets', 'bangles', 'chains', 'mangalsutra', 'lockets', 'anklets', 'nose-pins', 'other'].includes(productData.secondLevelCategory) && (
-                              <MenuItem value={productData.secondLevelCategory}>
-                                {productData.secondLevelCategory.charAt(0).toUpperCase() + productData.secondLevelCategory.slice(1)}
-                              </MenuItem>
+                      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                        <FormControl fullWidth>
+                          <InputLabel sx={{ fontWeight: 600 }}>Sub Category (Item Type)</InputLabel>
+                          <StyledSelect
+                            label="Sub Category (Item Type)"
+                            name="secondLevelCategory"
+                            value={productData.secondLevelCategory || ''}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setProductData((prev) => ({
+                                ...prev,
+                                secondLevelCategory: val,
+                                thirdLevelCategory: '',
+                              }));
+                            }}
+                          >
+                            {(categoryState?.categories || []).length > 0 ? (
+                              categoryState.categories.map((cat) => (
+                                <MenuItem key={cat._id} value={cat.name}>
+                                  {cat.parentCategory ? `— ${cat.name}` : cat.name}
+                                </MenuItem>
+                              ))
+                            ) : (
+                              [
+                                <MenuItem key="rings" value="rings">Rings</MenuItem>,
+                                <MenuItem key="earrings" value="earrings">Earrings</MenuItem>,
+                                <MenuItem key="necklaces" value="necklaces">Necklaces</MenuItem>,
+                                <MenuItem key="pendants" value="pendants">Pendants</MenuItem>,
+                                <MenuItem key="bracelets" value="bracelets">Bracelets</MenuItem>,
+                                <MenuItem key="bangles" value="bangles">Bangles</MenuItem>,
+                                <MenuItem key="chains" value="chains">Chains</MenuItem>,
+                                <MenuItem key="mangalsutra" value="mangalsutra">Mangalsutra</MenuItem>,
+                                <MenuItem key="lockets" value="lockets">Lockets</MenuItem>,
+                                <MenuItem key="anklets" value="anklets">Anklets</MenuItem>,
+                                <MenuItem key="nose-pins" value="nose-pins">Nose Pins</MenuItem>,
+                                <MenuItem key="other" value="other">Other Accessories</MenuItem>
+                              ]
                             )}
-                        </StyledSelect>
-                      </FormControl>
+                            {productData.secondLevelCategory &&
+                              !(categoryState?.categories || []).some(c => c.name.toLowerCase() === productData.secondLevelCategory.toLowerCase()) && (
+                                <MenuItem value={productData.secondLevelCategory}>
+                                  {productData.secondLevelCategory}
+                                </MenuItem>
+                              )}
+                          </StyledSelect>
+                        </FormControl>
+                        <Tooltip title="Create New Category">
+                          <Button
+                            type="button"
+                            variant="outlined"
+                            onClick={() => setNewCategoryModalOpen(true)}
+                            sx={{
+                              minWidth: '44px',
+                              height: '56px',
+                              borderRadius: '12px',
+                              borderColor: BRAND,
+                              color: BRAND,
+                              '&:hover': { borderColor: BRAND_DARK, bgcolor: BRAND_LIGHT }
+                            }}
+                          >
+                            <Plus size={20} />
+                          </Button>
+                        </Tooltip>
+                      </Box>
                     </Grid>
 
                     <Grid item xs={12} sm={4}>
@@ -1983,6 +2050,74 @@ const CreateProductForm = () => {
 
         </Grid>
       </form>
+
+      {/* Create New Category Modal */}
+      <Dialog
+        open={newCategoryModalOpen}
+        onClose={() => setNewCategoryModalOpen(false)}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{ sx: { borderRadius: '20px', p: 1 } }}
+      >
+        <DialogTitle sx={{ fontWeight: 800, color: BRAND, fontSize: '1.2rem' }}>
+          Create New Category
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" sx={{ color: '#64748b', mb: 2.5 }}>
+            Add a new jewellery category. It will automatically be saved to the database and displayed in the Website Header.
+          </Typography>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Category Name *"
+            fullWidth
+            variant="outlined"
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+            placeholder="e.g. Brooch, Waist Belt, Kamardhani"
+            sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
+          />
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Parent Category (Optional)</InputLabel>
+            <Select
+              value={newCategoryParent}
+              onChange={(e) => setNewCategoryParent(e.target.value)}
+              label="Parent Category (Optional)"
+              sx={{ borderRadius: '12px' }}
+            >
+              <MenuItem value="">None (Top-Level Category)</MenuItem>
+              {(categoryState?.categories || []).filter(c => !c.parentCategory).map((cat) => (
+                <MenuItem key={cat._id} value={cat._id}>
+                  {cat.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2.5 }}>
+          <Button
+            onClick={() => setNewCategoryModalOpen(false)}
+            sx={{ color: '#64748b', fontWeight: 600 }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleCreateNewCategory}
+            variant="contained"
+            disabled={!newCategoryName.trim() || creatingCategoryLoading}
+            sx={{
+              bgcolor: BRAND,
+              color: 'white',
+              fontWeight: 800,
+              borderRadius: '10px',
+              px: 3,
+              '&:hover': { bgcolor: BRAND_DARK }
+            }}
+          >
+            {creatingCategoryLoading ? <CircularProgress size={20} color="inherit" /> : 'Save Category'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

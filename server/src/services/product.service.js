@@ -186,7 +186,9 @@ async function getAllProducts(reqQuery) {
 
     // -------------------- Filter by Category ---------------
 
-    if (category !== 'jewellery') {
+    // -------------------- Filter by Category ---------------
+
+    if (category && category !== 'jewellery' && category !== 'all') {
         const CATEGORY_ALIASES = {
             'diamond-studs': ['diamond-studs', 'stud', 'studs'],
             'studs': ['diamond-studs', 'stud', 'studs'],
@@ -202,67 +204,41 @@ async function getAllProducts(reqQuery) {
             'chandelier': ['chandeliers', 'chandelier'],
             'jhumka': ['jhumka', 'jhumkas'],
             'jhumkas': ['jhumka', 'jhumkas'],
-            // Ring Categories
-            'engagement': ['engagement', 'engagement-ring', 'engagement-rings'],
-            'engagement-ring': ['engagement', 'engagement-ring', 'engagement-rings'],
-            'engagement-rings': ['engagement', 'engagement-ring', 'engagement-rings'],
-            'solitaire-ring': ['solitaire', 'solitaire-ring', 'solitaire-rings'],
-            'solitaire-rings': ['solitaire', 'solitaire-ring', 'solitaire-rings'],
-            'diamond-ring': ['diamond-ring', 'diamond-rings', 'rings'],
-            'diamond-rings': ['diamond-ring', 'diamond-rings', 'rings'],
-            'eternity': ['eternity', 'eternity-ring', 'eternity-rings'],
-            'eternity-ring': ['eternity', 'eternity-ring', 'eternity-rings'],
-            'eternity-rings': ['eternity', 'eternity-ring', 'eternity-rings'],
-            'halo-ring': ['halo-ring', 'halo-rings', 'halo'],
-            'halo-rings': ['halo-ring', 'halo-rings', 'halo'],
-            'daily-wear-ring': ['daily-wear-ring', 'daily-wear-rings', 'daily-wear'],
-            'daily-wear-rings': ['daily-wear-ring', 'daily-wear-rings', 'daily-wear'],
-            'cocktail': ['cocktail', 'cocktail-ring', 'cocktail-rings'],
-            'cocktail-ring': ['cocktail', 'cocktail-ring', 'cocktail-rings'],
-            'solitaire': ['solitaire', 'solitaire-ring', 'solitaire-rings', 'solitaire-pendant', 'solitaire-mangalsutra'],
-            'wedding-bands': ['wedding-bands', 'wedding-band', 'couple-ring'],
-            // Necklace & Pendant Categories
-            'diamond-necklace': ['diamond-necklace', 'diamond-necklaces', 'necklaces'],
-            'diamond-necklaces': ['diamond-necklace', 'diamond-necklaces', 'necklaces'],
-            'pendant-necklace': ['pendant-necklace', 'pendant-necklaces', 'pendants'],
-            'pendant-necklaces': ['pendant-necklace', 'pendant-necklaces', 'pendants'],
-            'diamond-pendant': ['diamond-pendant', 'diamond-pendants', 'pendants'],
-            'diamond-pendants': ['diamond-pendant', 'diamond-pendants', 'pendants'],
-            'solitaire-pendant': ['solitaire-pendant', 'solitaire-pendants', 'solitaire'],
-            'solitaire-pendants': ['solitaire-pendant', 'solitaire-pendants', 'solitaire'],
-            'tennis-necklace': ['tennis-necklace', 'tennis-necklaces'],
-            'tennis-necklaces': ['tennis-necklace', 'tennis-necklaces'],
-            'choker-necklace': ['choker-necklace', 'choker-necklaces', 'choker', 'chokers'],
-            'choker-necklaces': ['choker-necklace', 'choker-necklaces', 'choker', 'chokers'],
-            'chokers': ['chokers', 'choker', 'choker-necklace'],
-            'choker': ['chokers', 'choker', 'choker-necklace'],
-            'tennis-bracelets': ['tennis-bracelets', 'tennis-bracelet'],
-            'chain-bracelets': ['chain-bracelets', 'chain-bracelet'],
-            'charms': ['charms', 'charm-bracelets', 'charm-bracelet'],
-            'charm-bracelets': ['charms', 'charm-bracelets', 'charm-bracelet'],
-            'bangles': ['bangles', 'bangle', 'bangle-bracelets', 'kada'],
-            'bangle': ['bangles', 'bangle', 'bangle-bracelets', 'kada'],
-            'statement': ['statement', 'statement-necklace', 'statement-necklaces'],
-            'statement-necklace': ['statement', 'statement-necklace', 'statement-necklaces'],
-            'lariats': ['lariats', 'lariat'],
-            'lariat': ['lariats', 'lariat'],
+            'rings': ['rings', 'ring', 'engagement', 'solitaire', 'eternity', 'halo', 'daily-wear-ring', 'cocktail'],
+            'ring': ['rings', 'ring', 'engagement', 'solitaire', 'eternity', 'halo', 'daily-wear-ring', 'cocktail'],
+            'earrings': ['earrings', 'earring', 'studs', 'hoops', 'drops', 'jhumka'],
+            'earring': ['earrings', 'earring', 'studs', 'hoops', 'drops', 'jhumka'],
+            'bracelets': ['bracelets', 'bracelet', 'bangles', 'bangle', 'tennis-bracelets', 'charms'],
+            'bracelet': ['bracelets', 'bracelet', 'bangles', 'bangle', 'tennis-bracelets', 'charms'],
+            'necklaces': ['necklaces', 'necklace', 'pendant', 'pendants', 'choker', 'lariat'],
+            'necklace': ['necklaces', 'necklace', 'pendant', 'pendants', 'choker', 'lariat'],
+            'pendants': ['pendants', 'pendant', 'solitaire-pendant'],
+            'pendant': ['pendants', 'pendant', 'solitaire-pendant'],
             'mangalsutra': ['mangalsutra', 'mangal-sutra', 'solitaire-mangalsutra', 'modern-mangalsutra'],
-            'mangal-sutra': ['mangalsutra', 'mangal-sutra', 'solitaire-mangalsutra', 'modern-mangalsutra'],
+            'bangles': ['bangles', 'bangle', 'kada', 'kadas'],
+            'bangle': ['bangles', 'bangle', 'kada', 'kadas'],
         };
 
-        const targetCategories = CATEGORY_ALIASES[category] || [category];
+        const targetAliasList = CATEGORY_ALIASES[category.toLowerCase()] || [category];
+        const searchTerms = Array.from(new Set([category, ...targetAliasList]));
+        const regexQueries = searchTerms.map(term => new RegExp(term.replace(/-/g, '[\\s\\-]'), 'i'));
 
-        const existCategories = await Category.find({ name: { $in: targetCategories } });
-        
+        // Find Category documents by name, slug or regex
+        const existCategories = await Category.find({
+            $or: [
+                { name: { $in: regexQueries } },
+                { slug: { $in: searchTerms.map(s => s.toLowerCase()) } }
+            ]
+        });
+
         let allCategoryIds = existCategories.map(cat => cat._id);
-        
+
         if (allCategoryIds.length > 0) {
-            // Find children categories (e.g. specific styles under a sub-category)
+            // Find children categories
             const childCategories = await Category.find({ parentCategory: { $in: allCategoryIds } });
             const childIds = childCategories.map(c => c._id);
             allCategoryIds = [...allCategoryIds, ...childIds];
-            
-            // Find grandchildren just in case
+
             if (childIds.length > 0) {
                 const grandChildCategories = await Category.find({ parentCategory: { $in: childIds } });
                 allCategoryIds = [...allCategoryIds, ...grandChildCategories.map(c => c._id)];
@@ -272,9 +248,9 @@ async function getAllProducts(reqQuery) {
         query = query.and([{
             $or: [
                 { category: { $in: allCategoryIds } },
-                { topLevelCategory: { $in: targetCategories } },
-                { secondLevelCategory: { $in: targetCategories } },
-                { thirdLevelCategory: { $in: targetCategories } }
+                { topLevelCategory: { $in: regexQueries } },
+                { secondLevelCategory: { $in: regexQueries } },
+                { thirdLevelCategory: { $in: regexQueries } }
             ]
         }]);
     }

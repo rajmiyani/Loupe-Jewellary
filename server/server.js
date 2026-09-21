@@ -15,6 +15,7 @@ if (fs.existsSync(envSpecificFile)) {
 const app = require('./src');
 const { connectDB } = require('./src/config/db');
 const { ensureAdminUserExists } = require('./src/seed/ensureAdmin');
+const { ensureDefaultCategoriesExist } = require('./src/seed/ensureCategories');
 const PORT = Number(process.env.PORT) || 5455;
 
 const startServer = (port) => {
@@ -22,8 +23,9 @@ const startServer = (port) => {
     await connectDB();
     try {
       await ensureAdminUserExists();
+      await ensureDefaultCategoriesExist();
     } catch (err) {
-      console.error("Failed to ensure admin user:", err?.message || err);
+      console.error("Failed to run startup seeds:", err?.message || err);
     }
     console.log(`[Server] Running in ${(process.env.NODE_ENV || 'development').toUpperCase()} mode on PORT: ${port}`);
   });

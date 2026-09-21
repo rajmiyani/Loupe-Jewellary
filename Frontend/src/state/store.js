@@ -1,4 +1,4 @@
-﻿import { applyMiddleware, combineReducers, legacy_createStore } from 'redux';
+import { applyMiddleware, combineReducers, legacy_createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { authReducer } from './auth/Reducer';
 import { customerProductReducer } from './product/Reducer';
@@ -9,6 +9,7 @@ import { ratingReducer } from './rating/Reducer';
 import { adminOrderReducer } from './admin/order/Reducer';
 import { wishReducer } from './wishlist/Reducer';
 import adminDashboardReducer from './admin/dashboard/Reducer';
+import { categoryReducer } from './category/Reducer';
 
 const rootReducers = combineReducers({
     auth: authReducer,
@@ -20,6 +21,7 @@ const rootReducers = combineReducers({
     adminOrder: adminOrderReducer,
     wishlist: wishReducer,
     adminDashboard: adminDashboardReducer,
+    category: categoryReducer,
 })
 
 export const store = legacy_createStore(rootReducers, applyMiddleware(thunk));

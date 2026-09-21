@@ -46,6 +46,10 @@ app.use('/api/users', userRouters);
 const productRouter = require('./routes/product.route.js');
 app.use('/api/products', productRouter);
 
+const categoryRouter = require('./routes/category.route.js');
+app.use('/api/categories', categoryRouter);
+app.use('/api/admin/categories', categoryRouter);
+
 const adminProductRouter = require('./routes/adminProduct.route.js');
 app.use('/api/admin/products', adminProductRouter);
 
