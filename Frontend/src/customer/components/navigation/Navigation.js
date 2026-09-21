@@ -302,8 +302,8 @@ export default function Navigation() {
       }
 
       return {
-        id: topCatId,
-        name: topCat.name,
+        id: defaultMatch ? defaultMatch.id : topCatId,
+        name: defaultMatch ? defaultMatch.name : topCat.name,
         sections: sections
       };
     });
