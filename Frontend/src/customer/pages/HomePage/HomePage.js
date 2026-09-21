@@ -118,7 +118,7 @@ const HomePage = () => {
         <ShopByOccasion />
       </section>
 
-      {/* 3. Main Best Sellers Section */}
+      {/* Main Best Sellers Section */}
       <section className="reveal">
         <BestSellerSection title="Best Sellers" products={displayBestSellers} />
       </section>
@@ -140,7 +140,7 @@ const HomePage = () => {
         <LifestyleSplit />
       </section>
 
-      {/* 4. Brand Trust Features */}
+      {/* Brand Trust Features */}
       <section className="reveal">
         <TrustBanner />
       </section>
@@ -155,7 +155,7 @@ const HomePage = () => {
         <FAQSection />
       </section>
 
-      {/* 5. Social Feed */}
+      {/* Social Feed */}
       <section className="reveal">
         <SocialFeed />
       </section>
