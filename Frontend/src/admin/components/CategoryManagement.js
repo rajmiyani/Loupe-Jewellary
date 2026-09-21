@@ -135,7 +135,7 @@ export default function CategoryManagement() {
               JEWELLERY CATEGORIES
             </Typography>
             <Typography variant="body2" sx={{ color: '#64748b', fontWeight: 600, mt: 0.5 }}>
-              Manage website navigation categories dynamically. Changes update the Header menu in real time.
+              Manage product subcategories for tagging and filtering. Header navigation is fixed and not affected by changes here.
             </Typography>
           </Box>
 
@@ -250,7 +250,7 @@ export default function CategoryManagement() {
         </DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ color: '#64748b', mb: 2.5 }}>
-            Category changes saved here will immediately reflect in the database and the Website Header navigation menu.
+            Categories saved here are used for product tagging and filtering. They do <strong>not</strong> affect the website header navigation.
           </Typography>
           <TextField
             autoFocus
