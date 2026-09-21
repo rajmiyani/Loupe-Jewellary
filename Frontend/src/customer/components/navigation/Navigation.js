@@ -260,14 +260,35 @@ export default function Navigation() {
     }
 
     const topLevelCats = dbCats.filter(c => !c.parentCategory || c.level === 1);
+    // Always drive top-level categories from the hardcoded list.
+    // DB categories only enrich the 'Shop by Style' subcategory items.
+    // This guarantees header names/order never change based on DB data.
+    const categoriesList = navigation.categories.map(hardcodedCat => {
+      if (!dbCats || dbCats.length === 0) return hardcodedCat;
 
     const categoriesList = topLevelCats.map(topCat => {
       const topCatId = topCat.slug || topCat.name.toLowerCase().replace(/\s+/g, '-');
+      // Find the matching top-level DB category (by slug, id, or case-insensitive name)
+      const dbTopCat = dbCats.find(c =>
+        !c.parentCategory && (
+          c.slug === hardcodedCat.id ||
+          c._id === hardcodedCat.id ||
+          c.name.toLowerCase() === hardcodedCat.name.toLowerCase() ||
+          (c.slug || c.name.toLowerCase().replace(/\s+/g, '-')) === hardcodedCat.id
+        )
+      );
+
+      if (!dbTopCat) return hardcodedCat;
+
+      // Get DB subcategories for this category
       const subCats = dbCats.filter(c => {
         if (!c.parentCategory) return false;
         const parentId = typeof c.parentCategory === 'object' ? c.parentCategory._id : c.parentCategory;
         return String(parentId) === String(topCat._id);
+        return String(parentId) === String(dbTopCat._id);
       });
+
+      if (subCats.length === 0) return hardcodedCat;
 
       const styleItems = subCats.map(sc => ({
         name: sc.name,
@@ -283,6 +304,18 @@ export default function Navigation() {
           name: 'Shop by Style',
           items: styleItems
         });
+      // Replace the 'style' section with DB items; keep all other sections unchanged
+      const hasStyleSection = hardcodedCat.sections.some(s => s.id === 'style');
+      let sections;
+      if (hasStyleSection) {
+        sections = hardcodedCat.sections.map(s =>
+          s.id === 'style' ? { ...s, items: styleItems } : s
+        );
+      } else {
+        sections = [
+          { id: 'style', name: 'Shop by Style', items: styleItems },
+          ...hardcodedCat.sections,
+        ];
       }
 
       if (defaultMatch && defaultMatch.sections) {
@@ -306,6 +339,8 @@ export default function Navigation() {
         name: defaultMatch ? defaultMatch.name : topCat.name,
         sections: sections
       };
+      // Always keep hardcoded id & name — never use DB values for display
+      return { ...hardcodedCat, sections };
     });
 
     return { categories: categoriesList, pages: [] };
