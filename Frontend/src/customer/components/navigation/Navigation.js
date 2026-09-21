@@ -255,20 +255,13 @@ export default function Navigation() {
 
   const activeNavigation = useMemo(() => {
     const dbCats = categoryState?.categories || [];
-    if (!dbCats || dbCats.length === 0) {
-      return navigation;
-    }
 
-    const topLevelCats = dbCats.filter(c => !c.parentCategory || c.level === 1);
-    // Always drive top-level categories from the hardcoded list.
-    // DB categories only enrich the 'Shop by Style' subcategory items.
-    // This guarantees header names/order never change based on DB data.
+    // Always iterate hardcoded navigation — names/order are never changed by DB.
+    // DB is only used to enrich 'Shop by Style' subcategory items.
     const categoriesList = navigation.categories.map(hardcodedCat => {
       if (!dbCats || dbCats.length === 0) return hardcodedCat;
 
-    const categoriesList = topLevelCats.map(topCat => {
-      const topCatId = topCat.slug || topCat.name.toLowerCase().replace(/\s+/g, '-');
-      // Find the matching top-level DB category (by slug, id, or case-insensitive name)
+      // Find matching top-level DB category
       const dbTopCat = dbCats.find(c =>
         !c.parentCategory && (
           c.slug === hardcodedCat.id ||
@@ -280,11 +273,10 @@ export default function Navigation() {
 
       if (!dbTopCat) return hardcodedCat;
 
-      // Get DB subcategories for this category
+      // Get DB subcategories for this top-level category
       const subCats = dbCats.filter(c => {
         if (!c.parentCategory) return false;
         const parentId = typeof c.parentCategory === 'object' ? c.parentCategory._id : c.parentCategory;
-        return String(parentId) === String(topCat._id);
         return String(parentId) === String(dbTopCat._id);
       });
 
@@ -292,59 +284,21 @@ export default function Navigation() {
 
       const styleItems = subCats.map(sc => ({
         name: sc.name,
-        id: sc.slug || sc.name.toLowerCase().replace(/\s+/g, '-')
+        id: sc.slug || sc.name.toLowerCase().replace(/\s+/g, '-'),
       }));
 
-      const defaultMatch = navigation.categories.find(c => c.id === topCatId || c.name.toLowerCase() === topCat.name.toLowerCase());
-      
-      let sections = [];
-      if (styleItems.length > 0) {
-        sections.push({
-          id: 'style',
-          name: 'Shop by Style',
-          items: styleItems
-        });
-      // Replace the 'style' section with DB items; keep all other sections unchanged
+      // Replace 'style' section items with DB data; keep everything else as-is
       const hasStyleSection = hardcodedCat.sections.some(s => s.id === 'style');
-      let sections;
-      if (hasStyleSection) {
-        sections = hardcodedCat.sections.map(s =>
-          s.id === 'style' ? { ...s, items: styleItems } : s
-        );
-      } else {
-        sections = [
-          { id: 'style', name: 'Shop by Style', items: styleItems },
-          ...hardcodedCat.sections,
-        ];
-      }
+      const sections = hasStyleSection
+        ? hardcodedCat.sections.map(s => (s.id === 'style' ? { ...s, items: styleItems } : s))
+        : [{ id: 'style', name: 'Shop by Style', items: styleItems }, ...hardcodedCat.sections];
 
-      if (defaultMatch && defaultMatch.sections) {
-        defaultMatch.sections.forEach(sec => {
-          if (sec.id !== 'style') {
-            sections.push(sec);
-          }
-        });
-      }
-
-      if (sections.length === 0) {
-        sections.push({
-          id: 'all',
-          name: 'All Items',
-          items: [{ name: `All ${topCat.name}`, id: topCatId }]
-        });
-      }
-
-      return {
-        id: defaultMatch ? defaultMatch.id : topCatId,
-        name: defaultMatch ? defaultMatch.name : topCat.name,
-        sections: sections
-      };
-      // Always keep hardcoded id & name — never use DB values for display
       return { ...hardcodedCat, sections };
     });
 
     return { categories: categoriesList, pages: [] };
   }, [categoryState?.categories]);
+
 
   const handleRemoveCartItem = (cartItemId) => {
     dispatch(removeCartItem(cartItemId));
