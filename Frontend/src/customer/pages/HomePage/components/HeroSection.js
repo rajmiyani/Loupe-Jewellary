@@ -286,7 +286,7 @@ const HeroSection = () => {
                     {/* Portrait Mobile Banner Image */}
                     <Box
                         component="img"
-                        src="/loupe_mobile_banner1.png"
+                        src="https://res.cloudinary.com/djb2szzn/image/upload/v1790178973/loupe_mobile_banner2.jpg"
                         alt="Loupe Jeweller - Crafted for Life’s Brighter Moments"
                         sx={{
                             position: 'absolute',
@@ -307,10 +307,10 @@ const HeroSection = () => {
                             position: 'relative',
                             zIndex: 2,
                             width: '100%',
-                            pt: { xs: 2.2, sm: 3.5 },
-                            pb: { xs: 3.5, sm: 5 },
+                            pt: { xs: 2.5, sm: 3.5 },
+                            pb: { xs: 2, sm: 3 },
                             px: { xs: 2.5, sm: 4 },
-                            background: 'linear-gradient(180deg, rgba(194, 216, 242, 0.94) 0%, rgba(194, 216, 242, 0.78) 55%, rgba(194, 216, 242, 0) 100%)',
+                            background: 'linear-gradient(180deg, rgba(194, 216, 242, 0.92) 0%, rgba(194, 216, 242, 0.6) 65%, rgba(194, 216, 242, 0) 100%)',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -326,12 +326,12 @@ const HeroSection = () => {
                             <Typography
                                 sx={{
                                     fontFamily: "'Outfit', sans-serif",
-                                    fontSize: { xs: '0.62rem', sm: '0.75rem' },
+                                    fontSize: { xs: '0.62rem', sm: '0.72rem' },
                                     fontWeight: 800,
                                     letterSpacing: '0.22em',
                                     color: '#0b2f53',
                                     textTransform: 'uppercase',
-                                    mb: 0.5,
+                                    mb: 0.4,
                                 }}
                             >
                                 ✦ TIMELESS BEAUTY ✦
@@ -348,11 +348,11 @@ const HeroSection = () => {
                                 component="h1"
                                 sx={{
                                     fontFamily: "'Playfair Display', serif",
-                                    fontSize: { xs: '1.45rem', sm: '1.95rem' },
+                                    fontSize: { xs: '1.35rem', sm: '1.75rem' },
                                     fontWeight: 700,
-                                    lineHeight: 1.16,
+                                    lineHeight: 1.15,
                                     color: '#092b4f',
-                                    mb: 0.8,
+                                    mb: 0.6,
                                     letterSpacing: '-0.02em',
                                 }}
                             >
@@ -364,34 +364,46 @@ const HeroSection = () => {
                         <Box
                             sx={{
                                 height: '2px',
-                                width: '32px',
+                                width: '28px',
                                 bgcolor: '#2b5a88',
-                                mb: 1,
+                                mb: 0.8,
                                 borderRadius: '2px',
                                 opacity: 0.85,
                             }}
                         />
 
                         {/* Subtext */}
-                        <Typography
+                        {/* <Typography
                             sx={{
                                 fontFamily: "'Outfit', sans-serif",
-                                fontSize: { xs: '0.72rem', sm: '0.85rem' },
+                                fontSize: { xs: '0.68rem', sm: '0.8rem' },
                                 fontWeight: 500,
                                 color: '#1c3d5e',
-                                maxWidth: '300px',
-                                mb: 1.6,
+                                maxWidth: '280px',
                                 lineHeight: 1.35,
                             }}
                         >
                             Fine jewellery that celebrates your today, tomorrow & always.
-                        </Typography>
+                        </Typography> */}
+                    </Box>
 
-                        {/* Explore Collection CTA Button */}
+                    {/* Bottom CTA Button (Anchored at the bottom of the mobile banner) */}
+                    <Box
+                        sx={{
+                            position: 'relative',
+                            zIndex: 2,
+                            width: '100%',
+                            pb: { xs: 2.4, sm: 3.5 },
+                            pt: 3,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            background: 'linear-gradient(0deg, rgba(194, 216, 242, 0.9) 0%, rgba(194, 216, 242, 0.45) 50%, rgba(194, 216, 242, 0) 100%)',
+                        }}
+                    >
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.94 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.35 }}
+                            initial={{ opacity: 0, y: 14 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
                         >
                             <Box
                                 component="button"
@@ -399,28 +411,28 @@ const HeroSection = () => {
                                 sx={{
                                     display: 'inline-flex',
                                     alignItems: 'center',
-                                    gap: 1,
+                                    gap: 1.2,
                                     bgcolor: '#0b2f53',
                                     color: '#ffffff',
                                     border: 'none',
                                     borderRadius: '9999px',
-                                    px: 2.6,
-                                    py: 0.85,
-                                    fontSize: '0.74rem',
+                                    px: { xs: 3, sm: 3.6 },
+                                    py: { xs: 0.95, sm: 1.1 },
+                                    fontSize: { xs: '0.76rem', sm: '0.84rem' },
                                     fontWeight: 700,
                                     letterSpacing: '0.12em',
                                     textTransform: 'uppercase',
                                     cursor: 'pointer',
-                                    boxShadow: '0 6px 20px rgba(11, 47, 83, 0.35)',
+                                    boxShadow: '0 8px 24px rgba(11, 47, 83, 0.36)',
                                     transition: 'all 0.25s ease',
                                     '&:active': {
-                                        transform: 'scale(0.97)',
+                                        transform: 'scale(0.96)',
                                     },
                                     '& .hero-cta-arrow': {
                                         transition: 'transform 0.25s ease',
                                     },
                                     '&:hover .hero-cta-arrow': {
-                                        transform: 'translateX(3px)',
+                                        transform: 'translateX(4px)',
                                     }
                                 }}
                             >
