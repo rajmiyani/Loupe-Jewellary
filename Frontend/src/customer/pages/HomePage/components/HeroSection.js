@@ -286,7 +286,7 @@ const HeroSection = () => {
                     {/* Portrait Mobile Banner Image */}
                     <Box
                         component="img"
-                        src="/loupe_mobile_banner2.png"
+                        src="/loupe_mobile_banner1.png"
                         alt="Loupe Jeweller - Crafted for Life’s Brighter Moments"
                         sx={{
                             position: 'absolute',
