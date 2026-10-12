@@ -34,7 +34,7 @@ const HeroSection = () => {
                 >
                     <Box
                         component="img"
-                        src="/Loupe_banner_1.png"
+                        src="https://res.cloudinary.com/djb2szzn/image/upload/v1791798589/Untitled_design_6.png"
                         alt="Loupe Jeweller - Crafted for Life’s Brighter Moments"
                         sx={{
                             position: 'absolute',
