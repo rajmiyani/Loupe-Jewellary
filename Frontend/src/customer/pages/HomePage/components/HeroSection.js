@@ -34,7 +34,7 @@ const HeroSection = () => {
                 >
                     <Box
                         component="img"
-                        src="/loupe_banner.png"
+                        src="/Loupe_banner_1.png"
                         alt="Loupe Jeweller - Crafted for Life’s Brighter Moments"
                         sx={{
                             position: 'absolute',
