@@ -1,11 +1,77 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Gem, ShieldCheck, Gift } from 'lucide-react';
 
+const panel1Variants = {
+    hidden: { opacity: 0, scale: 1.06, x: -30 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        x: 0,
+        transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] }
+    }
+};
+
+const panel2Variants = {
+    hidden: { opacity: 0, scale: 1.06, y: -25 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: { duration: 0.95, delay: 0.25, ease: [0.22, 1, 0.36, 1] }
+    }
+};
+
+const panel3Variants = {
+    hidden: { opacity: 0, scale: 1.06, y: 25 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: { duration: 0.95, delay: 0.45, ease: [0.22, 1, 0.36, 1] }
+    }
+};
+
 const HeroSection = () => {
     const navigate = useNavigate();
+    const [imagesReady, setImagesReady] = useState(false);
+
+    useEffect(() => {
+        const imageUrls = ['/hero_panel_1.webp', '/hero_panel_2.webp', '/hero_panel_3.webp'];
+        let loadedCount = 0;
+        let isMounted = true;
+
+        const checkAllLoaded = () => {
+            loadedCount += 1;
+            if (loadedCount >= imageUrls.length && isMounted) {
+                setTimeout(() => {
+                    if (isMounted) setImagesReady(true);
+                }, 120);
+            }
+        };
+
+        imageUrls.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+            if (img.complete) {
+                checkAllLoaded();
+            } else {
+                img.onload = checkAllLoaded;
+                img.onerror = checkAllLoaded;
+            }
+        });
+
+        const fallbackTimer = setTimeout(() => {
+            if (isMounted) setImagesReady(true);
+        }, 1200);
+
+        return () => {
+            isMounted = false;
+            clearTimeout(fallbackTimer);
+        };
+    }, []);
 
     return (
         <Box component="section" sx={{ width: '100%', overflow: 'hidden', bgcolor: '#c2d8f2' }}>
@@ -32,24 +98,116 @@ const HeroSection = () => {
                         alignItems: 'center',
                     }}
                 >
+                    {/* 3-Panel High-Resolution Animated Hero Collage */}
                     <Box
-                        component="video"
-                        src="/hero_video_1.mp4"
-                        autoPlay
-                        muted
-                        playsInline
                         sx={{
                             position: 'absolute',
                             top: 0,
                             left: 0,
                             width: '100%',
                             height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center',
-                            display: 'block',
+                            display: 'flex',
+                            gap: '0.8%',
+                            bgcolor: '#ffffff',
+                            p: '0.4%',
                             pointerEvents: 'none',
                         }}
-                    />
+                    >
+                        {/* Panel 1: Left (Bracelet) */}
+                        <Box
+                            component={motion.div}
+                            initial="hidden"
+                            animate={imagesReady ? "visible" : "hidden"}
+                            variants={panel1Variants}
+                            sx={{
+                                width: '49.5%',
+                                height: '100%',
+                                overflow: 'hidden',
+                                position: 'relative',
+                            }}
+                        >
+                            <Box
+                                component="img"
+                                src="/hero_panel_1.webp"
+                                loading="eager"
+                                fetchPriority="high"
+                                alt="Fine Diamond Bracelet"
+                                sx={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    display: 'block',
+                                }}
+                            />
+                        </Box>
+
+                        {/* Right Stack: Panel 2 (Earring) & Panel 3 (Ring) */}
+                        <Box
+                            sx={{
+                                width: '49.5%',
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '1.6%',
+                            }}
+                        >
+                            {/* Panel 2: Top Right (Earring) */}
+                            <Box
+                                component={motion.div}
+                                initial="hidden"
+                                animate={imagesReady ? "visible" : "hidden"}
+                                variants={panel2Variants}
+                                sx={{
+                                    width: '100%',
+                                    height: '49.2%',
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                }}
+                            >
+                                <Box
+                                    component="img"
+                                    src="/hero_panel_2.webp"
+                                    loading="eager"
+                                    fetchPriority="high"
+                                    alt="Geometric Diamond Earrings"
+                                    sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        display: 'block',
+                                    }}
+                                />
+                            </Box>
+
+                            {/* Panel 3: Bottom Right (Ring) */}
+                            <Box
+                                component={motion.div}
+                                initial="hidden"
+                                animate={imagesReady ? "visible" : "hidden"}
+                                variants={panel3Variants}
+                                sx={{
+                                    width: '100%',
+                                    height: '49.2%',
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                }}
+                            >
+                                <Box
+                                    component="img"
+                                    src="/hero_panel_3.webp"
+                                    loading="eager"
+                                    fetchPriority="high"
+                                    alt="Infinity Diamond Ring"
+                                    sx={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        display: 'block',
+                                    }}
+                                />
+                            </Box>
+                        </Box>
+                    </Box>
 
                     {/* Left Side Content with Animated Entrance */}
                     <Box
