@@ -33,9 +33,11 @@ const HeroSection = () => {
                     }}
                 >
                     <Box
-                        component="img"
-                        src="https://res.cloudinary.com/djb2szzn/image/upload/v1791798589/Untitled_design_6.png"
-                        alt="Loupe Jeweller - Crafted for Life’s Brighter Moments"
+                        component="video"
+                        src="/hero_video_1.mp4"
+                        autoPlay
+                        muted
+                        playsInline
                         sx={{
                             position: 'absolute',
                             top: 0,
@@ -65,7 +67,7 @@ const HeroSection = () => {
                         }}
                     >
                         {/* 1. Subtitle */}
-                        <motion.div
+                        {/* <motion.div
                             initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -83,10 +85,10 @@ const HeroSection = () => {
                             >
                                 TIMELESS BEAUTY
                             </Typography>
-                        </motion.div>
+                        </motion.div> */}
 
                         {/* 2. Main Headline */}
-                        <motion.div
+                        {/* <motion.div
                             initial={{ opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -110,10 +112,10 @@ const HeroSection = () => {
                                 Life’s Brighter<br />
                                 Moments
                             </Typography>
-                        </motion.div>
+                        </motion.div> */}
 
                         {/* 3. Decorative Accent Line */}
-                        <motion.div
+                        {/* <motion.div
                             initial={{ width: 0, opacity: 0 }}
                             animate={{ width: '42px', opacity: 1 }}
                             transition={{ duration: 0.6, delay: 0.45, ease: 'easeOut' }}
@@ -127,10 +129,10 @@ const HeroSection = () => {
                                     borderRadius: '2px',
                                 }}
                             />
-                        </motion.div>
+                        </motion.div> */}
 
                         {/* 4. Sub-paragraph */}
-                        <motion.div
+                        {/* <motion.div
                             initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -149,10 +151,10 @@ const HeroSection = () => {
                                 Fine jewellery that celebrates your today,
                                 <br />tomorrow and always.
                             </Typography>
-                        </motion.div>
+                        </motion.div> */}
 
                         {/* 5. Explore Collection CTA Button */}
-                        <motion.div
+                        {/* <motion.div
                             initial={{ opacity: 0, scale: 0.92, y: 14 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -197,10 +199,10 @@ const HeroSection = () => {
                                     style={{ transition: 'transform 0.3s ease' }}
                                 />
                             </Box>
-                        </motion.div>
+                        </motion.div> */}
 
                         {/* 6. Three Value Proposition Badges */}
-                        <motion.div
+                        {/* <motion.div
                             initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
@@ -256,7 +258,7 @@ const HeroSection = () => {
                                     </Box>
                                 </Box>
                             </Box>
-                        </motion.div>
+                        </motion.div> */}
                     </Box>
                 </Box>
             </Box>
