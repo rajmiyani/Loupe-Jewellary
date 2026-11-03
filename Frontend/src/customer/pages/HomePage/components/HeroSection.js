@@ -469,89 +469,52 @@ const HeroSection = () => {
                 </Box>
 
                 {/* ============================================================== */}
-                {/* FLOATING LUXURY PILL SLIDE SWITCHER (Bottom Center)           */}
+                {/* ELEGANT MINIMAL SLIDE DOTS (Bottom Center)                    */}
                 {/* ============================================================== */}
                 <Box
                     sx={{
                         position: 'absolute',
-                        bottom: { xs: 6, sm: 12, md: 18 },
+                        bottom: { xs: 8, sm: 12, md: 16 },
                         left: '50%',
                         transform: 'translateX(-50%)',
                         zIndex: 14,
                         display: 'flex',
                         alignItems: 'center',
-                        gap: { xs: 0.4, sm: 1 },
-                        bgcolor: 'rgba(255, 255, 255, 0.88)',
-                        backdropFilter: 'blur(10px)',
-                        p: { xs: 0.4, sm: 0.6 },
+                        gap: { xs: 0.8, sm: 1 },
+                        bgcolor: 'rgba(255, 255, 255, 0.75)',
+                        backdropFilter: 'blur(8px)',
+                        px: { xs: 1, sm: 1.2 },
+                        py: { xs: 0.5, sm: 0.6 },
                         borderRadius: '9999px',
-                        boxShadow: '0 4px 20px rgba(9, 43, 79, 0.12)',
+                        boxShadow: '0 2px 10px rgba(9, 43, 79, 0.08)',
                         border: '1px solid rgba(255, 255, 255, 0.8)',
-                        maxWidth: '94%',
                     }}
                 >
-                    {/* Slide 1 Button: Diwali Edit */}
-                    {/* <Box
-                        component="button"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveSlide(0);
-                        }}
-                        sx={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: { xs: 0.4, sm: 0.8 },
-                            border: 'none',
-                            bgcolor: activeSlide === 0 ? '#092b4f' : 'transparent',
-                            color: activeSlide === 0 ? '#ffffff' : '#475569',
-                            borderRadius: '9999px',
-                            px: { xs: 1.2, sm: 1.8 },
-                            py: { xs: 0.4, sm: 0.55 },
-                            fontSize: { xs: '0.62rem', sm: '0.74rem' },
-                            fontWeight: 700,
-                            letterSpacing: '0.08em',
-                            textTransform: 'uppercase',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                            '&:hover': {
-                                color: activeSlide === 0 ? '#ffffff' : '#092b4f',
-                            },
-                        }}
-                    >
-                        <span>The Diwali Edit</span>
-                    </Box> */}
-
-                    {/* Slide 2 Button: Signature Collection */}
-                    {/* <Box
-                        component="button"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveSlide(1);
-                        }}
-                        sx={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: { xs: 0.4, sm: 0.8 },
-                            border: 'none',
-                            bgcolor: activeSlide === 1 ? '#092b4f' : 'transparent',
-                            color: activeSlide === 1 ? '#ffffff' : '#475569',
-                            borderRadius: '9999px',
-                            px: { xs: 1.2, sm: 1.8 },
-                            py: { xs: 0.4, sm: 0.55 },
-                            fontSize: { xs: '0.62rem', sm: '0.74rem' },
-                            fontWeight: 700,
-                            letterSpacing: '0.08em',
-                            textTransform: 'uppercase',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                            '&:hover': {
-                                color: activeSlide === 1 ? '#ffffff' : '#092b4f',
-                            },
-                        }}
-                    >
-                        <Gem size={13} strokeWidth={2.2} />
-                        <span>Signature Edits</span>
-                    </Box> */}
+                    {[0, 1].map((index) => (
+                        <Box
+                            key={index}
+                            component="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveSlide(index);
+                            }}
+                            aria-label={`Slide ${index + 1}`}
+                            sx={{
+                                width: activeSlide === index ? { xs: 18, sm: 24 } : { xs: 6, sm: 7 },
+                                height: { xs: 6, sm: 7 },
+                                borderRadius: '9999px',
+                                bgcolor: activeSlide === index ? '#092b4f' : 'rgba(9, 43, 79, 0.28)',
+                                border: 'none',
+                                outline: 'none',
+                                p: 0,
+                                cursor: 'pointer',
+                                transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                                '&:hover': {
+                                    bgcolor: activeSlide === index ? '#092b4f' : '#3c7399',
+                                },
+                            }}
+                        />
+                    ))}
                 </Box>
             </Box>
 
