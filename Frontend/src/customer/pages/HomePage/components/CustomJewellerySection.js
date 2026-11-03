@@ -101,7 +101,7 @@ const CustomJewellerySection = () => {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1e3545]/5 border border-[#1e3545]/15 text-[#1e3545]">
               <Sparkles size={14} className="text-[#D4AF37]" />
               <span className="text-xs font-bold uppercase tracking-[0.18em]">
-                Loupe Atelier & Bespoke Studio
+                Loupe Jewels & Bespoke Studio
               </span>
             </div>
 
