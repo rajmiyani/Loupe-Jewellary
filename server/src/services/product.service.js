@@ -189,6 +189,21 @@ async function getAllProducts(reqQuery) {
     // -------------------- Filter by Category ---------------
 
     if (category && category !== 'jewellery' && category !== 'all') {
+        const catNormalized = (category || '').toLowerCase().trim();
+        const isRingQuery = catNormalized === 'rings' || catNormalized === 'ring';
+        const BRACELET_TERMS = ['bracelets', 'bracelet', 'bracelate', 'bracelates', 'bracelete', 'braceletes'];
+        const isBraceletQuery = BRACELET_TERMS.includes(catNormalized);
+
+        const BRACELET_ALIASES = [
+            'bracelets', 'bracelet', 'bracelate', 'bracelates', 'bracelete', 'braceletes',
+            'bangles', 'bangle',
+            'tennis-bracelets', 'tennis-bracelet',
+            'chain-bracelets', 'chain-bracelet',
+            'cuff-bracelets', 'cuff-bracelet', 'cuffs', 'cuff',
+            'charm-bracelets', 'charm-bracelet', 'charms', 'charm',
+            'anklets', 'anklet'
+        ];
+
         const CATEGORY_ALIASES = {
             'diamond-studs': ['diamond-studs', 'stud', 'studs'],
             'studs': ['diamond-studs', 'stud', 'studs'],
@@ -198,8 +213,8 @@ async function getAllProducts(reqQuery) {
             'dangle-drops': ['dangle-drops', 'drop', 'drops', 'dangle'],
             'drop': ['dangle-drops', 'drop', 'drops', 'dangle'],
             'climbers': ['climbers', 'climber', 'ear-climber'],
-            'cuffs': ['cuffs', 'ear-cuff', 'ear-cuffs', 'cuff-bracelets'],
-            'ear-cuff': ['cuffs', 'ear-cuff', 'ear-cuffs', 'cuff-bracelets'],
+            'cuffs': ['cuffs', 'ear-cuff', 'ear-cuffs', 'cuff-bracelets', 'cuff-bracelet'],
+            'ear-cuff': ['cuffs', 'ear-cuff', 'ear-cuffs'],
             'chandeliers': ['chandeliers', 'chandelier'],
             'chandelier': ['chandeliers', 'chandelier'],
             'jhumka': ['jhumka', 'jhumkas'],
@@ -208,8 +223,20 @@ async function getAllProducts(reqQuery) {
             'ring': ['rings', 'ring', 'band', 'bands', 'engagement-ring', 'solitaire-ring', 'eternity-ring', 'halo-ring', 'daily-wear-ring', 'cocktail-ring'],
             'earrings': ['earrings', 'earring', 'studs', 'stud', 'hoops', 'hoop', 'drops', 'drop', 'jhumka', 'jhumkas'],
             'earring': ['earrings', 'earring', 'studs', 'stud', 'hoops', 'hoop', 'drops', 'drop', 'jhumka', 'jhumkas'],
-            'bracelets': ['bracelets', 'bracelet', 'bangles', 'bangle', 'tennis-bracelets', 'charms'],
-            'bracelet': ['bracelets', 'bracelet', 'bangles', 'bangle', 'tennis-bracelets', 'charms'],
+            'bracelets': BRACELET_ALIASES,
+            'bracelet': BRACELET_ALIASES,
+            'bracelate': BRACELET_ALIASES,
+            'bracelates': BRACELET_ALIASES,
+            'bracelete': BRACELET_ALIASES,
+            'braceletes': BRACELET_ALIASES,
+            'tennis-bracelets': ['tennis-bracelets', 'tennis-bracelet'],
+            'tennis-bracelet': ['tennis-bracelets', 'tennis-bracelet'],
+            'chain-bracelets': ['chain-bracelets', 'chain-bracelet'],
+            'chain-bracelet': ['chain-bracelets', 'chain-bracelet'],
+            'cuff-bracelets': ['cuff-bracelets', 'cuff-bracelet', 'cuffs'],
+            'cuff-bracelet': ['cuff-bracelets', 'cuff-bracelet', 'cuffs'],
+            'charm-bracelets': ['charm-bracelets', 'charm-bracelet', 'charms'],
+            'charm-bracelet': ['charm-bracelets', 'charm-bracelet', 'charms'],
             'necklaces': ['necklaces', 'necklace', 'pendant', 'pendants', 'choker', 'lariat'],
             'necklace': ['necklaces', 'necklace', 'pendant', 'pendants', 'choker', 'lariat'],
             'pendants': ['pendants', 'pendant', 'solitaire-pendant'],
@@ -219,9 +246,6 @@ async function getAllProducts(reqQuery) {
             'bangle': ['bangles', 'bangle', 'kada', 'kadas'],
         };
 
-        const catNormalized = (category || '').toLowerCase().trim();
-        const isRingQuery = catNormalized === 'rings' || catNormalized === 'ring';
-
         const targetAliasList = CATEGORY_ALIASES[catNormalized] || [category];
         const searchTerms = Array.from(new Set([category, ...targetAliasList]));
 
@@ -230,6 +254,9 @@ async function getAllProducts(reqQuery) {
             const escaped = term.replace(/-/g, '[\\s\\-]');
             if (term.toLowerCase() === 'ring' || term.toLowerCase() === 'rings') {
                 return new RegExp('(^|[^a-zA-Z])rings?([^a-zA-Z]|$)', 'i');
+            }
+            if (BRACELET_TERMS.includes(term.toLowerCase())) {
+                return new RegExp('(^|[^a-zA-Z])(bracelets?|bracelates?|braceletes?)([^a-zA-Z]|$)', 'i');
             }
             return new RegExp('(^|[^a-zA-Z])' + escaped + '([^a-zA-Z]|$)', 'i');
         });
@@ -283,6 +310,16 @@ async function getAllProducts(reqQuery) {
                 { secondLevelCategory: { $not: /earrings?/i } },
                 { thirdLevelCategory: { $not: /earrings?/i } },
                 { title: { $not: /\bearrings?\b/i } }
+            ]);
+        } else if (isBraceletQuery) {
+            query = query.and([
+                {
+                    $or: [
+                        ...categoryConditions,
+                        { title: { $in: regexQueries } },
+                        { braceletLength: { $exists: true, $ne: "" } }
+                    ]
+                }
             ]);
         } else {
             query = query.and([{ $or: categoryConditions }]);

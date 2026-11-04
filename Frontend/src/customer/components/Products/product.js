@@ -159,6 +159,11 @@ export default function Product() {
         resolvedCategory = param.levelOne;
       }
 
+      const lowerCat = (resolvedCategory || "").toLowerCase().trim();
+      if (['bracelate', 'bracelates', 'bracelete', 'braceletes', 'bracelet'].includes(lowerCat)) {
+        resolvedCategory = 'bracelets';
+      }
+
       const jewelryType = ['gold', 'diamond', 'silver', 'gemstone', 'platinum'];
       const occasionTypes = ['bridal', 'casual', 'engagement', 'modern', 'office', 'traditional-ethenic'];
 
@@ -303,7 +308,19 @@ export default function Product() {
     }
     if (searchValue) return `Search: ${searchValue}`;
     if (location.pathname === '/product-catalogue') return "Product Catalogue";
-    return param.categoryName || param.levelThree || param.levelOne || "All Jewellery";
+    const rawTitle = param.categoryName || param.levelThree || param.levelOne || "All Jewellery";
+    const normalized = rawTitle.toLowerCase().replace(/[-_]/g, ' ').trim();
+    if (['bracelate', 'bracelates', 'bracelete', 'braceletes', 'bracelet', 'bracelets'].includes(normalized)) {
+      return "Bracelets";
+    }
+    if (normalized === 'rings' || normalized === 'ring') return "Rings";
+    if (normalized === 'earrings' || normalized === 'earring') return "Earrings";
+    if (normalized === 'necklaces' || normalized === 'necklace') return "Necklaces";
+    if (normalized === 'all jewellery' || normalized === 'all') return "All Jewellery";
+    return rawTitle
+      .split(/[-_\s]+/)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
   };
 
   const activeCategorySlug = (param.categoryName || param.levelThree || param.levelOne || "").toLowerCase().trim();
