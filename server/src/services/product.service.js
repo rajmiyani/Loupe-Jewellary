@@ -204,10 +204,10 @@ async function getAllProducts(reqQuery) {
             'chandelier': ['chandeliers', 'chandelier'],
             'jhumka': ['jhumka', 'jhumkas'],
             'jhumkas': ['jhumka', 'jhumkas'],
-            'rings': ['rings', 'ring', 'engagement', 'solitaire', 'eternity', 'halo', 'daily-wear-ring', 'cocktail'],
-            'ring': ['rings', 'ring', 'engagement', 'solitaire', 'eternity', 'halo', 'daily-wear-ring', 'cocktail'],
-            'earrings': ['earrings', 'earring', 'studs', 'hoops', 'drops', 'jhumka'],
-            'earring': ['earrings', 'earring', 'studs', 'hoops', 'drops', 'jhumka'],
+            'rings': ['rings', 'ring', 'band', 'bands', 'engagement-ring', 'solitaire-ring', 'eternity-ring', 'halo-ring', 'daily-wear-ring', 'cocktail-ring'],
+            'ring': ['rings', 'ring', 'band', 'bands', 'engagement-ring', 'solitaire-ring', 'eternity-ring', 'halo-ring', 'daily-wear-ring', 'cocktail-ring'],
+            'earrings': ['earrings', 'earring', 'studs', 'stud', 'hoops', 'hoop', 'drops', 'drop', 'jhumka', 'jhumkas'],
+            'earring': ['earrings', 'earring', 'studs', 'stud', 'hoops', 'hoop', 'drops', 'drop', 'jhumka', 'jhumkas'],
             'bracelets': ['bracelets', 'bracelet', 'bangles', 'bangle', 'tennis-bracelets', 'charms'],
             'bracelet': ['bracelets', 'bracelet', 'bangles', 'bangle', 'tennis-bracelets', 'charms'],
             'necklaces': ['necklaces', 'necklace', 'pendant', 'pendants', 'choker', 'lariat'],
@@ -219,40 +219,74 @@ async function getAllProducts(reqQuery) {
             'bangle': ['bangles', 'bangle', 'kada', 'kadas'],
         };
 
-        const targetAliasList = CATEGORY_ALIASES[category.toLowerCase()] || [category];
+        const catNormalized = (category || '').toLowerCase().trim();
+        const isRingQuery = catNormalized === 'rings' || catNormalized === 'ring';
+
+        const targetAliasList = CATEGORY_ALIASES[catNormalized] || [category];
         const searchTerms = Array.from(new Set([category, ...targetAliasList]));
-        const regexQueries = searchTerms.map(term => new RegExp(term.replace(/-/g, '[\\s\\-]'), 'i'));
+
+        // Build word-boundary aware regexes so that 'ring' does NOT match 'earrings' or 'earring'
+        const regexQueries = searchTerms.map(term => {
+            const escaped = term.replace(/-/g, '[\\s\\-]');
+            if (term.toLowerCase() === 'ring' || term.toLowerCase() === 'rings') {
+                return new RegExp('(^|[^a-zA-Z])rings?([^a-zA-Z]|$)', 'i');
+            }
+            return new RegExp('(^|[^a-zA-Z])' + escaped + '([^a-zA-Z]|$)', 'i');
+        });
 
         // Find Category documents by name, slug or regex
-        const existCategories = await Category.find({
+        let existCategories = await Category.find({
             $or: [
                 { name: { $in: regexQueries } },
                 { slug: { $in: searchTerms.map(s => s.toLowerCase()) } }
             ]
         });
 
+        // If searching specifically for rings, strictly filter out any earring category
+        if (isRingQuery) {
+            existCategories = existCategories.filter(cat => {
+                const n = (cat.name || '').toLowerCase();
+                const s = (cat.slug || '').toLowerCase();
+                return !n.includes('earring') && !s.includes('earring');
+            });
+        }
+
         let allCategoryIds = existCategories.map(cat => cat._id);
 
         if (allCategoryIds.length > 0) {
             // Find children categories
             const childCategories = await Category.find({ parentCategory: { $in: allCategoryIds } });
-            const childIds = childCategories.map(c => c._id);
+            const childIds = childCategories
+                .filter(c => !isRingQuery || !(c.name || '').toLowerCase().includes('earring'))
+                .map(c => c._id);
             allCategoryIds = [...allCategoryIds, ...childIds];
 
             if (childIds.length > 0) {
                 const grandChildCategories = await Category.find({ parentCategory: { $in: childIds } });
-                allCategoryIds = [...allCategoryIds, ...grandChildCategories.map(c => c._id)];
+                const grandChildIds = grandChildCategories
+                    .filter(c => !isRingQuery || !(c.name || '').toLowerCase().includes('earring'))
+                    .map(c => c._id);
+                allCategoryIds = [...allCategoryIds, ...grandChildIds];
             }
         }
 
-        query = query.and([{
-            $or: [
-                { category: { $in: allCategoryIds } },
-                { topLevelCategory: { $in: regexQueries } },
-                { secondLevelCategory: { $in: regexQueries } },
-                { thirdLevelCategory: { $in: regexQueries } }
-            ]
-        }]);
+        const categoryConditions = [
+            { category: { $in: allCategoryIds } },
+            { topLevelCategory: { $in: regexQueries } },
+            { secondLevelCategory: { $in: regexQueries } },
+            { thirdLevelCategory: { $in: regexQueries } }
+        ];
+
+        if (isRingQuery) {
+            query = query.and([
+                { $or: categoryConditions },
+                { secondLevelCategory: { $not: /earrings?/i } },
+                { thirdLevelCategory: { $not: /earrings?/i } },
+                { title: { $not: /\bearrings?\b/i } }
+            ]);
+        } else {
+            query = query.and([{ $or: categoryConditions }]);
+        }
     }
 
     // -------------------- Filter by Type ---------------

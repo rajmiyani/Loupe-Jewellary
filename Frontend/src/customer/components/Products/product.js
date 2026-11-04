@@ -303,8 +303,21 @@ export default function Product() {
     }
     if (searchValue) return `Search: ${searchValue}`;
     if (location.pathname === '/product-catalogue') return "Product Catalogue";
-    return param.levelThree || param.levelOne || "All Jewellery";
+    return param.categoryName || param.levelThree || param.levelOne || "All Jewellery";
   };
+
+  const activeCategorySlug = (param.categoryName || param.levelThree || param.levelOne || "").toLowerCase().trim();
+  const isRingCategory = activeCategorySlug === 'rings' || activeCategorySlug === 'ring';
+
+  const rawProducts = Array.isArray(products.products?.content) ? products.products.content : [];
+  const displayedContent = isRingCategory
+    ? rawProducts.filter(p => {
+        const title = (p.title || '').toLowerCase();
+        const secCat = (p.secondLevelCategory || '').toLowerCase();
+        const catName = (p.category?.name || '').toLowerCase();
+        return !title.includes('earring') && !secCat.includes('earring') && !catName.includes('earring');
+      })
+    : rawProducts;
 
   return (
     <div className="bg-[#fafafa] min-h-screen">
@@ -522,7 +535,7 @@ export default function Product() {
             </div>
 
             {products.products?.content ? (
-              products.products.content.length === 0 ? (
+              displayedContent.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-40 bg-white rounded-3xl border border-dashed border-slate-200">
                   <div className="w-32 h-32 opacity-10 mb-6">
                     <img src="https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg" alt="No results" className="w-full h-full object-contain" />
@@ -533,7 +546,7 @@ export default function Product() {
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-4 md:gap-6 justify-items-center">
-                  {products.products.content.map((product, idx) => (
+                  {displayedContent.map((product, idx) => (
                     <ProductCard product={product} key={product._id} index={idx} />
                   ))}
                 </div>
