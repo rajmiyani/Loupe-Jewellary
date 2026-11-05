@@ -47,7 +47,7 @@ const HeroSection = () => {
     // Preload hero images
     useEffect(() => {
         const imageUrls = [
-            '/diwali_banner_hero.webp',
+            'https://res.cloudinary.com/djb2szzn/image/upload/v1793857625/Shop_Now_1.png',
             '/hero_panel_1.webp',
             '/hero_panel_2.webp',
             '/hero_panel_3.webp'
