@@ -41,6 +41,8 @@ const Footer = () => {
                             </h3>
                             <ul className="space-y-4 md:space-y-6 text-[13px] font-medium text-[#1e3545]/90 tracking-wider">
                                 {[
+                                    { name: 'About Loupe', path: '/about' },
+                                    { name: 'Contact Concierge', path: '/contact' },
                                     { name: 'Privacy Policy', path: '/privacy' },
                                     { name: 'Refund Policy', path: '/refund' },
                                     { name: 'Shipping Policy', path: '/shipping' },

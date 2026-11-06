@@ -94,6 +94,11 @@ const HomePage = () => {
         }
       }}
     >
+      {/* Primary <h1> heading for Homepage semantics, SEO and AI Agent discovery */}
+      <h1 className="sr-only">
+        Loupe Jewels | Exquisite Handcrafted Gold &amp; Certified Lab-Grown Diamond Jewellery
+      </h1>
+
       {/* 1st Position: Hero Section */}
       <section>
         <HeroSection />

@@ -559,7 +559,14 @@ export default function Navigation() {
                   <div className="mt-8 px-6 py-4 mx-4 bg-[#f1f5f9] rounded-xl">
                     <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: '#3c7399', mb: 1 }}>Concierge Service</Typography>
                     <Typography sx={{ fontSize: '0.7rem', color: '#64748b', mb: 2 }}>Need help finding the perfect gift?</Typography>
-                    <p className="text-[0.75rem] font-black text-[#3c7399] uppercase tracking-widest cursor-pointer">Chat With Us</p>
+                    <p className="text-[0.75rem] font-black text-[#3c7399] uppercase tracking-widest cursor-pointer mb-3">Chat With Us</p>
+                    <div className="pt-2 border-t border-slate-200 flex items-center gap-3 text-xs text-[#3c7399] font-semibold">
+                      <Link to="/about" onClick={() => setOpen(false)} className="hover:underline">About Us</Link>
+                      <span>•</span>
+                      <Link to="/contact" onClick={() => setOpen(false)} className="hover:underline">Contact</Link>
+                      <span>•</span>
+                      <Link to="/terms" onClick={() => setOpen(false)} className="hover:underline">Terms</Link>
+                    </div>
                   </div>
                 </Box>
 
@@ -780,6 +787,18 @@ export default function Navigation() {
                       )}
                     </Popover>
                   ))}
+                  <Link
+                    to="/about"
+                    className="z-10 flex items-center text-[0.8rem] tracking-widest uppercase outline-none border-b-2 border-transparent text-[#3c7399] font-bold hover:text-[#2b5470] transition-all pb-1"
+                  >
+                    About Us
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="z-10 flex items-center text-[0.8rem] tracking-widest uppercase outline-none border-b-2 border-transparent text-[#3c7399] font-bold hover:text-[#2b5470] transition-all pb-1"
+                  >
+                    Contact
+                  </Link>
                 </Popover.Group>
               ) : (
                 <div className="w-full max-w-xl animate-in fade-in slide-in-from-top-4 duration-300">

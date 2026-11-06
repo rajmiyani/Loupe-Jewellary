@@ -1,0 +1,67 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/server-card/v1.json",
+  "name": "loupe-jewels-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server card for Loupe Jewels. Provides AI agents with catalogue search, product specifications, store location, and concierge assistance.",
+  "homepage": "https://loupejewels.com",
+  "endpoint": "https://loupejewels.com/api/mcp",
+  "transport": {
+    "type": "http-sse",
+    "url": "https://loupejewels.com/api/mcp"
+  },
+  "capabilities": {
+    "tools": {
+      "list": true,
+      "call": true
+    },
+    "resources": {
+      "list": true,
+      "read": true
+    }
+  },
+  "tools": [
+    {
+      "name": "search_jewellery",
+      "description": "Search Loupe Jewels collection of certified diamond rings, earrings, necklaces, and bracelets by query, metal, and price.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword e.g. solitaire, tennis bracelet, studs"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["rings", "earrings", "necklace", "bracelets"]
+          },
+          "maxPrice": {
+            "type": "number",
+            "description": "Maximum budget in INR"
+          }
+        }
+      }
+    },
+    {
+      "name": "get_product_details",
+      "description": "Get detailed specifications, metal karatage, diamond certification, and pricing for a specific jewellery piece.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "MongoDB ObjectID of the product"
+          }
+        },
+        "required": ["productId"]
+      }
+    },
+    {
+      "name": "get_business_info",
+      "description": "Get Loupe Jewels verified business details, boutique address, telephone, email, and certifications.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}

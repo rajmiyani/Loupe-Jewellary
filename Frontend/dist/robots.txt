@@ -1,3 +1,12 @@
-# https://www.robotstxt.org/robotstxt.html
+# robots.txt for https://loupejewels.com
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /checkout
+Disallow: /account
+
+# Content-Signal directive declaring AI training and search usage
+Content-Signal: search=yes, ai-train=no
+
+# XML Sitemap location
+Sitemap: https://loupejewels.com/sitemap.xml

@@ -20,6 +20,7 @@ import RefundPolicy from "../pages/Policies/RefundPolicy";
 import ShippingPolicy from "../pages/Policies/ShippingPolicy";
 import TermsOfService from "../pages/Policies/TermsOfService";
 import ContactInfo from "../pages/Policies/ContactInfo";
+import AboutUs from "../pages/About/AboutUs";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -228,6 +229,8 @@ const CustomerRouters = () => {
         <Route path="/shipping" element={<WithLayout showLayout={true}><ShippingPolicy /></WithLayout>} />
         <Route path="/terms" element={<WithLayout showLayout={true}><TermsOfService /></WithLayout>} />
         <Route path="/contact-info" element={<WithLayout showLayout={true}><ContactInfo /></WithLayout>} />
+        <Route path="/contact" element={<WithLayout showLayout={true}><ContactInfo /></WithLayout>} />
+        <Route path="/about" element={<WithLayout showLayout={true}><AboutUs /></WithLayout>} />
 
         {/* 404 Page */}
         <Route

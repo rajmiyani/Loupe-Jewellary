@@ -9,6 +9,11 @@
   <meta name="description" content="Explore Loupe Jewels' luxury collection of handcrafted gold and certified diamond jewellery. Discover timeless rings, necklaces, bracelets, and earrings designed for life's precious moments." />
   <link rel="canonical" href="https://loupejewels.com/" />
 
+  <!-- Agent & Machine Readable Alternates (RFC 8288 / llms.txt / MCP) -->
+  <link rel="alternate" type="text/markdown" href="https://loupejewels.com/" title="Markdown Alternate for AI Agents" />
+  <link rel="alternate" type="text/plain" href="https://loupejewels.com/llms.txt" title="LLMs Context" />
+  <link rel="service-desc" type="application/json" href="https://loupejewels.com/.well-known/mcp/server-card.json" title="MCP Server Card" />
+
   <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Loupe Jewels" />
@@ -31,7 +36,7 @@
   <meta name="twitter:image" content="https://loupejewels.com/og-image.jpg" />
   <meta name="twitter:image:alt" content="Loupe Jewels - Luxury Fine Gold and Diamond Jewellery" />
 
-  <title>Loupe Jewels | Exquisite Handcrafted Gold & Diamond Jewellery</title>
+  <title>Loupe Jewels | Exquisite Handcrafted Gold & Certified Diamond Jewellery</title>
 
   <link rel="apple-touch-icon" href="/Loupe-logo.png" />
 
@@ -60,11 +65,271 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+
+  <!-- JSON-LD Structured Data covering Organization, JewelryStore, WebSite, WebPage, Breadcrumbs -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Organization", "JewelryStore", "OnlineStore"],
+        "@id": "https://loupejewels.com/#organization",
+        "name": "Loupe Jewels",
+        "legalName": "Loupe Jewellery LLP",
+        "url": "https://loupejewels.com",
+        "logo": {
+          "@type": "ImageObject",
+          "@id": "https://loupejewels.com/#logo",
+          "url": "https://loupejewels.com/Loupe-logo.png",
+          "caption": "Loupe Jewels Logo"
+        },
+        "image": "https://loupejewels.com/og-image.jpg",
+        "description": "Exquisite handcrafted gold and certified diamond jewellery. Discover timeless rings, necklaces, bracelets, and earrings designed for life's precious moments.",
+        "telephone": "+91-9909109074",
+        "email": "loupejewelsllp@gmail.com",
+        "priceRange": "₹₹₹",
+        "currenciesAccepted": "INR",
+        "paymentAccepted": "Cash, Credit Card, Debit Card, UPI, Net Banking",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "12-17 Sardar Owners Association, Mini Bazar, Varachha",
+          "addressLocality": "Surat",
+          "addressRegion": "Gujarat",
+          "postalCode": "395006",
+          "addressCountry": "IN"
+        },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+91-9909109074",
+            "contactType": "customer service",
+            "email": "loupejewelsllp@gmail.com",
+            "areaServed": "IN",
+            "availableLanguage": ["en", "hi", "gu"]
+          }
+        ],
+        "sameAs": [
+          "https://www.instagram.com/loupe_jewellery/",
+          "https://www.facebook.com/loupe_jewellery/",
+          "https://wa.me/919909109074"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://loupejewels.com/#website",
+        "url": "https://loupejewels.com",
+        "name": "Loupe Jewels",
+        "publisher": {
+          "@id": "https://loupejewels.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://loupejewels.com/all-jewellery?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://loupejewels.com/#webpage",
+        "url": "https://loupejewels.com",
+        "name": "Loupe Jewels | Exquisite Handcrafted Gold & Certified Diamond Jewellery",
+        "isPartOf": {
+          "@id": "https://loupejewels.com/#website"
+        },
+        "about": {
+          "@id": "https://loupejewels.com/#organization"
+        },
+        "description": "Explore Loupe Jewels' luxury collection of handcrafted gold and certified diamond jewellery. Discover timeless rings, necklaces, bracelets, and earrings."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://loupejewels.com/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://loupejewels.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "All Jewellery",
+            "item": "https://loupejewels.com/all-jewellery"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- WebMCP In-Browser Agent Tool Registration (RFC / WebMCP Standard) -->
+  <script>
+    (function () {
+      var tools = [
+        {
+          name: "searchJewellery",
+          description: "Search Loupe Jewels collection of certified diamond and gold jewellery by query or category.",
+          inputSchema: {
+            type: "object",
+            properties: {
+              query: { type: "string", description: "Search keyword e.g. solitaire, eternity ring, diamond studs" },
+              category: { type: "string", enum: ["rings", "earrings", "necklace", "bracelets"] }
+            }
+          },
+          execute: async function (args) {
+            var q = encodeURIComponent(args.query || args.category || '');
+            window.location.href = '/all-jewellery' + (q ? '?q=' + q : '');
+            return { success: true, url: '/all-jewellery?q=' + q };
+          }
+        },
+        {
+          name: "getContactDetails",
+          description: "Get contact and concierge support details for Loupe Jewels",
+          inputSchema: { type: "object", properties: {} },
+          execute: async function () {
+            return {
+              brand: "Loupe Jewels",
+              legalName: "Loupe Jewellery LLP",
+              email: "loupejewelsllp@gmail.com",
+              phone: "+91 99091 09074",
+              whatsapp: "https://wa.me/919909109074",
+              address: "12-17 Sardar Owners Association, Mini Bazar, Varachha, Surat, Gujarat, India - 395006",
+              website: "https://loupejewels.com"
+            };
+          }
+        },
+        {
+          name: "viewPolicies",
+          description: "Retrieve URLs for Loupe Jewels terms, privacy, shipping, and return policies",
+          inputSchema: { type: "object", properties: {} },
+          execute: async function () {
+            return {
+              terms: "https://loupejewels.com/terms",
+              privacy: "https://loupejewels.com/privacy",
+              shipping: "https://loupejewels.com/shipping",
+              refund: "https://loupejewels.com/refund",
+              about: "https://loupejewels.com/about",
+              contact: "https://loupejewels.com/contact"
+            };
+          }
+        }
+      ];
+
+      if (typeof navigator !== 'undefined' && navigator.modelContext && typeof navigator.modelContext.registerTool === 'function') {
+        tools.forEach(function (t) {
+          try { navigator.modelContext.registerTool(t); } catch (e) { }
+        });
+      }
+      window.__webmcpTools = tools;
+    })();
+  </script>
 </head>
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
+  <!-- Pre-rendered Semantic Shell inside #root: Read by Web Crawlers & AI Agents Without JavaScript Execution -->
+  <div id="root">
+    <header role="banner">
+      <nav aria-label="Main Navigation">
+        <a href="/" title="Loupe Jewels Home">Loupe Jewels</a>
+        <ul>
+          <li><a href="/all-jewellery">All Jewellery</a></li>
+          <li><a href="/all-jewellery/category/rings">Rings</a></li>
+          <li><a href="/all-jewellery/category/earrings">Earrings</a></li>
+          <li><a href="/all-jewellery/category/necklace">Necklaces</a></li>
+          <li><a href="/all-jewellery/category/bracelets">Bracelets</a></li>
+          <li><a href="/customize">Bespoke Custom Jewellery</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+      <!-- Machine-readable Search Form with WebMCP Attributes -->
+      <form role="search" action="/all-jewellery" method="get" toolname="searchJewellery" tooldescription="Search handcrafted diamond rings, necklaces, earrings and bracelets on Loupe Jewels">
+        <input type="search" name="q" placeholder="Search handcrafted diamond jewellery..." aria-label="Search Jewellery" />
+        <button type="submit">Search</button>
+      </form>
+    </header>
+
+    <main role="main">
+      <article>
+        <h1>Loupe Jewels | Exquisite Handcrafted Gold &amp; Certified Lab-Grown Diamond Jewellery</h1>
+        <p>
+          Welcome to Loupe Jewels (Loupe Jewellery LLP), your premier Indian destination for certified lab-grown diamonds, hallmarked 14K and 18K solid gold jewellery, and bespoke heirloom craftsmanship based in Surat, Gujarat.
+        </p>
+
+        <section aria-labelledby="heading-collections">
+          <h2 id="heading-collections">Core Jewellery Collections</h2>
+          <ul>
+            <li>
+              <strong><a href="/all-jewellery/category/rings">Diamond Rings</a></strong>:
+              Solitaire engagement rings, eternity bands, and everyday sparkle set in yellow gold, rose gold, and white gold.
+            </li>
+            <li>
+              <strong><a href="/all-jewellery/category/earrings">Diamond Earrings</a></strong>:
+              IGI certified diamond studs, drop earrings, huggies, and festive chandbalis.
+            </li>
+            <li>
+              <strong><a href="/all-jewellery/category/necklace">Fine Necklaces</a></strong>:
+              Solitaire diamond pendants, bridal chokers, and delicate gold chains.
+            </li>
+            <li>
+              <strong><a href="/all-jewellery/category/bracelets">Tennis Bracelets</a></strong>:
+              Classic diamond tennis bracelets and custom-fitted bangles.
+            </li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="heading-craftsmanship">
+          <h2 id="heading-craftsmanship">Ethical Diamond Craftsmanship &amp; Certification</h2>
+          <p>
+            Every diamond in our collection is sustainably cultivated using cutting-edge CVD and HPHT technology, offering identical physical, chemical, and optical brilliance to mined diamonds with zero ecological conflict. Each jewel is certified to international standards (IGI &amp; GIA) and crafted with 100% BIS hallmarked gold.
+          </p>
+        </section>
+
+        <section aria-labelledby="heading-concierge">
+          <h2 id="heading-concierge">Bespoke Concierge &amp; Direct Contact Details</h2>
+          <p>
+            Looking for a custom engagement ring or bridal piece? Connect directly with our master craftsmen:
+          </p>
+          <address>
+            <p><strong>Brand:</strong> Loupe Jewels (Loupe Jewellery LLP)</p>
+            <p><strong>Boutique Address:</strong> 12-17 Sardar Owners Association, Mini Bazar, Varachha, Surat, Gujarat, India - 395006</p>
+            <p><strong>Email:</strong> <a href="mailto:loupejewelsllp@gmail.com">loupejewelsllp@gmail.com</a></p>
+            <p><strong>Phone:</strong> <a href="tel:+919909109074">+91 99091 09074</a></p>
+            <p><strong>WhatsApp:</strong> <a href="https://wa.me/919909109074" target="_blank" rel="noopener noreferrer">+91 99091 09074</a></p>
+            <p><strong>Operating Hours:</strong> Monday to Saturday, 10:00 AM - 7:00 PM IST</p>
+          </address>
+        </section>
+      </article>
+    </main>
+
+    <footer role="contentinfo">
+      <nav aria-label="Legal and Policy Links">
+        <h3>Customer Care &amp; Legal Policies</h3>
+        <ul>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact Information</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/refund">Refund &amp; Return Policy</a></li>
+          <li><a href="/shipping">Shipping Policy</a></li>
+        </ul>
+      </nav>
+      <p>&copy; 2025 Loupe Jewellery LLP. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <noscript>
+    <div style="padding: 24px; font-family: sans-serif; background: #fdfcf7; color: #1e3545;">
+      <h2>JavaScript Required for Interactive Shopping</h2>
+      <p>
+        You are viewing the accessible agent &amp; crawler version of Loupe Jewels. For the complete interactive boutique experience, 3D customizer, and secure checkout, please enable JavaScript in your browser.
+      </p>
+      <p>
+        Direct Inquiries: <a href="mailto:loupejewelsllp@gmail.com">loupejewelsllp@gmail.com</a> | <a href="tel:+919909109074">+91 99091 09074</a>
+      </p>
+    </div>
+  </noscript>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

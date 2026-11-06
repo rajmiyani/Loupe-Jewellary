@@ -1,0 +1,46 @@
+# Loupe Jewels - Complete Agent Knowledge Base
+
+> Loupe Jewels (Loupe Jewellery LLP) is an Indian luxury fine jewellery house based in Surat, Gujarat. We handcraft ethical, certified lab-grown diamond and BIS hallmarked gold jewellery, featuring engagement rings, solitaire necklaces, tennis bracelets, earrings, and bespoke custom commissions.
+
+## Overview
+- Entity: Loupe Jewellery LLP
+- Founded: India
+- Headquarters: Surat, Gujarat, India
+- Website: https://loupejewels.com
+- Contact Email: loupejewelsllp@gmail.com
+- Phone: +91 99091 09074
+- Address: 12-17 Sardar Owners Association, Mini Bazar, Varachha, Surat, Gujarat, India - 395006
+- Business Hours: Monday to Saturday, 10:00 AM - 7:00 PM IST
+
+## Philosophy & Craftsmanship
+Every Loupe jewellery creation combines ethical modern science with generational Gujarati metalsmithing traditions:
+1. **Ethical Lab-Grown Diamonds**: Chemically, optically, and physically identical to mined diamonds (CVD / HPHT processes). Zero conflict, minimal ecological footprint.
+2. **Certification**: All diamonds above 0.30 ct come with independent international diamond certification (IGI or GIA standards), verifying Cut, Color, Clarity, and Carat weight.
+3. **Purity & Hallmarking**: 100% BIS hallmarked 14K and 18K gold (Yellow, Rose, White Gold) and 950 Platinum.
+4. **Bespoke Crafting**: Custom jewelry service offering 3D CAD modeling, gemstone selection, and personalization.
+
+## Catalog Hierarchy
+- **Rings**: https://loupejewels.com/all-jewellery/category/rings
+  - Solitaire Rings (Classic 4-prong, 6-prong)
+  - Eternity Bands & Semi-Eternity Bands
+  - Halo & Vintage Cocktail Rings
+  - Men's Diamond Bands
+- **Earrings**: https://loupejewels.com/all-jewellery/category/earrings
+  - Diamond Solitaire Studs
+  - Huggies and Hoop Earrings
+  - Chandelier & Drop Earrings
+- **Necklaces**: https://loupejewels.com/all-jewellery/category/necklace
+  - Solitaire Pendants & Station Chains
+  - Tennis Necklaces & Chokers
+  - Bridal Statement Sets
+- **Bracelets**: https://loupejewels.com/all-jewellery/category/bracelets
+  - Diamond Tennis Bracelets
+  - Bangles & Cuffs
+  - Charm and Chain Bracelets
+
+## Policies
+- Terms of Service: https://loupejewels.com/terms
+- Privacy Policy: https://loupejewels.com/privacy
+- Return & Refund Policy: https://loupejewels.com/refund
+- Insured Shipping Policy: https://loupejewels.com/shipping
+- Contact Concierge: https://loupejewels.com/contact
