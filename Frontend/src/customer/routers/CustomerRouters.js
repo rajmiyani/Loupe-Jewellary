@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import HomePage from "../pages/HomePage/HomePage";
-import ComingSoon from "../pages/ComingSoon/ComingSoon";
 import Product from "../components/Products/product";
 import ProductDetails from "../components/ProductDetails/ProductDetails";
 import Cart from "../components/Cart/Cart";
@@ -91,6 +90,8 @@ const CustomerRouters = () => {
             </WithLayout>
           }
         />
+        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route path="/home1" element={<Navigate to="/" replace />} />
         <Route
           path="/login"
           element={
@@ -229,8 +230,14 @@ const CustomerRouters = () => {
         <Route path="/contact-info" element={<WithLayout showLayout={true}><ContactInfo /></WithLayout>} />
 
         {/* 404 Page */}
-        {/* Fallback for non-developer routes: Coming Soon */}
-        <Route path="*" element={<ComingSoon />} />
+        <Route
+          path="*"
+          element={
+            <WithLayout showLayout={true}>
+              <PageNotFound />
+            </WithLayout>
+          }
+        />
       </Routes>
     </ModalState>
   );

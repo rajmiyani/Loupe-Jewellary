@@ -56,32 +56,50 @@ const PrevArrow = ({ onClick }) => (
 const BestSellerSection = ({ title = "Best Sellers", products = [] }) => {
     const navigate = useNavigate();
 
+    if (!Array.isArray(products) || products.length === 0) {
+        return null;
+    }
+
+    const count = products.length;
+
     const settings = {
         dots: false,
-        infinite: products.length > 4,
+        infinite: count > 4,
         speed: 500,
-        slidesToShow: products.length > 0 ? Math.min(4, products.length) : 3,
+        slidesToShow: Math.max(1, Math.min(4, count)),
         slidesToScroll: 1,
-        autoplay: true,
+        autoplay: count > 1,
         autoplaySpeed: 5000,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
         responsive: [
             {
                 breakpoint: 1280,
-                settings: { slidesToShow: Math.min(3, products.length) }
+                settings: {
+                    slidesToShow: Math.max(1, Math.min(3, count)),
+                    infinite: count > 3,
+                }
             },
             {
                 breakpoint: 1024,
-                settings: { slidesToShow: Math.min(3, products.length) }
+                settings: {
+                    slidesToShow: Math.max(1, Math.min(3, count)),
+                    infinite: count > 3,
+                }
             },
             {
                 breakpoint: 768,
-                settings: { slidesToShow: Math.min(2, products.length) }
+                settings: {
+                    slidesToShow: Math.max(1, Math.min(2, count)),
+                    infinite: count > 2,
+                }
             },
             {
                 breakpoint: 480,
-                settings: { slidesToShow: Math.min(2, products.length) }
+                settings: {
+                    slidesToShow: Math.max(1, Math.min(2, count)),
+                    infinite: count > 2,
+                }
             }
         ]
     };

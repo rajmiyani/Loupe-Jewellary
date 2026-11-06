@@ -9,8 +9,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScrollToTop from "./components/ScrollToTop";
 
-import ComingSoon from './customer/pages/ComingSoon/ComingSoon';
-
 function App() {
   // Initialize theme from localStorage once on mount
   useEffect(() => {
@@ -27,16 +25,16 @@ function App() {
   const isAdmin = IsAdmin();
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const isStoreRoute = location.pathname.startsWith('/');
+
   return (
-    <div className={`min-h-screen ${isStoreRoute ? 'bg-[#a9cee5]' : 'bg-[#fafafa] text-gray-900 dark:bg-gray-900 dark:text-gray-100'}`}>
+    <div className="min-h-screen bg-[#fafafa] text-gray-900 dark:bg-gray-900 dark:text-gray-100">
 
       <ScrollToTop />
       
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route path="/admin/*" element={<AdminGuard><AdminRouters /></AdminGuard>} />
-        <Route path="/" element={<CustomerRouters />} />
+        <Route path="/*" element={<CustomerRouters />} />
       </Routes>
       {!isAdminRoute && <WhatsAppContact />}
     </div>

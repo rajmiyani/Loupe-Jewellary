@@ -194,7 +194,7 @@ const HeroSection = () => {
                                 src="/diwali_banner_hero.webp"
                                 alt="The Diwali Edit - Let Your Festive Glow Begin - Loupe Jewellery"
                                 loading="eager"
-                                fetchPriority="high"
+                                fetchpriority="high"
                                 sx={{
                                     width: '100%',
                                     height: '100%',
@@ -294,7 +294,7 @@ const HeroSection = () => {
                                     component="img"
                                     src="/hero_panel_1.webp"
                                     loading="eager"
-                                    fetchPriority="high"
+                                    fetchpriority="high"
                                     alt="Fine Diamond Bracelet - Loupe Jewellery"
                                     sx={{
                                         width: '100%',
@@ -338,7 +338,7 @@ const HeroSection = () => {
                                         component="img"
                                         src="/hero_panel_2.webp"
                                         loading="eager"
-                                        fetchPriority="high"
+                                        fetchpriority="high"
                                         alt="Geometric Diamond Earrings - Loupe Jewellery"
                                         sx={{
                                             width: '100%',
@@ -372,7 +372,7 @@ const HeroSection = () => {
                                         component="img"
                                         src="/hero_panel_3.webp"
                                         loading="eager"
-                                        fetchPriority="high"
+                                        fetchpriority="high"
                                         alt="Infinity Diamond Ring - Loupe Jewellery"
                                         sx={{
                                             width: '100%',

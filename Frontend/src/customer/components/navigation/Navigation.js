@@ -364,7 +364,7 @@ export default function Navigation() {
   };
 
   const handleClose = () => {
-    navigate("/home1");
+    navigate("/");
     modal.closeModal();
   };
 
@@ -419,7 +419,7 @@ export default function Navigation() {
               <Dialog.Panel className="relative flex w-full max-w-[85vw] flex-col overflow-y-auto bg-white pb-12 shadow-2xl no-scrollbar">
                 {/* 1. Editorial Header Bar */}
                 <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-5 bg-white border-b border-gray-100">
-                  <Link to="/home1" onClick={() => setOpen(false)}>
+                  <Link to="/" onClick={() => setOpen(false)}>
                     <img
                       src="/Loupe-logo-theme.png"
                       alt="Loupe Jeweler"
@@ -631,7 +631,7 @@ export default function Navigation() {
               >
                 <MenuIcon sx={{ fontSize: 28 }} />
               </IconButton>
-              <Link to="/home1" className="flex items-center ml-1 lg:ml-0">
+              <Link to="/" className="flex items-center ml-1 lg:ml-0">
                 <img
                   src="/Loupe-logo-theme.png"
                   alt="Loupe Jeweler"
