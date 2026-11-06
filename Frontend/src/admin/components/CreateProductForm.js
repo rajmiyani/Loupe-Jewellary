@@ -6,8 +6,7 @@ import {
   Box, Grid, TextField, Button, Typography, FormControl,
   InputLabel, Select, MenuItem, Card, CardContent, Avatar,
   Chip, IconButton, CircularProgress, LinearProgress,
-  Paper, Switch, FormControlLabel, Dialog, DialogTitle,
-  DialogContent, DialogActions, Tooltip,
+  Paper, Switch, FormControlLabel, Autocomplete, Tooltip,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
@@ -94,46 +93,17 @@ const CreateProductForm = () => {
   const dispatch = useDispatch();
   const { category: categoryState } = useSelector((store) => store);
 
+  // Fetch DB categories so we can link new custom styles to their parent
+  React.useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [activeColorTab, setActiveColorTab] = useState('yellow-gold');
   const [activeVideoColorTab, setActiveVideoColorTab] = useState('yellow-gold');
   const [videoUploading, setVideoUploading] = useState(false);
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
-
-  // New Category Dialog states
-  const [newCategoryModalOpen, setNewCategoryModalOpen] = useState(false);
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [newCategoryParent, setNewCategoryParent] = useState('');
-  const [creatingCategoryLoading, setCreatingCategoryLoading] = useState(false);
-
-  React.useEffect(() => {
-    dispatch(getAllCategories());
-  }, [dispatch]);
-
-  const handleCreateNewCategory = async (e) => {
-    if (e) e.preventDefault();
-    if (!newCategoryName.trim()) return;
-    setCreatingCategoryLoading(true);
-    try {
-      const created = await dispatch(createCategoryAction({
-        name: newCategoryName.trim(),
-        parentCategory: newCategoryParent || null,
-      }));
-      const catName = created?.name || newCategoryName.trim();
-      setProductData((prev) => ({
-        ...prev,
-        secondLevelCategory: catName,
-      }));
-      setNewCategoryName('');
-      setNewCategoryParent('');
-      setNewCategoryModalOpen(false);
-    } catch (err) {
-      alert(err.message || 'Failed to create category');
-    } finally {
-      setCreatingCategoryLoading(false);
-    }
-  };
 
   const [productData, setProductData] = useState({
     title: '',
@@ -339,7 +309,7 @@ const CreateProductForm = () => {
   const handleRemoveSpec = (index) => setProductData((prev) => ({ ...prev, additionalSpecifications: prev.additionalSpecifications.filter((_, i) => i !== index) }));
 
   // Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const min = Number(productData.minPrice);
@@ -398,7 +368,50 @@ const CreateProductForm = () => {
       blackBeadsRows: isMangalsutra ? productData.blackBeadsRows : '',
     };
 
-    dispatch(createProduct(finalData));
+    await dispatch(createProduct(finalData));
+
+    // If the specific style is custom (not in predefined list), auto-create a DB subcategory
+    // so it appears in the customer-side "Shop by Style" header navigation
+    const customStyle = productData.thirdLevelCategory?.trim();
+    const isCustomStyle = customStyle &&
+      !filteredStyles.some(s => s.value === customStyle || s.label.toLowerCase() === customStyle.toLowerCase());
+
+    if (isCustomStyle && productData.secondLevelCategory) {
+      try {
+        const dbCats = categoryState?.categories || [];
+
+        // 1. Find or create the parent top-level DB category matching secondLevelCategory
+        let parentCat = dbCats.find(c =>
+          !c.parentCategory && (
+            c.name.toLowerCase() === productData.secondLevelCategory.toLowerCase() ||
+            c.slug === productData.secondLevelCategory
+          )
+        );
+        if (!parentCat) {
+          // Create the parent top-level category (e.g. "Rings")
+          const parentName = productData.secondLevelCategory.charAt(0).toUpperCase() +
+            productData.secondLevelCategory.slice(1);
+          parentCat = await dispatch(createCategoryAction({ name: parentName, parentCategory: null }));
+        }
+
+        // 2. Check if this style already exists as a subcategory
+        const alreadyExists = dbCats.some(c => {
+          const pId = typeof c.parentCategory === 'object' ? c.parentCategory?._id : c.parentCategory;
+          return pId && String(pId) === String(parentCat?._id) &&
+            c.name.toLowerCase() === customStyle.toLowerCase();
+        });
+
+        if (!alreadyExists && parentCat?._id) {
+          await dispatch(createCategoryAction({
+            name: customStyle,
+            parentCategory: parentCat._id,
+          }));
+        }
+      } catch (err) {
+        // Non-blocking — product is already saved
+        console.warn('Could not auto-create style category:', err.message);
+      }
+    }
     setProductData({
       title: '',
       productCode: '',
@@ -659,98 +672,86 @@ const CreateProductForm = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={4}>
-                      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                        <FormControl fullWidth>
-                          <InputLabel sx={{ fontWeight: 600 }}>Sub Category (Item Type)</InputLabel>
-                          <StyledSelect
-                            label="Sub Category (Item Type)"
-                            name="secondLevelCategory"
-                            value={productData.secondLevelCategory || ''}
-                            onChange={(e) => {
-                              const val = e.target.value;
-                              setProductData((prev) => ({
-                                ...prev,
-                                secondLevelCategory: val,
-                                thirdLevelCategory: '',
-                              }));
-                            }}
-                          >
-                            {(categoryState?.categories || []).length > 0 ? (
-                              categoryState.categories.map((cat) => (
-                                <MenuItem key={cat._id} value={cat.name}>
-                                  {cat.parentCategory ? `— ${cat.name}` : cat.name}
-                                </MenuItem>
-                              ))
-                            ) : (
-                              [
-                                <MenuItem key="rings" value="rings">Rings</MenuItem>,
-                                <MenuItem key="earrings" value="earrings">Earrings</MenuItem>,
-                                <MenuItem key="necklaces" value="necklaces">Necklaces</MenuItem>,
-                                <MenuItem key="pendants" value="pendants">Pendants</MenuItem>,
-                                <MenuItem key="bracelets" value="bracelets">Bracelets</MenuItem>,
-                                <MenuItem key="bangles" value="bangles">Bangles</MenuItem>,
-                                <MenuItem key="chains" value="chains">Chains</MenuItem>,
-                                <MenuItem key="mangalsutra" value="mangalsutra">Mangalsutra</MenuItem>,
-                                <MenuItem key="lockets" value="lockets">Lockets</MenuItem>,
-                                <MenuItem key="anklets" value="anklets">Anklets</MenuItem>,
-                                <MenuItem key="nose-pins" value="nose-pins">Nose Pins</MenuItem>,
-                                <MenuItem key="other" value="other">Other Accessories</MenuItem>
-                              ]
-                            )}
-                            {productData.secondLevelCategory &&
-                              !(categoryState?.categories || []).some(c => c.name.toLowerCase() === productData.secondLevelCategory.toLowerCase()) && (
-                                <MenuItem value={productData.secondLevelCategory}>
-                                  {productData.secondLevelCategory}
-                                </MenuItem>
-                              )}
-                          </StyledSelect>
-                        </FormControl>
-                        <Tooltip title="Create New Category">
-                          <Button
-                            type="button"
-                            variant="outlined"
-                            onClick={() => setNewCategoryModalOpen(true)}
-                            sx={{
-                              minWidth: '44px',
-                              height: '56px',
-                              borderRadius: '12px',
-                              borderColor: BRAND,
-                              color: BRAND,
-                              '&:hover': { borderColor: BRAND_DARK, bgcolor: BRAND_LIGHT }
-                            }}
-                          >
-                            <Plus size={20} />
-                          </Button>
-                        </Tooltip>
-                      </Box>
-                    </Grid>
-
-                    <Grid item xs={12} sm={4}>
-                      <FormControl fullWidth disabled={!prodType}>
-                        <InputLabel sx={{ fontWeight: 600 }}>Specific Style</InputLabel>
+                      <FormControl fullWidth>
+                        <InputLabel sx={{ fontWeight: 600 }}>Sub Category (Item Type)</InputLabel>
                         <StyledSelect
-                          label="Specific Style"
-                          name="thirdLevelCategory"
-                          value={productData.thirdLevelCategory || ''}
-                          onChange={handleChange}
+                          label="Sub Category (Item Type)"
+                          name="secondLevelCategory"
+                          value={productData.secondLevelCategory || ''}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setProductData((prev) => ({
+                              ...prev,
+                              secondLevelCategory: val,
+                              thirdLevelCategory: '',
+                            }));
+                          }}
                         >
-                          {Array.from(
-                            new Map(filteredStyles.map((s) => [s.value, s])).values()
-                          ).map((s) => (
-                            <MenuItem key={s.value} value={s.value}>{s.label}</MenuItem>
-                          ))}
-                          {productData.thirdLevelCategory &&
-                            !filteredStyles.some((s) => s.value === productData.thirdLevelCategory) && (
-                              <MenuItem value={productData.thirdLevelCategory}>
-                                {productData.thirdLevelCategory
-                                  .split('-')
-                                  .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                                  .join(' ')}
-                              </MenuItem>
-                            )}
+                          <MenuItem value="rings">Rings</MenuItem>
+                          <MenuItem value="earrings">Earrings</MenuItem>
+                          <MenuItem value="necklaces">Necklaces</MenuItem>
+                          <MenuItem value="pendants">Pendants</MenuItem>
+                          <MenuItem value="bracelets">Bracelets</MenuItem>
+                          <MenuItem value="bangles">Bangles</MenuItem>
+                          <MenuItem value="chains">Chains</MenuItem>
+                          <MenuItem value="mangalsutra">Mangalsutra</MenuItem>
+                          <MenuItem value="lockets">Lockets</MenuItem>
+                          <MenuItem value="anklets">Anklets</MenuItem>
+                          <MenuItem value="nose-pins">Nose Pins</MenuItem>
+                          <MenuItem value="other">Other Accessories</MenuItem>
                         </StyledSelect>
                       </FormControl>
                     </Grid>
+
+
+                    <Grid item xs={12} sm={4}>
+                      <Autocomplete
+                        freeSolo
+                        disabled={!prodType}
+                        options={Array.from(new Map(filteredStyles.map(s => [s.value, s])).values())}
+                        getOptionLabel={(opt) => (typeof opt === 'string' ? opt : opt.label || '')}
+                        value={
+                          filteredStyles.find(s => s.value === productData.thirdLevelCategory) ||
+                          productData.thirdLevelCategory ||
+                          null
+                        }
+                        onChange={(event, newVal) => {
+                          const val = typeof newVal === 'string'
+                            ? newVal
+                            : newVal?.value || newVal?.label || '';
+                          setProductData(prev => ({ ...prev, thirdLevelCategory: val }));
+                        }}
+                        onInputChange={(event, inputVal, reason) => {
+                          if (reason === 'input') {
+                            setProductData(prev => ({ ...prev, thirdLevelCategory: inputVal }));
+                          }
+                        }}
+                        renderInput={(params) => (
+                          <StyledTextField
+                            {...params}
+                            label="Specific Style"
+                            placeholder={prodType ? 'Select or type a new style...' : 'Choose Sub Category first'}
+                            helperText={
+                              productData.thirdLevelCategory &&
+                              !filteredStyles.some(s => s.value === productData.thirdLevelCategory || s.label.toLowerCase() === productData.thirdLevelCategory.toLowerCase())
+                                ? '✨ New custom style — will appear in Shop by Style on save'
+                                : ''
+                            }
+                            InputProps={{
+                              ...params.InputProps,
+                              sx: { borderRadius: '12px' }
+                            }}
+                          />
+                        )}
+                        renderOption={(props, option) => (
+                          <MenuItem {...props} key={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        )}
+                        sx={{ width: '100%' }}
+                      />
+                    </Grid>
+
 
                     <Grid item xs={12} sm={4}>
                       <FormControl fullWidth>
@@ -2051,73 +2052,7 @@ const CreateProductForm = () => {
         </Grid>
       </form>
 
-      {/* Create New Category Modal */}
-      <Dialog
-        open={newCategoryModalOpen}
-        onClose={() => setNewCategoryModalOpen(false)}
-        maxWidth="xs"
-        fullWidth
-        PaperProps={{ sx: { borderRadius: '20px', p: 1 } }}
-      >
-        <DialogTitle sx={{ fontWeight: 800, color: BRAND, fontSize: '1.2rem' }}>
-          Create New Category
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="body2" sx={{ color: '#64748b', mb: 2.5 }}>
-            Add a new jewellery category. It will automatically be saved to the database and displayed in the Website Header.
-          </Typography>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Category Name *"
-            fullWidth
-            variant="outlined"
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-            placeholder="e.g. Brooch, Waist Belt, Kamardhani"
-            sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: '12px' } }}
-          />
-          <FormControl fullWidth margin="dense">
-            <InputLabel>Parent Category (Optional)</InputLabel>
-            <Select
-              value={newCategoryParent}
-              onChange={(e) => setNewCategoryParent(e.target.value)}
-              label="Parent Category (Optional)"
-              sx={{ borderRadius: '12px' }}
-            >
-              <MenuItem value="">None (Top-Level Category)</MenuItem>
-              {(categoryState?.categories || []).filter(c => !c.parentCategory).map((cat) => (
-                <MenuItem key={cat._id} value={cat._id}>
-                  {cat.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button
-            onClick={() => setNewCategoryModalOpen(false)}
-            sx={{ color: '#64748b', fontWeight: 600 }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleCreateNewCategory}
-            variant="contained"
-            disabled={!newCategoryName.trim() || creatingCategoryLoading}
-            sx={{
-              bgcolor: BRAND,
-              color: 'white',
-              fontWeight: 800,
-              borderRadius: '10px',
-              px: 3,
-              '&:hover': { bgcolor: BRAND_DARK }
-            }}
-          >
-            {creatingCategoryLoading ? <CircularProgress size={20} color="inherit" /> : 'Save Category'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+
     </Box>
   );
 };

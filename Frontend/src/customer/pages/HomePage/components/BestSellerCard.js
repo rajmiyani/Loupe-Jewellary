@@ -11,7 +11,7 @@ import { openWhatsApp } from '../../../../utils/whatsapp';
 
 const PLACEHOLDER_IMAGE_URL = "https://res.cloudinary.com/deq0hxr3t/image/upload/v1709462235/no-found_mnvvpf.svg";
 
-const BestSellerCard = ({ product }) => {
+const BestSellerCard = ({ product, badge, showSwatches = false }) => {
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
     const [wishlisted, setWishlisted] = useState(false);
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ const BestSellerCard = ({ product }) => {
     const colorOptions = product.colors || [
         { colorName: 'Yellow Gold', colorCode: '#eab308', image: mainImage },
         { colorName: 'Rose Gold', colorCode: '#da8a8a', image: mainImage },
-        { colorName: 'White Gold', colorCode: '#f1f5f9', image: mainImage }
+        { colorName: 'White Gold', colorCode: '#cbd5e1', image: mainImage }
     ];
 
     const currentImage = colorOptions[selectedColorIndex]?.image || mainImage;
@@ -48,13 +48,24 @@ const BestSellerCard = ({ product }) => {
                 className="relative aspect-[4/5] w-full mb-2 sm:mb-3 overflow-hidden rounded-[14px] sm:rounded-[20px] bg-gradient-to-br from-[#fcfcfc] to-[#f3f4f6]/30 group-hover:bg-[rgb(169,206,229)] border border-gray-100/50 transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] group-hover:-translate-y-1 flex items-center justify-center cursor-pointer"
                 onClick={handleNavigate}
             >
-                {/* Floating "New Tier" Badge */}
-                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-90 group-hover:scale-100">
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 bg-white/80 backdrop-blur-xl border border-gray-100 rounded-full shadow-sm">
-                        <Sparkles size={10} className="text-[#97c2d5]" />
-                        <span className="text-[7px] font-black tracking-widest text-gray-500">EXCLUSIVE</span>
+                {/* Badge: Custom Diwali Badge or Exclusive Hover Badge */}
+                {badge ? (
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20">
+                        <div className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-white/95 backdrop-blur-md border border-[#c59b27]/80 rounded-[3px] shadow-[0_2px_8px_rgba(197,155,39,0.12)]">
+                            <span className="text-[7.5px] sm:text-[8.5px] font-bold tracking-widest text-[#9c751a] uppercase font-sans">
+                                {badge}
+                            </span>
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    /* Floating "New Tier" Badge */
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-90 group-hover:scale-100">
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 bg-white/80 backdrop-blur-xl border border-gray-100 rounded-full shadow-sm">
+                            <Sparkles size={10} className="text-[#97c2d5]" />
+                            <span className="text-[7px] font-black tracking-widest text-gray-500">EXCLUSIVE</span>
+                        </div>
+                    </div>
+                )}
 
                 <AnimatePresence mode="wait">
                     <motion.img
@@ -126,7 +137,7 @@ const BestSellerCard = ({ product }) => {
                         textAlign: 'left'
                     }}
                 >
-                    {product.brand || "Premium Selection"}
+                    {product.brand || "LOUPE JEWELLER"}
                 </Typography>
 
                 <Typography
@@ -147,14 +158,16 @@ const BestSellerCard = ({ product }) => {
 
                 <div className="flex items-center justify-between mt-1">
                     <div className="flex flex-col">
-                        <span className="text-gray-400 text-[7px] sm:text-[8px] font-bold tracking-widest uppercase mb-0.5">Value Est.</span>
+                        {!badge && (
+                            <span className="text-gray-400 text-[7px] sm:text-[8px] font-bold tracking-widest uppercase mb-0.5">Value Est.</span>
+                        )}
                         <div className="flex items-baseline gap-1">
                             {product.minPrice && product.maxPrice ? (
-                                <span className="text-[#1e293b] font-serif italic text-[11px] sm:text-xs">
+                                <span className={`text-[#1e293b] ${badge ? 'font-sans font-medium text-xs sm:text-[13px]' : 'font-serif italic text-[11px] sm:text-xs'}`}>
                                     ₹{formatPriceINR(product.minPrice)} - ₹{formatPriceINR(product.maxPrice)}
                                 </span>
                             ) : (
-                                <span className="text-[#1e293b] font-serif italic text-xs sm:text-base font-medium">
+                                <span className={`text-[#1e293b] ${badge ? 'font-sans font-medium text-xs sm:text-[13px]' : 'font-serif italic text-xs sm:text-base font-medium'}`}>
                                     ₹{formatPriceINR(product.discountedPrice || product.price || 0)}
                                 </span>
                             )}
@@ -162,37 +175,39 @@ const BestSellerCard = ({ product }) => {
                     </div>
 
                     {/* 3. Luxury Swatch System */}
-                    <div className="flex items-center gap-1.5">
-                        {colorOptions.map((opt, idx) => (
-                            <Tooltip key={idx} title={opt.colorName} arrow placement="top">
-                                <Box
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSelectedColorIndex(idx);
-                                    }}
-                                    sx={{
-                                        width: 12,
-                                        height: 12,
-                                        borderRadius: '50%',
-                                        bgcolor: opt.colorCode,
-                                        cursor: 'pointer',
-                                        position: 'relative',
-                                        border: '1px solid rgba(0,0,0,0.08)',
-                                        transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                                        '&::before': {
-                                            content: '""',
-                                            position: 'absolute',
-                                            inset: -2,
+                    {(showSwatches || Boolean(badge)) && (
+                        <div className="flex items-center gap-1 sm:gap-1.5">
+                            {colorOptions.map((opt, idx) => (
+                                <Tooltip key={idx} title={opt.colorName} arrow placement="top">
+                                    <Box
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setSelectedColorIndex(idx);
+                                        }}
+                                        sx={{
+                                            width: { xs: 8, sm: 10 },
+                                            height: { xs: 8, sm: 10 },
                                             borderRadius: '50%',
-                                            border: selectedColorIndex === idx ? '1px solid #1e293b' : '1px solid transparent',
-                                            transition: 'border-color 0.3s'
-                                        },
-                                        '&:hover': { transform: 'scale(1.2)' }
-                                    }}
-                                />
-                            </Tooltip>
-                        ))}
-                    </div>
+                                            bgcolor: opt.colorCode,
+                                            cursor: 'pointer',
+                                            position: 'relative',
+                                            border: '1px solid rgba(0,0,0,0.12)',
+                                            transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                                            '&::before': {
+                                                content: '""',
+                                                position: 'absolute',
+                                                inset: -2,
+                                                borderRadius: '50%',
+                                                border: selectedColorIndex === idx ? '1px solid #1e293b' : '1px solid transparent',
+                                                transition: 'border-color 0.3s'
+                                            },
+                                            '&:hover': { transform: 'scale(1.25)' }
+                                        }}
+                                    />
+                                </Tooltip>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </motion.div>

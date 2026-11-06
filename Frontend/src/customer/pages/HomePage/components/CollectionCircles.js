@@ -21,8 +21,8 @@ const categories = [
     },
     {
         name: 'NECKLACES',
-        image: '/product/necklace-1.jpg',
-        hoverImage: '/product/model-necklace.jpg',
+        image: '/product/collectioncircle_necklace1.jpg',
+        hoverImage: '/product/collectioncircle_necklace.png',
         id: 'necklaces',
     },
     {

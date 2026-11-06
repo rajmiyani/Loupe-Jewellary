@@ -17,7 +17,7 @@ const Footer = () => {
                                 {['Rings', 'Earrings', 'Necklace', 'Bracelets'].map((item) => (
                                     <li key={item}>
                                         <Link
-                                            to={`/all-jewellery/category/${item.toLowerCase().replace('bracelets', 'bracelate')}`}
+                                            to={`/all-jewellery/category/${item.toLowerCase()}`}
                                             className='hover:text-black transition-all duration-300 transform inline-block hover:translate-x-1'
                                         >
                                             {item}

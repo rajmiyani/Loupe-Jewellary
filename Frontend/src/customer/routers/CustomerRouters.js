@@ -143,6 +143,22 @@ const CustomerRouters = () => {
           }
         />
         <Route
+          path="/all-jewellery"
+          element={
+            <WithLayout showLayout={true}>
+              <Product />
+            </WithLayout>
+          }
+        />
+        <Route
+          path="/all-jewellery/:categoryName"
+          element={
+            <WithLayout showLayout={true}>
+              <Product />
+            </WithLayout>
+          }
+        />
+        <Route
           path="/:levelOne/:levelTwo/:levelThree"
           element={
             <WithLayout showLayout={true}>

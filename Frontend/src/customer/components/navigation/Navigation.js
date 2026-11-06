@@ -255,61 +255,50 @@ export default function Navigation() {
 
   const activeNavigation = useMemo(() => {
     const dbCats = categoryState?.categories || [];
-    if (!dbCats || dbCats.length === 0) {
-      return navigation;
-    }
 
-    const topLevelCats = dbCats.filter(c => !c.parentCategory || c.level === 1);
+    // Always iterate hardcoded navigation — names/order are never changed by DB.
+    // DB is only used to enrich 'Shop by Style' subcategory items.
+    const categoriesList = navigation.categories.map(hardcodedCat => {
+      if (!dbCats || dbCats.length === 0) return hardcodedCat;
 
-    const categoriesList = topLevelCats.map(topCat => {
-      const topCatId = topCat.slug || topCat.name.toLowerCase().replace(/\s+/g, '-');
+      // Find matching top-level DB category
+      const dbTopCat = dbCats.find(c =>
+        !c.parentCategory && (
+          c.slug === hardcodedCat.id ||
+          c._id === hardcodedCat.id ||
+          c.name.toLowerCase() === hardcodedCat.name.toLowerCase() ||
+          (c.slug || c.name.toLowerCase().replace(/\s+/g, '-')) === hardcodedCat.id
+        )
+      );
+
+      if (!dbTopCat) return hardcodedCat;
+
+      // Get DB subcategories for this top-level category
       const subCats = dbCats.filter(c => {
         if (!c.parentCategory) return false;
         const parentId = typeof c.parentCategory === 'object' ? c.parentCategory._id : c.parentCategory;
-        return String(parentId) === String(topCat._id);
+        return String(parentId) === String(dbTopCat._id);
       });
+
+      if (subCats.length === 0) return hardcodedCat;
 
       const styleItems = subCats.map(sc => ({
         name: sc.name,
-        id: sc.slug || sc.name.toLowerCase().replace(/\s+/g, '-')
+        id: sc.slug || sc.name.toLowerCase().replace(/\s+/g, '-'),
       }));
 
-      const defaultMatch = navigation.categories.find(c => c.id === topCatId || c.name.toLowerCase() === topCat.name.toLowerCase());
-      
-      let sections = [];
-      if (styleItems.length > 0) {
-        sections.push({
-          id: 'style',
-          name: 'Shop by Style',
-          items: styleItems
-        });
-      }
+      // Replace 'style' section items with DB data; keep everything else as-is
+      const hasStyleSection = hardcodedCat.sections.some(s => s.id === 'style');
+      const sections = hasStyleSection
+        ? hardcodedCat.sections.map(s => (s.id === 'style' ? { ...s, items: styleItems } : s))
+        : [{ id: 'style', name: 'Shop by Style', items: styleItems }, ...hardcodedCat.sections];
 
-      if (defaultMatch && defaultMatch.sections) {
-        defaultMatch.sections.forEach(sec => {
-          if (sec.id !== 'style') {
-            sections.push(sec);
-          }
-        });
-      }
-
-      if (sections.length === 0) {
-        sections.push({
-          id: 'all',
-          name: 'All Items',
-          items: [{ name: `All ${topCat.name}`, id: topCatId }]
-        });
-      }
-
-      return {
-        id: topCatId,
-        name: topCat.name,
-        sections: sections
-      };
+      return { ...hardcodedCat, sections };
     });
 
     return { categories: categoriesList, pages: [] };
   }, [categoryState?.categories]);
+
 
   const handleRemoveCartItem = (cartItemId) => {
     dispatch(removeCartItem(cartItemId));
