@@ -83,10 +83,8 @@ const CustomerRouters = () => {
   return (
     <ModalState>
       <Routes>
-        <Route path="/" element={<ComingSoon />} />
-        <Route path="/home" element={<ComingSoon />} />
         <Route
-          path="/home1"
+          path="/"
           element={
             <WithLayout showLayout={true}>
               <HomePage />

@@ -27,21 +27,18 @@ function App() {
   const isAdmin = IsAdmin();
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const isStoreRoute = location.pathname.startsWith('/home1');
-  const isComingSoonRoute = location.pathname === '/' || (!isStoreRoute && !isAdminRoute && !location.pathname.startsWith('/product') && location.pathname !== '/cart' && location.pathname !== '/checkout');
-
+  const isStoreRoute = location.pathname.startsWith('/');
   return (
-    <div className={`min-h-screen ${isComingSoonRoute ? 'bg-[#a9cee5]' : 'bg-[#fafafa] text-gray-900 dark:bg-gray-900 dark:text-gray-100'}`}>
+    <div className={`min-h-screen ${isStoreRoute ? 'bg-[#a9cee5]' : 'bg-[#fafafa] text-gray-900 dark:bg-gray-900 dark:text-gray-100'}`}>
 
       <ScrollToTop />
       
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
-        <Route path="/" element={<ComingSoon />} />
         <Route path="/admin/*" element={<AdminGuard><AdminRouters /></AdminGuard>} />
-        <Route path="/*" element={<CustomerRouters />} />
+        <Route path="/" element={<CustomerRouters />} />
       </Routes>
-      {!isAdminRoute && !isComingSoonRoute && <WhatsAppContact />}
+      {!isAdminRoute && <WhatsAppContact />}
     </div>
   );
 }
