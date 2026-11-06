@@ -175,7 +175,7 @@ const BestSellerCard = ({ product, badge, showSwatches = false }) => {
                     </div>
 
                     {/* 3. Luxury Swatch System */}
-                    {(showSwatches || Boolean(badge)) && (
+                    {showSwatches && (
                         <div className="flex items-center gap-1 sm:gap-1.5">
                             {colorOptions.map((opt, idx) => (
                                 <Tooltip key={idx} title={opt.colorName} arrow placement="top">

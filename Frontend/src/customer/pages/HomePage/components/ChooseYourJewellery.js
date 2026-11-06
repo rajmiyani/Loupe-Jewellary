@@ -45,11 +45,6 @@ const FALLBACK_DIWALI_PRODUCTS = [
     imageUrl: "/product/earring-2.jpg",
     minPrice: 20000,
     maxPrice: 50000,
-    colors: [
-      { colorName: "Yellow Gold", colorCode: "#eab308", image: "/product/earring-2.jpg" },
-      { colorName: "Rose Gold", colorCode: "#da8a8a", image: "/product/earring-2.jpg" },
-      { colorName: "White Gold", colorCode: "#cbd5e1", image: "/product/earring-2.jpg" }
-    ]
   },
   {
     _id: "diwali-fav-3",
@@ -60,11 +55,6 @@ const FALLBACK_DIWALI_PRODUCTS = [
     imageUrl: "/product/collectioncircle_ringmain.jpg",
     minPrice: 20000,
     maxPrice: 45000,
-    colors: [
-      { colorName: "Yellow Gold", colorCode: "#eab308", image: "/product/collectioncircle_ringmain.jpg" },
-      { colorName: "Rose Gold", colorCode: "#da8a8a", image: "/product/collectioncircle_ringmain.jpg" },
-      { colorName: "White Gold", colorCode: "#cbd5e1", image: "/product/collectioncircle_ringmain.jpg" }
-    ]
   },
   {
     _id: "diwali-fav-4",
@@ -75,11 +65,6 @@ const FALLBACK_DIWALI_PRODUCTS = [
     imageUrl: "/product/earring.jpg",
     minPrice: 25000,
     maxPrice: 60000,
-    colors: [
-      { colorName: "Yellow Gold", colorCode: "#eab308", image: "/product/earring.jpg" },
-      { colorName: "Rose Gold", colorCode: "#da8a8a", image: "/product/earring.jpg" },
-      { colorName: "White Gold", colorCode: "#cbd5e1", image: "/product/earring.jpg" }
-    ]
   }
 ];
 
@@ -218,7 +203,7 @@ const ChooseYourJewellery = ({ products = [] }) => {
                       key={product._id || product.id || index}
                       product={product}
                       badge="DIWALI FAVOURITE"
-                      showSwatches={true}
+                      showSwatches={false}
                     />
                   ))
                 ) : (
