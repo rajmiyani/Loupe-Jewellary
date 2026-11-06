@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import {
   Box, Button, Grid, Typography, Divider,
   Breadcrumbs, Link, IconButton, Collapse, Dialog, Modal,
@@ -302,8 +303,37 @@ export default function ProductDetails() {
     pageUrl: typeof window !== 'undefined' ? window.location.href : null,
   });
 
+  const displayTitle = cleanTitle(product.title) || "Loupe Jewels";
+  const rawDesc = product.description || product.details || "";
+  const cleanDesc = rawDesc.replace(/<[^>]*>?/gm, "").replace(/\s+/g, " ").trim();
+  const metaDescription = cleanDesc ? (cleanDesc.length > 155 ? `${cleanDesc.substring(0, 152)}...` : cleanDesc) : "Discover exquisite handcrafted luxury gold and certified diamond jewellery at Loupe Jewels.";
+  const firstImageObj = images[0];
+  let metaImage = typeof firstImageObj === "string" ? firstImageObj : firstImageObj?.imageUrl;
+  if (!metaImage) {
+    metaImage = "https://loupejewels.com/og-image.jpg";
+  } else if (!metaImage.startsWith("http")) {
+    metaImage = `https://loupejewels.com${metaImage.startsWith("/") ? metaImage : `/${metaImage}`}`;
+  }
+  const canonicalUrl = `https://loupejewels.com/product/${param.productId}`;
+
   return (
     <Box sx={{ bgcolor: "#f8fafc", minHeight: "100vh", color: "#1e293b" }}>
+      <Helmet>
+        <title>{`${displayTitle} | Loupe Jewels`}</title>
+        <meta name="description" content={metaDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:type" content="product" />
+        <meta property="og:site_name" content="Loupe Jewels" />
+        <meta property="og:title" content={`${displayTitle} | Loupe Jewels`} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={metaImage} />
+        <meta property="og:image:secure_url" content={metaImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${displayTitle} | Loupe Jewels`} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={metaImage} />
+      </Helmet>
 
       {/* ── Breadcrumb Bar ── */}
       <Box sx={{ bgcolor: "white", borderBottom: "1px solid #edf2f7", py: 1.5 }}>
