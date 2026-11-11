@@ -4,16 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import BestSellerCard from './BestSellerCard';
 
-// ============================================================================
-// 🪔 DIWALI FESTIVAL EDITION TOGGLE
-// ============================================================================
-// To switch back to the original Everyday "Choose Your Jewellery" section
-// after the Diwali festival, simply change this to:
-//   export const IS_DIWALI_EDITION = false;
-// (The complete original code is also preserved at the bottom of this file).
-// ============================================================================
-export const IS_DIWALI_EDITION = true;
-
 const categories = [
   "All",
   "Rings",
@@ -24,10 +14,10 @@ const categories = [
   "Charms"
 ];
 
-// Fallback Diwali showcase products matching the festive edition
-const FALLBACK_DIWALI_PRODUCTS = [
+// Fallback showcase products matching the regular catalogue
+const FALLBACK_PRODUCTS = [
   {
-    _id: "diwali-fav-1",
+    _id: "cyj-1",
     title: "Hexagon Cluster Diamond Stud Earrings",
     brand: "LOUPE JEWELLER",
     category: { name: "earrings" },
@@ -37,7 +27,7 @@ const FALLBACK_DIWALI_PRODUCTS = [
     maxPrice: 45000,
   },
   {
-    _id: "diwali-fav-2",
+    _id: "cyj-2",
     title: "GG Buckle Diamond Stud Earrings",
     brand: "LOUPE JEWELLER",
     category: { name: "earrings" },
@@ -47,7 +37,7 @@ const FALLBACK_DIWALI_PRODUCTS = [
     maxPrice: 50000,
   },
   {
-    _id: "diwali-fav-3",
+    _id: "cyj-3",
     title: "Infinity Diamond Ring",
     brand: "LOUPE JEWELLER",
     category: { name: "rings" },
@@ -57,7 +47,7 @@ const FALLBACK_DIWALI_PRODUCTS = [
     maxPrice: 45000,
   },
   {
-    _id: "diwali-fav-4",
+    _id: "cyj-4",
     title: "Trio Cluster Bezel Diamond Stud Earrings",
     brand: "LOUPE JEWELLER",
     category: { name: "earrings" },
@@ -95,170 +85,20 @@ const ChooseYourJewellery = ({ products = [] }) => {
   };
 
   // Filter products by active category
-  const sourceProducts = products && products.length > 0 ? products : FALLBACK_DIWALI_PRODUCTS;
+  const sourceProducts = products && products.length > 0 ? products : FALLBACK_PRODUCTS;
   const filteredProducts = activeCategory === "All"
     ? sourceProducts
     : sourceProducts.filter((p) => matchesCategory(p, activeCategory));
 
-  // Fallback to sample festive products if active category has no items in DB
+  // Fallback if active category has no items in DB
   const displayList = filteredProducts.length > 0 
     ? filteredProducts 
     : (activeCategory === "All" 
-        ? FALLBACK_DIWALI_PRODUCTS 
-        : FALLBACK_DIWALI_PRODUCTS.filter((p) => matchesCategory(p, activeCategory)));
+        ? FALLBACK_PRODUCTS 
+        : FALLBACK_PRODUCTS.filter((p) => matchesCategory(p, activeCategory)));
 
   const displayProducts = displayList.slice(0, 4);
 
-  // ============================================================================
-  // 🪔 RENDER DIWALI FESTIVAL EDITION
-  // ============================================================================
-  if (IS_DIWALI_EDITION) {
-    return (
-      <Box sx={{ py: { xs: 6, md: 10 }, bgcolor: '#ffffff', overflow: 'hidden' }}>
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
-          
-          {/* Top Gold Small Title with Decorative Designing Lines */}
-          <div className="flex items-center justify-center gap-2 sm:gap-4 mb-2">
-            <span className="w-5 sm:w-14 h-[1px] bg-[#c59b27]/80 rounded-full" />
-            <Typography
-              sx={{
-                fontSize: { xs: '0.68rem', sm: '0.8rem' },
-                fontWeight: 700,
-                letterSpacing: { xs: '0.16em', sm: '0.22em' },
-                color: '#b8860b', // Festive Gold
-                textTransform: 'uppercase',
-                display: 'inline-block',
-                lineHeight: 1
-              }}
-            >
-              DIWALI FAVOURITES
-            </Typography>
-            <span className="w-5 sm:w-14 h-[1px] bg-[#c59b27]/80 rounded-full" />
-          </div>
-
-          {/* Main Title: Discover Your Diwali Sparkle */}
-          <Typography
-            sx={{
-              fontSize: { xs: '1.6rem', sm: '2.4rem', md: '3.1rem' },
-              fontWeight: 500,
-              fontFamily: "'Playfair Display', serif",
-              color: '#092b4f', // Elegant Navy
-              letterSpacing: '-0.02em',
-              lineHeight: 1.2,
-              mb: 1.5
-            }}
-          >
-            Discover Your Diwali Sparkle
-          </Typography>
-
-          {/* Subtitle */}
-          <Typography
-            sx={{
-              fontSize: { xs: '0.8rem', sm: '0.9rem', md: '0.98rem' },
-              color: '#64748b',
-              fontWeight: 400,
-              maxWidth: '650px',
-              mx: 'auto',
-              mb: { xs: 3, sm: 4, md: 5.5 },
-              px: { xs: 1, sm: 2 }
-            }}
-          >
-            Timeless designs, crafted for your most special moments.
-          </Typography>
-
-          {/* Category Filter Tabs */}
-          <div className="flex items-center justify-start sm:justify-center gap-1.5 sm:gap-2.5 md:gap-3 overflow-x-auto no-scrollbar py-2 px-1 mb-6 sm:mb-10 flex-nowrap sm:flex-wrap">
-            {categories.map((category) => {
-              const isActive = activeCategory === category;
-              return (
-                <button
-                  key={category}
-                  onClick={() => handleCategoryClick(category)}
-                  className={`px-3.5 py-1.5 sm:px-6 sm:py-2 rounded-full font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-300 flex-shrink-0 cursor-pointer ${
-                    isActive
-                      ? 'bg-[#3c7399] text-white shadow-md font-semibold'
-                      : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-                  }`}
-                >
-                  {category}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Products Grid */}
-          <div className="min-h-[350px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCategory}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.35 }}
-                className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6"
-              >
-                {displayProducts.length > 0 ? (
-                  displayProducts.map((product, index) => (
-                    <BestSellerCard
-                      key={product._id || product.id || index}
-                      product={product}
-                      badge="DIWALI FAVOURITE"
-                      showSwatches={false}
-                    />
-                  ))
-                ) : (
-                  <div className="col-span-full py-16 text-center text-gray-500">
-                    <Typography variant="h6" sx={{ fontFamily: "'Playfair Display', serif", color: '#092b4f' }}>
-                      No Diwali specials found for {activeCategory}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mt: 1, color: '#64748b' }}>
-                      Explore our other categories for handcrafted festive jewels.
-                    </Typography>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* View Full Collection CTA Button */}
-          <div className="mt-8 sm:mt-12 flex justify-center px-4">
-            <Button
-              onClick={handleViewFullCollection}
-              variant="contained"
-              endIcon={<span className="text-base leading-none">→</span>}
-              sx={{
-                bgcolor: '#3c7399',
-                color: '#ffffff',
-                px: { xs: 3.5, sm: 5 },
-                py: { xs: 1.2, sm: 1.6 },
-                borderRadius: '100px',
-                fontSize: { xs: '0.72rem', sm: '0.8rem' },
-                fontWeight: 700,
-                letterSpacing: { xs: '0.1em', sm: '0.15em' },
-                textTransform: 'uppercase',
-                boxShadow: '0 4px 15px rgba(60, 115, 153, 0.25)',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                whiteSpace: 'nowrap',
-                '&:hover': {
-                  bgcolor: '#2c5775',
-                  boxShadow: '0 8px 25px rgba(60, 115, 153, 0.4)',
-                  transform: 'translateY(-2px)'
-                }
-              }}
-            >
-              View Full Collection
-            </Button>
-          </div>
-
-        </div>
-      </Box>
-    );
-  }
-
-  // ============================================================================
-  // 🌟 ORIGINAL EVERYDAY "CHOOSE YOUR JEWELLERY" EDITION
-  // (Activated automatically when IS_DIWALI_EDITION = false)
-  // ============================================================================
   return (
     <Box sx={{ py: { xs: 6, md: 12 }, bgcolor: '#ffffff', overflow: 'hidden' }}>
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
@@ -277,7 +117,7 @@ const ChooseYourJewellery = ({ products = [] }) => {
           ATTRACTIVE JEWELLERY
         </Typography>
 
-        {/* Main Title */}
+        {/* Main Title: Choose Your Jewellery */}
         <Typography
           sx={{
             fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
@@ -311,9 +151,9 @@ const ChooseYourJewellery = ({ products = [] }) => {
             <button
               key={category}
               onClick={() => handleCategoryClick(category)}
-              className={`px-4 py-1.5 sm:px-6 sm:py-2 rounded-full font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
+              className={`px-4 py-1.5 sm:px-6 sm:py-2 rounded-full font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-300 flex-shrink-0 cursor-pointer ${
                 activeCategory === category
-                  ? 'bg-[#3c7399] text-white shadow-md'
+                  ? 'bg-[#3c7399] text-white shadow-md font-semibold'
                   : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
               }`}
             >
@@ -335,7 +175,7 @@ const ChooseYourJewellery = ({ products = [] }) => {
             >
               {displayProducts.length > 0 ? (
                 displayProducts.map((product, index) => (
-                  <BestSellerCard key={product._id || index} product={product} />
+                  <BestSellerCard key={product._id || product.id || index} product={product} />
                 ))
               ) : (
                 <div className="col-span-full py-20 text-center text-gray-500">
@@ -348,10 +188,11 @@ const ChooseYourJewellery = ({ products = [] }) => {
         </div>
 
         {/* View Full Collection Button */}
-        <div className="mt-12">
+        <div className="mt-12 flex justify-center px-4">
           <Button
             onClick={handleViewFullCollection}
             variant="contained"
+            endIcon={<span className="text-base leading-none">→</span>}
             sx={{
               bgcolor: '#3c7399',
               color: '#ffffff',
@@ -364,6 +205,7 @@ const ChooseYourJewellery = ({ products = [] }) => {
               textTransform: 'uppercase',
               boxShadow: '0 4px 15px rgba(60, 115, 153, 0.25)',
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              whiteSpace: 'nowrap',
               '&:hover': {
                 bgcolor: '#2c5775',
                 boxShadow: '0 8px 25px rgba(60, 115, 153, 0.4)',
@@ -381,115 +223,3 @@ const ChooseYourJewellery = ({ products = [] }) => {
 };
 
 export default ChooseYourJewellery;
-
-/*
-================================================================================
-🪔 [PRESERVED CODE FOR POST-DIWALI RESTORATION - DO NOT REMOVE]
-Below is the original everyday "Choose Your Jewellery" JSX preserved in full comments:
-================================================================================
-<Box sx={{ py: { xs: 6, md: 12 }, bgcolor: '#ffffff', overflow: 'hidden' }}>
-  <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 text-center">
-    <Typography
-      sx={{
-        fontSize: '0.75rem',
-        fontWeight: 700,
-        letterSpacing: '0.2em',
-        color: '#3c7399',
-        textTransform: 'uppercase',
-        mb: 1
-      }}
-    >
-      ATTRACTIVE JEWELLERY
-    </Typography>
-    <Typography
-      sx={{
-        fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
-        fontWeight: 500,
-        fontFamily: "'Playfair Display', serif",
-        color: '#000000',
-        mb: 1.5
-      }}
-    >
-      Choose Your Jewellery
-    </Typography>
-    <Typography
-      sx={{
-        fontSize: { xs: '0.85rem', md: '1rem' },
-        color: '#666666',
-        fontWeight: 400,
-        maxWidth: '600px',
-        mx: 'auto',
-        mb: { xs: 3, md: 5 },
-        px: 2
-      }}
-    >
-      Get your stunning diamond jewellery with fast, one-day shipping for ultimate convenience and style.
-    </Typography>
-    <div className="flex items-center justify-start sm:justify-center gap-2 md:gap-3 overflow-x-auto no-scrollbar py-2 px-1 mb-6 sm:mb-10 flex-nowrap sm:flex-wrap">
-      {categories.map((category) => (
-        <button
-          key={category}
-          onClick={() => handleCategoryClick(category)}
-          className={`px-4 py-1.5 sm:px-6 sm:py-2 rounded-full font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-300 flex-shrink-0 ${
-            activeCategory === category
-              ? 'bg-[#3c7399] text-white shadow-md'
-              : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
-          }`}
-        >
-          {category}
-        </button>
-      ))}
-    </div>
-    <div className="min-h-[350px]">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeCategory}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.4 }}
-          className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 md:gap-6"
-        >
-          {displayProducts.length > 0 ? (
-            displayProducts.map((product, index) => (
-              <BestSellerCard key={product._id || index} product={product} />
-            ))
-          ) : (
-            <div className="col-span-full py-20 text-center text-gray-500">
-              <Typography variant="h6">No products found for {activeCategory}</Typography>
-              <Typography variant="body2" sx={{ mt: 1 }}>Check back later for new arrivals.</Typography>
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
-    </div>
-    <div className="mt-12">
-      <Button
-        onClick={handleViewFullCollection}
-        variant="contained"
-        sx={{
-          bgcolor: '#3c7399',
-          color: '#ffffff',
-          px: { xs: 4, sm: 6 },
-          py: { xs: 1.5, sm: 1.8 },
-          borderRadius: '100px',
-          fontSize: '0.8rem',
-          fontWeight: 700,
-          letterSpacing: '2px',
-          textTransform: 'uppercase',
-          boxShadow: '0 4px 15px rgba(60, 115, 153, 0.25)',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          '&:hover': {
-            bgcolor: '#2c5775',
-            boxShadow: '0 8px 25px rgba(60, 115, 153, 0.4)',
-            transform: 'translateY(-2px)'
-          }
-        }}
-      >
-        View Full Collection
-      </Button>
-    </div>
-  </div>
-</Box>
-================================================================================
-*/

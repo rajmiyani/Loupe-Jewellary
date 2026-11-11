@@ -48,7 +48,7 @@ const BestSellerCard = ({ product, badge, showSwatches = false }) => {
                 className="relative aspect-[4/5] w-full mb-2 sm:mb-3 overflow-hidden rounded-[14px] sm:rounded-[20px] bg-gradient-to-br from-[#fcfcfc] to-[#f3f4f6]/30 group-hover:bg-[rgb(169,206,229)] border border-gray-100/50 transition-all duration-700 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] group-hover:-translate-y-1 flex items-center justify-center cursor-pointer"
                 onClick={handleNavigate}
             >
-                {/* Badge: Custom Diwali Badge or Exclusive Hover Badge */}
+                {/* Badge: Custom Badge or Exclusive Hover Badge */}
                 {badge ? (
                     <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20">
                         <div className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-white/95 backdrop-blur-md border border-[#c59b27]/80 rounded-[3px] shadow-[0_2px_8px_rgba(197,155,39,0.12)]">

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Gem, ShieldCheck, Gift, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
+import { Gem, ShieldCheck, Gift } from 'lucide-react';
 
 const panel1Variants = {
     hidden: { opacity: 0, scale: 1.04, x: -18 },
@@ -34,20 +35,49 @@ const panel3Variants = {
     }
 };
 
+// Known default product IDs matching the signature banner showcases
+const DEFAULT_BRACELET_ID = '6aa0f39919359828e0775f01'; // Heart Shape Diamond Tennis Bracelet
+const DEFAULT_EARRING_ID = '6aaeba3a528840592b0e24c5';  // GG Buckle Diamond Stud Earrings
+const DEFAULT_RING_ID = '6aaebcd2528840592b0e264e';     // Infinity Diamond Ring
+
 const HeroSection = () => {
     const navigate = useNavigate();
     const [imagesReady, setImagesReady] = useState(false);
-    const [activeSlide, setActiveSlide] = useState(0); // 0: The Diwali Edit, 1: Signature Collection
-    const [isPaused, setIsPaused] = useState(false);
-    
-    // Touch swipe handling
-    const touchStartX = useRef(null);
-    const touchEndX = useRef(null);
 
-    // Preload hero images
+    // Retrieve active product catalog from Redux if available
+    const { products } = useSelector((store) => store);
+    const allProductsList = Array.isArray(products?.products?.content)
+        ? products.products.content
+        : (Array.isArray(products?.products) ? products.products : []);
+
+    // Dynamically resolve product IDs with exact fallbacks
+    const braceletProduct = allProductsList.find((p) =>
+        p?._id === DEFAULT_BRACELET_ID ||
+        (p?.title && p.title.toLowerCase().includes('heart shape diamond tennis bracelet')) ||
+        (p?.title && p.title.toLowerCase().includes('tennis bracelet'))
+    );
+    const braceletId = braceletProduct?._id || DEFAULT_BRACELET_ID;
+
+    const earringProduct = allProductsList.find((p) =>
+        p?._id === DEFAULT_EARRING_ID ||
+        (p?.title && p.title.toLowerCase().includes('gg buckle'))
+    );
+    const earringId = earringProduct?._id || DEFAULT_EARRING_ID;
+
+    const ringProduct = allProductsList.find((p) =>
+        p?._id === DEFAULT_RING_ID ||
+        (p?.title && p.title.toLowerCase().includes('infinity diamond ring'))
+    );
+    const ringId = ringProduct?._id || DEFAULT_RING_ID;
+
+    const handleProductNavigate = (productId) => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        navigate(`/product/${productId}`);
+    };
+
+    // Preload hero panel images for instant smooth entrance
     useEffect(() => {
         const imageUrls = [
-            'https://res.cloudinary.com/djb2szzn/image/upload/v1793858423/Shop_Now_2.png',
             '/hero_panel_1.webp',
             '/hero_panel_2.webp',
             '/hero_panel_3.webp'
@@ -85,46 +115,6 @@ const HeroSection = () => {
         };
     }, []);
 
-    // 2-Slide Auto-Rotation Timer (6.5s per slide)
-    useEffect(() => {
-        if (isPaused) return;
-        const timer = setInterval(() => {
-            setActiveSlide((prev) => (prev === 0 ? 1 : 0));
-        }, 6500);
-
-        return () => clearInterval(timer);
-    }, [isPaused, activeSlide]);
-
-    const handlePrev = (e) => {
-        e?.stopPropagation();
-        setActiveSlide((prev) => (prev === 0 ? 1 : 0));
-    };
-
-    const handleNext = (e) => {
-        e?.stopPropagation();
-        setActiveSlide((prev) => (prev === 0 ? 1 : 0));
-    };
-
-    const handleTouchStart = (e) => {
-        touchStartX.current = e.targetTouches[0].clientX;
-    };
-
-    const handleTouchMove = (e) => {
-        touchEndX.current = e.targetTouches[0].clientX;
-    };
-
-    const handleTouchEnd = () => {
-        if (!touchStartX.current || !touchEndX.current) return;
-        const diff = touchStartX.current - touchEndX.current;
-        if (diff > 45) {
-            handleNext();
-        } else if (diff < -45) {
-            handlePrev();
-        }
-        touchStartX.current = null;
-        touchEndX.current = null;
-    };
-
     return (
         <Box
             component="section"
@@ -137,16 +127,11 @@ const HeroSection = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
         >
             {/* ============================================================== */}
             {/* RESPONSIVE HERO STAGE (Aspect 1717 / 916 across all screens)  */}
             {/* ============================================================== */}
             <Box
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
                 sx={{
                     position: 'relative',
                     width: '100%',
@@ -158,363 +143,188 @@ const HeroSection = () => {
                     },
                     display: 'flex',
                     alignItems: 'center',
-                    cursor: 'pointer',
                     userSelect: 'none',
                     overflow: 'hidden',
                 }}
                 role="region"
                 aria-label="Loupe Fine Jewellery Hero Showcase"
             >
-                {/* Cross-Fade Slide Container */}
-                <AnimatePresence mode="wait">
-                    {activeSlide === 0 ? (
-                        /* ====================================================== */
-                        /* SLIDE 1: THE DIWALI EDIT FESTIVE BANNER                */
-                        /* ====================================================== */
+                {/* 3-PANEL HIGH-RES ANIMATED SIGNATURE COLLAGE */}
+                <Box
+                    component={motion.div}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    sx={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        gap: { xs: '3px', sm: '5px', md: '8px', lg: '12px' },
+                        bgcolor: '#ffffff',
+                        p: { xs: '2px', sm: '3px', md: '5px', lg: '6px' },
+                        boxSizing: 'border-box',
+                    }}
+                >
+                    {/* Panel 1: Left (Heart Shape Diamond Tennis Bracelet) */}
+                    <Box
+                        component={motion.div}
+                        initial="hidden"
+                        animate={imagesReady ? "visible" : "hidden"}
+                        variants={panel1Variants}
+                        onClick={() => handleProductNavigate(braceletId)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleProductNavigate(braceletId);
+                            }
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        aria-label="View Heart Shape Diamond Tennis Bracelet Product Details"
+                        sx={{
+                            width: '49.5%',
+                            height: '100%',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            bgcolor: '#f8fafc',
+                            cursor: 'pointer',
+                            outline: 'none',
+                            '&:focus-visible': {
+                                outline: '2px solid #092b4f',
+                                outlineOffset: '2px',
+                            },
+                            '&:hover img': {
+                                transform: 'scale(1.025)',
+                            },
+                        }}
+                    >
                         <Box
-                            key="diwali-slide"
-                            component={motion.div}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            onClick={() => navigate('/all-jewellery?occasion=festive')}
+                            component="img"
+                            src="/hero_panel_1.webp"
+                            loading="eager"
+                            fetchpriority="high"
+                            alt="Heart Shape Diamond Tennis Bracelet - Loupe Jewellery"
                             sx={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
                                 width: '100%',
                                 height: '100%',
-                                bgcolor: '#f7f5f1',
+                                objectFit: 'cover',
+                                objectPosition: 'center',
+                                display: 'block',
+                                transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+                            }}
+                        />
+                    </Box>
+
+                    {/* Right Stack: Panel 2 (Earrings) & Panel 3 (Ring) */}
+                    <Box
+                        sx={{
+                            width: '49.5%',
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: { xs: '3px', sm: '5px', md: '8px', lg: '12px' },
+                        }}
+                    >
+                        {/* Panel 2: Top Right (GG Buckle Diamond Stud Earrings) */}
+                        <Box
+                            component={motion.div}
+                            initial="hidden"
+                            animate={imagesReady ? "visible" : "hidden"}
+                            variants={panel2Variants}
+                            onClick={() => handleProductNavigate(earringId)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleProductNavigate(earringId);
+                                }
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            aria-label="View GG Buckle Diamond Stud Earrings Product Details"
+                            sx={{
+                                width: '100%',
+                                height: '49.2%',
                                 overflow: 'hidden',
+                                position: 'relative',
+                                bgcolor: '#f8fafc',
+                                cursor: 'pointer',
+                                outline: 'none',
+                                '&:focus-visible': {
+                                    outline: '2px solid #092b4f',
+                                    outlineOffset: '2px',
+                                },
+                                '&:hover img': {
+                                    transform: 'scale(1.03)',
+                                },
                             }}
                         >
                             <Box
                                 component="img"
-                                src="/diwali_banner_hero.webp"
-                                alt="The Diwali Edit - Let Your Festive Glow Begin - Loupe Jewellery"
+                                src="/hero_panel_2.webp"
                                 loading="eager"
                                 fetchpriority="high"
+                                alt="GG Buckle Diamond Stud Earrings - Loupe Jewellery"
                                 sx={{
                                     width: '100%',
                                     height: '100%',
                                     objectFit: 'cover',
                                     objectPosition: 'center',
                                     display: 'block',
-                                    transition: 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
-                                    '&:hover': {
-                                        transform: 'scale(1.015)',
-                                    },
+                                    transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
                                 }}
                             />
-
-                            {/* Shop Now CTA Button on Left Content Area */}
-                            <Box
-                                component={motion.button}
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.96 }}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigate('/all-jewellery?occasion=festive');
-                                }}
-                                aria-label="Shop Diwali Collection"
-                                sx={{
-                                    position: 'absolute',
-                                    left: '8.57%',
-                                    top: { xs: '68%', sm: '69%', md: '69.5%' },
-                                    zIndex: 10,
-                                    bgcolor: '#092b4f', // Deep regal navy matching banner text
-                                    color: '#ffffff',
-                                    px: { xs: 1.8, sm: 3, md: 4.2 },
-                                    py: { xs: 0.45, sm: 0.8, md: 1.2 },
-                                    borderRadius: '9999px',
-                                    fontSize: { xs: '0.52rem', sm: '0.7rem', md: '0.84rem' },
-                                    fontWeight: 700,
-                                    letterSpacing: { xs: '0.1em', sm: '0.14em', md: '0.16em' },
-                                    textTransform: 'uppercase',
-                                    border: 'none',
-                                    outline: 'none',
-                                    cursor: 'pointer',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: { xs: 0.5, sm: 1 },
-                                    boxShadow: '0 4px 18px rgba(9, 43, 79, 0.28)',
-                                    transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)',
-                                    whiteSpace: 'nowrap',
-                                    '&:hover': {
-                                        bgcolor: '#3c7399',
-                                        boxShadow: '0 8px 25px rgba(60, 115, 153, 0.42)',
-                                    }
-                                }}
-                            >
-                                <span>Shop Now</span>
-                                <span style={{ fontSize: '1.15em', lineHeight: 1 }}>→</span>
-                            </Box>
                         </Box>
-                    ) : (
-                        /* ====================================================== */
-                        /* SLIDE 2: 3-PANEL HIGH-RES ANIMATED SIGNATURE COLLAGE    */
-                        /* ====================================================== */
+
+                        {/* Panel 3: Bottom Right (Infinity Diamond Ring) */}
                         <Box
-                            key="signature-slide"
                             component={motion.div}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            onClick={() => navigate('/all-jewellery')}
+                            initial="hidden"
+                            animate={imagesReady ? "visible" : "hidden"}
+                            variants={panel3Variants}
+                            onClick={() => handleProductNavigate(ringId)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleProductNavigate(ringId);
+                                }
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            aria-label="View Infinity Diamond Ring Product Details"
                             sx={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
                                 width: '100%',
-                                height: '100%',
-                                display: 'flex',
-                                gap: { xs: '3px', sm: '5px', md: '8px', lg: '12px' },
-                                bgcolor: '#ffffff',
-                                p: { xs: '2px', sm: '3px', md: '5px', lg: '6px' },
-                                boxSizing: 'border-box',
-                            }}
-                        >
-                            {/* Panel 1: Left (Bracelet) */}
-                            <Box
-                                component={motion.div}
-                                initial="hidden"
-                                animate={imagesReady ? "visible" : "hidden"}
-                                variants={panel1Variants}
-                                sx={{
-                                    width: '49.5%',
-                                    height: '100%',
-                                    overflow: 'hidden',
-                                    position: 'relative',
-                                    bgcolor: '#f8fafc',
-                                }}
-                            >
-                                <Box
-                                    component="img"
-                                    src="/hero_panel_1.webp"
-                                    loading="eager"
-                                    fetchpriority="high"
-                                    alt="Fine Diamond Bracelet - Loupe Jewellery"
-                                    sx={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                        objectPosition: 'center',
-                                        display: 'block',
-                                        transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
-                                        '&:hover': {
-                                            transform: 'scale(1.025)',
-                                        },
-                                    }}
-                                />
-                            </Box>
-
-                            {/* Right Stack: Panel 2 (Earring) & Panel 3 (Ring) */}
-                            <Box
-                                sx={{
-                                    width: '49.5%',
-                                    height: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: { xs: '3px', sm: '5px', md: '8px', lg: '12px' },
-                                }}
-                            >
-                                {/* Panel 2: Top Right (Earring) */}
-                                <Box
-                                    component={motion.div}
-                                    initial="hidden"
-                                    animate={imagesReady ? "visible" : "hidden"}
-                                    variants={panel2Variants}
-                                    sx={{
-                                        width: '100%',
-                                        height: '49.2%',
-                                        overflow: 'hidden',
-                                        position: 'relative',
-                                        bgcolor: '#f8fafc',
-                                    }}
-                                >
-                                    <Box
-                                        component="img"
-                                        src="/hero_panel_2.webp"
-                                        loading="eager"
-                                        fetchpriority="high"
-                                        alt="Geometric Diamond Earrings - Loupe Jewellery"
-                                        sx={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'cover',
-                                            objectPosition: 'center',
-                                            display: 'block',
-                                            transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
-                                            '&:hover': {
-                                                transform: 'scale(1.03)',
-                                            },
-                                        }}
-                                    />
-                                </Box>
-
-                                {/* Panel 3: Bottom Right (Ring) */}
-                                <Box
-                                    component={motion.div}
-                                    initial="hidden"
-                                    animate={imagesReady ? "visible" : "hidden"}
-                                    variants={panel3Variants}
-                                    sx={{
-                                        width: '100%',
-                                        height: '49.2%',
-                                        overflow: 'hidden',
-                                        position: 'relative',
-                                        bgcolor: '#f8fafc',
-                                    }}
-                                >
-                                    <Box
-                                        component="img"
-                                        src="/hero_panel_3.webp"
-                                        loading="eager"
-                                        fetchpriority="high"
-                                        alt="Infinity Diamond Ring - Loupe Jewellery"
-                                        sx={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'cover',
-                                            objectPosition: 'center',
-                                            display: 'block',
-                                            transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
-                                            '&:hover': {
-                                                transform: 'scale(1.03)',
-                                            },
-                                        }}
-                                    />
-                                </Box>
-                            </Box>
-                        </Box>
-                    )}
-                </AnimatePresence>
-
-                {/* Left Arrow Button (Desktop Hover) */}
-                <Box
-                    component="button"
-                    onClick={handlePrev}
-                    aria-label="Previous Slide"
-                    sx={{
-                        position: 'absolute',
-                        left: { xs: 8, md: 16 },
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        zIndex: 12,
-                        width: { xs: 30, sm: 36, md: 42 },
-                        height: { xs: 30, sm: 36, md: 42 },
-                        borderRadius: '50%',
-                        bgcolor: 'rgba(255, 255, 255, 0.78)',
-                        backdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255, 255, 255, 0.6)',
-                        color: '#092b4f',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
-                        opacity: { xs: 0.7, md: 0 },
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        '.MuiBox-root:hover > &': {
-                            opacity: 1,
-                        },
-                        '&:hover': {
-                            bgcolor: '#092b4f',
-                            color: '#ffffff',
-                            transform: 'translateY(-50%) scale(1.08)',
-                        },
-                    }}
-                >
-                    <ChevronLeft size={20} />
-                </Box>
-
-                {/* Right Arrow Button (Desktop Hover) */}
-                <Box
-                    component="button"
-                    onClick={handleNext}
-                    aria-label="Next Slide"
-                    sx={{
-                        position: 'absolute',
-                        right: { xs: 8, md: 16 },
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        zIndex: 12,
-                        width: { xs: 30, sm: 36, md: 42 },
-                        height: { xs: 30, sm: 36, md: 42 },
-                        borderRadius: '50%',
-                        bgcolor: 'rgba(255, 255, 255, 0.78)',
-                        backdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255, 255, 255, 0.6)',
-                        color: '#092b4f',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
-                        opacity: { xs: 0.7, md: 0 },
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                        '.MuiBox-root:hover > &': {
-                            opacity: 1,
-                        },
-                        '&:hover': {
-                            bgcolor: '#092b4f',
-                            color: '#ffffff',
-                            transform: 'translateY(-50%) scale(1.08)',
-                        },
-                    }}
-                >
-                    <ChevronRight size={20} />
-                </Box>
-
-                {/* ============================================================== */}
-                {/* ELEGANT MINIMAL SLIDE DOTS (Bottom Center)                    */}
-                {/* ============================================================== */}
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        bottom: { xs: 8, sm: 12, md: 16 },
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        zIndex: 14,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: { xs: 0.8, sm: 1 },
-                        bgcolor: 'rgba(255, 255, 255, 0.75)',
-                        backdropFilter: 'blur(8px)',
-                        px: { xs: 1, sm: 1.2 },
-                        py: { xs: 0.5, sm: 0.6 },
-                        borderRadius: '9999px',
-                        boxShadow: '0 2px 10px rgba(9, 43, 79, 0.08)',
-                        border: '1px solid rgba(255, 255, 255, 0.8)',
-                    }}
-                >
-                    {[0, 1].map((index) => (
-                        <Box
-                            key={index}
-                            component="button"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveSlide(index);
-                            }}
-                            aria-label={`Slide ${index + 1}`}
-                            sx={{
-                                width: activeSlide === index ? { xs: 18, sm: 24 } : { xs: 6, sm: 7 },
-                                height: { xs: 6, sm: 7 },
-                                borderRadius: '9999px',
-                                bgcolor: activeSlide === index ? '#092b4f' : 'rgba(9, 43, 79, 0.28)',
-                                border: 'none',
-                                outline: 'none',
-                                p: 0,
+                                height: '49.2%',
+                                overflow: 'hidden',
+                                position: 'relative',
+                                bgcolor: '#f8fafc',
                                 cursor: 'pointer',
-                                transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-                                '&:hover': {
-                                    bgcolor: activeSlide === index ? '#092b4f' : '#3c7399',
+                                outline: 'none',
+                                '&:focus-visible': {
+                                    outline: '2px solid #092b4f',
+                                    outlineOffset: '2px',
+                                },
+                                '&:hover img': {
+                                    transform: 'scale(1.03)',
                                 },
                             }}
-                        />
-                    ))}
+                        >
+                            <Box
+                                component="img"
+                                src="/hero_panel_3.webp"
+                                loading="eager"
+                                fetchpriority="high"
+                                alt="Infinity Diamond Ring - Loupe Jewellery"
+                                sx={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    objectPosition: 'center',
+                                    display: 'block',
+                                    transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+                                }}
+                            />
+                        </Box>
+                    </Box>
                 </Box>
             </Box>
 
