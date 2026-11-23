@@ -9,11 +9,6 @@ const WhatsAppContact = () => {
     const message = encodeURIComponent("Hello Loupe Jewellery! I'm interested in your collections.");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
-    const handleDiyaClick = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        navigate('/all-jewellery?occasion=festive');
-    };
-
     return (
         <Box
             component={motion.div}
@@ -31,7 +26,6 @@ const WhatsAppContact = () => {
                 right: { xs: '18px', sm: '30px' },
                 zIndex: 1000,
                 display: 'flex',
-                flexDirection: DIYA_LAYOUT === 'column' ? 'column' : 'row',
                 alignItems: 'center',
                 gap: { xs: '10px', sm: '14px' }
             }}
