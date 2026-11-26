@@ -25,7 +25,7 @@ const Footer = () => {
                                     </li>
                                 ))}
                                 <li>
-                                    <Link to="/customize" className='italic font-semibold transition-colors'>
+                                    <Link to="/contact" className='italic font-semibold transition-colors'>
                                         Customize Your Piece
                                     </Link>
                                 </li>
@@ -109,19 +109,19 @@ const Footer = () => {
                                 </p>
                                 <div className='flex gap-6 items-center pt-2 md:pt-4'>
                                     {[
-                                        { icon: 'fa-facebook', url: 'https://www.facebook.com/loupe_jewellery/' }, // Placeholder/Guess
-                                        { icon: 'fa-instagram', url: 'https://www.instagram.com/loupe_jewellery/' },
-                                        { icon: 'fa-whatsapp', url: 'https://wa.me/919909109074' }
+                                        { icon: 'fa-instagram', url: 'https://www.instagram.com/loupe__jewels/', label: 'Loupe Jewels on Instagram' },
+                                        { icon: 'fa-whatsapp', url: 'https://wa.me/919909109074', label: 'Loupe Jewels on WhatsApp' }
                                     ].map((social) => (
-                                        <Link
+                                        <a
                                             key={social.icon}
-                                            to={social.url}
+                                            href={social.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            aria-label={social.label}
                                             className='text-lg hover:text-black transition-all hover:-translate-y-1'
                                         >
                                             <i className={`fa-brands ${social.icon}`}></i>
-                                        </Link>
+                                        </a>
                                     ))}
                                 </div>
                             </div>

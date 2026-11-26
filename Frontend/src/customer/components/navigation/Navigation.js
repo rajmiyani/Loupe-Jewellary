@@ -25,7 +25,7 @@ import { formatPriceINR } from "../../../utils/price";
 // Per-category featured images — vivid, high-contrast jewellery photos
 const categoryFeaturedImages = {
   rings: {
-    src: "https://img.magnific.com/premium-photo/elegant-solitaire-diamond-engagement-ring-light-blue-background_1091925-30235.jpg",
+    src: "/lifestyle/lifestyle_ring.jpg",
     label: "Ring Collections",
     tagline: "Crafted for eternal moments"
   },

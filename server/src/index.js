@@ -271,7 +271,6 @@ const validExactRoutes = new Set([
     '/cart',
     '/checkout',
     '/user-details',
-    '/customize',
     '/all-jewellery',
     '/product-catalogue'
 ]);
@@ -321,14 +320,63 @@ Sitemap: https://loupejewels.com/sitemap.xml
         );
     });
 
-    // 2. Sitemap.xml
-    app.get('/sitemap.xml', (req, res) => {
+    // 2. Dynamic Sitemap.xml (static pages + all products from MongoDB)
+    const STATIC_SITEMAP_URLS = [
+        { loc: 'https://loupejewels.com/', changefreq: 'daily', priority: '1.0' },
+        { loc: 'https://loupejewels.com/all-jewellery', changefreq: 'daily', priority: '0.9' },
+        { loc: 'https://loupejewels.com/all-jewellery/category/rings', changefreq: 'weekly', priority: '0.8' },
+        { loc: 'https://loupejewels.com/all-jewellery/category/earrings', changefreq: 'weekly', priority: '0.8' },
+        { loc: 'https://loupejewels.com/all-jewellery/category/necklace', changefreq: 'weekly', priority: '0.8' },
+        { loc: 'https://loupejewels.com/all-jewellery/category/bracelets', changefreq: 'weekly', priority: '0.8' },
+        { loc: 'https://loupejewels.com/about', changefreq: 'monthly', priority: '0.7' },
+        { loc: 'https://loupejewels.com/contact', changefreq: 'monthly', priority: '0.7' },
+        { loc: 'https://loupejewels.com/terms', changefreq: 'monthly', priority: '0.5' },
+        { loc: 'https://loupejewels.com/privacy', changefreq: 'monthly', priority: '0.5' },
+        { loc: 'https://loupejewels.com/refund', changefreq: 'monthly', priority: '0.5' },
+        { loc: 'https://loupejewels.com/shipping', changefreq: 'monthly', priority: '0.5' },
+    ];
+
+    app.get('/sitemap.xml', async (req, res) => {
         res.type('application/xml; charset=utf-8');
-        const sitemapPath = path.join(frontendDistPath, 'sitemap.xml');
-        if (fs.existsSync(sitemapPath)) {
-            return res.sendFile(sitemapPath);
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+
+        const today = new Date().toISOString().split('T')[0];
+        let productEntries = [];
+
+        try {
+            if (mongoose.connection.readyState === 1) {
+                const products = await Product.find({}, '_id createdAt updatedAt')
+                    .sort({ createdAt: -1 })
+                    .lean();
+
+                productEntries = products.map((p) => {
+                    const rawDate = p.updatedAt || p.createdAt;
+                    const lastmod = rawDate ? new Date(rawDate).toISOString().split('T')[0] : today;
+                    return {
+                        loc: `https://loupejewels.com/product/${p._id}`,
+                        lastmod,
+                        changefreq: 'weekly',
+                        priority: '0.8',
+                    };
+                });
+            }
+        } catch (err) {
+            console.error('[Sitemap] Error fetching products:', err?.message || err);
         }
-        return res.status(404).send('<!-- sitemap.xml not found -->');
+
+        const allEntries = [
+            ...STATIC_SITEMAP_URLS.map((u) => ({ ...u, lastmod: today })),
+            ...productEntries,
+        ];
+
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${allEntries
+            .map(
+                (entry) =>
+                    `  <url>\n    <loc>${escapeHtml(entry.loc)}</loc>\n    <lastmod>${entry.lastmod}</lastmod>\n    <changefreq>${entry.changefreq}</changefreq>\n    <priority>${entry.priority}</priority>\n  </url>`
+            )
+            .join('\n')}\n</urlset>`;
+
+        return res.send(xml);
     });
 
     // 3. llms.txt & llms-full.txt
@@ -360,8 +408,12 @@ Sitemap: https://loupejewels.com/sitemap.xml
         return res.json(MCP_SERVER_CARD);
     });
 
-    // 5. Agent Negotiation & RFC 8288 Link Headers (run before static so root requests negotiate properly)
+    // 5. HSTS, Agent Negotiation & RFC 8288 Link Headers (run before static so root requests negotiate properly)
     app.use((req, res, next) => {
+        if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
+            res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+        }
+
         // Emit RFC 8288 Link header advertising agent resources
         if (req.path === '/' || !req.path.includes('.')) {
             res.setHeader(
@@ -451,6 +503,86 @@ Sitemap: https://loupejewels.com/sitemap.xml
             } catch (err) {
                 console.error("[OG] Error injecting product meta tags:", err?.message || err);
             }
+        }
+
+        // Inject per-route canonical URL and SEO metadata for non-product pages
+        try {
+            const cleanPath = req.path === '/' ? '/' : req.path.replace(/\/+$/, '');
+            if (cleanPath !== '/') {
+                const ROUTE_META = {
+                    '/all-jewellery': {
+                        title: 'All Jewellery Collection | Loupe Jewels',
+                        description: 'Browse our complete collection of handcrafted 18K gold and certified lab-grown diamond rings, earrings, necklaces, and bracelets at Loupe Jewels.',
+                    },
+                    '/all-jewellery/category/rings': {
+                        title: 'Diamond Rings Collection | Loupe Jewels',
+                        description: 'Shop certified lab-grown diamond engagement rings, solitaire rings, eternity bands, and cocktail rings in 18K gold.',
+                    },
+                    '/all-jewellery/category/earrings': {
+                        title: 'Diamond Earrings Collection | Loupe Jewels',
+                        description: 'Discover diamond studs, hoop earrings, huggies, and drop earrings crafted in 18K gold at Loupe Jewels.',
+                    },
+                    '/all-jewellery/category/necklace': {
+                        title: 'Diamond Necklaces & Pendants | Loupe Jewels',
+                        description: 'Explore tennis necklaces, solitaire pendants, and diamond collar necklaces handcrafted in 18K gold.',
+                    },
+                    '/all-jewellery/category/bracelets': {
+                        title: 'Diamond Bracelets & Tennis Bracelets | Loupe Jewels',
+                        description: 'Shop certified diamond tennis bracelets and chain bracelets crafted in 18K yellow, rose, and white gold.',
+                    },
+                    '/about': {
+                        title: 'About Loupe Jewels | Handcrafted Fine Jewellery',
+                        description: 'Learn about Loupe Jewels, our craftsmanship, certified lab-grown diamonds, and bespoke jewellery atelier in Surat, India.',
+                    },
+                    '/contact': {
+                        title: 'Contact Concierge | Loupe Jewels',
+                        description: 'Get in touch with Loupe Jewels for bespoke jewellery inquiries, custom sizing, and concierge support.',
+                    },
+                    '/contact-info': {
+                        title: 'Contact Information | Loupe Jewels',
+                        description: 'Visit or contact Loupe Jewellery LLP in Surat, Gujarat for certified diamond and gold jewellery.',
+                        canonicalPath: '/contact',
+                    },
+                    '/privacy': {
+                        title: 'Privacy Policy | Loupe Jewels',
+                        description: 'Read the Privacy Policy for Loupe Jewels explaining how we protect your personal information.',
+                    },
+                    '/refund': {
+                        title: 'Refund & Return Policy | Loupe Jewels',
+                        description: 'Review the Refund and Return Policy for Loupe Jewels purchases.',
+                    },
+                    '/shipping': {
+                        title: 'Shipping Policy | Loupe Jewels',
+                        description: 'Learn about insured shipping and delivery timelines at Loupe Jewels.',
+                    },
+                    '/terms': {
+                        title: 'Terms of Service | Loupe Jewels',
+                        description: 'Read the Terms of Service governing orders and website use at Loupe Jewels.',
+                    },
+                };
+
+                const meta = ROUTE_META[cleanPath];
+                const canonicalUrl = `https://loupejewels.com${meta?.canonicalPath || cleanPath}`;
+                const indexHtmlPath = path.join(frontendDistPath, "index.html");
+                let html = fs.readFileSync(indexHtmlPath, "utf8");
+
+                html = html.replace(/<link\s+rel=["']canonical["']\s+href=["'].*?["']\s*\/?>/gi, `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />`);
+                html = html.replace(/<meta\s+property=["']og:url["']\s+content=["'].*?["']\s*\/?>/gi, `<meta property="og:url" content="${escapeHtml(canonicalUrl)}" />`);
+                html = html.replace(/<meta\s+name=["']twitter:url["']\s+content=["'].*?["']\s*\/?>/gi, `<meta name="twitter:url" content="${escapeHtml(canonicalUrl)}" />`);
+
+                if (meta) {
+                    const escapedTitle = escapeHtml(meta.title);
+                    const escapedDesc = escapeHtml(meta.description);
+                    html = html.replace(/<title>.*?<\/title>/gi, `<title>${escapedTitle}</title>`);
+                    html = html.replace(/<meta\s+name=["']description["']\s+content=["'].*?["']\s*\/?>/gi, `<meta name="description" content="${escapedDesc}" />`);
+                    html = html.replace(/<meta\s+property=["']og:title["']\s+content=["'].*?["']\s*\/?>/gi, `<meta property="og:title" content="${escapedTitle}" />`);
+                    html = html.replace(/<meta\s+property=["']og:description["']\s+content=["'].*?["']\s*\/?>/gi, `<meta property="og:description" content="${escapedDesc}" />`);
+                }
+
+                return res.send(html);
+            }
+        } catch (err) {
+            console.error("[SEO] Error injecting route canonical:", err?.message || err);
         }
 
         res.sendFile(path.join(frontendDistPath, "index.html"));
